@@ -1,21 +1,45 @@
 package jdbms.sql.parsing.statements.util;
 
-import jdbms.sql.parsing.statements.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
+import java.util.HashMap;
+
+import jdbms.sql.parsing.statements.Statement;
 
 public class StatementFactory {
+	private static StatementFactory factory = new StatementFactory();
+
+	private HashMap<String, Class<? extends Statement>> registeredStatements = null;
 
 	private StatementFactory() {
-		// TODO Auto-generated constructor stub
+		registeredStatements = new HashMap<>();
 	}
-	public Statement getStatement(String statementType) {
-		if (statementType.equals("SELECT")) {
-			return new SelectStatement();
-		} else if (statementType.equals("UPDATE")) {
-			return new SelectStatement();
-		} else if (statementType.equals("INSERT")) {
-			return new SelectStatement();
-		} else {
-			return null;			
+
+	public static StatementFactory getInstance() {
+		return factory;
+	}
+	public void registerStatement(String statementID,
+			Class<? extends Statement> statementClass) {
+		registeredStatements.put(statementID, statementClass);
+	}
+	public Statement createStatement(String statementID) {
+		Class<? extends Statement> statementClass =
+				registeredStatements.get(statementID);
+		try {
+			Constructor<? extends Statement> shapeConstructor =
+					statementClass.getConstructor();
+			Statement statement = shapeConstructor.newInstance();
+			return statement;
+		} catch (NoSuchMethodException | SecurityException
+				| InstantiationException
+				| IllegalAccessException
+				| IllegalArgumentException
+				| InvocationTargetException e) {
+			return null;
 		}
+	}
+	public Collection<String> getRegisteredStatements() {
+		return registeredStatements.keySet();
 	}
 }

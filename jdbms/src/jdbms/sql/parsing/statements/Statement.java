@@ -3,8 +3,8 @@ package jdbms.sql.parsing.statements;
 import jdbms.sql.parsing.expressions.Expression;
 
 public abstract class Statement {
-	Expression nextExpression;
-	String statementIdentifier;
+	protected Expression nextExpression;
+	protected String statementIdentifier;
 
 	public Statement(Expression nextExpression, String statementIndentifier) {
 		this.nextExpression = nextExpression;
