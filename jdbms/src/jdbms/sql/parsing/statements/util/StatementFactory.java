@@ -27,9 +27,9 @@ public class StatementFactory {
 		Class<? extends Statement> statementClass =
 				registeredStatements.get(statementID);
 		try {
-			Constructor<? extends Statement> shapeConstructor =
+			Constructor<? extends Statement> statementConstructor =
 					statementClass.getConstructor();
-			Statement statement = shapeConstructor.newInstance();
+			Statement statement = statementConstructor.newInstance();
 			return statement;
 		} catch (NoSuchMethodException | SecurityException
 				| InstantiationException

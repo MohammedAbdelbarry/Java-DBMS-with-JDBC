@@ -6,7 +6,7 @@ public abstract class Statement {
 	protected Expression nextExpression;
 	protected String statementIdentifier;
 
-	public Statement(Expression nextExpression, String statementIndentifier) {
+	protected Statement(Expression nextExpression, String statementIndentifier) {
 		this.nextExpression = nextExpression;
 		this.statementIdentifier = statementIndentifier;
 	}
