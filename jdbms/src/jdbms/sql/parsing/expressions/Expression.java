@@ -8,7 +8,8 @@ public interface Expression {
 	 * , false otherwise.
 	 * @param expression the sql expression to be
 	 * parsed
-	 * @return true if the expression was
+	 * @return true i
+	 * f the expression was
 	 * parsed successfully, false otherwise
 	 */
 	public boolean interpret(String expression);
