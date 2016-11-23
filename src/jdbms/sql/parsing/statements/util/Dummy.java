@@ -5,6 +5,7 @@ public class Dummy {
 //	public Dummy() {
 //		statements = new ArrayList<>();
 //	}
+//  // Before iterating over registered statements, we should register the 8 main statements.
 //	public void parse(String sql) {
 //		for (String key : StatementFactory.getInstance().getRegisteredStatements()) {
 //			statements.add(StatementFactory.getInstance().createStatement(key));
