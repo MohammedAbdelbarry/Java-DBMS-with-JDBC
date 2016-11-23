@@ -4,11 +4,14 @@ import jdbms.sql.parsing.statements.Statement;
 
 public class ColumnListExpression implements Expression {
 
-	private Expression nextExpression;
-	private Statement nextStatement;
+	private Expression nextExpression = null;
+	private Statement nextStatement = null;
 
-	public  ColumnListExpression(Expression nextExpression, Statement nextStatement) {
+	public ColumnListExpression(Expression nextExpression) {
 		this.nextExpression = nextExpression;
+	}
+
+	public ColumnListExpression(Statement nextStatement) {
 		this.nextStatement = nextStatement;
 	}
 

@@ -10,20 +10,19 @@ public class SelectColumnListExpression extends ColumnListExpression {
 
 	List<ColumnExpression> columnsNames;
 	public SelectColumnListExpression() {
-		super(null, new FromStatement());
-		columnsNames = new ArrayList<ColumnExpression>();
+		super(new FromStatement());
+		columnsNames = new ArrayList<>();
 	}
 
 	@Override
 	public boolean interpret(String sqlExpression) {
 		String[] columns = sqlExpression.split(",");
-		columns[columns.length] = columns[columns.length].trim();
-		String restOfExp = columns[columns.length]
-				.substring(columns[columns.length].indexOf(" ") + 1);
-		columns[columns.length] = columns[columns.length]
-				.substring(0, columns[columns.length].indexOf(" "));
+		columns[columns.length - 1] = columns[columns.length - 1].trim();
+		String restOfExp = columns[columns.length - 1]
+				.substring(columns[columns.length - 1].indexOf(" ") + 1);
+		columns[columns.length - 1] = columns[columns.length - 1]
+				.substring(0, columns[columns.length - 1].indexOf(" "));
 		for (int i = 0; i < columns.length; i++) {
-			columns[i] = columns[i].trim();
 			columnsNames.add(new ColumnExpression(columns[i]));
 			if (!columnsNames.get(i).isValidColumnName()) {
 				return false;

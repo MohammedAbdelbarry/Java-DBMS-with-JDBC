@@ -5,7 +5,7 @@ import jdbms.sql.parsing.statements.FromStatement;
 public class ColumnWildcardExpression extends ColumnListExpression {
 
 	public ColumnWildcardExpression() {
-		super(null, new FromStatement());
+		super(new FromStatement());
 	}
 
 	@Override
