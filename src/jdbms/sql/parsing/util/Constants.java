@@ -10,3 +10,4 @@ public abstract class Constants {
 		    		"CREATE DATABASE", "DROP DATABASE", "DELETE", "UPDATE", "INSERT", "INTO",
 		    		"SET", "WHERE", "FROM", "CREATE", "DROP", "DATABASE"));
 }
+
