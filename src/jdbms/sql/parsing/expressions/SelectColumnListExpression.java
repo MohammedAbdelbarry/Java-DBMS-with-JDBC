@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jdbms.sql.parsing.statements.FromStatement;
+import jdbms.sql.parsing.util.ColumnExpression;
 
 public class SelectColumnListExpression extends ColumnListExpression {
 
@@ -24,7 +25,7 @@ public class SelectColumnListExpression extends ColumnListExpression {
 		for (int i = 0; i < columns.length; i++) {
 			columns[i] = columns[i].trim();
 			columnsNames.add(new ColumnExpression(columns[i]));
-			if (!columnsNames.get(i).interpret(columns[i])) {
+			if (!columnsNames.get(i).isValidColumnName()) {
 				return false;
 			}
 		}

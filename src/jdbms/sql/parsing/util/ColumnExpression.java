@@ -1,17 +1,13 @@
-package jdbms.sql.parsing.expressions;
+package jdbms.sql.parsing.util;
 
-public class ColumnExpression implements Expression {
+public class ColumnExpression {
 
 	private String expression;
 	public ColumnExpression(String expression) {
 		this.expression = expression;
 	}
 
-	@Override
-	public boolean interpret(String expression) {
-		if (expression.matches("^[a-zA-Z_][a-zA-Z0-9_\\$]*$")) {
-			return true;
-		}
-		return false;
+	public boolean isValidColumnName() {
+		return this.expression.matches("^[a-zA-Z_][a-zA-Z0-9_\\$]*$");
 	}
 }
