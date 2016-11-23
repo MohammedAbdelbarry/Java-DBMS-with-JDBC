@@ -7,19 +7,20 @@ public class DatabaseExpression implements Expression {
 	private Statement nextStatement;
 	private Expression nextExpression;
 
-	public DatabaseExpression(Statement nextStatement, Expression nextExpression) {
+	public DatabaseExpression(Statement nextStatement) {
 		this.nextStatement = nextStatement;
+	}
+
+	public DatabaseExpression(Expression nextExpression) {
 		this.nextExpression = nextExpression;
 	}
 
 	@Override
 	public boolean interpret(String sqlExpression) {
-		if (sqlExpression.matches("^[a-zA-Z_][a-zA-Z0-9_\\$]*$")) {
-			if (this.nextStatement == null) {
-				return true;
-			} else {
-				return nextStatement.interpret(sqlExpression);
-			}
+		if (this.nextStatement != null) {
+			return this.nextStatement.interpret(sqlExpression);
+		} else if (this.nextExpression != null) {
+			return this.nextExpression.interpret(sqlExpression);
 		}
 		return false;
 	}

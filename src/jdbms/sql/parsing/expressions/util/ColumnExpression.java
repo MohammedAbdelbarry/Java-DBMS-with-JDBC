@@ -1,4 +1,4 @@
-package jdbms.sql.parsing.util;
+package jdbms.sql.parsing.expressions.util;
 
 public class ColumnExpression {
 

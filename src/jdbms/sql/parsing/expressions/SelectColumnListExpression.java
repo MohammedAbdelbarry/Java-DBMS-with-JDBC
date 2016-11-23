@@ -3,8 +3,8 @@ package jdbms.sql.parsing.expressions;
 import java.util.ArrayList;
 import java.util.List;
 
+import jdbms.sql.parsing.expressions.util.ColumnExpression;
 import jdbms.sql.parsing.statements.FromStatement;
-import jdbms.sql.parsing.util.ColumnExpression;
 
 public class SelectColumnListExpression extends ColumnListExpression {
 
