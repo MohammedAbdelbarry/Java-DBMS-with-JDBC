@@ -1,6 +1,6 @@
 package jdbms.sql.parsing.statements;
 
-import jdbms.sql.parsing.expressions.ValueListExpression;
+import jdbms.sql.parsing.expressions.InsertIntoValueListExpression;
 
 public class ValueStatement implements Statement {
 	private static final String STATEMENT_IDENTIFIER = "VALUES";
@@ -12,7 +12,7 @@ public class ValueStatement implements Statement {
 	public boolean interpret(String sqlExpression) {
 		if (sqlExpression.startsWith(STATEMENT_IDENTIFIER)) {
 			String restOfExpression = sqlExpression.replace(STATEMENT_IDENTIFIER, "").trim();
-			return new ValueListExpression().interpret(restOfExpression);
+			return new InsertIntoValueListExpression().interpret(restOfExpression);
 		}
 		return false;
 	}

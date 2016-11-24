@@ -19,11 +19,14 @@ public class Parser {
 	}
 
 	/**.*/
-//	public static void main(String[] args) {
-//		Parser parser = new Parser();
-//		String parsed = parser.parse("select    id from students ;");
-//		System.out.println(parsed);
-//	}
+	public static void main(String[] args) {
+		Parser parser = new Parser();
+		String parsed = parser.parse("create TABLE Persons(PersonID int,"
+				+ "LastName varchar(255),FirstName varchar(255),"
+				+ "Address varchar(255),"
+				+ "City varchar(255));");
+		System.out.println(parsed);
+	}
 
 	/**
 	 * Initializing the registerdKeywords Array.
@@ -116,7 +119,7 @@ public class Parser {
 			if (isKeyWord(current) && !keyword) {
 				parsedString.append(" ");
 			}
-			parsedString.append(current);
+			parsedString.append(current.toUpperCase());
 			if (isKeyWord(current) &&  i != components.size() - 1) {
 				parsedString.append(" ");
 				keyword = true;
@@ -133,9 +136,9 @@ public class Parser {
 	 * @return the parsed command
 	 * */
 	public String parse(String command) {
+		toUpperKeyWords();
 		splitCommand(command);
 		checkSemiColon();
-		toUpperKeyWords();
 		return generateParsedCommand(command);
 	}
 }

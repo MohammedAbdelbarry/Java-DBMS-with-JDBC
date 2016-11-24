@@ -7,7 +7,7 @@ public class SetStatement implements Statement {
 
 	public SetStatement() {
 	}
-
+	
 	@Override
 	public boolean interpret(String sqlExpression) {
 		if (sqlExpression.startsWith(STATEMENT_IDENTIFIER)) {

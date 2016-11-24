@@ -8,6 +8,7 @@ public abstract class Constants {
 	public static final List<String> RESERVED_KEYWORDS = 
 		    Collections.unmodifiableList(Arrays.asList("SELECT",
 		    		"TABLE", "DELETE", "UPDATE", "INSERT", "INTO", "VALUES",
-		    		"SET", "WHERE", "FROM", "CREATE", "DROP", "DATABASE"));
+		    		"SET", "WHERE", "FROM", "CREATE", "DROP", "DATABASE",
+		    		"INT", "VARCHAR", "TEXT"));
 }
 
