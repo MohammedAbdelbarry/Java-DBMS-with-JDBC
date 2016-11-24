@@ -2,16 +2,16 @@ package jdbms.sql.parsing.expressions;
 
 import jdbms.sql.parsing.statements.Statement;
 
-public class TableExpression implements Expression {
+public class TableNameExpression implements Expression {
 
 	private Statement nextStatement;
 	private Expression nextExpression;
 
-	public TableExpression(Expression nextExpression) {
+	public TableNameExpression(Expression nextExpression) {
 		this.nextExpression = nextExpression;
 	}
 
-	public TableExpression(Statement nextStatement) {
+	public TableNameExpression(Statement nextStatement) {
 		this.nextStatement = nextStatement;
 	}
 

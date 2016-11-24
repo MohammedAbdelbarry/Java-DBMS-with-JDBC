@@ -1,7 +1,6 @@
 package jdbms.sql.parsing.statements;
 
-import jdbms.sql.parsing.expressions.DatabaseTerminatingExpression;
-import jdbms.sql.parsing.expressions.TableTerminatingExpression;
+import jdbms.sql.parsing.expressions.TableCreationTableNameExpression;
 import jdbms.sql.parsing.statements.util.StatementFactory;
 
 public class CreateTableStatement implements Statement {
@@ -14,10 +13,10 @@ public class CreateTableStatement implements Statement {
 	}
 
 	@Override
-	public boolean interpret(String sqlExpresison) {
-		if (sqlExpresison.startsWith(STATEMENT_IDENTIFIER)) {
-			String restOfExpression = sqlExpresison.replace(STATEMENT_IDENTIFIER, "").trim();
-			if (new TableTerminatingExpression())
+	public boolean interpret(String sqlExpression) {
+		if (sqlExpression.startsWith(STATEMENT_IDENTIFIER)) {
+			String restOfExpression = sqlExpression.replace(STATEMENT_IDENTIFIER, "").trim();
+			return new TableCreationTableNameExpression().interpret(restOfExpression);
 		}
 		return false;
 	}
