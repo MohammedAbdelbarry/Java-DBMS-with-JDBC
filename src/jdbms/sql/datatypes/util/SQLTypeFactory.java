@@ -1,6 +1,8 @@
 package jdbms.sql.datatypes.util;
 
-import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
 import java.util.HashMap;
 
 import jbdms.sql.datatypes.SQLType;
@@ -16,17 +18,30 @@ public class SQLTypeFactory {
 	public static SQLTypeFactory getInstance() {
 		return factory;
 	}
-	public void registerType(String key, Class<? extends SQLType<?>> typeClass) {
+	public void registerType(String key,
+			Class<? extends SQLType<?>> typeClass) {
 		registeredTypes.put(key, typeClass);
 	}
 	public SQLType<?> getTypeObject(String key, String value) {
 		Class<? extends SQLType<?>> typeClass
 				= registeredTypes.get(key);
 		try {
-			Class<?> genericClass = ((ParameterizedType) typeClass.getGenericSuperclass()).getActualTypeArguments()[0].getClass();
-		} catch(Exception ex) {
-			
+			Constructor<?> constructor
+			= typeClass.getConstructor(String.class);
+			SQLType<?> instance
+			= (SQLType<?>)constructor.newInstance(value);
+			return instance;
+		} catch(NoSuchMethodException
+				| SecurityException
+				| InstantiationException
+				| IllegalAccessException
+				| IllegalArgumentException
+				| InvocationTargetException ex) {
+			return null;
 		}
-		return null;
+	}
+
+	public Collection<String> getRegisteredTypes() {
+		return registeredTypes.keySet();
 	}
 }

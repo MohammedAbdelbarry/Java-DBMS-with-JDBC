@@ -1,5 +1,6 @@
 package jdbms.sql.parsing.statements;
 
+import jdbms.sql.parsing.expressions.TableTerminatingExpression;
 import jdbms.sql.parsing.statements.util.StatementFactory;
 
 public class DropTableStatement extends Statement {
@@ -9,7 +10,7 @@ public class DropTableStatement extends Statement {
 		StatementFactory.getInstance().registerStatement(CLASS_ID, DropTableStatement.class);
 	}
 	public DropTableStatement() {
-		super(null, STATEMENT_IDENTIFIER);
+		super(new TableTerminatingExpression(), STATEMENT_IDENTIFIER);
 	}
 
 }
