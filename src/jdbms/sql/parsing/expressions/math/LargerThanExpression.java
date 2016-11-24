@@ -2,9 +2,14 @@ package jdbms.sql.parsing.expressions.math;
 
 import jbdms.sql.datatypes.IntSQLType;
 import jbdms.sql.datatypes.VarcharSQLType;
+import jdbms.sql.parsing.expressions.math.util.BooleanExpressionFactory;
 
 public class LargerThanExpression extends BooleanExpression {
 	private static final String SYMBOL = ">";
+	static {
+		BooleanExpressionFactory.getInstance().
+		registerBoolExpression(SYMBOL, LargerThanExpression.class);
+	}
 	public LargerThanExpression() {
 		super(SYMBOL);
 	}
