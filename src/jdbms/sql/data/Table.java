@@ -52,4 +52,21 @@ public class Table {
 		}
 		return new TableIdentifier(tableName, types);
 	}
+
+	public Map<String, TableColumn> getColumns() {
+		Map<String, TableColumn> clone = new HashMap<>();
+		for(String key : columns.keySet()) {
+			TableColumn current = columns.get(key);
+			clone.put(key, current);
+		}
+		return clone;
+	}
+
+	public int getNumberOfRows() {
+		return numberOfRows;
+	}
+
+	public String getName() {
+		return tableName;
+	}
 }

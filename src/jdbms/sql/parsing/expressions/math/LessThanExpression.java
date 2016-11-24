@@ -1,7 +1,7 @@
 package jdbms.sql.parsing.expressions.math;
 
-import jbdms.sql.datatypes.IntSQLType;
-import jbdms.sql.datatypes.VarcharSQLType;
+import jdbms.sql.datatypes.IntSQLType;
+import jdbms.sql.datatypes.VarcharSQLType;
 import jdbms.sql.parsing.expressions.math.util.BooleanExpressionFactory;
 
 public class LessThanExpression extends BooleanExpression {

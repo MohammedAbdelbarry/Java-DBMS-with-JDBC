@@ -1,4 +1,4 @@
-package jbdms.sql.datatypes;
+package jdbms.sql.datatypes;
 
 public abstract class SQLType<T extends Comparable<T>>
 implements Comparable<SQLType<T>> {
@@ -8,6 +8,9 @@ implements Comparable<SQLType<T>> {
 	}
 	public T getValue() {
 		return value;
+	}
+	public String getStringValue() {
+		return value.toString();
 	}
 	public abstract String getType();
 	@Override

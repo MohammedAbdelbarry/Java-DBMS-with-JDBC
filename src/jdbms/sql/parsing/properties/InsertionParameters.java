@@ -2,39 +2,30 @@ package jdbms.sql.parsing.properties;
 
 import java.util.ArrayList;
 
-import jdbms.sql.parsing.expressions.math.BooleanExpression;
-
-public class SelectionParameters {
+public class InsertionParameters {
 	private ArrayList<String> columns;
+	private ArrayList<String[]> values;
 	private String tableName;
-	private BooleanExpression condition;
-
-	public SelectionParameters() {
+	public InsertionParameters() {
 
 	}
-
 	public ArrayList<String> getColumns() {
 		return columns;
 	}
-
 	public void setColumns(ArrayList<String> columns) {
 		this.columns = columns;
 	}
-
+	public ArrayList<String[]> getValues() {
+		return values;
+	}
+	public void setValues(ArrayList<String[]> values) {
+		this.values = values;
+	}
 	public String getTableName() {
 		return tableName;
 	}
-
 	public void setTableName(String table) {
 		this.tableName = table;
-	}
-
-	public BooleanExpression getCondition() {
-		return condition;
-	}
-
-	public void setCondition(BooleanExpression condition) {
-		this.condition = condition;
 	}
 
 }
