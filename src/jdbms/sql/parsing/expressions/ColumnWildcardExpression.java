@@ -11,7 +11,7 @@ public class ColumnWildcardExpression extends ColumnListExpression {
 	@Override
 	public boolean interpret(String sqlExpression) {
 		if (sqlExpression.startsWith("*")) {
-			return super.interpret(sqlExpression);
+			return super.interpret(sqlExpression.substring(sqlExpression.indexOf(" ") + 1));
 		}
 		return false;
 	}

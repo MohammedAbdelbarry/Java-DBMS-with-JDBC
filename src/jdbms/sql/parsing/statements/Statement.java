@@ -1,25 +1,14 @@
 package jdbms.sql.parsing.statements;
 
-import jdbms.sql.parsing.expressions.Expression;
+public interface Statement {
+	/**
+	 * Attempts parsing the sql expression, returns
+	 * true if the expression could be parsed successfully,
+	 * false otherwise.
+	 * @param expression the sql expression to be parsed
+	 * @return true if the expression was
+	 * parsed successfully, false otherwise
+	 */
+	public boolean interpret(String sqlExpression);
 
-public abstract class Statement {
-	protected Expression nextExpression;
-	protected String statementIdentifier;
-
-	protected Statement(Expression nextExpression, String statementIndentifier) {
-		this.nextExpression = nextExpression;
-		this.statementIdentifier = statementIndentifier;
-	}
-
-	public boolean interpret(String sqlExpression) {
-		if (sqlExpression.startsWith(statementIdentifier)) {
-			if (nextExpression == null) {
-				return true;
-			} else {
-				return nextExpression.interpret(sqlExpression);
-			}
-		} else {
-			return false;
-		}
-	}
 }

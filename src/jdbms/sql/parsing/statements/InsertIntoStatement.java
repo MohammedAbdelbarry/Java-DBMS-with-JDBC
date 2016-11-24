@@ -1,5 +1,6 @@
 package jdbms.sql.parsing.statements;
 
+import jdbms.sql.parsing.expressions.InsertTableExpression;
 import jdbms.sql.parsing.statements.util.StatementFactory;
 
 public class InsertIntoStatement extends Statement {
@@ -9,7 +10,7 @@ public class InsertIntoStatement extends Statement {
 		StatementFactory.getInstance().registerStatement(CLASS_ID, DropTableStatement.class);
 	}
 	public InsertIntoStatement() {
-		super(null, STATEMENT_IDENTIFIER);
+		super(new InsertTableExpression(), STATEMENT_IDENTIFIER);
 	}
 
 }

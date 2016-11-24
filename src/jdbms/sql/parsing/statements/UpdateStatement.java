@@ -11,5 +11,4 @@ public class UpdateStatement extends Statement {
 	public UpdateStatement() {
 		super(null, STATEMENT_IDENTIFIER);
 	}
-
 }

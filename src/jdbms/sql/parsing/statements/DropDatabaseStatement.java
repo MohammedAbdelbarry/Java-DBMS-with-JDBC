@@ -1,5 +1,6 @@
 package jdbms.sql.parsing.statements;
 
+import jdbms.sql.parsing.expressions.DatabaseTerminatingExpression;
 import jdbms.sql.parsing.statements.util.StatementFactory;
 
 public class DropDatabaseStatement extends Statement {
@@ -9,7 +10,7 @@ public class DropDatabaseStatement extends Statement {
 		StatementFactory.getInstance().registerStatement(CLASS_ID, DropDatabaseStatement.class);
 	}
 	public DropDatabaseStatement() {
-		super(null, STATEMENT_IDENTIFIER);
+		super(new DatabaseTerminatingExpression(), STATEMENT_IDENTIFIER);
 	}
 
 }

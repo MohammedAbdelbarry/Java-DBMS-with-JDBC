@@ -40,6 +40,7 @@ public class SQLTypeFactory {
 			return null;
 		}
 	}
+
 	public Collection<String> getRegisteredTypes() {
 		return registeredTypes.keySet();
 	}

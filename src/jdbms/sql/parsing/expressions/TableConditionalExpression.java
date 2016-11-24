@@ -1,9 +1,11 @@
 package jdbms.sql.parsing.expressions;
 
-public class TableTerminatingExpression extends TableExpression {
+import jdbms.sql.parsing.statements.WhereStatement;
 
-	public TableTerminatingExpression() {
-		super(new TerminalExpression());
+public class TableConditionalExpression extends TableExpression {
+
+	public TableConditionalExpression() {
+		super(new WhereStatement());
 	}
 
 	@Override
