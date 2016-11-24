@@ -8,5 +8,8 @@ public abstract class SQLType<T> implements Comparable<SQLType<T>> {
 	public T getValue() {
 		return value;
 	}
+	public String getStringValue() {
+		return value.toString();
+	}
 	public abstract String getType();
 }

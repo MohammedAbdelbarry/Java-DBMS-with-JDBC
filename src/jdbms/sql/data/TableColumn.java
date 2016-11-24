@@ -42,4 +42,8 @@ public class TableColumn {
 	public String getColumnDataType() {
 		return columnType;
 	}
+
+	public int getSize() {
+		return values.size();
+	}
 }
