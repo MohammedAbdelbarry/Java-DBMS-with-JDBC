@@ -1,4 +1,4 @@
-package jbdms.sql.datatypes;
+package jdbms.sql.datatypes;
 
 import jdbms.sql.datatypes.util.SQLTypeFactory;
 

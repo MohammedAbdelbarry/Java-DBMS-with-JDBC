@@ -1,4 +1,4 @@
-package jbdms.sql.datatypes;
+package jdbms.sql.datatypes;
 
 public abstract class SQLType<T extends Comparable<T>>
 implements Comparable<SQLType<T>> {

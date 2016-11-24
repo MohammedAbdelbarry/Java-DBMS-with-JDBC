@@ -2,7 +2,7 @@ package jdbms.sql.data;
 
 import java.util.ArrayList;
 
-import jbdms.sql.datatypes.SQLType;
+import jdbms.sql.datatypes.SQLType;
 import jdbms.sql.datatypes.util.SQLTypeFactory;
 
 public class TableColumn {

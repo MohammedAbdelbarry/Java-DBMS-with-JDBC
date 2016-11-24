@@ -5,7 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashMap;
 
-import jbdms.sql.datatypes.SQLType;
+import jdbms.sql.datatypes.SQLType;
 
 public class SQLTypeFactory {
 	private static SQLTypeFactory factory

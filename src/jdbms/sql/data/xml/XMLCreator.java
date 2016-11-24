@@ -29,9 +29,15 @@ public class XMLCreator {
 	}
     
 	public static void main(String[] args) {
+		try {
+			Class.forName("jdbms.sql.datatypes.IntSQLType");
+			Class.forName("jdbms.sql.datatypes.VarcharSQLType");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 		Table newTable = new Table("Students");
-		newTable.addTableColumn("Grade", "String");
-		newTable.addTableColumn("Name", "String");
+		newTable.addTableColumn("Grade", "INTEGER");
+		newTable.addTableColumn("Name", "VARCHAR");
 		ArrayList<String> columnNames = new ArrayList<>();
 		columnNames.add("Grade");
 		columnNames.add("Name");
@@ -40,8 +46,8 @@ public class XMLCreator {
 		values.add("Ahmed");
 		newTable.insertRow(columnNames, values);
 		
-		XMLCreator creattor = new XMLCreator(newTable.getColumns());
-		creattor.create();
+		XMLCreator creator = new XMLCreator(newTable.getColumns());
+		creator.create();
    }
 
     public void create() {
