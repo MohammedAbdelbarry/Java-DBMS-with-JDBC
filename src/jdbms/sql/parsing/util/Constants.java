@@ -6,8 +6,8 @@ import java.util.List;
 
 public abstract class Constants {
 	public static final List<String> RESERVED_KEYWORDS = 
-		    Collections.unmodifiableList(Arrays.asList("SELECT", "CREATE TABLE",
-		    		"CREATE DATABASE", "DROP DATABASE", "DELETE", "UPDATE", "INSERT", "INTO",
+		    Collections.unmodifiableList(Arrays.asList("SELECT",
+		    		"TABLE", "DELETE", "UPDATE", "INSERT", "INTO", "VALUES",
 		    		"SET", "WHERE", "FROM", "CREATE", "DROP", "DATABASE"));
 }
 

@@ -18,9 +18,9 @@ public class DatabaseExpression implements Expression {
 	@Override
 	public boolean interpret(String sqlExpression) {
 		if (this.nextStatement != null) {
-			return this.nextStatement.interpret(sqlExpression);
+			return this.nextStatement.interpret(sqlExpression.trim());
 		} else if (this.nextExpression != null) {
-			return this.nextExpression.interpret(sqlExpression);
+			return this.nextExpression.interpret(sqlExpression.trim());
 		}
 		return false;
 	}

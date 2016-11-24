@@ -16,5 +16,4 @@ public class LessThanExpression extends BooleanExpression {
 	public boolean evaluate(IntSQLType left, IntSQLType right) {
 		return left.compareTo(right) < 0;
 	}
-
 }

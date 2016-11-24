@@ -1,10 +1,18 @@
 package jdbms.sql.parsing.expressions;
 
-public class TableNameColumnListExpression implements Expression {
+public class TableNameColumnListExpression extends TableNameExpression {
+
+	public TableNameColumnListExpression() {
+		super(new InsertColumnListExpression());
+	}
 
 	@Override
 	public boolean interpret(String sqlExpression) {
-		// TODO Auto-generated method stub
+		String tableName = sqlExpression.substring(0, sqlExpression.indexOf(" "));
+		String restOfExpression = sqlExpression.substring(sqlExpression.indexOf(" ") + 1);
+		if (tableName.matches("^[a-zA-Z_][a-zA-Z0-9_\\$]*$")) {
+			return super.interpret(restOfExpression);
+		}
 		return false;
 	}
 }

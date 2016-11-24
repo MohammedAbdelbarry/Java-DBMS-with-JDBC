@@ -19,7 +19,7 @@ public class ColumnListExpression implements Expression {
 	public boolean interpret(String sqlExpression) {
 		if (nextExpression != null) {
 			return nextExpression.interpret(sqlExpression);
-		} else if (nextStatement != null) {
+		} else if (nextStatement != null) {	
 			return nextStatement.interpret(sqlExpression);
 		}
 		return false;

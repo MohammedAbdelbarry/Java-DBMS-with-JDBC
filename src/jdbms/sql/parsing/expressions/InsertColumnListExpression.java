@@ -3,12 +3,13 @@ package jdbms.sql.parsing.expressions;
 import java.util.List;
 
 import jdbms.sql.parsing.expressions.util.ColumnExpression;
+import jdbms.sql.parsing.statements.ValueStatement;
 
 public class InsertColumnListExpression extends ColumnListExpression {
 
 	List<ColumnExpression> columnsNames;
 	public InsertColumnListExpression() {
-		super(new ValueListExpression());
+		super(new ValueStatement());
 	}
 
 	@Override
