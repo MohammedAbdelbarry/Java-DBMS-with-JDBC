@@ -1,5 +1,6 @@
 package jdbms.sql.data;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -46,11 +47,14 @@ public class Table {
 	}
 
 	public TableIdentifier getTableIdentifier() {
-		Collection<String> types = new ArrayList<>();
-		for (TableColumn column : columns.values()) {
-			types.add(column.getColumnDataType());
+		ArrayList<ColumnIdentifier> columnIdentifiers
+		= new ArrayList<>();
+		for (String name : columns.keySet()) {
+			columnIdentifiers.add(new
+					ColumnIdentifier(name,
+					columns.get(name).getColumnDataType()));
 		}
-		return new TableIdentifier(tableName, types);
+		return new TableIdentifier(tableName, columnIdentifiers);
 	}
 
 	public Map<String, TableColumn> getColumns() {

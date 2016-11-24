@@ -34,6 +34,7 @@ public class XMLCreator {
 	 * Table columns.
 	 */
 	private Map<String, TableColumn> tableData;
+
 	public XMLCreator(Table table) {
 		this.table = table;
 		tableData = this.table.getColumns();
@@ -112,16 +113,20 @@ public class XMLCreator {
 		}
     }
 
-    private String transform(String xml) throws XMLStreamException, TransformerException
-    {
-        Transformer t = TransformerFactory.newInstance().newTransformer();
-        t.setOutputProperty(OutputKeys.INDENT, "yes");
-        t.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+    /**
+     * Returns the Indented version of the parsed XML string.
+     * @param xml the string to be processed
+     * @return the processed string
+     */
+    private String transform(String xml) 
+    		throws XMLStreamException, TransformerException {
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        transformerFactory.setAttribute("indent-number", 4);
+        Transformer transformer = transformerFactory.newTransformer();
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         Writer out = new StringWriter();
-        t.transform(new StreamSource(new StringReader(xml)), new StreamResult(out));
-        
+        transformer.transform(new StreamSource(new StringReader(xml)), new StreamResult(out));
         return out.toString();
     }
-    
 }
 

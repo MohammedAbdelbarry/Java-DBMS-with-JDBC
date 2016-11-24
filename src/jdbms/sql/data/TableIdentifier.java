@@ -1,18 +1,28 @@
 package jdbms.sql.data;
 
-import java.util.Collection;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class TableIdentifier {
 	private String tableName;
-	Collection<String> columnsDataTypes;
-	public TableIdentifier(String name, Collection<String> types) {
+	private ArrayList<ColumnIdentifier> columns;
+	public TableIdentifier(String name,
+			ArrayList<ColumnIdentifier> columns) {
 		tableName = name;
-		columnsDataTypes = types;
+		this.columns = columns;
 	}
 	public String getTableName() {
 		return tableName;
 	}
-	public Collection<String> getColumnsDataTypes() {
-		return columnsDataTypes;
+	public ArrayList<ColumnIdentifier> getColumnsIdentifiers() {
+		return columns;
+	}
+	public ArrayList<String> getColumnNames() {
+		ArrayList<String> names = new ArrayList<>();
+		for (ColumnIdentifier columnIdentifier : columns) {
+			names.add(columnIdentifier.getName());
+		}
+		return names;
 	}
 }
