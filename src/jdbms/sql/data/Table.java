@@ -61,4 +61,12 @@ public class Table {
 		}
 		return clone;
 	}
+
+	public int getNumberOfRows() {
+		return numberOfRows;
+	}
+
+	public String getName() {
+		return tableName;
+	}
 }
