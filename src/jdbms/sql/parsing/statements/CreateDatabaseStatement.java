@@ -1,7 +1,6 @@
 package jdbms.sql.parsing.statements;
 
 import jdbms.sql.parsing.expressions.DatabaseTerminatingExpression;
-import jdbms.sql.parsing.expressions.Expression;
 import jdbms.sql.parsing.statements.util.StatementFactory;
 
 public class CreateDatabaseStatement implements Statement {

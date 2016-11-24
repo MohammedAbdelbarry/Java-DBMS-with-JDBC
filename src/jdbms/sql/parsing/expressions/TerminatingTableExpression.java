@@ -1,9 +1,9 @@
 package jdbms.sql.parsing.expressions;
 
-public class InsertTableExpression extends TableExpression {
+public class TerminatingTableExpression extends TableNameExpression {
 
-	public InsertTableExpression() {
-		super(new InsertColumnListExpression());
+	public TerminatingTableExpression() {
+		super(new TerminalExpression());
 	}
 
 	@Override
