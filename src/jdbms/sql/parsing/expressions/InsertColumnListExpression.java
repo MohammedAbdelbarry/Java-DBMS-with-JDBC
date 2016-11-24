@@ -1,5 +1,6 @@
 package jdbms.sql.parsing.expressions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jdbms.sql.parsing.expressions.util.ColumnExpression;
@@ -10,22 +11,25 @@ public class InsertColumnListExpression extends ColumnListExpression {
 	List<String> columnsNames;
 	public InsertColumnListExpression() {
 		super(new ValueStatement());
+		this.columnsNames = new ArrayList<String>();
 	}
 
 	@Override
 	public boolean interpret(String sqlExpression) {
-		String[] columns = sqlExpression.split(",");
-		columns[columns.length - 1] = columns[columns.length - 1].trim();
-		String restOfExp = columns[columns.length - 1]
-				.substring(columns[columns.length - 1].indexOf(" ") + 1);
-		columns[columns.length - 1] = columns[columns.length - 1]
-				.substring(0, columns[columns.length - 1].indexOf(" "));
-		for (int i = 0; i < columns.length; i++) {
-			columnsNames.add(columns[i]);
-			if (!new ColumnExpression(columns[i]).isValidColumnName()) {
-				return false;
+		String allColumns = sqlExpression.substring(0, sqlExpression.indexOf(")")).trim();
+		String restOfExpression = sqlExpression.substring(sqlExpression.indexOf(")") + 1);
+		if (allColumns.startsWith("(")) {
+			allColumns = allColumns.replace("(", "").trim();
+			String[] columns = allColumns.split(",");
+			for (String col : columns) {
+				if (new ColumnExpression(col.trim()).isValidColumnName()) {
+					columnsNames.add(col.trim());
+				} else {
+					return false;
+				}
 			}
+			return super.interpret(restOfExpression.trim());
 		}
-		return super.interpret(restOfExp);
+		return false;
 	}
 }

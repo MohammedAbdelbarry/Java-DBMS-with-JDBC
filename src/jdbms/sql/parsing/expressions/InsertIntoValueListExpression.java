@@ -7,21 +7,21 @@ import jdbms.sql.parsing.expressions.util.ValueExpression;
 
 public class InsertIntoValueListExpression extends ValueListExpression {
 
-	private List<ArrayList<String>> rows;
+	private List<String[]> rowsValues;
 	
 	public InsertIntoValueListExpression() {
 		super(new TerminalExpression());
-		rows = new ArrayList<ArrayList<String>>();
+		rowsValues = new ArrayList<String[]>();
 	}
 
 	@Override
 	public boolean interpret(String sqlExpression) {
-		String[] parts = sqlExpression.split(")");
+		String[] parts = sqlExpression.split("\\)");
 		if (parts[0].trim().startsWith("(")) {
-			parts[0].trim().replace("(", "");
+			parts[0] = parts[0].trim().replace("(", "");
 			String[] values = parts[0].trim().split(",");
+			rowsValues.add(values);
 			for (int i = 0; i < values.length; i++) {
-				rows.get(0).add(values[i].trim());
 				if (!new ValueExpression(values[i].trim()).isValidExpressionName()) {
 					return false;
 				}
@@ -31,8 +31,8 @@ public class InsertIntoValueListExpression extends ValueListExpression {
 				if (parts[i].startsWith(",(")) {
 					parts[i].trim().replace(",(", "");
 					String[] restOfValues = parts[i].trim().split(",");
+					rowsValues.add(restOfValues);
 					for (int j = 0; j < restOfValues.length; j++) {
-						rows.get(i).add(restOfValues[j].trim());
 						if (!new ValueExpression(restOfValues[j].trim()).isValidExpressionName()) {
 							return false;
 						}
@@ -40,8 +40,7 @@ public class InsertIntoValueListExpression extends ValueListExpression {
 				}
 			}
 			return super.interpret(parts[parts.length - 1].trim());
-		} else {
-			return false;
 		}
+		return false;
 	}
 }

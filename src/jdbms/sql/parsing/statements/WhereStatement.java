@@ -12,7 +12,7 @@ public class WhereStatement implements Statement {
 	public boolean interpret(String sqlExpression) {
 		if (sqlExpression.startsWith(STATEMENT_IDENTIFIER)) {
 			String restOfExpression = sqlExpression.replace(STATEMENT_IDENTIFIER, "").trim();
-			//return new BooleanExpression().interpret(restOfExpression);
+			//for ()
 		}
 		return false;
 	}

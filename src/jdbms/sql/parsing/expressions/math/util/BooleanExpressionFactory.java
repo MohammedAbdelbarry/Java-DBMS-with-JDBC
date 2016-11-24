@@ -12,7 +12,7 @@ public class BooleanExpressionFactory {
 
 	private HashMap<String, Class<? extends 
 			BooleanExpression>> registeredBooleanExpressions = null;
-
+	
 	private BooleanExpressionFactory() {
 		registeredBooleanExpressions = new HashMap<>();
 	}

@@ -2,7 +2,7 @@ package jdbms.sql.parsing.expressions;
 
 import jdbms.sql.parsing.statements.Statement;
 
-public class TableNameExpression implements Expression {
+public abstract class TableNameExpression implements Expression {
 
 	private Statement nextStatement;
 	private Expression nextExpression;
@@ -17,11 +17,15 @@ public class TableNameExpression implements Expression {
 
 	@Override
 	public boolean interpret(String sqlExpression) {
-		if (this.nextStatement != null) {
-			return this.nextStatement.interpret(sqlExpression);
-		} else if (this.nextExpression != null) {
-			return this.nextExpression.interpret(sqlExpression);
-		}		
+		String tableName = sqlExpression.substring(0, sqlExpression.indexOf(" ")).trim();
+		String restOfExpression = sqlExpression.substring(sqlExpression.indexOf(" ") + 1).trim();
+			if (tableName.matches("^[a-zA-Z_][a-zA-Z0-9_\\$]*$")) {
+				if (this.nextStatement != null) {
+					return this.nextStatement.interpret(restOfExpression);
+				} else if (this.nextExpression != null) {
+					return this.nextExpression.interpret(restOfExpression);
+				}
+			}		
 		return false;
 	}
 }

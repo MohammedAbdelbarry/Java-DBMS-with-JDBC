@@ -1,11 +1,10 @@
 package jdbms.sql.parsing.expressions;
 
-public class TableUpdateTableNameExpression implements Expression {
+import jdbms.sql.parsing.statements.SetStatement;
 
-	@Override
-	public boolean interpret(String sqlExpression) {
-		// TODO Auto-generated method stub
-		return false;
+public class TableUpdateTableNameExpression extends TableNameExpression {
+
+	public TableUpdateTableNameExpression() {
+		super(new SetStatement());
 	}
-
 }

@@ -3,12 +3,14 @@ package jdbms.sql.parsing.statements.util;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import jdbms.sql.parsing.expressions.InsertIntoValueListExpression;
 import jdbms.sql.parsing.parser.Parser;
 import jdbms.sql.parsing.statements.CreateDatabaseStatement;
 import jdbms.sql.parsing.statements.CreateTableStatement;
 import jdbms.sql.parsing.statements.DeleteStatement;
 import jdbms.sql.parsing.statements.DropDatabaseStatement;
 import jdbms.sql.parsing.statements.DropTableStatement;
+import jdbms.sql.parsing.statements.InsertIntoStatement;
 import jdbms.sql.parsing.statements.SelectStatement;
 import jdbms.sql.parsing.statements.Statement;
 import jdbms.sql.parsing.statements.UpdateStatement;
@@ -33,7 +35,7 @@ public class Dummy {
 	}
 	*/
 	public void parse(String sql) {
-		SelectStatement x = new SelectStatement();
+		InsertIntoStatement x = new InsertIntoStatement();
 		if (x.interpret(sql)) {
 			System.out.println("Success");
 		} else {
@@ -42,8 +44,8 @@ public class Dummy {
 	}
 	public static void main(String args[]) {
 		Dummy dummy = new Dummy();
-		String sql = "    DELETE FROM my_table where ;"; 
-		Parser p = new Parser();
-		dummy.parse(p.parse(sql));
+		String sql = "INSERT INTO SOMEFANCY$TABLE (A_B,C_D) VALUES (\"hamada\", 'hamada'), (3, 4) ;";
+		//Parser p = new Parser();
+		dummy.parse(sql);
 	}
 }
