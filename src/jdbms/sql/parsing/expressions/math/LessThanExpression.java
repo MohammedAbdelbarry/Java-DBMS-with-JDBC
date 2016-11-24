@@ -5,8 +5,8 @@ import jbdms.sql.datatypes.VarcharSQLType;
 
 public class LessThanExpression extends BooleanExpression {
 	private static final String SYMBOL = "<";
-	public LessThanExpression(String symbol) {
-		super(symbol);
+	public LessThanExpression() {
+		super(SYMBOL);
 	}
 	@Override
 	public boolean evaluate(VarcharSQLType left, VarcharSQLType right) {
