@@ -7,7 +7,7 @@ import jdbms.sql.parsing.statements.ValueStatement;
 
 public class InsertColumnListExpression extends ColumnListExpression {
 
-	List<ColumnExpression> columnsNames;
+	List<String> columnsNames;
 	public InsertColumnListExpression() {
 		super(new ValueStatement());
 	}
@@ -21,8 +21,8 @@ public class InsertColumnListExpression extends ColumnListExpression {
 		columns[columns.length - 1] = columns[columns.length - 1]
 				.substring(0, columns[columns.length - 1].indexOf(" "));
 		for (int i = 0; i < columns.length; i++) {
-			columnsNames.add(new ColumnExpression(columns[i]));
-			if (!columnsNames.get(i).isValidColumnName()) {
+			columnsNames.add(columns[i]);
+			if (!new ColumnExpression(columns[i]).isValidColumnName()) {
 				return false;
 			}
 		}

@@ -7,11 +7,11 @@ import jdbms.sql.parsing.expressions.util.ValueExpression;
 
 public class InsertIntoValueListExpression extends ValueListExpression {
 
-	//private List<ArrayList<String>> table;
+	private List<ArrayList<String>> rows;
 	
 	public InsertIntoValueListExpression() {
 		super(new TerminalExpression());
-		//table = new ArrayList<ArrayList<String>>();
+		rows = new ArrayList<ArrayList<String>>();
 	}
 
 	@Override
@@ -20,8 +20,9 @@ public class InsertIntoValueListExpression extends ValueListExpression {
 		if (parts[0].trim().startsWith("(")) {
 			parts[0].trim().replace("(", "");
 			String[] values = parts[0].trim().split(",");
-			for (String value : values) {
-				if (!new ValueExpression(value.trim()).isValidExpressionName()) {
+			for (int i = 0; i < values.length; i++) {
+				rows.get(0).add(values[i].trim());
+				if (!new ValueExpression(values[i].trim()).isValidExpressionName()) {
 					return false;
 				}
 			}
@@ -30,8 +31,9 @@ public class InsertIntoValueListExpression extends ValueListExpression {
 				if (parts[i].startsWith(",(")) {
 					parts[i].trim().replace(",(", "");
 					String[] restOfValues = parts[i].trim().split(",");
-					for (String val : restOfValues) {
-						if (!new ValueExpression(val.trim()).isValidExpressionName()) {
+					for (int j = 0; j < restOfValues.length; j++) {
+						rows.get(i).add(restOfValues[j].trim());
+						if (!new ValueExpression(restOfValues[j].trim()).isValidExpressionName()) {
 							return false;
 						}
 					}

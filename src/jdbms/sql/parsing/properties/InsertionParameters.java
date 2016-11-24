@@ -27,5 +27,4 @@ public class InsertionParameters {
 	public void setTableName(String table) {
 		this.tableName = table;
 	}
-
 }
