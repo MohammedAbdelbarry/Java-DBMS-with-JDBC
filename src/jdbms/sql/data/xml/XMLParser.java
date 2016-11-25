@@ -79,30 +79,13 @@ public class XMLParser {
 				XMLEvent event = eventReader.nextEvent();
 				switch (event.getEventType()) {
 				case XMLStreamConstants.START_ELEMENT:
-					StartElement startElement = event.asStartElement();
-					String colName = startElement.getName().getLocalPart();
-					if (columns.contains(colName)) {
-						valueAvailable = true;
-					}
+					valueAvailable = handleStartElement(values, event, valueAvailable);
 					break;
 				case XMLStreamConstants.CHARACTERS:
-					Characters characters = event.asCharacters();
-					if (valueAvailable) {
-						if (characters.getData() != null || !characters.getData().isEmpty()) {
-							values.add(characters.getData());
-						}
-					}
+					handleCharacters(values, event, valueAvailable);
 					break;
 				case XMLStreamConstants.END_ELEMENT:
-					EndElement endElement = event.asEndElement();
-					String name = endElement.getName().getLocalPart();
-					if (name.equals("row")) {
-						table.insertRow(columnNames, values);
-						valueAvailable = false;
-						values.clear();
-					} else if (columns.contains(name)) {
-						valueAvailable = false;
-					}
+					valueAvailable = handleEndElement(values, event, valueAvailable);
 					break;
 				}
 			}
@@ -112,5 +95,39 @@ public class XMLParser {
 			return null;
 		}
 		return table;
+	}
+
+	private boolean handleStartElement(ArrayList<String> values,
+			XMLEvent event, boolean valueAvailable) {
+		StartElement startElement = event.asStartElement();
+		String colName = startElement.getName().getLocalPart();
+		if (columns.contains(colName)) {
+			valueAvailable = true;
+		}
+		return valueAvailable;
+	}
+
+	private boolean handleEndElement(ArrayList<String> values,
+			XMLEvent event, boolean valueAvailable) {
+		EndElement endElement = event.asEndElement();
+		String name = endElement.getName().getLocalPart();
+		if (name.equals("row")) {
+			table.insertRow(columnNames, values);
+			valueAvailable = false;
+			values.clear();
+		} else if (columns.contains(name)) {
+			valueAvailable = false;
+		}
+		return valueAvailable;
+	}
+
+	private void handleCharacters(ArrayList<String> values,
+			XMLEvent event, boolean valueAvailable) {
+		Characters characters = event.asCharacters();
+		if (valueAvailable) {
+			if (characters.getData() != null || !characters.getData().isEmpty()) {
+				values.add(characters.getData());
+			}
+		}
 	}
 }
