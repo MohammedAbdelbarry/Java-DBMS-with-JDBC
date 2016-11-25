@@ -14,7 +14,6 @@ public abstract class Constants {
 	public static final String STRING_REGEX = "^'.*?'$";
 	public static final String DOUBLE_STRING_REGEX = "^\".*?\"$";
 	public static final String INT_REGEX = "^\\d+$";
-	public static final List<String> STRING_TYPES =
 
 }
 

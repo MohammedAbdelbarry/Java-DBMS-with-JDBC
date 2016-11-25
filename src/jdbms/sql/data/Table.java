@@ -133,7 +133,7 @@ public class Table {
 			}
 		} else if (condition.leftOperandIsColumnName()
 				&& condition.rightOperandIsConstant()) {
-			if ()
+			
 		}
 	}
 }

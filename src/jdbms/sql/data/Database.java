@@ -5,7 +5,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
+import jdbms.sql.exceptions.ColumnListTooLargeException;
+import jdbms.sql.exceptions.ColumnNotFoundException;
+import jdbms.sql.exceptions.RepeatedColumnException;
 import jdbms.sql.exceptions.TableAlreadyExistsException;
+import jdbms.sql.parsing.properties.InsertionParameters;
+import jdbms.sql.parsing.properties.TableCreationParameters;
 
 public class Database {
 
@@ -30,6 +35,13 @@ public class Database {
 		}
 	}
 
+	public Table addTable(TableCreationParameters tableParameters) 
+			throws ColumnAlreadyExistsException {
+		Table newTable = new Table(tableParameters);
+		tables.put(tableParameters.getTableName(),
+				newTable);
+		return newTable;
+	}
 	public Table getTable(String tableName) {
 		return tables.get(tableName);
 	}
@@ -40,5 +52,12 @@ public class Database {
 
 	public String getDatabaseName() {
 		return databaseName;
+	}
+
+	public void insertInto (InsertionParameters parameters) 
+			throws RepeatedColumnException, 
+			ColumnListTooLargeException, 
+			ColumnNotFoundException {
+		tables.get(parameters.getTableName()).insertRows(parameters);
 	}
 }

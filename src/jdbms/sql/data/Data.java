@@ -4,9 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import jdbms.sql.exceptions.ColumnAlreadyExistsException;
+import jdbms.sql.exceptions.ColumnListTooLargeException;
+import jdbms.sql.exceptions.ColumnNotFoundException;
+import jdbms.sql.exceptions.RepeatedColumnException;
 import jdbms.sql.parsing.properties.DatabaseCreationParameters;
 import jdbms.sql.parsing.properties.DatabaseDroppingParameters;
+import jdbms.sql.parsing.properties.InsertionParameters;
 import jdbms.sql.parsing.properties.SelectionParameters;
+import jdbms.sql.parsing.properties.TableCreationParameters;
+import jdbms.sql.parsing.properties.TableDroppingParameters;
 import jdbms.sql.parsing.properties.UseParameters;
 
 
@@ -72,4 +79,19 @@ public class Data {
 		return null;
 	}
 
-}
+	public Table createTable(TableCreationParameters tableParamters)
+			throws ColumnAlreadyExistsException {
+		return activeDatabase.addTable(tableParamters);
+	}
+
+	public void dropTable(TableDroppingParameters tableParameters) {
+		activeDatabase.dropTable(tableParameters.getTableName());
+	}
+
+	public void insertInto(InsertionParameters parameters)
+			throws RepeatedColumnException,
+			ColumnListTooLargeException,
+			ColumnNotFoundException {
+		activeDatabase.insertInto(parameters);
+	}
+ }
