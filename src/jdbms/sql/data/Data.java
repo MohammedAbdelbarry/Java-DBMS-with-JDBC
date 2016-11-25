@@ -14,11 +14,20 @@ public class Data {
 		data = new HashMap<>();
 	}
 
-	public void createDatabase(String newDatabaseName) {
+	/**
+	 * Creates a new blank database with the name provided and returns it.
+	 * @param newDatabaseName the database name
+	 * @return the new blank database
+	 */
+	public Database createDatabase(String newDatabaseName) {
 		Database newDatabase = new Database(newDatabaseName);
 		data.put(newDatabaseName, newDatabase);
+		return newDatabase;
 	}
 
+	/**
+	 * Drops the database with the provided name.
+	 */
 	public void dropDatabase(String databaseName) {
 		data.remove(databaseName);
 	}
