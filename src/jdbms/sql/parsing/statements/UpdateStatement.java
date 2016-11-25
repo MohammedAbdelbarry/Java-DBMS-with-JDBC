@@ -7,7 +7,7 @@ public class UpdateStatement implements Statement {
 	private static final String STATEMENT_IDENTIFIER = "UPDATE";
 	private static final String CLASS_ID = "UPDATESTATEMENTCLASS";
 	static {
-		StatementFactory.getInstance().registerStatement(CLASS_ID, SelectStatement.class);
+		StatementFactory.getInstance().registerStatement(CLASS_ID, UpdateStatement.class);
 	}
 	public UpdateStatement() {
 	}

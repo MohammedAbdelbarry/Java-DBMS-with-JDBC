@@ -8,7 +8,7 @@ public class InsertIntoStatement implements Statement {
 	private static final String STATEMENT_IDENTIFIER = "INSERT INTO";
 	private static final String CLASS_ID = "INSERTINTOSTATEMENTCLASS";
 	static {
-		StatementFactory.getInstance().registerStatement(CLASS_ID, DropTableStatement.class);
+		StatementFactory.getInstance().registerStatement(CLASS_ID, InsertIntoStatement.class);
 	}
 	public InsertIntoStatement() {
 	}

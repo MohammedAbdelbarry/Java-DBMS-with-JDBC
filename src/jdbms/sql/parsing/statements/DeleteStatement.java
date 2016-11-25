@@ -6,7 +6,7 @@ public class DeleteStatement implements Statement {
 	private static final String STATEMENT_IDENTIFIER = "DELETE";
 	private static final String CLASS_ID = "DELETESTATEMENTCLASS";
 	static {
-		StatementFactory.getInstance().registerStatement(CLASS_ID, DropDatabaseStatement.class);
+		StatementFactory.getInstance().registerStatement(CLASS_ID, DeleteStatement.class);
 	}
 	public DeleteStatement() {
 	}
