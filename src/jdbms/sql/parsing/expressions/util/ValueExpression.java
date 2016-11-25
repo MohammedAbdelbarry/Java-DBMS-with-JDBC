@@ -8,9 +8,9 @@ public class ValueExpression {
 	}
 
 	public boolean isValidExpressionName() {
-		return this.expression.matches("^\\d+$") || 
-				this.expression.matches("^[\"].*?[\"]$") ||
-				this.expression.matches("^['].*?[']$");
+		return this.expression.matches("^\\d+") || 
+				this.expression.matches("^[\"].*?[\"]") ||
+				this.expression.matches("^['].*?[']");
 	}
 	public String getExpression() {
 		return expression;

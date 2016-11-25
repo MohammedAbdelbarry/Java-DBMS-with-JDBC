@@ -10,20 +10,27 @@ import org.junit.Before;
 import org.junit.Test;
 
 import jdbms.sql.parsing.parser.Parser;
+import jdbms.sql.parsing.statements.CreateDatabaseStatement;
 import jdbms.sql.parsing.statements.CreateTableStatement;
+import jdbms.sql.parsing.statements.DropDatabaseStatement;
+import jdbms.sql.parsing.statements.DropTableStatement;
 import jdbms.sql.parsing.statements.InitialStatement;
+import jdbms.sql.parsing.statements.InsertIntoStatement;
 import jdbms.sql.parsing.statements.SelectStatement;
 import jdbms.sql.parsing.statements.Statement;
 import jdbms.sql.parsing.statements.util.StatementFactory;
 
 public class Statements {
 
-	Collection<Statement> statements = new ArrayList<>();
-	boolean check = false;
-	Parser p = new Parser();
+	Collection<Statement> statements;
+	boolean check;
+	Parser p;
 
 	@Before
 	public void executedBeforeEach() {
+		check = false;
+		p = new Parser();
+		statements = new ArrayList<>();
 		try {
 			Class.forName("jdbms.sql.parsing.statements.CreateDatabaseStatement");
 			Class.forName("jdbms.sql.parsing.statements.CreateTableStatement");
@@ -50,11 +57,12 @@ public class Statements {
 	public void testCreateDataBase() {
 		String SQLCommand = "CREATE DATABASE my_Database;";
 		SQLCommand = p.normalizeCommand(SQLCommand);
-		for (Statement statement : statements) {
-			if (statement.interpret(SQLCommand)) {
-				check = true;
-			}
+		InitialStatement createDb = new CreateDatabaseStatement();
+		String name = "MY_DATABASE";
+		if (createDb.interpret(SQLCommand)) {	
+			check = true;
 		}
+		assertEquals(name, createDb.getParameters().getDatabaseName());
 		assertEquals(check, true);
 	}
 
@@ -62,11 +70,12 @@ public class Statements {
 	public void testDropDataBase() {
 		String SQLCommand = "DROP database My_SQLDatabase ;";
 		SQLCommand = p.normalizeCommand(SQLCommand);
-		for (Statement statement : statements) {
-			if (statement.interpret(SQLCommand)) {
-				check = true;
-			}
+		InitialStatement dropDb = new DropDatabaseStatement();
+		String name = "MY_SQLDATABASE";
+		if (dropDb.interpret(SQLCommand)) {
+			check = true;
 		}
+		assertEquals(name, dropDb.getParameters().getDatabaseName());
 		assertEquals(check, true);
 	}
 
@@ -94,23 +103,33 @@ public class Statements {
 	public void testDropTable() {
 		String SQLCommand = "drop table My_SQLDatabase ;";
 		SQLCommand = p.normalizeCommand(SQLCommand);
-		for (Statement statement : statements) {
-			if (statement.interpret(SQLCommand)) {
-				check = true;
-			}
+		InitialStatement dropTable = new DropTableStatement();
+		String name = "MY_SQLDATABASE";
+		if (dropTable.interpret(SQLCommand)) {
+			check = true;
 		}
+		assertEquals(name, dropTable.getParameters().getTableName());
 		assertEquals(check, true);
 	}
 
 	@Test
 	public void testInsertInto() {
-		String SQLCommand = "INSERT into my_TABLE(A_B,C_D) VALUES (\"x\", 'y'), (z, m);";
+		String SQLCommand = "INSERT into my_TABLE(A_B,C_D) VALUES (\"x\",'y');";
 		SQLCommand = p.normalizeCommand(SQLCommand);
-		for (Statement statement : statements) {
-			if (statement.interpret(SQLCommand)) {
-				check = true;
-			}
+		InitialStatement insertInto = new InsertIntoStatement();
+		String name = "MY_TABLE";
+		ArrayList<String> cols = new ArrayList<String>();
+		ArrayList<String[]> vals = new ArrayList<String[]>();
+		cols.add("A_B");
+		cols.add("C_D");
+		String[] arr = {"\"x\"", "'y'"};
+		vals.add(arr); 
+		if (insertInto.interpret(SQLCommand)) {
+			check = true;
 		}
+		assertEquals(insertInto.getParameters().getColumns(), cols);
+		assertEquals(insertInto.getParameters().getValues(), vals);
+		assertEquals(insertInto.getParameters().getValues(), name);
 		assertEquals(check, true);
 	}
 

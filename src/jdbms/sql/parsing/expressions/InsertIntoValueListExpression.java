@@ -21,23 +21,27 @@ public class InsertIntoValueListExpression extends ValueListExpression {
 		if (parts[0].trim().startsWith("(")) {
 			parts[0] = parts[0].trim().replace("(", "");
 			String[] values = parts[0].trim().split(",");
-			rowsValues.add(values);
 			for (int i = 0; i < values.length; i++) {
-				if (!new ValueExpression(values[i].trim()).isValidExpressionName()) {
+				values[i] = values[i].trim();
+				if (!new ValueExpression(values[i]).isValidExpressionName()) {
 					return false;
 				}
 			}
+			rowsValues.add(values);
 			for (int i = 1; i < parts.length - 1; i++) {
 				parts[i] = parts[i].trim();
-				if (parts[i].startsWith(",(")) {
+				if (parts[i].startsWith(",(")) { // The bug is here.
 					parts[i].trim().replace(",(", "");
 					String[] restOfValues = parts[i].trim().split(",");
-					rowsValues.add(restOfValues);
 					for (int j = 0; j < restOfValues.length; j++) {
+						restOfValues[j] = restOfValues[j].trim();
 						if (!new ValueExpression(restOfValues[j].trim()).isValidExpressionName()) {
 							return false;
 						}
 					}
+					rowsValues.add(restOfValues);
+				} else {
+					return false;
 				}
 			}
 			parameters.setValues(rowsValues);
