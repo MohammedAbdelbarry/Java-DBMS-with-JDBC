@@ -7,16 +7,16 @@ import java.util.HashMap;
 
 import jdbms.sql.parsing.statements.InitialStatement;
 
-public class StatementFactory {
-	private static StatementFactory factory = new StatementFactory();
+public class InitialStatementFactory {
+	private static InitialStatementFactory factory = new InitialStatementFactory();
 
 	private HashMap<String, Class<? extends InitialStatement>> registeredStatements = null;
 
-	private StatementFactory() {
+	private InitialStatementFactory() {
 		registeredStatements = new HashMap<>();
 	}
 
-	public static StatementFactory getInstance() {
+	public static InitialStatementFactory getInstance() {
 		return factory;
 	}
 	public void registerStatement(String statementID,

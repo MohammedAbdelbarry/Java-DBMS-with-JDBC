@@ -1,15 +1,18 @@
 package jdbms.sql.parsing.statements;
 
 import jdbms.sql.parsing.expressions.TableCreationTableNameExpression;
-import jdbms.sql.parsing.statements.util.StatementFactory;
+import jdbms.sql.parsing.properties.TableCreationParameters;
+import jdbms.sql.parsing.statements.util.InitialStatementFactory;
 
 public class CreateTableStatement extends InitialStatement {
 	private static final String STATEMENT_IDENTIFIER = "CREATE TABLE";
 	private static final String CLASS_ID = "CREATETABLESTATEMENTCLASS";
+	private TableCreationParameters createTableParameters;
 	static {
-		StatementFactory.getInstance().registerStatement(CLASS_ID, CreateTableStatement.class);
+		InitialStatementFactory.getInstance().registerStatement(CLASS_ID, CreateTableStatement.class);
 	}
 	public CreateTableStatement() {
+		createTableParameters = new TableCreationParameters();
 	}
 
 	@Override
@@ -23,7 +26,12 @@ public class CreateTableStatement extends InitialStatement {
 
 	@Override
 	public void act() {
-		// TODO Auto-generated method stub
-
+		buildParameters();
+		//System.createTable(createTableParameters);
+	}
+	private void buildParameters() {
+		createTableParameters.setTableName(parameters.getTableName());
+		createTableParameters.setColumnDefinitions(
+				parameters.getColumnDefinitions());
 	}
 }

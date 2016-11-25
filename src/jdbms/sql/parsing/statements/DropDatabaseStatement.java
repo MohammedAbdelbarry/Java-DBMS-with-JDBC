@@ -1,15 +1,18 @@
 package jdbms.sql.parsing.statements;
 
 import jdbms.sql.parsing.expressions.DatabaseTerminatingExpression;
-import jdbms.sql.parsing.statements.util.StatementFactory;
+import jdbms.sql.parsing.properties.DatabaseDroppingParameters;
+import jdbms.sql.parsing.statements.util.InitialStatementFactory;
 
 public class DropDatabaseStatement extends InitialStatement {
 	private static final String STATEMENT_IDENTIFIER = "DROP DATABASE";
 	private static final String CLASS_ID = "DROPDATABASESTATEMENTCLASS";
+	private DatabaseDroppingParameters dropDBParameters;
 	static {
-		StatementFactory.getInstance().registerStatement(CLASS_ID, DropDatabaseStatement.class);
+		InitialStatementFactory.getInstance().registerStatement(CLASS_ID, DropDatabaseStatement.class);
 	}
 	public DropDatabaseStatement() {
+		dropDBParameters = new DatabaseDroppingParameters();
 	}
 
 	@Override
@@ -23,7 +26,10 @@ public class DropDatabaseStatement extends InitialStatement {
 
 	@Override
 	public void act() {
-		// TODO Auto-generated method stub
-
+		buildParameters();
+		//System.dropDatabase(dropDBParameters);
+	}
+	private void buildParameters() {
+		dropDBParameters.setDatabaseName(parameters.getDatabaseName());
 	}
 }
