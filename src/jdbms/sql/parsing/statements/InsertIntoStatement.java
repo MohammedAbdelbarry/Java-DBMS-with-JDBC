@@ -4,7 +4,7 @@ import jdbms.sql.parsing.expressions.TableNameColumnListExpression;
 import jdbms.sql.parsing.expressions.TableNameValueListExpression;
 import jdbms.sql.parsing.statements.util.StatementFactory;
 
-public class InsertIntoStatement implements Statement {
+public class InsertIntoStatement extends InitialStatement {
 	private static final String STATEMENT_IDENTIFIER = "INSERT INTO";
 	private static final String CLASS_ID = "INSERTINTOSTATEMENTCLASS";
 	static {
@@ -17,12 +17,18 @@ public class InsertIntoStatement implements Statement {
 	public boolean interpret(String sqlExpression) {
 		if (sqlExpression.startsWith(STATEMENT_IDENTIFIER)) {
 			String restOfExpression = sqlExpression.replace(STATEMENT_IDENTIFIER, "").trim();
-			if (new TableNameColumnListExpression().interpret(restOfExpression) ||
-					new TableNameValueListExpression().interpret(restOfExpression)) {
+			if (new TableNameColumnListExpression(parameters).interpret(restOfExpression) ||
+					new TableNameValueListExpression(parameters).interpret(restOfExpression)) {
 				return true;
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public void act() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

@@ -1,17 +1,18 @@
 package jdbms.sql.parsing.expressions;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import jdbms.sql.parsing.expressions.util.ValueExpression;
+import jdbms.sql.parsing.properties.InputParametersContainer;
 
 public class InsertIntoValueListExpression extends ValueListExpression {
 
-	private List<String[]> rowsValues;
-	
-	public InsertIntoValueListExpression() {
-		super(new TerminalExpression());
-		rowsValues = new ArrayList<String[]>();
+	private ArrayList<String[]> rowsValues;
+
+	public InsertIntoValueListExpression(
+			InputParametersContainer parameters) {
+		super(new TerminalExpression(parameters), parameters);
+		rowsValues = new ArrayList<>();
 	}
 
 	@Override
@@ -39,6 +40,7 @@ public class InsertIntoValueListExpression extends ValueListExpression {
 					}
 				}
 			}
+			parameters.setValues(rowsValues);
 			return super.interpret(parts[parts.length - 1].trim());
 		}
 		return false;

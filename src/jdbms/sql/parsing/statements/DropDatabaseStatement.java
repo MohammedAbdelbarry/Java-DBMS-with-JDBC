@@ -3,7 +3,7 @@ package jdbms.sql.parsing.statements;
 import jdbms.sql.parsing.expressions.DatabaseTerminatingExpression;
 import jdbms.sql.parsing.statements.util.StatementFactory;
 
-public class DropDatabaseStatement implements Statement {
+public class DropDatabaseStatement extends InitialStatement {
 	private static final String STATEMENT_IDENTIFIER = "DROP DATABASE";
 	private static final String CLASS_ID = "DROPDATABASESTATEMENTCLASS";
 	static {
@@ -16,8 +16,14 @@ public class DropDatabaseStatement implements Statement {
 	public boolean interpret(String sqlExpression) {
 		if (sqlExpression.startsWith(STATEMENT_IDENTIFIER)) {
 			String restOfExpression = sqlExpression.replace(STATEMENT_IDENTIFIER, "").trim();
-			return new DatabaseTerminatingExpression().interpret(restOfExpression);
+			return new DatabaseTerminatingExpression(parameters).interpret(restOfExpression);
 		}
 		return false;
+	}
+
+	@Override
+	public void act() {
+		// TODO Auto-generated method stub
+
 	}
 }

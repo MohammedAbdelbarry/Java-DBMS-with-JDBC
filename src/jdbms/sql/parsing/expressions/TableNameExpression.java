@@ -1,18 +1,23 @@
 package jdbms.sql.parsing.expressions;
 
+import jdbms.sql.parsing.properties.InputParametersContainer;
 import jdbms.sql.parsing.statements.Statement;
 
 public abstract class TableNameExpression implements Expression {
 
 	private Statement nextStatement;
 	private Expression nextExpression;
-
-	public TableNameExpression(Expression nextExpression) {
+	protected InputParametersContainer parameters;
+	public TableNameExpression(Expression nextExpression,
+			InputParametersContainer parameters) {
 		this.nextExpression = nextExpression;
+		this.parameters = parameters;
 	}
 
-	public TableNameExpression(Statement nextStatement) {
+	public TableNameExpression(Statement nextStatement,
+			InputParametersContainer parameters) {
 		this.nextStatement = nextStatement;
+		this.parameters = parameters;
 	}
 
 	@Override
@@ -25,7 +30,7 @@ public abstract class TableNameExpression implements Expression {
 				} else if (this.nextExpression != null) {
 					return this.nextExpression.interpret(restOfExpression);
 				}
-			}		
+			}
 		return false;
 	}
 }

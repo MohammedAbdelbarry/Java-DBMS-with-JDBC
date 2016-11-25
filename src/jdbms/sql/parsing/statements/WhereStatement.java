@@ -2,17 +2,20 @@ package jdbms.sql.parsing.statements;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
 import jdbms.sql.parsing.expressions.math.BooleanExpression;
 import jdbms.sql.parsing.expressions.math.util.BooleanExpressionFactory;
+import jdbms.sql.parsing.properties.InputParametersContainer;
 
 public class WhereStatement implements Statement {
 	private static final String STATEMENT_IDENTIFIER = "WHERE";
 	private Collection<BooleanExpression> boolExpressions;
-
-	public WhereStatement() {
+	private InputParametersContainer parameters;
+	public WhereStatement(InputParametersContainer parameters) {
+		this.parameters = parameters;
 		boolExpressions = new ArrayList<>();
 		for (String key : BooleanExpressionFactory.getInstance().getRegisteredBooleanExpressions()) {
-			boolExpressions.add(BooleanExpressionFactory.getInstance().createBooleanExpression(key));
+			boolExpressions.add(BooleanExpressionFactory.getInstance().createBooleanExpression(key, parameters));
 		}
 	}
 

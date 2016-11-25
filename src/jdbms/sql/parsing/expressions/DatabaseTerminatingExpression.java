@@ -1,9 +1,12 @@
 package jdbms.sql.parsing.expressions;
 
+import jdbms.sql.parsing.properties.InputParametersContainer;
+
 public class DatabaseTerminatingExpression extends DatabaseExpression {
 
-	public DatabaseTerminatingExpression() {
-		super(new TerminalExpression());
+	public DatabaseTerminatingExpression(
+			InputParametersContainer parameters) {
+		super(new TerminalExpression(parameters), parameters);
 	}
 
 	@Override

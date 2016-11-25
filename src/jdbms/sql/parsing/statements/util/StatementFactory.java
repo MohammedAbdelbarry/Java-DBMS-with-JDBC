@@ -5,12 +5,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashMap;
 
-import jdbms.sql.parsing.statements.Statement;
+import jdbms.sql.parsing.statements.InitialStatement;
 
 public class StatementFactory {
 	private static StatementFactory factory = new StatementFactory();
 
-	private HashMap<String, Class<? extends Statement>> registeredStatements = null;
+	private HashMap<String, Class<? extends InitialStatement>> registeredStatements = null;
 
 	private StatementFactory() {
 		registeredStatements = new HashMap<>();
@@ -20,16 +20,16 @@ public class StatementFactory {
 		return factory;
 	}
 	public void registerStatement(String statementID,
-			Class<? extends Statement> statementClass) {
+			Class<? extends InitialStatement> statementClass) {
 		registeredStatements.put(statementID, statementClass);
 	}
-	public Statement createStatement(String statementID) {
-		Class<? extends Statement> statementClass =
+	public InitialStatement createStatement(String statementID) {
+		Class<? extends InitialStatement> statementClass =
 				registeredStatements.get(statementID);
 		try {
-			Constructor<? extends Statement> statementConstructor =
+			Constructor<? extends InitialStatement> statementConstructor =
 					statementClass.getConstructor();
-			Statement statement = statementConstructor.newInstance();
+			InitialStatement statement = statementConstructor.newInstance();
 			return statement;
 		} catch (NoSuchMethodException | SecurityException
 				| InstantiationException

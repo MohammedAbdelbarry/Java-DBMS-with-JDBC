@@ -5,13 +5,15 @@ import java.util.List;
 
 import jdbms.sql.parsing.expressions.util.ColumnExpression;
 import jdbms.sql.parsing.expressions.util.DataTypesConstants;
+import jdbms.sql.parsing.properties.InputParametersContainer;
 
 public class TableCreationColumnsTypesExpression extends TableCreationTableInfo {
 	private List<String> dataTypes;
 	private HashMap<String, String> columnsDataTypes = null;
 
-	public TableCreationColumnsTypesExpression() {
-		super(new TerminalExpression());
+	public TableCreationColumnsTypesExpression(
+			InputParametersContainer parameters) {
+		super(new TerminalExpression(parameters), parameters);
 		columnsDataTypes = new HashMap<>();
 		dataTypes = DataTypesConstants.DATA_TPYES;
 	}
@@ -32,6 +34,7 @@ public class TableCreationColumnsTypesExpression extends TableCreationTableInfo 
 					return false;
 				}
 			}
+			parameters.setColumnDefinitions(columnsDataTypes);
 			return super.interpret(parts[parts.length - 1].trim());
 		}
 		return false;

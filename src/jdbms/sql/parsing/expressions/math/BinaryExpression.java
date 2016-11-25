@@ -1,7 +1,10 @@
 package jdbms.sql.parsing.expressions.math;
 
 import jdbms.sql.parsing.expressions.Expression;
+import jdbms.sql.parsing.expressions.util.ColumnExpression;
+import jdbms.sql.parsing.expressions.util.ValueExpression;
 import jdbms.sql.parsing.operators.BinaryOperator;
+import jdbms.sql.parsing.properties.InputParametersContainer;
 import jdbms.sql.parsing.statements.Statement;
 
 public abstract class BinaryExpression implements Expression {
@@ -9,11 +12,17 @@ public abstract class BinaryExpression implements Expression {
 	private BinaryOperator operator;
 	private Expression nextExpression;
 	private Statement nextStatement;
-	public BinaryExpression(String symbol, Expression nextExpression) {
+	protected InputParametersContainer parameters;
+	public BinaryExpression(String symbol,
+			Expression nextExpression,
+			InputParametersContainer parameters) {
 		this.operator = new BinaryOperator(symbol);
 		this.nextExpression = nextExpression;
+		this.parameters = parameters;
 	}
-	public BinaryExpression(String symbol, Statement nextStatement) {
+	public BinaryExpression(String symbol,
+			Statement nextStatement,
+			InputParametersContainer parameters) {
 		this.operator = new BinaryOperator(symbol);
 		this.nextStatement = nextStatement;
 	}
@@ -24,14 +33,19 @@ public abstract class BinaryExpression implements Expression {
 			 return false;
 		 }
 		 operator.setLeftOperand(operands[0].trim());
-		 operator.setRightOperand(operands[1].substring(0,
-				 sqlExpression.lastIndexOf(" ")).trim());
+		 operator.setRightOperand(operands[1].trim().substring(0,
+				 operands[1].trim().indexOf(" ")).trim());
+		 if (!new ColumnExpression(getLeftOperand()).isValidColumnName() ||
+				 !new ValueExpression(getRightOperand()).isValidExpressionName()) {
+			 return false;
+		 }
+
 		 if (this.nextExpression != null) {
-			 return nextExpression.interpret(operands[1].substring(
-					 sqlExpression.lastIndexOf(" ")).trim());
+			 return nextExpression.interpret(operands[1].trim().substring(
+					 operands[1].trim().indexOf(" ")).trim());
 		 } else if (this.nextStatement != null) {
-			 return nextStatement.interpret(operands[1].substring(
-					 sqlExpression.lastIndexOf(" ")).trim());
+			 return nextStatement.interpret(operands[1].trim().substring(
+					 operands[1].indexOf(" ")).trim());
 		 }
 		 return false;
 	}
@@ -40,5 +54,11 @@ public abstract class BinaryExpression implements Expression {
 	}
 	public String getRightOperand() {
 		return operator.getRightOperand();
+	}
+	public void setLeftOperand(String operand) {
+		operator.setLeftOperand(operand);
+	}
+	public void setRightOperand(String operand) {
+		operator.setRightOperand(operand);
 	}
 }

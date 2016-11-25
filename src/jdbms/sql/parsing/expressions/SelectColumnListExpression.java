@@ -4,13 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jdbms.sql.parsing.expressions.util.ColumnExpression;
+import jdbms.sql.parsing.properties.InputParametersContainer;
 import jdbms.sql.parsing.statements.FromStatement;
 
 public class SelectColumnListExpression extends ColumnListExpression {
 
 	List<String> columnsNames;
-	public SelectColumnListExpression() {
-		super(new FromStatement());
+	public SelectColumnListExpression(
+			InputParametersContainer parameters) {
+		super(new FromStatement(parameters), parameters);
 		columnsNames = new ArrayList<>();
 	}
 
@@ -28,6 +30,11 @@ public class SelectColumnListExpression extends ColumnListExpression {
 				return false;
 			}
 		}
+		ArrayList<String> columnNames = new ArrayList<>();
+		for (String column : columns) {
+			columnNames.add(column);
+		}
+		parameters.setColumns(columnNames);
 		return super.interpret(restOfExp);
 	}
 }
