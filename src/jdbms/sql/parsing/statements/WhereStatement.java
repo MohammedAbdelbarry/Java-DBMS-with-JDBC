@@ -1,18 +1,30 @@
 package jdbms.sql.parsing.statements;
 
-import jdbms.sql.parsing.expressions.TableUpdateTableNameExpression;
+import java.util.ArrayList;
+import java.util.Collection;
 import jdbms.sql.parsing.expressions.math.BooleanExpression;
+import jdbms.sql.parsing.expressions.math.util.BooleanExpressionFactory;
+
 public class WhereStatement implements Statement {
 	private static final String STATEMENT_IDENTIFIER = "WHERE";
+	private Collection<BooleanExpression> boolExpressions;
 
 	public WhereStatement() {
+		boolExpressions = new ArrayList<>();
+		for (String key : BooleanExpressionFactory.getInstance().getRegisteredBooleanExpressions()) {
+			boolExpressions.add(BooleanExpressionFactory.getInstance().createBooleanExpression(key));
+		}
 	}
 
 	@Override
 	public boolean interpret(String sqlExpression) {
 		if (sqlExpression.startsWith(STATEMENT_IDENTIFIER)) {
 			String restOfExpression = sqlExpression.replace(STATEMENT_IDENTIFIER, "").trim();
-			//for ()
+			for (BooleanExpression exp : boolExpressions) {
+				if (exp.interpret(restOfExpression)) {
+					return true;
+				}
+			}
 		}
 		return false;
 	}

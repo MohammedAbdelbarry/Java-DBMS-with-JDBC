@@ -1,5 +1,6 @@
 package jdbms.sql.parsing.expressions.math;
 
+import jdbms.sql.parsing.expressions.TerminalExpression;
 import jdbms.sql.parsing.expressions.util.ColumnExpression;
 import jdbms.sql.parsing.expressions.util.ValueExpression;
 
@@ -7,7 +8,7 @@ public class AssignmentExpression extends BinaryExpression {
 	private static final String SYMBOL = "=";
 	private static final int NUMBER_OF_OPERANDS = 2;
 	public AssignmentExpression() {
-		super(SYMBOL);
+		super(SYMBOL, new TerminalExpression());
 	}
 
 	@Override

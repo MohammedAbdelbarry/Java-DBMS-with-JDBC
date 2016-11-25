@@ -41,12 +41,17 @@ public class Dummy {
 		String dropDB = "      DROP DATABASE MY$DBLOL ;";
 		String dropTable = "DROP TABLE MY$DBLOL ;";
 		String createTable = "CREATE TABLE TT$LOLNAME (col1 INT), (Col2, VARCHAR), (col3, TEXT) ;";
-		//String delete = "DELETE FROM table_name ;";
+		String delete = "DELETE FROM table_name;";
+		String update = "UPDATE table_name SET column1=value1,column2=value2;";
+		String select = "SELECT column_name,column_name FROM table_name where col1 = val1;";
 		Parser p = new Parser();
-		dummy.parse(p.normalizeCommand(insertInto));
-		dummy.parse(p.normalizeCommand(createDB));
-		dummy.parse(p.normalizeCommand(dropDB));
-		dummy.parse(p.normalizeCommand(dropTable));
-		dummy.parse(p.normalizeCommand(createTable));
+		//dummy.parse(p.normalizeCommand(insertInto));
+		//dummy.parse(p.normalizeCommand(createDB));
+		//dummy.parse(p.normalizeCommand(dropDB));
+		//dummy.parse(p.normalizeCommand(dropTable));
+		//dummy.parse(p.normalizeCommand(createTable));
+		//dummy.parse(p.normalizeCommand(delete));
+		dummy.parse(p.normalizeCommand(update));
+		//dummy.parse(p.normalizeCommand(select));
 	}
 }
