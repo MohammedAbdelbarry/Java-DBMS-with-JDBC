@@ -4,12 +4,8 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -24,7 +20,10 @@ import javax.xml.transform.stream.StreamSource;
 import jdbms.sql.data.Database;
 import jdbms.sql.data.Table;
 import jdbms.sql.data.TableColumn;
-import jdbms.sql.parsing.statements.CreateDatabaseStatement;
+import jdbms.sql.exceptions.ColumnAlreadyExistsException;
+import jdbms.sql.exceptions.ColumnListTooLargeException;
+import jdbms.sql.exceptions.ColumnNotFoundException;
+import jdbms.sql.exceptions.RepeatedColumnException;
 
 public class XMLCreator {
 
@@ -42,7 +41,11 @@ public class XMLCreator {
 		tableData = this.table.getColumns();
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args)
+			throws ColumnAlreadyExistsException,
+			RepeatedColumnException,
+			ColumnListTooLargeException,
+			ColumnNotFoundException {
 		try {
 			Class.forName("jdbms.sql.datatypes.IntSQLType");
 			Class.forName("jdbms.sql.datatypes.VarcharSQLType");
@@ -75,7 +78,7 @@ public class XMLCreator {
     public String create() {
     	StringWriter stringWriter = new StringWriter();
         XMLOutputFactory xMLOutputFactory
-        = XMLOutputFactory.newInstance();	
+        = XMLOutputFactory.newInstance();
         XMLStreamWriter xMLStreamWriter;
 		try {
 			xMLStreamWriter
@@ -99,7 +102,7 @@ public class XMLCreator {
 
     /**
      * Builds the interior of the table rows.
-     * @param xmlStreaWriter : the XML writer stream 
+     * @param xmlStreaWriter : the XML writer stream
      */
     private void buildRows(XMLStreamWriter
     		xMLStreamWriter) throws XMLStreamException {
@@ -121,7 +124,7 @@ public class XMLCreator {
      * @param xml the string to be processed
      * @return the processed string
      */
-    private String transform(String xml) 
+    private String transform(String xml)
     		throws XMLStreamException, TransformerException {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         transformerFactory.setAttribute("indent-number", 4);

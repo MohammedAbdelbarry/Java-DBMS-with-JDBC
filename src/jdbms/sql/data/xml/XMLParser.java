@@ -1,29 +1,28 @@
 package jdbms.sql.data.xml;
 
-import jdbms.sql.data.ColumnIdentifier;
-import jdbms.sql.data.Data;
-import jdbms.sql.data.Database;
-import jdbms.sql.data.Table;
-import jdbms.sql.data.TableIdentifier;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 
-import javax.print.DocFlavor.STRING;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
+
+import jdbms.sql.data.ColumnIdentifier;
+import jdbms.sql.data.Database;
+import jdbms.sql.data.Table;
+import jdbms.sql.data.TableIdentifier;
+import jdbms.sql.exceptions.ColumnAlreadyExistsException;
+import jdbms.sql.exceptions.ColumnListTooLargeException;
+import jdbms.sql.exceptions.ColumnNotFoundException;
+import jdbms.sql.exceptions.RepeatedColumnException;
 
 public class XMLParser {
 
@@ -71,7 +70,12 @@ public class XMLParser {
 
 	private void initializeTable() {
 		for (ColumnIdentifier col : columnIdentifiers) {
-			table.addTableColumn(col.getName(), col.getType());
+			try {
+				table.addTableColumn(col.getName(), col.getType());
+			} catch (ColumnAlreadyExistsException e) {
+				e.printStackTrace();
+				//ErrorHandler.printColumnAlreadyExistsColumn();
+			}
 			columnNames.add(col.getName());
 		}
 	}
@@ -117,7 +121,18 @@ public class XMLParser {
 		EndElement endElement = event.asEndElement();
 		String name = endElement.getName().getLocalPart();
 		if (name.equals("row")) {
-			table.insertRow(columnNames, values);
+			try {
+				table.insertRow(columnNames, values);
+			} catch (RepeatedColumnException e) {
+				// ErrorHandler.printRepeatedColumnError()
+				e.printStackTrace();
+			} catch (ColumnListTooLargeException e) {
+				// ErrorHandler.printColumnLargeColumnListError()
+				e.printStackTrace();
+			} catch (ColumnNotFoundException e) {
+				// ErrorHandler.printColumnNotFoundError()
+				e.printStackTrace();
+			}
 			valueAvailable = false;
 			values.clear();
 		} else if (columns.contains(name)) {

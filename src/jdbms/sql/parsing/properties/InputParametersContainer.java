@@ -11,7 +11,7 @@ public class InputParametersContainer {
 	private BooleanExpression condition;
 	private String tableName;
 	private ArrayList<String> columns;
-	private ArrayList<String[]> values;
+	private ArrayList<ArrayList<String>> values;
 	private HashMap<String, String> columnDefinitions;
 	private AssignmentExpression assignment;
 
@@ -51,12 +51,19 @@ public class InputParametersContainer {
 		this.columns = columns;
 	}
 
-	public ArrayList<String[]> getValues() {
+	public ArrayList<ArrayList<String>> getValues() {
 		return values;
 	}
 
 	public void setValues(ArrayList<String[]> values) {
-		this.values = values;
+		this.values = new ArrayList<>();
+		for (String[] row : values) {
+			ArrayList<String> temp = new ArrayList<>();
+			for (String cell : row) {
+				temp.add(cell);
+			}
+			this.values.add(temp);
+		}
 	}
 
 	public HashMap<String, String> getColumnDefinitions() {

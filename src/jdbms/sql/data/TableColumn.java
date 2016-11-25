@@ -1,6 +1,5 @@
 package jdbms.sql.data;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import jdbms.sql.datatypes.SQLType;
@@ -20,7 +19,11 @@ public class TableColumn {
 		this.columnType = columnType;
 		values = new ArrayList<>();
 	}
-
+	public TableColumn(ColumnIdentifier columnIdentifier) {
+		this.columnName = columnIdentifier.getName();
+		this.columnType = columnIdentifier.getType();
+		values = new ArrayList<>();
+	}
 	public void add(String value) {
 		values.add(SQLTypeFactory.getInstance().
 				getTypeObject(columnType, value));
@@ -56,5 +59,9 @@ public class TableColumn {
 
 	public int getSize() {
 		return values.size();
+	}
+
+	public void clearColumn() {
+		values.clear();
 	}
 }

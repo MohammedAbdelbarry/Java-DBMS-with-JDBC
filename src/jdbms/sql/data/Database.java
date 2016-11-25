@@ -4,6 +4,9 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import jdbms.sql.exceptions.ColumnAlreadyExistsException;
+import jdbms.sql.exceptions.TableAlreadyExistsException;
+
 public class Database {
 
 	/**Array of database tables.*/
@@ -17,10 +20,14 @@ public class Database {
 		new File(databaseName).mkdir();
 	}
 
-	public void addTable(TableIdentifier newTableIdentifier) {
-		String tableName = newTableIdentifier.getTableName();
-		Table newTable = new Table(tableName, this);
-		tables.put(tableName, newTable);
+	public void addTable(TableIdentifier newTableIdentifier)
+			throws TableAlreadyExistsException {
+		try {
+			tables.put(newTableIdentifier.getTableName(),
+					new Table(newTableIdentifier));
+		} catch (ColumnAlreadyExistsException e) {
+			// ErrorHandler.printTableAlreadyExistsError();
+		}
 	}
 
 	public Table getTable(String tableName) {

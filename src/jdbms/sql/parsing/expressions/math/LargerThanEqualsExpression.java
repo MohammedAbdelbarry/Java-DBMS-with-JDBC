@@ -23,4 +23,8 @@ public class LargerThanEqualsExpression extends BooleanExpression {
 	public boolean evaluate(IntSQLType left, IntSQLType right) {
 		return left.compareTo(right) >= 0;
 	}
+	@Override
+	public boolean evaluateConstantExpression() {
+		return getLeftOperand().compareTo(getRightOperand()) >= 0;
+	}
 }

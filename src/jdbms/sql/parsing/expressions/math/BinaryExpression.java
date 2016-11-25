@@ -6,6 +6,7 @@ import jdbms.sql.parsing.expressions.util.ValueExpression;
 import jdbms.sql.parsing.operators.BinaryOperator;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 import jdbms.sql.parsing.statements.Statement;
+import jdbms.sql.parsing.util.Constants;
 
 public abstract class BinaryExpression implements Expression {
 	private static final int NUMBER_OF_OPERANDS = 2;
@@ -61,5 +62,41 @@ public abstract class BinaryExpression implements Expression {
 	}
 	public void setRightOperand(String operand) {
 		operator.setRightOperand(operand);
+	}
+	public boolean leftOperandIsConstant() {
+		return getLeftOperand().matches(Constants.INT_REGEX) ||
+				getLeftOperand().matches(Constants.STRING_REGEX) ||
+				getLeftOperand().matches(Constants.DOUBLE_STRING_REGEX);
+	}
+	public boolean rightOperandIsConstant() {
+		return getRightOperand().matches(Constants.INT_REGEX) ||
+				getRightOperand().matches(Constants.STRING_REGEX) ||
+				getRightOperand().matches(Constants.DOUBLE_STRING_REGEX);
+	}
+	public boolean leftOperandIsColumnName() {
+		return getLeftOperand().matches(Constants.COLUMN_REGEX);
+	}
+	public boolean rightOperandIsColumnName() {
+		return getRightOperand().matches(Constants.COLUMN_REGEX);
+	}
+	public String getLeftOperandDataType() {
+		if (getLeftOperand().matches(Constants.STRING_REGEX) ||
+				getLeftOperand().matches(Constants.DOUBLE_STRING_REGEX)) {
+			return "VARCHAR";
+		} else if (getLeftOperand().matches(Constants.INT_REGEX)) {
+			return "INTEGER";
+		} else {
+			return null;
+		}
+	}
+	public String getRightOperandDataType() {
+		if (getRightOperand().matches(Constants.STRING_REGEX) ||
+				getRightOperand().matches(Constants.DOUBLE_STRING_REGEX)) {
+			return "VARCHAR";
+		} else if (getRightOperand().matches(Constants.INT_REGEX)) {
+			return "INTEGER";
+		} else {
+			return null;
+		}
 	}
 }

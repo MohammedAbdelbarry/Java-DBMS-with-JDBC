@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import jdbms.sql.parsing.properties.DatabaseCreationParameters;
+import jdbms.sql.parsing.properties.DatabaseDroppingParameters;
+import jdbms.sql.parsing.properties.SelectionParameters;
+import jdbms.sql.parsing.properties.UseParameters;
+
 
 public class Data {
 
@@ -18,21 +23,25 @@ public class Data {
 	}
 
 	/**
-	 * Sets the given Database as active.
-	 * @param databaseName name of the database to be set active
+	 * Sets the given {@link Database} as active.
+	 * @param useParameters The parameters of the sql use
+	 * statement
 	 */
-	public void setActiveDatabase(String databaseName) {
-		activeDatabase = data.get(databaseName);
+	public void setActiveDatabase(UseParameters useParameters) {
+		activeDatabase = data.get(useParameters.getDatabaseName());
 	}
 
 	/**
 	 * Creates a new blank database with the name provided and returns it.
-	 * @param newDatabaseName the database name
-	 * @return the new blank database
+	 * @param createDBParameters The parameters of the sql
+	 * create statement
+	 * @return the new empty database
 	 */
-	public Database createDatabase(String newDatabaseName) {
-		Database newDatabase = new Database(newDatabaseName);
-		data.put(newDatabaseName, newDatabase);
+	public Database createDatabase(DatabaseCreationParameters
+			createDBParameters) {
+		Database newDatabase
+		= new Database(createDBParameters.getDatabaseName());
+		data.put(createDBParameters.getDatabaseName(), newDatabase);
 		activeDatabase = newDatabase;
 		return newDatabase;
 	}
@@ -40,8 +49,8 @@ public class Data {
 	/**
 	 * Drops the database with the provided name.
 	 */
-	public void dropDatabase(String databaseName) {
-		data.remove(databaseName);
+	public void dropDatabase(DatabaseDroppingParameters dropDBParameters) {
+		data.remove(dropDBParameters.getDatabaseName());
 	}
 
 	/**
@@ -50,16 +59,17 @@ public class Data {
 	 * @param columns array list of the columns to be selected from the specified table
 	 * @return Array list of the values of the selected columns
 	 */
-	public ArrayList<ArrayList<String>> selectFrom(String tableName, ArrayList<String> columns) {
-		Table curTable = activeDatabase.getTable(tableName);
-		ArrayList<TableColumn> cols = curTable.getColumnList(columns);
-		ArrayList<ArrayList<String>> values = new ArrayList<>();
-		for (TableColumn column : cols) {
-			values.add(column.getValues());
-		}
-		return values;
+	public ArrayList<ArrayList<String>> selectFrom(SelectionParameters
+			selectParameters) {
+		Table curTable = activeDatabase.getTable(selectParameters.getTableName());
+//		ArrayList<TableColumn> cols
+//		= curTable.getColumnList(selectParameters.getColumns());
+//		ArrayList<ArrayList<String>> values = new ArrayList<>();
+//		for (TableColumn column : cols) {
+//			values.add(column.getValues());
+//		}
+//		return values;
+		return null;
 	}
 
-
-	
 }

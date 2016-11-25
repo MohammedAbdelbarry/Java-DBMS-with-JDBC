@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class InsertionParameters {
 	private ArrayList<String> columns;
-	private ArrayList<String[]> values;
+	private ArrayList<ArrayList<String>> values;
 	private String tableName;
 	public InsertionParameters() {
 
@@ -15,10 +15,10 @@ public class InsertionParameters {
 	public void setColumns(ArrayList<String> columns) {
 		this.columns = columns;
 	}
-	public ArrayList<String[]> getValues() {
+	public ArrayList<ArrayList<String>> getValues() {
 		return values;
 	}
-	public void setValues(ArrayList<String[]> values) {
+	public void setValues(ArrayList<ArrayList<String>> values) {
 		this.values = values;
 	}
 	public String getTableName() {

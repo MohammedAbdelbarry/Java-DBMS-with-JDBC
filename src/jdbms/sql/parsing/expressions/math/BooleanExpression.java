@@ -19,4 +19,5 @@ public abstract class BooleanExpression extends BinaryExpression {
 	}
 	public abstract boolean evaluate(VarcharSQLType left, VarcharSQLType right);
 	public abstract boolean evaluate(IntSQLType left, IntSQLType right);
+	public abstract boolean evaluateConstantExpression();
 }

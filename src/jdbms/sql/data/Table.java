@@ -1,59 +1,76 @@
 package jdbms.sql.data;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import javax.swing.plaf.basic.BasicSplitPaneUI.KeyboardUpLeftHandler;
-
-import jdbms.sql.data.xml.XMLCreator;
+import jdbms.sql.exceptions.ColumnAlreadyExistsException;
+import jdbms.sql.exceptions.ColumnListTooLargeException;
+import jdbms.sql.exceptions.ColumnNotFoundException;
+import jdbms.sql.exceptions.RepeatedColumnException;
+import jdbms.sql.parsing.expressions.math.BooleanExpression;
+import jdbms.sql.parsing.properties.InsertionParameters;
+import jdbms.sql.parsing.properties.TableCreationParameters;
 
 public class Table {
 
 	private String tableName;
 	private Map<String, TableColumn> columns;
 	private int numberOfRows;
-	private Database parent;
-	public Table(String tableName, Database parent) {
-		this.tableName = tableName;
+	public Table(TableCreationParameters createTableParameters)
+			throws ColumnAlreadyExistsException {
+		this.tableName = createTableParameters.getTableName();
 		columns = new HashMap<>();
 		numberOfRows = 0;
-		this.parent = parent;
-		try {
-			createXMLFile();
-		} catch (IOException e) {
-			e.printStackTrace();
+		HashMap<String, String> colDefinitions
+		= createTableParameters.getColumnDefinitions();
+		for (String column : colDefinitions.keySet()) {
+				addTableColumn(column, colDefinitions.get(column));
 		}
 	}
-
-	private void createXMLFile() throws IOException {
-		XMLCreator creator = new XMLCreator(this);
-		String xml = creator.create();
-		File xmlFile = new File(parent.getDatabaseName());
-		FileWriter writer = new FileWriter(xmlFile);
-		writer.write(xml);
-		writer.close();
+	public Table(TableIdentifier tableIdentifier)
+			throws ColumnAlreadyExistsException {
+		this.tableName = tableIdentifier.getTableName();
+		ArrayList<ColumnIdentifier> columnIdentifiers
+		= tableIdentifier.getColumnsIdentifiers();
+		for (ColumnIdentifier columnIdentifier
+				: columnIdentifiers) {
+			addTableColumn(columnIdentifier.getName(),
+					columnIdentifier.getType());
+		}
 	}
-	public void addTableColumn(String columnName, String columnDataType) {
+	public void addTableColumn(String columnName, String columnDataType)
+			throws ColumnAlreadyExistsException {
+		if (columns.containsKey(columnName)) {
+			throw new ColumnAlreadyExistsException();
+		}
 		TableColumn newColumn = new TableColumn(columnName, columnDataType);
 		columns.put(columnName, newColumn);
 	}
-
-	public void insertRow(ArrayList<String> columnNames, ArrayList<String> values) {
+	public void insertRows(InsertionParameters insertParameters)
+			throws RepeatedColumnException,
+			ColumnListTooLargeException,
+			ColumnNotFoundException {
+		for (ArrayList<String> rowValue : insertParameters.getValues()) {
+			insertRow(insertParameters.getColumns(), rowValue);
+		}
+	}
+	private void insertRow(ArrayList<String> columnNames,
+			ArrayList<String> values)
+			throws RepeatedColumnException, ColumnListTooLargeException,
+			ColumnNotFoundException {
 		if (columnNames.size() > columns.size()
 				|| columnNames.size() != values.size()) {
-			//throw new ColumnListTooLargeException();
+			throw new ColumnListTooLargeException();
+		}
+		if (new HashSet<>(columnNames).size() > columnNames.size()) {
+			throw new RepeatedColumnException();
 		}
 		for (String column : columnNames) {
 			if (!columns.containsKey(column)) {
-				//throw new ColumnNotFoundException();
+				throw new ColumnNotFoundException();
 			}
 		}
 		Set<String> nullCells = new HashSet<>(columns.keySet());
@@ -75,7 +92,7 @@ public class Table {
 					ColumnIdentifier(name,
 					columns.get(name).getColumnDataType()));
 		}
-		return new TableIdentifier(tableName, columnIdentifiers, parent);
+		return new TableIdentifier(tableName, columnIdentifiers);
 	}
 
 	public Map<String, TableColumn> getColumns() {
@@ -87,7 +104,7 @@ public class Table {
 		return clone;
 	}
 
-	public ArrayList<TableColumn> getColumnList(ArrayList<String> cols) {
+	private ArrayList<TableColumn> getColumnList(ArrayList<String> cols) {
 		ArrayList<TableColumn> requestedColumns = new ArrayList<>();
 		for (String key : cols) {
 			if (columns.keySet().contains(key)) {
@@ -103,5 +120,17 @@ public class Table {
 
 	public String getName() {
 		return tableName;
+	}
+	public void deleteRow(BooleanExpression condition) {
+		if(condition.leftOperandIsConstant()
+				&& condition.rightOperandIsConstant()) {
+			if (condition.evaluateConstantExpression()) {
+				for (TableColumn column : columns.values()) {
+					column.clearColumn();
+				}
+			} else {
+				return;
+			}
+		}
 	}
 }
