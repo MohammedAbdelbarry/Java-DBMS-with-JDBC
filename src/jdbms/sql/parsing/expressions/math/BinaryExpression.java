@@ -1,6 +1,8 @@
 package jdbms.sql.parsing.expressions.math;
 
 import jdbms.sql.parsing.expressions.Expression;
+import jdbms.sql.parsing.expressions.util.ColumnExpression;
+import jdbms.sql.parsing.expressions.util.ValueExpression;
 import jdbms.sql.parsing.operators.BinaryOperator;
 import jdbms.sql.parsing.statements.Statement;
 
@@ -24,14 +26,19 @@ public abstract class BinaryExpression implements Expression {
 			 return false;
 		 }
 		 operator.setLeftOperand(operands[0].trim());
-		 operator.setRightOperand(operands[1].substring(0,
-				 sqlExpression.lastIndexOf(" ")).trim());
+		 operator.setRightOperand(operands[1].trim().substring(0,
+				 operands[1].trim().indexOf(" ")).trim());
+		 if (!new ColumnExpression(getLeftOperand()).isValidColumnName() ||
+				 !new ValueExpression(getRightOperand()).isValidExpressionName()) {
+			 return false;
+		 }
+
 		 if (this.nextExpression != null) {
-			 return nextExpression.interpret(operands[1].substring(
-					 sqlExpression.lastIndexOf(" ")).trim());
+			 return nextExpression.interpret(operands[1].trim().substring(
+					 operands[1].trim().indexOf(" ")).trim());
 		 } else if (this.nextStatement != null) {
-			 return nextStatement.interpret(operands[1].substring(
-					 sqlExpression.lastIndexOf(" ")).trim());
+			 return nextStatement.interpret(operands[1].trim().substring(
+					 operands[1].indexOf(" ")).trim());
 		 }
 		 return false;
 	}
