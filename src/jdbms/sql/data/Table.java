@@ -131,6 +131,9 @@ public class Table {
 			} else {
 				return;
 			}
+		} else if (condition.leftOperandIsColumnName()
+				&& condition.rightOperandIsConstant()) {
+			if ()
 		}
 	}
 }
