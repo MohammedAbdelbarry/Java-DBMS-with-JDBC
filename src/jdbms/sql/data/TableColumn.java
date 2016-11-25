@@ -1,5 +1,6 @@
 package jdbms.sql.data;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import jdbms.sql.datatypes.SQLType;
@@ -29,6 +30,14 @@ public class TableColumn {
 		this.values.addAll(values);
 	}
 
+	public ArrayList<String> getValues() {
+		ArrayList<String> requestedValues = new ArrayList<>();
+		for (SQLType<?> cur : values) {
+			requestedValues.add(cur.getStringValue());
+		}
+		return requestedValues;
+	}
+
 	public SQLType<?> get(int index) {
 		return values.get(index);
 	}
@@ -36,9 +45,11 @@ public class TableColumn {
 	public void remove(int index) {
 		values.remove(index);
 	}
+
 	public String getColumnName() {
 		return columnName;
 	}
+
 	public String getColumnDataType() {
 		return columnType;
 	}

@@ -11,6 +11,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.plaf.basic.BasicSplitPaneUI.KeyboardUpLeftHandler;
+
 import jdbms.sql.data.xml.XMLCreator;
 
 public class Table {
@@ -83,6 +85,16 @@ public class Table {
 			clone.put(key, current);
 		}
 		return clone;
+	}
+
+	public ArrayList<TableColumn> getColumnList(ArrayList<String> cols) {
+		ArrayList<TableColumn> requestedColumns = new ArrayList<>();
+		for (String key : cols) {
+			if (columns.keySet().contains(key)) {
+				requestedColumns.add(columns.get(key));
+			}
+		}
+		return requestedColumns;
 	}
 
 	public int getNumberOfRows() {

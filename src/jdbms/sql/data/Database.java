@@ -6,9 +6,9 @@ import java.util.Map;
 
 public class Database {
 
-	/**array of database tables.*/
+	/**Array of database tables.*/
 	private Map<String, Table> tables;
-	/**database name.*/
+	/**Database name.*/
 	private String databaseName;
 
 	public Database(String databaseName) {
@@ -21,6 +21,10 @@ public class Database {
 		String tableName = newTableIdentifier.getTableName();
 		Table newTable = new Table(tableName, this);
 		tables.put(tableName, newTable);
+	}
+
+	public Table getTable(String tableName) {
+		return tables.get(tableName);
 	}
 
 	public void dropTable(String tableName) {
