@@ -1,8 +1,13 @@
 package jdbms.sql.parsing.expressions;
 
+import jdbms.sql.parsing.properties.InputParametersContainer;
+
 public class TerminalExpression implements Expression {
 
-	public TerminalExpression() {}
+	public TerminalExpression(
+			InputParametersContainer parameters) {
+
+	}
 
 	@Override
 	public boolean interpret(String sqlExpression) {

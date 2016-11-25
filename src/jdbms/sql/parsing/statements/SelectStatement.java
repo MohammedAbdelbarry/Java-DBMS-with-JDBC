@@ -4,7 +4,7 @@ import jdbms.sql.parsing.expressions.ColumnWildcardExpression;
 import jdbms.sql.parsing.expressions.SelectColumnListExpression;
 import jdbms.sql.parsing.statements.util.StatementFactory;
 
-public class SelectStatement implements Statement {
+public class SelectStatement extends InitialStatement {
 	private static final String STATEMENT_IDENTIFIER = "SELECT";
 	private static final String CLASS_ID = "SELECTSTATEMENTCLASS";
 	static {
@@ -17,11 +17,17 @@ public class SelectStatement implements Statement {
 	public boolean interpret(String sqlExpression) {
 		if (sqlExpression.startsWith(STATEMENT_IDENTIFIER)) {
 			String restOfExpression = sqlExpression.replace(STATEMENT_IDENTIFIER, "").trim();
-			if (new ColumnWildcardExpression().interpret(restOfExpression) ||
-					new SelectColumnListExpression().interpret(restOfExpression)) {
+			if (new ColumnWildcardExpression(parameters).interpret(restOfExpression) ||
+					new SelectColumnListExpression(parameters).interpret(restOfExpression)) {
 				return true;
 			}
-		} 
+		}
 		return false;
+	}
+
+	@Override
+	public void act() {
+		// TODO Auto-generated method stub
+
 	}
 }

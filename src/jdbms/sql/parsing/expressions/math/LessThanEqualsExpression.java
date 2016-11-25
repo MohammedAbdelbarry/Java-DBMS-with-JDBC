@@ -3,6 +3,7 @@ package jdbms.sql.parsing.expressions.math;
 import jdbms.sql.datatypes.IntSQLType;
 import jdbms.sql.datatypes.VarcharSQLType;
 import jdbms.sql.parsing.expressions.math.util.BooleanExpressionFactory;
+import jdbms.sql.parsing.properties.InputParametersContainer;
 
 public class LessThanEqualsExpression extends BooleanExpression {
 	private static final String SYMBOL = "<=";
@@ -10,8 +11,9 @@ public class LessThanEqualsExpression extends BooleanExpression {
 		BooleanExpressionFactory.getInstance().
 		registerBoolExpression(SYMBOL, LessThanEqualsExpression.class);
 	}
-	public LessThanEqualsExpression() {
-		super(SYMBOL);
+	public LessThanEqualsExpression(
+			InputParametersContainer parameters) {
+		super(SYMBOL, parameters);
 	}
 	@Override
 	public boolean evaluate(VarcharSQLType left, VarcharSQLType right) {

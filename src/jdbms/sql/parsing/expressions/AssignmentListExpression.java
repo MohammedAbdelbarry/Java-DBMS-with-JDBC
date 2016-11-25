@@ -1,26 +1,31 @@
 package jdbms.sql.parsing.expressions;
 
 import jdbms.sql.parsing.expressions.math.AssignmentExpression;
+import jdbms.sql.parsing.properties.InputParametersContainer;
 import jdbms.sql.parsing.statements.Statement;
 
-public class AssignmentListExpression implements Expression {
+public abstract class AssignmentListExpression implements Expression {
 
 	private Expression nextExpression;
 	private Statement nextStatement;
-
-	public AssignmentListExpression(Expression nextExpression) {
+	protected InputParametersContainer parameters;
+	public AssignmentListExpression(Expression nextExpression,
+			InputParametersContainer parameters) {
 		this.nextExpression = nextExpression;
+		this.parameters = parameters;
 	}
 
-	public AssignmentListExpression(Statement nextStatement) {
+	public AssignmentListExpression(Statement nextStatement,
+			InputParametersContainer parameters) {
 		this.nextStatement = nextStatement;
+		this.parameters = parameters;
 	}
 
 	@Override
 	public boolean interpret(String sqlExpression) {
 		String[] parts = sqlExpression.split(",");
 		for (int i = 0; i < parts.length - 1; i++) {
-			if (!new AssignmentExpression().interpret(parts[i].trim())) {
+			if (!new AssignmentExpression(parameters).interpret(parts[i].trim())) {
 				return false;
 			}
 		}
@@ -37,8 +42,8 @@ public class AssignmentListExpression implements Expression {
 			restOfExpression = parts[parts.length - 1].substring(whereIndex).trim();
 			AssignmentExp = parts[parts.length - 1].substring(0, whereIndex).trim();
 		}
-		
-		if (!new AssignmentExpression().interpret(AssignmentExp.trim())) {
+
+		if (!new AssignmentExpression(parameters).interpret(AssignmentExp.trim())) {
 			return false;
 		}
 		if (this.nextExpression != null) {

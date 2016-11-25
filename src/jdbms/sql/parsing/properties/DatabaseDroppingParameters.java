@@ -9,7 +9,7 @@ public class DatabaseDroppingParameters {
 		return databaseName;
 	}
 	public void setDatabaseName(String database) {
-		this.databaseName = databaseName;
+		this.databaseName = database;
 	}
 
 }

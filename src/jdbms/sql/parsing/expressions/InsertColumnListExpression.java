@@ -1,17 +1,18 @@
 package jdbms.sql.parsing.expressions;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import jdbms.sql.parsing.expressions.util.ColumnExpression;
+import jdbms.sql.parsing.properties.InputParametersContainer;
 import jdbms.sql.parsing.statements.ValueStatement;
 
 public class InsertColumnListExpression extends ColumnListExpression {
 
-	List<String> columnsNames;
-	public InsertColumnListExpression() {
-		super(new ValueStatement());
-		this.columnsNames = new ArrayList<String>();
+	private ArrayList<String> columnsNames;
+	public InsertColumnListExpression(
+			InputParametersContainer parameters) {
+		super(new ValueStatement(parameters), parameters);
+		this.columnsNames = new ArrayList<>();
 	}
 
 	@Override
@@ -28,6 +29,7 @@ public class InsertColumnListExpression extends ColumnListExpression {
 					return false;
 				}
 			}
+			parameters.setColumns(columnsNames);
 			return super.interpret(restOfExpression.trim());
 		}
 		return false;

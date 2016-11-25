@@ -4,6 +4,7 @@ import jdbms.sql.parsing.expressions.Expression;
 import jdbms.sql.parsing.expressions.util.ColumnExpression;
 import jdbms.sql.parsing.expressions.util.ValueExpression;
 import jdbms.sql.parsing.operators.BinaryOperator;
+import jdbms.sql.parsing.properties.InputParametersContainer;
 import jdbms.sql.parsing.statements.Statement;
 
 public abstract class BinaryExpression implements Expression {
@@ -11,11 +12,17 @@ public abstract class BinaryExpression implements Expression {
 	private BinaryOperator operator;
 	private Expression nextExpression;
 	private Statement nextStatement;
-	public BinaryExpression(String symbol, Expression nextExpression) {
+	protected InputParametersContainer parameters;
+	public BinaryExpression(String symbol,
+			Expression nextExpression,
+			InputParametersContainer parameters) {
 		this.operator = new BinaryOperator(symbol);
 		this.nextExpression = nextExpression;
+		this.parameters = parameters;
 	}
-	public BinaryExpression(String symbol, Statement nextStatement) {
+	public BinaryExpression(String symbol,
+			Statement nextStatement,
+			InputParametersContainer parameters) {
 		this.operator = new BinaryOperator(symbol);
 		this.nextStatement = nextStatement;
 	}
@@ -47,5 +54,11 @@ public abstract class BinaryExpression implements Expression {
 	}
 	public String getRightOperand() {
 		return operator.getRightOperand();
+	}
+	public void setLeftOperand(String operand) {
+		operator.setLeftOperand(operand);
+	}
+	public void setRightOperand(String operand) {
+		operator.setRightOperand(operand);
 	}
 }

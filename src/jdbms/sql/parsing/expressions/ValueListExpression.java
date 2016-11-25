@@ -1,18 +1,23 @@
 package jdbms.sql.parsing.expressions;
 
+import jdbms.sql.parsing.properties.InputParametersContainer;
 import jdbms.sql.parsing.statements.Statement;
 
 public class ValueListExpression implements Expression {
 
 	private Statement nextStatement;
 	private Expression nextExpression;
-
-	public ValueListExpression(Statement nextStatement) {
+	protected InputParametersContainer parameters;
+	public ValueListExpression(Statement nextStatement,
+			InputParametersContainer parameters) {
 		this.nextStatement = nextStatement;
+		this.parameters = parameters;
 	}
 
-	public ValueListExpression(Expression nextExpression) {
+	public ValueListExpression(Expression nextExpression,
+			InputParametersContainer parameters) {
 		this.nextExpression = nextExpression;
+		this.parameters = parameters;
 	}
 
 	@Override

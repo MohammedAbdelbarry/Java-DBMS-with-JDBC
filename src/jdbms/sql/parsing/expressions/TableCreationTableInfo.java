@@ -1,18 +1,23 @@
 package jdbms.sql.parsing.expressions;
 
+import jdbms.sql.parsing.properties.InputParametersContainer;
 import jdbms.sql.parsing.statements.Statement;
 
-public class TableCreationTableInfo implements Expression {
+public abstract class TableCreationTableInfo implements Expression {
 
 	private Expression nextExpression;
 	private Statement nextStatement;
-
-	public TableCreationTableInfo(Expression nextExpression) {
+	protected InputParametersContainer parameters;
+	public TableCreationTableInfo(Expression nextExpression,
+			InputParametersContainer parameters) {
 		this.nextExpression = nextExpression;
+		this.parameters = parameters;
 	}
 
-	public TableCreationTableInfo(Statement nextStatement) {
+	public TableCreationTableInfo(Statement nextStatement,
+			InputParametersContainer parameters) {
 		this.nextStatement = nextStatement;
+		this.parameters = parameters;
 	}
 
 	@Override

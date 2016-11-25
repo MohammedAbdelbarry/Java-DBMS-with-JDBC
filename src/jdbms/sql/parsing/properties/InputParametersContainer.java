@@ -1,0 +1,78 @@
+package jdbms.sql.parsing.properties;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import jdbms.sql.parsing.expressions.math.AssignmentExpression;
+import jdbms.sql.parsing.expressions.math.BooleanExpression;
+
+public class InputParametersContainer {
+	private String databaseName;
+	private BooleanExpression condition;
+	private String tableName;
+	private ArrayList<String> columns;
+	private ArrayList<String[]> values;
+	private HashMap<String, String> columnDefinitions;
+	private AssignmentExpression assignment;
+
+	public InputParametersContainer() {
+
+	}
+
+	public String getDatabaseName() {
+		return databaseName;
+	}
+
+	public void setDatabaseName(String databaseName) {
+		this.databaseName = databaseName;
+	}
+
+	public BooleanExpression getCondition() {
+		return condition;
+	}
+
+	public void setCondition(BooleanExpression condition) {
+		this.condition = condition;
+	}
+
+	public String getTableName() {
+		return tableName;
+	}
+
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
+	}
+
+	public ArrayList<String> getColumns() {
+		return columns;
+	}
+
+	public void setColumns(ArrayList<String> columns) {
+		this.columns = columns;
+	}
+
+	public ArrayList<String[]> getValues() {
+		return values;
+	}
+
+	public void setValues(ArrayList<String[]> values) {
+		this.values = values;
+	}
+
+	public HashMap<String, String> getColumnDefinitions() {
+		return columnDefinitions;
+	}
+
+	public void setColumnDefinitions(HashMap<String, String> columnDefinitions) {
+		this.columnDefinitions = columnDefinitions;
+	}
+
+	public AssignmentExpression getAssignment() {
+		return assignment;
+	}
+
+	public void setAssignment(AssignmentExpression assignment) {
+		this.assignment = assignment;
+	}
+
+}
