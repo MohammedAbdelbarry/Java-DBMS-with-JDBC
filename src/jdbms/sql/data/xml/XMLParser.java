@@ -1,6 +1,8 @@
 package jdbms.sql.data.xml;
 
 import jdbms.sql.data.ColumnIdentifier;
+import jdbms.sql.data.Data;
+import jdbms.sql.data.Database;
 import jdbms.sql.data.Table;
 import jdbms.sql.data.TableIdentifier;
 import java.io.FileNotFoundException;
@@ -25,6 +27,7 @@ import javax.xml.stream.events.XMLEvent;
 
 public class XMLParser {
 
+	/**.*/
 	private TableIdentifier tableIdentifier;
 	private Table table;
 	private ArrayList<ColumnIdentifier> columnIdentifiers;
@@ -36,7 +39,8 @@ public class XMLParser {
 		String tableName = tableIdentifier.getTableName();
 		columnIdentifiers = tableIdentifier.getColumnsIdentifiers();
 		columns = new HashSet<>(tableIdentifier.getColumnNames());
-		table = new Table(tableName);
+		Database parent = tableIdentifier.getParent();
+		table = new Table(tableName, parent);
 		columnNames = new ArrayList<>();
 		initializeTable();
 	}
@@ -51,7 +55,8 @@ public class XMLParser {
 		ArrayList<ColumnIdentifier> columns = new ArrayList<>();
 		columns.add(new ColumnIdentifier("Name", "VARCHAR"));
 		columns.add(new ColumnIdentifier("ID", "INTEGER"));
-		TableIdentifier identifier = new TableIdentifier("Students", columns);
+		Database parent = new Database("School");
+		TableIdentifier identifier = new TableIdentifier("Students", columns, parent);
 		XMLParser parser = new XMLParser(identifier);
 		XMLInputFactory factory = XMLInputFactory.newInstance();
 		try {

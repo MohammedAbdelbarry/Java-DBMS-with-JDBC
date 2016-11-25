@@ -1,5 +1,6 @@
 package jdbms.sql.data;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,11 +14,12 @@ public class Database {
 	public Database(String databaseName) {
 		this.databaseName = databaseName;
 		tables = new HashMap<>();
+		new File(databaseName).mkdir();
 	}
 
 	public void addTable(TableIdentifier newTableIdentifier) {
 		String tableName = newTableIdentifier.getTableName();
-		Table newTable = new Table(tableName);
+		Table newTable = new Table(tableName, this);
 		tables.put(tableName, newTable);
 	}
 
