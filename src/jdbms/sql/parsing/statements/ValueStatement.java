@@ -7,6 +7,7 @@ public class ValueStatement implements Statement {
 	private static final String STATEMENT_IDENTIFIER = "VALUES";
 	private InputParametersContainer parameters;
 	public ValueStatement(InputParametersContainer parameters) {
+		this.parameters = parameters;
 	}
 
 	@Override

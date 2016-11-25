@@ -4,11 +4,15 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import jdbms.sql.parsing.parser.Parser;
+import jdbms.sql.parsing.statements.CreateTableStatement;
+import jdbms.sql.parsing.statements.InitialStatement;
+import jdbms.sql.parsing.statements.SelectStatement;
 import jdbms.sql.parsing.statements.Statement;
 import jdbms.sql.parsing.statements.util.StatementFactory;
 
@@ -70,11 +74,19 @@ public class Statements {
 	public void testCreateTable() {
 		String SQLCommand = "CREATE table Students(StudentID int,LastName varchar,FirstName varchar,Address varchar,Grades int);";
 		SQLCommand = p.normalizeCommand(SQLCommand);
-		for (Statement statement : statements) {
-			if (statement.interpret(SQLCommand)) {
-				check = true;
-			}
+		InitialStatement create = new CreateTableStatement();
+		HashMap<String, String> columnId = new HashMap<>();
+		String name = "STUDENTS";
+		columnId.put("STUDENTID", "INT");
+		columnId.put("LASTNAME", "VARCHAR");
+		columnId.put("FIRSTNAME", "VARCHAR");
+		columnId.put("ADDRESS", "VARCHAR");
+		columnId.put("GRADES", "INT");
+		if (create.interpret(SQLCommand)) {
+			check = true;
 		}
+		assertEquals(create.getParameters().getColumnDefinitions(), columnId);
+		assertEquals(create.getParameters().getTableName(), name);
 		assertEquals(check, true);
 	}
 
@@ -101,7 +113,7 @@ public class Statements {
 		}
 		assertEquals(check, true);
 	}
-	
+
 	@Test
 	public void testInsertIntoGluedExpression() {
 		String SQLCommand = "INSERT INTO Customers(CustomerName, ContactName, Address, City, PostalCode, Country)VALUES(12345,'Tom B. Erichsen','Skagen 21','Stavanger',4006,'Norway');";
@@ -113,7 +125,7 @@ public class Statements {
 		}
 		assertEquals(check, true);
 	}
-	
+
 	@Test
 	public void testInsertIntoWithoutColumns() {
 		String SQLCommand = "INSERT INTO Customers VALUES(12345,'Tom B. Erichsen','Skagen 21','Stavanger',4006,'Norway');";
@@ -125,7 +137,7 @@ public class Statements {
 		}
 		assertEquals(check, true);
 	}
-	
+
 	@Test
 	public void testSelectAll() {
 		String SQLCommand = "SELECT * FROM table_name;";
@@ -149,7 +161,7 @@ public class Statements {
 		}
 		assertEquals(check, true);
 	}
-	
+
 	@Test
 	public void testSelect() {
 		String SQLCommand = "SELECT CustomerID,CustomerName,  Grades FROM Customers;";
@@ -173,10 +185,29 @@ public class Statements {
 		}
 		assertEquals(check, true);
 	}
-	
+
 	@Test
 	public void testSelectConditionalInt() {
 		String SQLCommand = "SELECT CustomerID,CustomerName FROM Customers WHERE id = 7 ;";
+		SQLCommand = p.normalizeCommand(SQLCommand);
+		SelectStatement statement = new SelectStatement();
+		if (statement.interpret(SQLCommand)) {
+			check = true;
+		}
+		assertEquals(statement.getParameters().getTableName(), "CUSTOMERS");
+		ArrayList<String> columns = new ArrayList<>();
+		columns.add("CUSTOMERID");
+		columns.add("CUSTOMERNAME");
+		assertEquals(columns, statement.getParameters().getColumns());
+		assertEquals("ID", statement.getParameters().getCondition().getLeftOperand());
+		assertEquals("7", statement.getParameters().getCondition().getRightOperand());
+		assertEquals(check, true);
+
+	}
+
+	@Test
+	public void testUpdate() {
+		String SQLCommand = "UPDATE Customers SET ContactName='AlfredSchmidt',City='Hamburg' WHERE CustomerName='AlfredsFutterkiste';";
 		SQLCommand = p.normalizeCommand(SQLCommand);
 		for (Statement statement : statements) {
 			if (statement.interpret(SQLCommand)) {
@@ -187,20 +218,8 @@ public class Statements {
 	}
 
 	@Test
-	public void testUpdate() {
-		String SQLCommand = "UPDATE Customers SET ContactName='AlfredSchmidt', City='Hamburg' WHERE CustomerName='AlfredsFutterkiste';";
-		SQLCommand = p.normalizeCommand(SQLCommand);
-		for (Statement statement : statements) {
-			if (statement.interpret(SQLCommand)) {
-				check = true;
-			}
-		}
-		assertEquals(check, true);
-	}
-	
-	@Test
 	public void testUpdateGlued() {
-		String SQLCommand = "UPDATE Customers SET ContactName='Alfred Schmidt',City='Hamburg' WHERE CustomerName='Alfreds Futterkiste';";
+		String SQLCommand = "UPDATE Customers SET ContactName='AlfredSchmidt',City='Hamburg' WHERE CustomerName='AlfredsFutterkiste';";
 		SQLCommand = p.normalizeCommand(SQLCommand);
 		for (Statement statement : statements) {
 			if (statement.interpret(SQLCommand)) {
@@ -209,10 +228,10 @@ public class Statements {
 		}
 		assertEquals(check, true);
 	}
-	
+
 	@Test
 	public void testUpdateAll() {
-		String SQLCommand = "UPDATE CUSTOMERS SET ADDRESS='Pune',SALARY=1000.00;";
+		String SQLCommand = "UPDATE CUSTOMERS SET ADDRESS='Pune',SALARY=1000;";
 		SQLCommand = p.normalizeCommand(SQLCommand);
 		for (Statement statement : statements) {
 			if (statement.interpret(SQLCommand)) {

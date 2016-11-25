@@ -6,7 +6,7 @@ import jdbms.sql.parsing.properties.InputParametersContainer;
 
 public class FromStatement implements Statement {
 	private static final String STATEMENT_IDENTIFIER = "FROM";
-	InputParametersContainer parameters;
+	private InputParametersContainer parameters;
 	public FromStatement(InputParametersContainer parameters) {
 		this.parameters = parameters;
 	}

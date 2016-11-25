@@ -25,6 +25,7 @@ public abstract class TableNameExpression implements Expression {
 		String tableName = sqlExpression.substring(0, sqlExpression.indexOf(" ")).trim();
 		String restOfExpression = sqlExpression.substring(sqlExpression.indexOf(" ") + 1).trim();
 			if (tableName.matches("^[a-zA-Z_][a-zA-Z0-9_\\$]*$")) {
+				parameters.setTableName(tableName);
 				if (this.nextStatement != null) {
 					return this.nextStatement.interpret(restOfExpression);
 				} else if (this.nextExpression != null) {

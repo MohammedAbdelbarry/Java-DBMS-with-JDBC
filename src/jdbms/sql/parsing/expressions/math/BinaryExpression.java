@@ -25,6 +25,7 @@ public abstract class BinaryExpression implements Expression {
 			InputParametersContainer parameters) {
 		this.operator = new BinaryOperator(symbol);
 		this.nextStatement = nextStatement;
+		this.parameters = parameters;
 	}
 	@Override
 	public boolean interpret(String sqlExpression) {
