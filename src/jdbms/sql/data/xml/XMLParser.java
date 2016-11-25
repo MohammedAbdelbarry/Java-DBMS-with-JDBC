@@ -1,6 +1,8 @@
 package jdbms.sql.data.xml;
 
 import jdbms.sql.data.ColumnIdentifier;
+import jdbms.sql.data.Data;
+import jdbms.sql.data.Database;
 import jdbms.sql.data.Table;
 import jdbms.sql.data.TableIdentifier;
 import java.io.FileNotFoundException;
@@ -25,6 +27,7 @@ import javax.xml.stream.events.XMLEvent;
 
 public class XMLParser {
 
+	/**.*/
 	private TableIdentifier tableIdentifier;
 	private Table table;
 	private ArrayList<ColumnIdentifier> columnIdentifiers;
@@ -36,7 +39,8 @@ public class XMLParser {
 		String tableName = tableIdentifier.getTableName();
 		columnIdentifiers = tableIdentifier.getColumnsIdentifiers();
 		columns = new HashSet<>(tableIdentifier.getColumnNames());
-		table = new Table(tableName);
+		Database parent = tableIdentifier.getParent();
+		table = new Table(tableName, parent);
 		columnNames = new ArrayList<>();
 		initializeTable();
 	}
@@ -51,7 +55,8 @@ public class XMLParser {
 		ArrayList<ColumnIdentifier> columns = new ArrayList<>();
 		columns.add(new ColumnIdentifier("Name", "VARCHAR"));
 		columns.add(new ColumnIdentifier("ID", "INTEGER"));
-		TableIdentifier identifier = new TableIdentifier("Students", columns);
+		Database parent = new Database("School");
+		TableIdentifier identifier = new TableIdentifier("Students", columns, parent);
 		XMLParser parser = new XMLParser(identifier);
 		XMLInputFactory factory = XMLInputFactory.newInstance();
 		try {
@@ -79,30 +84,13 @@ public class XMLParser {
 				XMLEvent event = eventReader.nextEvent();
 				switch (event.getEventType()) {
 				case XMLStreamConstants.START_ELEMENT:
-					StartElement startElement = event.asStartElement();
-					String colName = startElement.getName().getLocalPart();
-					if (columns.contains(colName)) {
-						valueAvailable = true;
-					}
+					valueAvailable = handleStartElement(values, event, valueAvailable);
 					break;
 				case XMLStreamConstants.CHARACTERS:
-					Characters characters = event.asCharacters();
-					if (valueAvailable) {
-						if (characters.getData() != null || !characters.getData().isEmpty()) {
-							values.add(characters.getData());
-						}
-					}
+					handleCharacters(values, event, valueAvailable);
 					break;
 				case XMLStreamConstants.END_ELEMENT:
-					EndElement endElement = event.asEndElement();
-					String name = endElement.getName().getLocalPart();
-					if (name.equals("row")) {
-						table.insertRow(columnNames, values);
-						valueAvailable = false;
-						values.clear();
-					} else if (columns.contains(name)) {
-						valueAvailable = false;
-					}
+					valueAvailable = handleEndElement(values, event, valueAvailable);
 					break;
 				}
 			}
@@ -112,5 +100,39 @@ public class XMLParser {
 			return null;
 		}
 		return table;
+	}
+
+	private boolean handleStartElement(ArrayList<String> values,
+			XMLEvent event, boolean valueAvailable) {
+		StartElement startElement = event.asStartElement();
+		String colName = startElement.getName().getLocalPart();
+		if (columns.contains(colName)) {
+			valueAvailable = true;
+		}
+		return valueAvailable;
+	}
+
+	private boolean handleEndElement(ArrayList<String> values,
+			XMLEvent event, boolean valueAvailable) {
+		EndElement endElement = event.asEndElement();
+		String name = endElement.getName().getLocalPart();
+		if (name.equals("row")) {
+			table.insertRow(columnNames, values);
+			valueAvailable = false;
+			values.clear();
+		} else if (columns.contains(name)) {
+			valueAvailable = false;
+		}
+		return valueAvailable;
+	}
+
+	private void handleCharacters(ArrayList<String> values,
+			XMLEvent event, boolean valueAvailable) {
+		Characters characters = event.asCharacters();
+		if (valueAvailable) {
+			if (characters.getData() != null || !characters.getData().isEmpty()) {
+				values.add(characters.getData());
+			}
+		}
 	}
 }

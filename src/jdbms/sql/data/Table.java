@@ -1,5 +1,8 @@
 package jdbms.sql.data;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,18 +11,34 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import jdbms.sql.data.xml.XMLCreator;
+
 public class Table {
 
 	private String tableName;
 	private Map<String, TableColumn> columns;
 	private int numberOfRows;
-
-	public Table(String tableName) {
+	private Database parent;
+	public Table(String tableName, Database parent) {
 		this.tableName = tableName;
 		columns = new HashMap<>();
 		numberOfRows = 0;
+		this.parent = parent;
+		try {
+			createXMLFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
+	private void createXMLFile() throws IOException {
+		XMLCreator creator = new XMLCreator(this);
+		String xml = creator.create();
+		File xmlFile = new File(parent.getDatabaseName());
+		FileWriter writer = new FileWriter(xmlFile);
+		writer.write(xml);
+		writer.close();
+	}
 	public void addTableColumn(String columnName, String columnDataType) {
 		TableColumn newColumn = new TableColumn(columnName, columnDataType);
 		columns.put(columnName, newColumn);
@@ -54,7 +73,7 @@ public class Table {
 					ColumnIdentifier(name,
 					columns.get(name).getColumnDataType()));
 		}
-		return new TableIdentifier(tableName, columnIdentifiers);
+		return new TableIdentifier(tableName, columnIdentifiers, parent);
 	}
 
 	public Map<String, TableColumn> getColumns() {

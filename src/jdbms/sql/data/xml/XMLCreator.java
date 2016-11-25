@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import jdbms.sql.data.Database;
 import jdbms.sql.data.Table;
 import jdbms.sql.data.TableColumn;
 import jdbms.sql.parsing.statements.CreateDatabaseStatement;
@@ -47,7 +49,8 @@ public class XMLCreator {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		Table newTable = new Table("Students");
+		Database parent = new Database("School");
+		Table newTable = new Table("Students", parent);
 		newTable.addTableColumn("Grade", "INTEGER");
 		newTable.addTableColumn("Name", "TEXT");
 		ArrayList<String> columnNames = new ArrayList<>();
