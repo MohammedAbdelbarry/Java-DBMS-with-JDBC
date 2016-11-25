@@ -41,24 +41,24 @@ public class Dummy {
 	}
 	public static void main(String args[]) {
 		Dummy dummy = new Dummy();
-		String insertInto = "insert INtO    SOmEFANcY$TABLE(A_B,C_D)     VALUES (\"hamada\", 'hamada'),(3, 4),  (5, 8)  ,  ('gey', 'rey')   ;";
+		String insertInto = "insert INtO    SOmEFANcY$TABLE(A_B,C_D)     VALUES (\"hamada\", 'hamada');";
 		String createDB = "cREATe                                                       dAtAbASE     Mn$DdtOL;";
 		String dropDB = "      DROP DATABASE MY$DBLOL ;";
 		String dropTable = "DROP TABLE MY$DBLOL ;";
 		String createTable = "CREATE TABLE TT$LOLNAME (col1 INT), (Col2, VARCHAR), (col3, TEXT) ;";
-		String delete = "DELETE FROM table_name;";
+		String delete = "DELETE FROM Customers WHERE name='H O';";
 		String update = "update _$table_name set   column1='value1',column2='value2'  where life   =   'false';";
 		String terminalUpdate = "update _$table_name set   column1='value1'   ,    column2='value2';";
 		String select = "    seLeCt colum$$n_name,co$$$LLLmn_name   FrOM table$_name whEre col1='val'     ;";
 		String selectAll = "    selecT  * fRom   fan$$555$tbaleshNammmmm         where _hamada=5  ;";
 		Parser p = new Parser();
-		//dummy.parse(p.normalizeCommand(insertInto));
+		dummy.parse(p.normalizeCommand(insertInto));
 		//dummy.parse(p.normalizeCommand(createDB));
 		//dummy.parse(p.normalizeCommand(dropDB));
 		//dummy.parse(p.normalizeCommand(dropTable));
 		//dummy.parse(p.normalizeCommand(createTable));
 		//dummy.parse(p.normalizeCommand(delete));
-		dummy.parse(p.normalizeCommand(terminalUpdate));
+		//dummy.parse(p.normalizeCommand(terminalUpdate));
 		//dummy.parse(p.normalizeCommand(selectAll));
 	}
 }
