@@ -1,10 +1,11 @@
 package jdbms.sql.parsing.expressions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import jdbms.sql.datatypes.util.SQLTypeFactory;
 import jdbms.sql.parsing.expressions.util.ColumnExpression;
-import jdbms.sql.parsing.expressions.util.DataTypesConstants;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 
 public class TableCreationColumnsTypesExpression extends TableCreationTableInfo {
@@ -15,7 +16,9 @@ public class TableCreationColumnsTypesExpression extends TableCreationTableInfo 
 			InputParametersContainer parameters) {
 		super(new TerminalExpression(parameters), parameters);
 		columnsDataTypes = new HashMap<>();
-		dataTypes = DataTypesConstants.DATA_TPYES;
+		dataTypes = new ArrayList<>(
+				SQLTypeFactory.
+				getInstance().getRegisteredTypes());
 	}
 
 	@Override

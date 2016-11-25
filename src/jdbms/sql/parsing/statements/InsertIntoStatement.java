@@ -2,15 +2,18 @@ package jdbms.sql.parsing.statements;
 
 import jdbms.sql.parsing.expressions.TableNameColumnListExpression;
 import jdbms.sql.parsing.expressions.TableNameValueListExpression;
-import jdbms.sql.parsing.statements.util.StatementFactory;
+import jdbms.sql.parsing.properties.InsertionParameters;
+import jdbms.sql.parsing.statements.util.InitialStatementFactory;
 
 public class InsertIntoStatement extends InitialStatement {
 	private static final String STATEMENT_IDENTIFIER = "INSERT INTO";
 	private static final String CLASS_ID = "INSERTINTOSTATEMENTCLASS";
+	private InsertionParameters insertParameters;
 	static {
-		StatementFactory.getInstance().registerStatement(CLASS_ID, InsertIntoStatement.class);
+		InitialStatementFactory.getInstance().registerStatement(CLASS_ID, InsertIntoStatement.class);
 	}
 	public InsertIntoStatement() {
+		insertParameters = new InsertionParameters();
 	}
 
 	@Override
@@ -27,8 +30,12 @@ public class InsertIntoStatement extends InitialStatement {
 
 	@Override
 	public void act() {
-		// TODO Auto-generated method stub
-
+		buildParameters();
+		//System.insert(insertParameters);
 	}
-
+	private void buildParameters() {
+		insertParameters.setColumns(parameters.getColumns());
+		insertParameters.setTableName(parameters.getTableName());
+		insertParameters.setValues(parameters.getValues());
+	}
 }

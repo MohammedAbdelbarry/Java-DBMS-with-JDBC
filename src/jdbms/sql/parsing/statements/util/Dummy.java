@@ -27,8 +27,8 @@ public class Dummy {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		for (String key : StatementFactory.getInstance().getRegisteredStatements()) {
-			statements.add(StatementFactory.getInstance().createStatement(key));
+		for (String key : InitialStatementFactory.getInstance().getRegisteredStatements()) {
+			statements.add(InitialStatementFactory.getInstance().createStatement(key));
 		}
 	}
 	public void parse(String sql) {	

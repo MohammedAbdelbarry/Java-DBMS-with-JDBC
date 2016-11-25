@@ -1,14 +1,17 @@
 package jdbms.sql.parsing.statements;
 
-import jdbms.sql.parsing.statements.util.StatementFactory;
+import jdbms.sql.parsing.properties.DeletionParameters;
+import jdbms.sql.parsing.statements.util.InitialStatementFactory;
 
 public class DeleteStatement extends InitialStatement {
 	private static final String STATEMENT_IDENTIFIER = "DELETE";
 	private static final String CLASS_ID = "DELETESTATEMENTCLASS";
+	private DeletionParameters deleteParameters;
 	static {
-		StatementFactory.getInstance().registerStatement(CLASS_ID, DeleteStatement.class);
+		InitialStatementFactory.getInstance().registerStatement(CLASS_ID, DeleteStatement.class);
 	}
 	public DeleteStatement() {
+		deleteParameters = new DeletionParameters();
 	}
 
 	@Override
@@ -22,7 +25,11 @@ public class DeleteStatement extends InitialStatement {
 
 	@Override
 	public void act() {
-		// TODO Auto-generated method stub
-
+		buildParameters();
+		//System.delete(deleteParameters);
+	}
+	private void buildParameters() {
+		deleteParameters.setTableName(parameters.getTableName());
+		deleteParameters.setCondition(parameters.getCondition());
 	}
 }

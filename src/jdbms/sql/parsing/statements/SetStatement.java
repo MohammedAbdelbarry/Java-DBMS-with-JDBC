@@ -15,8 +15,10 @@ public class SetStatement implements Statement {
 	public boolean interpret(String sqlExpression) {
 		if (sqlExpression.startsWith(STATEMENT_IDENTIFIER)) {
 			String restOfExpression = sqlExpression.replace(STATEMENT_IDENTIFIER, "").trim();
-			return new ConditionalAssignmentListExpression(parameters).interpret(restOfExpression) ||
-					new TerminalAssignmentExpression(parameters).interpret(restOfExpression);
+			return new ConditionalAssignmentListExpression(
+					parameters).interpret(restOfExpression) ||
+					new TerminalAssignmentExpression(
+							parameters).interpret(restOfExpression);
 		}
 		return false;
 	}

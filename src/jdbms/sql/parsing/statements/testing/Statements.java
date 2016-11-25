@@ -18,7 +18,7 @@ import jdbms.sql.parsing.statements.InitialStatement;
 import jdbms.sql.parsing.statements.InsertIntoStatement;
 import jdbms.sql.parsing.statements.SelectStatement;
 import jdbms.sql.parsing.statements.Statement;
-import jdbms.sql.parsing.statements.util.StatementFactory;
+import jdbms.sql.parsing.statements.util.InitialStatementFactory;
 
 public class Statements {
 
@@ -48,8 +48,8 @@ public class Statements {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		for (String key : StatementFactory.getInstance().getRegisteredStatements()) {
-			statements.add(StatementFactory.getInstance().createStatement(key));
+		for (String key : InitialStatementFactory.getInstance().getRegisteredStatements()) {
+			statements.add(InitialStatementFactory.getInstance().createStatement(key));
 		}
 	}
 
