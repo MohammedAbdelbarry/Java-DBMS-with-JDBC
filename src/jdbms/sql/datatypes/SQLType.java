@@ -10,6 +10,9 @@ implements Comparable<SQLType<T>> {
 		return value;
 	}
 	public String getStringValue() {
+		if (value == null) {
+			return "";
+		}
 		return value.toString();
 	}
 	public abstract String getType();

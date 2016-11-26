@@ -1,6 +1,8 @@
 package jdbms.sql.parsing.expressions;
 
+import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.parsing.properties.InputParametersContainer;
+import jdbms.sql.parsing.util.Constants;
 
 public class DatabaseTerminatingExpression extends DatabaseExpression {
 
@@ -14,6 +16,10 @@ public class DatabaseTerminatingExpression extends DatabaseExpression {
 		String databaseName = sqlExpression.substring(0, sqlExpression.indexOf(" "));
 		String restOfExpression = sqlExpression.substring(sqlExpression.indexOf(" ") + 1);
 		if (databaseName.matches("^[a-zA-Z_][a-zA-Z0-9_\\$]*$")) {
+			if (Constants.RESERVED_KEYWORDS.contains(databaseName.toUpperCase())) {
+				ErrorHandler.printReservedKeywordError(databaseName);
+				return false;
+			}
 			parameters.setDatabaseName(databaseName);
 			return super.interpret(restOfExpression);
 		}
