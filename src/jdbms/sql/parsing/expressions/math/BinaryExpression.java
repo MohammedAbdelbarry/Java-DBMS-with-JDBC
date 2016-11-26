@@ -30,9 +30,6 @@ public abstract class BinaryExpression implements Expression {
 	}
 	@Override
 	public boolean interpret(String sqlExpression) {
-		// colName = 'London el door el rabe3' ;
-		// colName = -54644.36363 ;
-		// colName = quotes = ' 3oraby : 'mafeesh fayda' ' and id = '7' ;		 
 		if(!sqlExpression.contains(this.operator.getSymbol())){
 			return false;
 		}
