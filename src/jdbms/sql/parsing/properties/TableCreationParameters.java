@@ -1,10 +1,13 @@
 package jdbms.sql.parsing.properties;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+
+import jdbms.sql.data.ColumnIdentifier;
 
 public class TableCreationParameters {
 	private String tableName;
-	private HashMap<String, String> columnDefinitions;
+	//private HashMap<String, String> columnDefinitions;
+	private ArrayList<ColumnIdentifier> columnDefinitions;
 	public TableCreationParameters() {
 
 	}
@@ -14,10 +17,10 @@ public class TableCreationParameters {
 	public void setTableName(String table) {
 		this.tableName = table;
 	}
-	public HashMap<String, String> getColumnDefinitions() {
+	public ArrayList<ColumnIdentifier> getColumnDefinitions() {
 		return columnDefinitions;
 	}
-	public void setColumnDefinitions(HashMap<String, String> columnDefinitions) {
+	public void setColumnDefinitions(ArrayList<ColumnIdentifier> columnDefinitions) {
 		this.columnDefinitions = columnDefinitions;
 	}
 

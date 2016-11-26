@@ -30,10 +30,12 @@ public class SQLData {
 	private Map<String, Database> data;
 	/**Currently Active Database.*/
 	private Database activeDatabase;
-
+	private static final String DEFAULT_DATABASE = "default";
 	public SQLData() {
 		data = new HashMap<>();
-		activeDatabase = null;
+		data.put("default", new Database(DEFAULT_DATABASE));
+		activeDatabase = data.get(DEFAULT_DATABASE);
+
 	}
 
 	/**
@@ -67,6 +69,10 @@ public class SQLData {
 		if (!data.containsKey(dropDBParameters.getDatabaseName())) {
 			//ErrorHandler.printDatabaseNotFoundError();
 			return;
+		}
+		if (dropDBParameters.getDatabaseName().equals(
+				activeDatabase.getDatabaseName())) {
+			activeDatabase = data.get(DEFAULT_DATABASE);
 		}
 		data.remove(dropDBParameters.getDatabaseName());
 	}
@@ -113,11 +119,13 @@ public class SQLData {
 		} catch (ColumnListTooLargeException e) {
 			// ErrorHandler.printColumnListTooLarge()
 		} catch (ColumnNotFoundException e) {
-			// ErrorHandler.printColumnNotFoundException();
+			// ErrorHandler.printColumnNotFoundError();
 		} catch (ValueListTooLargeException e) {
 			// ErrorHandler.printValueListTooLarge()
 		} catch (ValueListTooSmallException e) {
 			// ErrorHandler.printValueListTooSmall();
+		} catch (TableNotFoundException e) {
+			// ErrorHandler.printTableNotFoundErrors();
 		}
 	}
 	public void deleteFrom(DeletionParameters deleteParameters) {
