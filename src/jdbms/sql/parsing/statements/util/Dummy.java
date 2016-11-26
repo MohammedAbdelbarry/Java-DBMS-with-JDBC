@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import jdbms.sql.parsing.parser.Parser;
+import jdbms.sql.parsing.statements.CreateTableStatement;
+import jdbms.sql.parsing.statements.DeleteStatement;
+import jdbms.sql.parsing.statements.InsertIntoStatement;
 import jdbms.sql.parsing.statements.Statement;
 
 public class Dummy {
@@ -34,32 +37,32 @@ public class Dummy {
 		}
 	}
 	public void parse(String sql) {	
-		for(Statement statement : statements) {
-			if (statement.interpret(sql)) {
-				//statement.act();
-				System.out.println("Success");
-			}
+		DeleteStatement x = new DeleteStatement();
+		if (x.interpret(sql)) {
+			System.out.println("Success");
 		}
 	}
 	public static void main(String args[]) {
 		Dummy dummy = new Dummy();
-		String insertInto = "INSERT INTO STUDENTS VALUES (12,'HEHE',20),(13,'HOHO' ,\"70\"),(13,'HOHO' ,'701');";
+		//String insertInto = "INSERT INTO STUDENTS VALUES (12,'HEHE',20),(13,'HOHO' ,\"70\"),(13,'HOHO' ,'701');";
+		String insertInto = "insert into tab (col1 ,col2) values(5, 'lol');";
 		String createDB = "cREATe                                                       dAtAbASE     Mn$DdtOL;";
 		String dropDB = "      DROP DATABASE MY$DBLOL ;";
 		String dropTable = "DROP TABLE MY$DBLOL ;";
-		String createTable = "CREATE TABLE NEWTABLE (ID INT, AGE INT, NAME VARCHAR) ;";
-		String delete = "DELETE FROM Customers WHERE name='H O';";
+		String createTable = "create table mytable (col1 int, col2 text, col3 int, col4 text);";
+		String delete = "DELETE FROM Customers WHERE col>=0;";
 		String update = "update _$table_name set column1='value1',column2='value2' where 1 = 'no';";
 		String terminalUpdate = "update _$table_name set   column1='value1'   ,    column2='value2';";
 		String select = "    seLeCt colum$$n_name,co$$$LLLmn_name   FrOM table$_name whEre col1='val'     ;";
 		String selectAll = "    selecT  * fRom   fan$$555$tbaleshNammmmm         where _hamada=5  ;";
 		Parser p = new Parser();
-		dummy.parse(p.normalizeCommand(insertInto));
+		//dummy.parse(p.normalizeCommand(insertInto));
 		//dummy.parse(p.normalizeCommand(createDB));
 		//dummy.parse(p.normalizeCommand(dropDB));
 		//dummy.parse(p.normalizeCommand(dropTable));
 		//dummy.parse(p.normalizeCommand(createTable));
-		//dummy.parse(p.normalizeCommand(delete));
+		System.out.println(p.normalizeCommand(delete));
+		dummy.parse(p.normalizeCommand(delete));
 		//dummy.parse(p.normalizeCommand(update));
 		//dummy.parse(p.normalizeCommand(terminalUpdate));
 		//dummy.parse(p.normalizeCommand(selectAll));

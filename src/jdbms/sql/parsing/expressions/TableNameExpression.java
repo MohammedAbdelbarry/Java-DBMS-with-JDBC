@@ -1,7 +1,10 @@
 package jdbms.sql.parsing.expressions;
 
+import jdbms.sql.errors.ErrorHandler;
+import jdbms.sql.exceptions.ReservedKeywordException;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 import jdbms.sql.parsing.statements.Statement;
+import jdbms.sql.parsing.util.Constants;
 
 public abstract class TableNameExpression implements Expression {
 
@@ -25,6 +28,10 @@ public abstract class TableNameExpression implements Expression {
 		String tableName = sqlExpression.substring(0, sqlExpression.indexOf(" ")).trim();
 		String restOfExpression = sqlExpression.substring(sqlExpression.indexOf(" ") + 1).trim();
 			if (tableName.matches("^[a-zA-Z_][a-zA-Z0-9_\\$]*$")) {
+				if (Constants.RESERVED_KEYWORDS.contains(tableName.toUpperCase())) {
+					ErrorHandler.printReservedKeywordError(tableName);
+					return false;
+				}
 				parameters.setTableName(tableName);
 				if (this.nextStatement != null) {
 					return this.nextStatement.interpret(restOfExpression);

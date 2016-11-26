@@ -45,6 +45,10 @@ public abstract class ErrorHandler {
 	public static void printValueListTooSmallError() {
 		System.err.println("Error: Value List is Too Small");
 	}
+	public static void printReservedKeywordError(String name) {
+		System.err.println("Error: Name \"" +
+			handleNull(name) + "\" is A Reserved Keyword");
+	}
 	private static String handleNull(String string) {
 		if (string == null) {
 			return NULL_PLACEHOLDER;

@@ -1,8 +1,6 @@
 package jdbms.sql.parsing.expressions.math;
 
 import jdbms.sql.parsing.expressions.Expression;
-import jdbms.sql.parsing.expressions.util.ColumnExpression;
-import jdbms.sql.parsing.expressions.util.ValueExpression;
 import jdbms.sql.parsing.operators.BinaryOperator;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 import jdbms.sql.parsing.statements.Statement;
