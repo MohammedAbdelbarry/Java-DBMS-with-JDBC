@@ -127,6 +127,8 @@ public class SQLData {
 			 ErrorHandler.printValueListTooSmallError();
 		} catch (TableNotFoundException e) {
 			 ErrorHandler.printTableNotFoundError(e.getMessage());
+		} catch (TypeMismatchException e) {
+			ErrorHandler.printTypeMismatchError();
 		}
 	}
 	public void deleteFrom(DeletionParameters deleteParameters) {
