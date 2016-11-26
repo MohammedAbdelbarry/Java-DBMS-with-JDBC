@@ -11,7 +11,7 @@ public class UseStatement extends InitialStatement{
 	private UseParameters useParameters;
 	static {
 		InitialStatementFactory.getInstance().registerStatement(
-				CLASS_ID, UpdateStatement.class);
+				CLASS_ID, UseStatement.class);
 	}
 	public UseStatement() {
 		useParameters = new UseParameters();

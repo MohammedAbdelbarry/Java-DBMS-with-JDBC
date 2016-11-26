@@ -27,17 +27,19 @@ import jdbms.sql.parsing.util.Constants;
 public class Table {
 
 	private String tableName;
-	private Map<String, TableColumn> columns;
+	private Map<String, TableColumn> tableColumns;
+	private ArrayList<String> tableColumnNames;
 	private int numberOfRows;
 	public Table(TableCreationParameters createTableParameters)
 			throws ColumnAlreadyExistsException {
 		this.tableName = createTableParameters.getTableName();
-		columns = new HashMap<>();
+		tableColumns = new HashMap<>();
+		tableColumnNames = new ArrayList<>();
 		numberOfRows = 0;
-		HashMap<String, String> colDefinitions
+		ArrayList<ColumnIdentifier> colDefinitions
 		= createTableParameters.getColumnDefinitions();
-		for (String column : colDefinitions.keySet()) {
-				addTableColumn(column, colDefinitions.get(column));
+		for (ColumnIdentifier column : colDefinitions) {
+				addTableColumn(column.getName(), column.getType());
 		}
 	}
 	public Table(TableIdentifier tableIdentifier)
@@ -45,7 +47,8 @@ public class Table {
 		this.tableName = tableIdentifier.getTableName();
 		ArrayList<ColumnIdentifier> columnIdentifiers
 		= tableIdentifier.getColumnsIdentifiers();
-		columns = new HashMap<>();
+		tableColumns = new HashMap<>();
+		tableColumnNames = new ArrayList<>();
 		for (ColumnIdentifier columnIdentifier
 				: columnIdentifiers) {
 			addTableColumn(columnIdentifier.getName(),
@@ -54,11 +57,12 @@ public class Table {
 	}
 	public void addTableColumn(String columnName, String columnDataType)
 			throws ColumnAlreadyExistsException {
-		if (columns.containsKey(columnName)) {
-			throw new ColumnAlreadyExistsException();
+		if (tableColumns.containsKey(columnName)) {
+			throw new ColumnAlreadyExistsException(columnName);
 		}
 		TableColumn newColumn = new TableColumn(columnName, columnDataType);
-		columns.put(columnName, newColumn);
+		tableColumns.put(columnName, newColumn);
+		tableColumnNames.add(columnName);
 	}
 	public void insertRows(InsertionParameters insertParameters)
 			throws RepeatedColumnException,
@@ -77,23 +81,24 @@ public class Table {
 	}
 	private void insertRow(ArrayList<String> values)
 		throws ValueListTooLargeException, ValueListTooSmallException {
-		if (values.size() > columns.size()) {
+		if (values.size() > tableColumns.size()) {
 			throw new ValueListTooLargeException();
-		} else if (values.size() < columns.size()) {
+		} else if (values.size() < tableColumns.size()) {
 			throw new ValueListTooSmallException();
 		} else {
 			int index = 0;
-			for (TableColumn column : columns.values()) {
-				column.add(values.get(index));
+			for (String column : tableColumnNames) {
+				tableColumns.get(column).add(values.get(index));
 				index++;
 			}
 		}
+		numberOfRows++;
 	}
 	private void insertRow(ArrayList<String> columnNames,
 			ArrayList<String> values)
 			throws RepeatedColumnException, ColumnListTooLargeException,
 			ColumnNotFoundException, ValueListTooLargeException {
-		if (columnNames.size() > columns.size() ||
+		if (columnNames.size() > tableColumns.size() ||
 				columnNames.size() > values.size()) {
 			throw new ColumnListTooLargeException();
 		}
@@ -104,17 +109,17 @@ public class Table {
 			throw new RepeatedColumnException();
 		}
 		for (String column : columnNames) {
-			if (!columns.containsKey(column)) {
-				throw new ColumnNotFoundException();
+			if (!tableColumns.containsKey(column)) {
+				throw new ColumnNotFoundException(column);
 			}
 		}
-		Set<String> nullCells = new HashSet<>(columns.keySet());
+		Set<String> nullCells = new HashSet<>(tableColumns.keySet());
 		nullCells.removeAll(columnNames);
 		for (int i = 0; i < columnNames.size(); i++) {
-			columns.get(columnNames.get(i)).add(values.get(i));
+			tableColumns.get(columnNames.get(i)).add(values.get(i));
 		}
 		for (String nullCell : nullCells) {
-			columns.get(nullCell).add(null);
+			tableColumns.get(nullCell).add(null);
 		}
 		numberOfRows++;
 	}
@@ -122,18 +127,18 @@ public class Table {
 	public TableIdentifier getTableIdentifier() {
 		ArrayList<ColumnIdentifier> columnIdentifiers
 		= new ArrayList<>();
-		for (String name : columns.keySet()) {
+		for (String name : tableColumns.keySet()) {
 			columnIdentifiers.add(new
 					ColumnIdentifier(name,
-					columns.get(name).getColumnDataType()));
+					tableColumns.get(name).getColumnDataType()));
 		}
 		return new TableIdentifier(tableName, columnIdentifiers);
 	}
 
 	public Map<String, TableColumn> getColumns() {
 		Map<String, TableColumn> clone = new HashMap<>();
-		for(String key : columns.keySet()) {
-			TableColumn current = columns.get(key);
+		for(String key : tableColumns.keySet()) {
+			TableColumn current = tableColumns.get(key);
 			clone.put(key, current);
 		}
 		return clone;
@@ -141,14 +146,18 @@ public class Table {
 	public SelectQueryOutput selectFromTable(SelectionParameters
 			selectParameters) throws ColumnNotFoundException,
 	TypeMismatchException {
-		ArrayList<Integer> matches
-		= getAllMatches(selectParameters.getCondition());
+		ArrayList<Integer> matches = null;
+		if (selectParameters.getCondition() == null) {
+			matches = getAllRows();
+		} else {
+			matches = getAllMatches(selectParameters.getCondition());
+		}
 		ArrayList<String> columnNames = selectParameters.getColumns();
 		if (columnNames.size() == 1 && columnNames.get(0).equals("*")) {
-			columnNames = new ArrayList<>(columns.keySet());
+			columnNames = new ArrayList<>(tableColumnNames);
 		}
 		for (String column : columnNames) {
-			if (!columns.containsKey(column)) {
+			if (!tableColumns.containsKey(column)) {
 				throw new ColumnNotFoundException(column);
 			}
 		}
@@ -159,7 +168,7 @@ public class Table {
 		for (int i : matches) {
 			rows.add(new ArrayList<>());
 			for (int j = 0 ; j < columnNames.size() ; j++) {
-				rows.get(index).add(columns.get(
+				rows.get(index).add(tableColumns.get(
 						columnNames.get(j)).get(i).getStringValue());
 			}
 			index++;
@@ -189,29 +198,29 @@ public class Table {
 		} else if (condition.leftOperandIsColumnName()
 				&& condition.rightOperandIsConstant()) {
 			String columnName = condition.getLeftOperand();
-			if (!columns.containsKey(columnName)) {
+			if (!tableColumns.containsKey(columnName)) {
 				throw new ColumnNotFoundException(columnName);
 			}
-			matches = getAllMatches(condition, columns.get(columnName),
+			matches = getAllMatches(condition, tableColumns.get(columnName),
 					condition.getRightOperand(), true);
 		} else if (condition.rightOperandIsColumnName()
 				&& condition.leftOperandIsConstant()) {
 			String columnName = condition.getRightOperand();
-			if (!columns.containsKey(columnName)) {
+			if (!tableColumns.containsKey(columnName)) {
 				throw new ColumnNotFoundException(columnName);
 			}
-			matches = getAllMatches(condition, columns.get(columnName),
+			matches = getAllMatches(condition, tableColumns.get(columnName),
 					condition.getLeftOperand(), false);
 		} else if (condition.rightOperandIsColumnName() &&
 				condition.leftOperandIsColumnName()) {
-			if (!columns.containsKey(condition.getLeftOperand())) {
+			if (!tableColumns.containsKey(condition.getLeftOperand())) {
 				throw new ColumnNotFoundException(condition.getLeftOperand());
 			}
-			if (!columns.containsKey(condition.getRightOperand())) {
+			if (!tableColumns.containsKey(condition.getRightOperand())) {
 				throw new ColumnNotFoundException(condition.getRightOperand());
 			}
-			matches = getAllMatches(condition, columns.get(condition.getLeftOperand()),
-					columns.get(condition.getRightOperand()));
+			matches = getAllMatches(condition, tableColumns.get(condition.getLeftOperand()),
+					tableColumns.get(condition.getRightOperand()));
 		}
 		return matches;
 	}
@@ -219,11 +228,11 @@ public class Table {
 			ArrayList<Integer> matches) throws ColumnNotFoundException {
 		if (!assignment.leftOperandIsColumnName() ||
 				!assignment.rightOperandIsConstant() ||
-				!columns.containsKey(assignment.getLeftOperand())) {
-			throw new ColumnNotFoundException();
+				!tableColumns.containsKey(assignment.getLeftOperand())) {
+			throw new ColumnNotFoundException(assignment.getLeftOperand());
 		}
 		for (int i : matches) {
-			columns.get(assignment.getLeftOperand()).
+			tableColumns.get(assignment.getLeftOperand()).
 			assignCell(i, assignment.getRightOperand());
 		}
 	}
@@ -231,8 +240,8 @@ public class Table {
 	private ArrayList<TableColumn> getColumnList(ArrayList<String> cols) {
 		ArrayList<TableColumn> requestedColumns = new ArrayList<>();
 		for (String key : cols) {
-			if (columns.keySet().contains(key)) {
-				requestedColumns.add(columns.get(key));
+			if (tableColumns.keySet().contains(key)) {
+				requestedColumns.add(tableColumns.get(key));
 			}
 		}
 		return requestedColumns;
@@ -397,12 +406,13 @@ public class Table {
 		return matches;
 	}
 	private void deleteRow(int index) {
-		for (TableColumn column : columns.values()) {
+		for (TableColumn column : tableColumns.values()) {
 			column.remove(index);
 		}
+		numberOfRows--;
 	}
 	private void clearTable() {
-		for (TableColumn column : columns.values()) {
+		for (TableColumn column : tableColumns.values()) {
 			column.clearColumn();
 		}
 	}
@@ -410,14 +420,14 @@ public class Table {
 			String columnName, String other,
 			boolean leftIsTableColumn)
 					throws ColumnNotFoundException {
-		if (!columns.containsKey(columnName)) {
-			throw new ColumnNotFoundException();
+		if (!tableColumns.containsKey(columnName)) {
+			throw new ColumnNotFoundException(columnName);
 		}
-		int firstMatch = getFirstMatch(condition, columns.get(columnName),
+		int firstMatch = getFirstMatch(condition, tableColumns.get(columnName),
 			other, leftIsTableColumn);
 		while (firstMatch != -1) {
 			deleteRow(firstMatch);
-			firstMatch = getFirstMatch(condition, columns.get(columnName),
+			firstMatch = getFirstMatch(condition, tableColumns.get(columnName),
 					other, leftIsTableColumn);
 		}
 	}
@@ -425,18 +435,25 @@ public class Table {
 			columnName, String otherColumnName)
 					throws ColumnNotFoundException,
 					TypeMismatchException {
-		if (!columns.containsKey(columnName)) {
+		if (!tableColumns.containsKey(columnName)) {
 			throw new ColumnNotFoundException(columnName);
 		}
-		if (!columns.containsKey(otherColumnName)) {
+		if (!tableColumns.containsKey(otherColumnName)) {
 			throw new ColumnNotFoundException(otherColumnName);
 		}
-		int firstMatch = getFirstMatch(condition, columns.get(columnName),
-			columns.get(otherColumnName));
+		int firstMatch = getFirstMatch(condition, tableColumns.get(columnName),
+			tableColumns.get(otherColumnName));
 		while (firstMatch != -1) {
 			deleteRow(firstMatch);
-			firstMatch = getFirstMatch(condition, columns.get(columnName),
-					columns.get(otherColumnName));
+			firstMatch = getFirstMatch(condition, tableColumns.get(columnName),
+					tableColumns.get(otherColumnName));
 		}
+	}
+	private ArrayList<Integer> getAllRows() {
+		ArrayList<Integer> rows = new ArrayList<>();
+		for (int i = 0 ; i < numberOfRows ; i++) {
+			rows.add(i);
+		}
+		return rows;
 	}
 }
