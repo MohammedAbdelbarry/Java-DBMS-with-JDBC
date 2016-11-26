@@ -28,14 +28,14 @@ import jdbms.sql.parsing.properties.UseParameters;
 public class SQLData {
 
 	/**array of databases.*/
-	private Map<String, Database> data;
+	private Map<String, Database> databases;
 	/**Currently Active Database.*/
 	private Database activeDatabase;
 	private static final String DEFAULT_DATABASE = "default";
 	public SQLData() {
-		data = new HashMap<>();
-		data.put("default", new Database(DEFAULT_DATABASE));
-		activeDatabase = data.get(DEFAULT_DATABASE);
+		databases = new HashMap<>();
+		databases.put(DEFAULT_DATABASE.toUpperCase(), new Database(DEFAULT_DATABASE));
+		activeDatabase = databases.get(DEFAULT_DATABASE.toUpperCase());
 	}
 
 	/**
@@ -44,38 +44,42 @@ public class SQLData {
 	 * statement
 	 */
 	public void setActiveDatabase(UseParameters useParameters) {
-		activeDatabase = data.get(useParameters.getDatabaseName());
+		activeDatabase = databases.get(useParameters.getDatabaseName().toUpperCase());
 	}
 
 	/**
 	 * Creates a new blank database with the name provided and returns it.
 	 * @param createDBParameters The parameters of the sql
 	 * create statement
-	 * @return the new empty database
 	 */
-	public Database createDatabase(DatabaseCreationParameters
+	public void createDatabase(DatabaseCreationParameters
 			createDBParameters) {
+		if (databases.containsKey(createDBParameters.
+				getDatabaseName().toUpperCase())) {
+			ErrorHandler.printDatabaseAlreadyExistsError(
+					createDBParameters.getDatabaseName());
+			return;
+		}
 		Database newDatabase
 		= new Database(createDBParameters.getDatabaseName());
-		data.put(createDBParameters.getDatabaseName(), newDatabase);
+		databases.put(createDBParameters.getDatabaseName().toUpperCase(), newDatabase);
 		activeDatabase = newDatabase;
-		return newDatabase;
 	}
 
 	/**
 	 * Drops the database with the provided name.
 	 */
 	public void dropDatabase(DatabaseDroppingParameters dropDBParameters) {
-		if (!data.containsKey(dropDBParameters.getDatabaseName())) {
+		if (!databases.containsKey(dropDBParameters.getDatabaseName().toUpperCase())) {
 			ErrorHandler.printDatabaseNotFoundError(
 					dropDBParameters.getDatabaseName());
 			return;
 		}
 		if (dropDBParameters.getDatabaseName().equals(
 				activeDatabase.getDatabaseName())) {
-			activeDatabase = data.get(DEFAULT_DATABASE);
+			activeDatabase = databases.get(DEFAULT_DATABASE.toUpperCase());
 		}
-		data.remove(dropDBParameters.getDatabaseName());
+		databases.remove(dropDBParameters.getDatabaseName());
 	}
 
 	/**

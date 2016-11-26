@@ -58,11 +58,11 @@ public class Table {
 	}
 	public void addTableColumn(String columnName, String columnDataType)
 			throws ColumnAlreadyExistsException {
-		if (tableColumns.containsKey(columnName)) {
+		if (tableColumns.containsKey(columnName.toUpperCase())) {
 			throw new ColumnAlreadyExistsException(columnName);
 		}
 		TableColumn newColumn = new TableColumn(columnName, columnDataType);
-		tableColumns.put(columnName, newColumn);
+		tableColumns.put(columnName.toUpperCase(), newColumn);
 		tableColumnNames.add(columnName);
 	}
 	public void insertRows(InsertionParameters insertParameters)
@@ -94,10 +94,10 @@ public class Table {
 			int index = 0;
 			for (String column : tableColumnNames) {
 				if (!dataTypesValidator.match(tableColumns.get(
-						column).getColumnDataType(), values.get(index))) {
+						column.toUpperCase()).getColumnDataType(), values.get(index))) {
 					throw new TypeMismatchException();
 				}
-				tableColumns.get(column).add(values.get(index));
+				tableColumns.get(column.toUpperCase()).add(values.get(index));
 				index++;
 			}
 		}
@@ -121,7 +121,7 @@ public class Table {
 			throw new RepeatedColumnException();
 		}
 		for (String column : columnNames) {
-			if (!tableColumns.containsKey(column)) {
+			if (!tableColumns.containsKey(column.toUpperCase())) {
 				throw new ColumnNotFoundException(column);
 			}
 		}
@@ -129,10 +129,10 @@ public class Table {
 		nullCells.removeAll(columnNames);
 		for (int i = 0; i < columnNames.size(); i++) {
 			if (!dataTypesValidator.match(tableColumns.get(
-					columnNames.get(i)).getColumnDataType(), values.get(i))) {
+					columnNames.get(i).toUpperCase()).getColumnDataType(), values.get(i))) {
 				throw new TypeMismatchException();
 			}
-			tableColumns.get(columnNames.get(i)).add(values.get(i));
+			tableColumns.get(columnNames.get(i).toUpperCase()).add(values.get(i));
 		}
 		for (String nullCell : nullCells) {
 			tableColumns.get(nullCell).add(null);
@@ -146,16 +146,16 @@ public class Table {
 		for (String name : tableColumns.keySet()) {
 			columnIdentifiers.add(new
 					ColumnIdentifier(name,
-					tableColumns.get(name).getColumnDataType()));
+					tableColumns.get(name.toUpperCase()).getColumnDataType()));
 		}
 		return new TableIdentifier(tableName, columnIdentifiers);
 	}
 
 	public Map<String, TableColumn> getColumns() {
 		Map<String, TableColumn> clone = new HashMap<>();
-		for(String key : tableColumns.keySet()) {
-			TableColumn current = tableColumns.get(key);
-			clone.put(key, current);
+		for(String key : tableColumnNames) {
+			TableColumn current = tableColumns.get(key.toUpperCase());
+			clone.put(key.toUpperCase(), current);
 		}
 		return clone;
 	}
@@ -173,7 +173,7 @@ public class Table {
 			columnNames = new ArrayList<>(tableColumnNames);
 		}
 		for (String column : columnNames) {
-			if (!tableColumns.containsKey(column)) {
+			if (!tableColumns.containsKey(column.toUpperCase())) {
 				throw new ColumnNotFoundException(column);
 			}
 		}
@@ -185,7 +185,7 @@ public class Table {
 			rows.add(new ArrayList<>());
 			for (int j = 0 ; j < columnNames.size() ; j++) {
 				rows.get(index).add(tableColumns.get(
-						columnNames.get(j)).get(i).getStringValue());
+						columnNames.get(j).toUpperCase()).get(i).getStringValue());
 			}
 			index++;
 		}
@@ -212,36 +212,34 @@ public class Table {
 		if(condition.leftOperandIsConstant()
 				&& condition.rightOperandIsConstant()) {
 			if (condition.evaluateConstantExpression()) {
-				for (int i = 0 ; i < numberOfRows ; i++) {
-					matches.add(i);
-				}
+				matches = getAllRows();
 			}
 		} else if (condition.leftOperandIsColumnName()
 				&& condition.rightOperandIsConstant()) {
 			String columnName = condition.getLeftOperand();
-			if (!tableColumns.containsKey(columnName)) {
+			if (!tableColumns.containsKey(columnName.toUpperCase())) {
 				throw new ColumnNotFoundException(columnName);
 			}
-			matches = getAllMatches(condition, tableColumns.get(columnName),
+			matches = getAllMatches(condition, tableColumns.get(columnName.toUpperCase()),
 					condition.getRightOperand(), true);
 		} else if (condition.rightOperandIsColumnName()
 				&& condition.leftOperandIsConstant()) {
 			String columnName = condition.getRightOperand();
-			if (!tableColumns.containsKey(columnName)) {
+			if (!tableColumns.containsKey(columnName.toUpperCase())) {
 				throw new ColumnNotFoundException(columnName);
 			}
-			matches = getAllMatches(condition, tableColumns.get(columnName),
+			matches = getAllMatches(condition, tableColumns.get(columnName.toUpperCase()),
 					condition.getLeftOperand(), false);
 		} else if (condition.rightOperandIsColumnName() &&
 				condition.leftOperandIsColumnName()) {
-			if (!tableColumns.containsKey(condition.getLeftOperand())) {
+			if (!tableColumns.containsKey(condition.getLeftOperand().toUpperCase())) {
 				throw new ColumnNotFoundException(condition.getLeftOperand());
 			}
-			if (!tableColumns.containsKey(condition.getRightOperand())) {
+			if (!tableColumns.containsKey(condition.getRightOperand().toUpperCase())) {
 				throw new ColumnNotFoundException(condition.getRightOperand());
 			}
-			matches = getAllMatches(condition, tableColumns.get(condition.getLeftOperand()),
-					tableColumns.get(condition.getRightOperand()));
+			matches = getAllMatches(condition, tableColumns.get(condition.getLeftOperand().toUpperCase()),
+					tableColumns.get(condition.getRightOperand().toUpperCase()));
 		}
 		return matches;
 	}
@@ -250,11 +248,11 @@ public class Table {
 			TypeMismatchException {
 		if (!assignment.leftOperandIsColumnName() ||
 				!assignment.rightOperandIsConstant() ||
-				!tableColumns.containsKey(assignment.getLeftOperand())) {
+				!tableColumns.containsKey(assignment.getLeftOperand().toUpperCase())) {
 			throw new ColumnNotFoundException(assignment.getLeftOperand());
 		}
 		for (int i : matches) {
-			tableColumns.get(assignment.getLeftOperand()).
+			tableColumns.get(assignment.getLeftOperand().toUpperCase()).
 			assignCell(i, assignment.getRightOperand());
 		}
 	}
@@ -262,8 +260,8 @@ public class Table {
 	private ArrayList<TableColumn> getColumnList(ArrayList<String> cols) {
 		ArrayList<TableColumn> requestedColumns = new ArrayList<>();
 		for (String key : cols) {
-			if (tableColumns.keySet().contains(key)) {
-				requestedColumns.add(tableColumns.get(key));
+			if (tableColumns.containsKey(key.toUpperCase())) {
+				requestedColumns.add(tableColumns.get(key.toUpperCase()));
 			}
 		}
 		return requestedColumns;
@@ -442,14 +440,14 @@ public class Table {
 			String columnName, String other,
 			boolean leftIsTableColumn)
 					throws ColumnNotFoundException {
-		if (!tableColumns.containsKey(columnName)) {
+		if (!tableColumns.containsKey(columnName.toUpperCase())) {
 			throw new ColumnNotFoundException(columnName);
 		}
-		int firstMatch = getFirstMatch(condition, tableColumns.get(columnName),
+		int firstMatch = getFirstMatch(condition, tableColumns.get(columnName.toUpperCase()),
 			other, leftIsTableColumn);
 		while (firstMatch != -1) {
 			deleteRow(firstMatch);
-			firstMatch = getFirstMatch(condition, tableColumns.get(columnName),
+			firstMatch = getFirstMatch(condition, tableColumns.get(columnName.toUpperCase()),
 					other, leftIsTableColumn);
 		}
 	}
@@ -457,18 +455,18 @@ public class Table {
 			columnName, String otherColumnName)
 					throws ColumnNotFoundException,
 					TypeMismatchException {
-		if (!tableColumns.containsKey(columnName)) {
+		if (!tableColumns.containsKey(columnName.toUpperCase())) {
 			throw new ColumnNotFoundException(columnName);
 		}
-		if (!tableColumns.containsKey(otherColumnName)) {
+		if (!tableColumns.containsKey(otherColumnName.toUpperCase())) {
 			throw new ColumnNotFoundException(otherColumnName);
 		}
-		int firstMatch = getFirstMatch(condition, tableColumns.get(columnName),
+		int firstMatch = getFirstMatch(condition, tableColumns.get(columnName.toUpperCase()),
 			tableColumns.get(otherColumnName));
 		while (firstMatch != -1) {
 			deleteRow(firstMatch);
-			firstMatch = getFirstMatch(condition, tableColumns.get(columnName),
-					tableColumns.get(otherColumnName));
+			firstMatch = getFirstMatch(condition, tableColumns.get(columnName.toUpperCase()),
+					tableColumns.get(otherColumnName.toUpperCase()));
 		}
 	}
 	private ArrayList<Integer> getAllRows() {
