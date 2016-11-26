@@ -30,26 +30,73 @@ public abstract class BinaryExpression implements Expression {
 	}
 	@Override
 	public boolean interpret(String sqlExpression) {
-		 String[] operands = sqlExpression.split(operator.getSymbol());
-		 if (operands.length != NUMBER_OF_OPERANDS) {
-			 return false;
-		 }
-		 operator.setLeftOperand(operands[0].trim());
-		 operator.setRightOperand(operands[1].trim().substring(0,
-				 operands[1].trim().indexOf(" ")).trim());
-		 if (!new ColumnExpression(getLeftOperand()).isValidColumnName() ||
-				 !new ValueExpression(getRightOperand()).isValidExpressionName()) {
-			 return false;
-		 }
-
-		 if (this.nextExpression != null) {
-			 return nextExpression.interpret(operands[1].trim().substring(
-					 operands[1].trim().indexOf(" ")).trim());
-		 } else if (this.nextStatement != null) {
-			 return nextStatement.interpret(operands[1].trim().substring(
-					 operands[1].indexOf(" ")).trim());
-		 }
-		 return false;
+		// colName = 'London el door el rabe3' ;
+		// colName = -54644.36363 ;
+		// colName = quotes = ' 3oraby : 'mafeesh fayda' ' and id = '7' ;		 
+		if(!sqlExpression.contains(this.operator.getSymbol())){
+			return false;
+		}
+		int binExpEndIndex = getSepratorIndex(sqlExpression.trim());
+		String binExp = sqlExpression.trim().substring(0, binExpEndIndex);
+		if(!binExp.contains(this.operator.getSymbol())){
+			return false;
+		}
+		String restOfExpression = sqlExpression.trim().substring(binExpEndIndex + 1);
+		String leftOperand = binExp.trim().substring(0, binExp.trim().indexOf(this.operator.getSymbol())).trim();
+		String rightOperand = binExp.trim().
+				substring(binExp.indexOf(this.operator.getSymbol())
+						+ this.operator.getSymbol().length()).trim();
+		operator.setLeftOperand(leftOperand);
+		operator.setRightOperand(rightOperand);
+		if (!new ColumnExpression(leftOperand).isValidColumnName() ||
+				!new ValueExpression(rightOperand).isValidExpressionName()) {
+			return false;
+		}
+		if (this.nextExpression != null) {
+			return nextExpression.interpret(restOfExpression);
+		} else if (this.nextStatement != null) {
+			return nextStatement.interpret(restOfExpression);
+		}
+		return false;
+	}
+	private int getSepratorIndex(String expression) {
+		int operatorIndex = expression.indexOf(this.operator.getSymbol()), start, endIndex = 0;
+		boolean isSingleQuoted = false, isDoubleQuoted = false;
+		if (expression.charAt(operatorIndex + 1) == ' ') {
+			start = operatorIndex + 2;
+		} else {
+			start = operatorIndex + 1;
+		}
+		
+		if (expression.charAt(start) == '\'') {
+			isSingleQuoted = true;
+		} else if (expression.charAt(start) == '"') {
+			isDoubleQuoted = true;
+		}
+		
+		if (isSingleQuoted) {
+			for (int i = start + 1; i < expression.length(); i++) {
+				if (expression.charAt(i) == '\'') {
+					endIndex = i + 1;
+					break;
+				}
+			}
+		} else if (isDoubleQuoted) {
+			for (int i = start + 1; i < expression.length(); i++) {
+				if (expression.charAt(i) == '"') {
+					endIndex = i + 1;
+					break;
+				}
+			}
+		} else {
+			for (int i = start + 1; i < expression.length(); i++) {
+				if (expression.charAt(i) == ' ') {
+					endIndex = i;
+					break;
+				}
+			}
+		}
+		return endIndex;
 	}
 	public String getLeftOperand() {
 		return operator.getLeftOperand();

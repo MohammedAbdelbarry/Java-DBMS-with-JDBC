@@ -14,6 +14,7 @@ public class InputParametersContainer {
 	private ArrayList<ArrayList<String>> values;
 	private HashMap<String, String> columnDefinitions;
 	private AssignmentExpression assignment;
+	private ArrayList<AssignmentExpression> assignmentList;
 
 	public InputParametersContainer() {
 
@@ -81,5 +82,10 @@ public class InputParametersContainer {
 	public void setAssignment(AssignmentExpression assignment) {
 		this.assignment = assignment;
 	}
-
+	public ArrayList<AssignmentExpression> getAssignmentList() {
+		return this.assignmentList;
+	}
+	public void setAssignmentList(ArrayList<AssignmentExpression> assignmentList) {
+		this.assignmentList = assignmentList;
+	}
 }
