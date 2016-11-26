@@ -246,7 +246,8 @@ public class Table {
 		return matches;
 	}
 	private void AssignColumn(AssignmentExpression assignment,
-			ArrayList<Integer> matches) throws ColumnNotFoundException {
+			ArrayList<Integer> matches) throws ColumnNotFoundException,
+			TypeMismatchException {
 		if (!assignment.leftOperandIsColumnName() ||
 				!assignment.rightOperandIsConstant() ||
 				!tableColumns.containsKey(assignment.getLeftOperand())) {

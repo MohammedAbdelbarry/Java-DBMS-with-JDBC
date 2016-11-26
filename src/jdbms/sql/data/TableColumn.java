@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import jdbms.sql.datatypes.SQLType;
 import jdbms.sql.datatypes.util.SQLTypeFactory;
+import jdbms.sql.exceptions.TypeMismatchException;
+import jdbms.sql.parsing.expressions.util.DataTypesValidator;
 
 public class TableColumn {
 
@@ -33,7 +35,13 @@ public class TableColumn {
 		this.values.addAll(values);
 	}
 
-	public void assignCell(int cell, String value) {
+	public void assignCell(int cell, String value)
+			throws TypeMismatchException {
+		DataTypesValidator dataTypesValidator =
+		new DataTypesValidator();
+		if (!dataTypesValidator.match(columnType, value)) {
+			throw new TypeMismatchException();
+		}
 		values.set(cell, SQLTypeFactory.getInstance().
 				getTypeObject(columnType, value));
 	}

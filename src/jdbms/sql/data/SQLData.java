@@ -135,26 +135,23 @@ public class SQLData {
 		try {
 			activeDatabase.deleteFromTable(deleteParameters);
 		} catch (ColumnNotFoundException e) {
-			// ErrorHandler.printColumnNotFoundError();
+			 ErrorHandler.printColumnNotFoundError(e.getMessage());
 		} catch (TypeMismatchException e) {
-			// ErrorHandler.printTypeMismatchError();
+			 ErrorHandler.printTypeMismatchError();
 			e.printStackTrace();
 		} catch (TableNotFoundException e) {
-			// ErrorHandler.printTableNotFoundError();
-			e.printStackTrace();
+			 ErrorHandler.printTableNotFoundError(e.getMessage());
 		}
 	}
 	public void updateTable(UpdatingParameters updateParameters) {
 		try {
 			activeDatabase.updateTable(updateParameters);
 		} catch (ColumnNotFoundException e) {
-			// ErrorHandler.printColumnNotFoundError();
+			 ErrorHandler.printColumnNotFoundError(e.getMessage());
 		} catch (TypeMismatchException e) {
-			// ErrorHandler.printTypeMismatchError();
-			e.printStackTrace();
+			 ErrorHandler.printTypeMismatchError();
 		} catch (TableNotFoundException e) {
-			// ErrorHandler.printTableNotFoundError()
-			e.printStackTrace();
+			 ErrorHandler.printTableNotFoundError(e.getMessage());
 		}
 	}
  }
