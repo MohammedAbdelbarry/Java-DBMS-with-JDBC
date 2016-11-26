@@ -1,11 +1,6 @@
 package jdbms.sql.parsing.expressions;
 
 import java.util.ArrayList;
-<<<<<<< HEAD
-import java.util.Collection;
-import java.util.HashMap;
-=======
->>>>>>> 96a6ea54322b22d872f4b88aaea2ce489a38d7e5
 import java.util.List;
 
 import jdbms.sql.data.ColumnIdentifier;
