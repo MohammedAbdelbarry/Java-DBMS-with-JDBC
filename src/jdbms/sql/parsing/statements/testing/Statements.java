@@ -299,8 +299,10 @@ public class Statements {
 		assertEquals(name, update.getParameters().getTableName());
 		assertEquals("CUSTOMERNAME", update.getParameters().getCondition().getLeftOperand());
 		assertEquals("'ALFR\"EDS FUTTER\"KISTE'", update.getParameters().getCondition().getRightOperand());
-		assertEquals("CITY", update.getParameters().getAssignment().getLeftOperand());
-		assertEquals("' HAM\'BU\'RG'", update.getParameters().getAssignment().getRightOperand());
+		assertEquals("CONTACTNAME", update.getParameters().getAssignmentList().get(0).getLeftOperand());
+		assertEquals("'ALFRED SCHMIDT'", update.getParameters().getAssignmentList().get(0).getRightOperand());
+		assertEquals("CITY", update.getParameters().getAssignmentList().get(1).getLeftOperand());
+		assertEquals("' HAM\'BU\'RG'", update.getParameters().getAssignmentList().get(1).getRightOperand());
 	}
 
 	@Test
@@ -315,8 +317,10 @@ public class Statements {
 		assertEquals(check, true);
 		assertEquals(name, update.getParameters().getTableName());
 		assertEquals(null, update.getParameters().getCondition());
-		assertEquals("SALARY", update.getParameters().getAssignment().getLeftOperand());
-		assertEquals("1000", update.getParameters().getAssignment().getRightOperand());
+		assertEquals("ADDRESS", update.getParameters().getAssignmentList().get(0).getLeftOperand());
+		assertEquals("'PUNE'", update.getParameters().getAssignmentList().get(0).getRightOperand());
+		assertEquals("SALARY", update.getParameters().getAssignmentList().get(1).getLeftOperand());
+		assertEquals("1000", update.getParameters().getAssignmentList().get(1).getRightOperand());
 	}
 
 	@Test
