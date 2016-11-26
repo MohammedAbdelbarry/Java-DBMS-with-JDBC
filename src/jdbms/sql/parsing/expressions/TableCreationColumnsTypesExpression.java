@@ -9,6 +9,7 @@ import jdbms.sql.parsing.expressions.util.ColumnExpression;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 
 public class TableCreationColumnsTypesExpression extends TableCreationTableInfo {
+
 	private List<String> dataTypes;
 	private ArrayList<ColumnIdentifier> columnsDataTypes = null;
 	public TableCreationColumnsTypesExpression(

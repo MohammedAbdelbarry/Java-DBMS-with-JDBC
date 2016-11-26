@@ -30,8 +30,9 @@ public class InsertIntoValueListExpression extends ValueListExpression {
 			rowsValues.add(values);
 			for (int i = 1; i < parts.length - 1; i++) {
 				parts[i] = parts[i].trim();
-				if (parts[i].startsWith(",(")) { // The bug is here.
-					parts[i].trim().replace(",(", "");
+				if (parts[i].startsWith(",(") || parts[i].startsWith(", (")) {
+					parts[i] = parts[i].trim().replace(",(", "").trim();
+					parts[i] = parts[i].trim().replace(", (", "").trim();
 					String[] restOfValues = parts[i].trim().split(",");
 					for (int j = 0; j < restOfValues.length; j++) {
 						restOfValues[j] = restOfValues[j].trim();

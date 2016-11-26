@@ -24,6 +24,8 @@ public class Dummy {
 			Class.forName("jdbms.sql.parsing.expressions.math.LessThanEqualsExpression");
 			Class.forName("jdbms.sql.parsing.expressions.math.LargerThanExpression");
 			Class.forName("jdbms.sql.parsing.expressions.math.LessThanExpression");
+			Class.forName("jdbms.sql.datatypes.IntSQLType");
+			Class.forName("jdbms.sql.datatypes.VarcharSQLType");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -41,23 +43,24 @@ public class Dummy {
 	}
 	public static void main(String args[]) {
 		Dummy dummy = new Dummy();
-		String insertInto = "insert INtO    SOmEFANcY$TABLE(A_B,C_D)     VALUES (\"hamada\", 'hamada');";
+		String insertInto = "INSERT INTO STUDENTS VALUES (12,'HEHE',20),(13,'HOHO' ,\"70\"),(13,'HOHO' ,'701');";
 		String createDB = "cREATe                                                       dAtAbASE     Mn$DdtOL;";
 		String dropDB = "      DROP DATABASE MY$DBLOL ;";
 		String dropTable = "DROP TABLE MY$DBLOL ;";
-		String createTable = "CREATE TABLE TT$LOLNAME (col1 INT, Col2 VARCHAR, col3 TEXT) ;";
+		String createTable = "CREATE TABLE NEWTABLE (ID INT, AGE INT, NAME VARCHAR) ;";
 		String delete = "DELETE FROM Customers WHERE name='H O';";
-		String update = "update _$table_name set   column1='value1',column2='value2'  where life   =   'false';";
+		String update = "update _$table_name set column1='value1',column2='value2' where 1 = 'no';";
 		String terminalUpdate = "update _$table_name set   column1='value1'   ,    column2='value2';";
 		String select = "    seLeCt colum$$n_name,co$$$LLLmn_name   FrOM table$_name whEre col1='val'     ;";
 		String selectAll = "    selecT  * fRom   fan$$555$tbaleshNammmmm         where _hamada=5  ;";
 		Parser p = new Parser();
-		//dummy.parse(p.normalizeCommand(insertInto));
+		dummy.parse(p.normalizeCommand(insertInto));
 		//dummy.parse(p.normalizeCommand(createDB));
 		//dummy.parse(p.normalizeCommand(dropDB));
 		//dummy.parse(p.normalizeCommand(dropTable));
 		//dummy.parse(p.normalizeCommand(createTable));
-		dummy.parse(p.normalizeCommand(delete));
+		//dummy.parse(p.normalizeCommand(delete));
+		//dummy.parse(p.normalizeCommand(update));
 		//dummy.parse(p.normalizeCommand(terminalUpdate));
 		//dummy.parse(p.normalizeCommand(selectAll));
 	}
