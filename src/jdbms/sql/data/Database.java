@@ -1,16 +1,23 @@
 package jdbms.sql.data;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import jdbms.sql.data.query.SelectQueryOutput;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
 import jdbms.sql.exceptions.ColumnNotFoundException;
 import jdbms.sql.exceptions.RepeatedColumnException;
 import jdbms.sql.exceptions.TableAlreadyExistsException;
+import jdbms.sql.exceptions.TableNotFoundException;
+import jdbms.sql.exceptions.TypeMismatchException;
+import jdbms.sql.exceptions.ValueListTooLargeException;
+import jdbms.sql.exceptions.ValueListTooSmallException;
+import jdbms.sql.parsing.properties.DeletionParameters;
 import jdbms.sql.parsing.properties.InsertionParameters;
+import jdbms.sql.parsing.properties.SelectionParameters;
 import jdbms.sql.parsing.properties.TableCreationParameters;
+import jdbms.sql.parsing.properties.UpdatingParameters;
 
 public class Database {
 
@@ -22,7 +29,6 @@ public class Database {
 	public Database(String databaseName) {
 		this.databaseName = databaseName;
 		tables = new HashMap<>();
-		new File(databaseName).mkdir();
 	}
 
 	public void addTable(TableIdentifier newTableIdentifier)
@@ -46,22 +52,49 @@ public class Database {
 		tables.put(tableParameters.getTableName(),
 				newTable);
 	}
-	public Table getTable(String tableName) {
-		return tables.get(tableName);
-	}
 
 	public void dropTable(String tableName) {
 		tables.remove(tableName);
 	}
 
+	public void deleteFromTable(DeletionParameters deleteParameters)
+			throws ColumnNotFoundException,
+			TypeMismatchException, TableNotFoundException {
+		if (!tables.containsKey(deleteParameters.getTableName())) {
+			throw new TableNotFoundException(deleteParameters.getTableName());
+		}
+		tables.get(deleteParameters.getTableName()).
+		deleteRows(deleteParameters.getCondition());
+	}
+	public void insertInto (InsertionParameters parameters)
+			throws RepeatedColumnException,
+			ColumnListTooLargeException, ColumnNotFoundException,
+			ValueListTooLargeException, ValueListTooSmallException {
+		tables.get(parameters.getTableName()).insertRows(parameters);
+	}
+	public SelectQueryOutput selectFrom(
+			SelectionParameters selectParameters)
+			throws ColumnNotFoundException,
+			TypeMismatchException, TableNotFoundException {
+		if (!tables.containsKey(selectParameters.getTableName())) {
+			throw new TableNotFoundException();
+		}
+		return tables.get(selectParameters.
+				getTableName()).selectFromTable(selectParameters);
+	}
+	public void updateTable(UpdatingParameters updateParameters)
+			throws ColumnNotFoundException, TypeMismatchException,
+			TableNotFoundException {
+		if (!tables.containsKey(updateParameters.getTableName())) {
+			throw new TableNotFoundException();
+		}
+		tables.get(updateParameters.getTableName()).
+		updateTable(updateParameters);
+	}
 	public String getDatabaseName() {
 		return databaseName;
 	}
-
-	public void insertInto (InsertionParameters parameters)
-			throws RepeatedColumnException,
-			ColumnListTooLargeException,
-			ColumnNotFoundException {
-		tables.get(parameters.getTableName()).insertRows(parameters);
+	public Table getTable(String tableName) {
+		return tables.get(tableName);
 	}
 }

@@ -1,5 +1,6 @@
 package jdbms.sql.parsing.statements;
 
+import jdbms.sql.data.SQLData;
 import jdbms.sql.parsing.expressions.DatabaseTerminatingExpression;
 import jdbms.sql.parsing.properties.DatabaseDroppingParameters;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
@@ -25,9 +26,9 @@ public class DropDatabaseStatement extends InitialStatement {
 	}
 
 	@Override
-	public void act() {
+	public void act(SQLData data) {
 		buildParameters();
-		//System.dropDatabase(dropDBParameters);
+		data.dropDatabase(dropDBParameters);
 	}
 	private void buildParameters() {
 		dropDBParameters.setDatabaseName(parameters.getDatabaseName());

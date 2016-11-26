@@ -1,5 +1,6 @@
 package jdbms.sql.parsing.statements;
 
+import jdbms.sql.data.SQLData;
 import jdbms.sql.parsing.expressions.TableUpdateTableNameExpression;
 import jdbms.sql.parsing.properties.UpdatingParameters;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
@@ -28,12 +29,12 @@ public class UpdateStatement extends InitialStatement {
 	}
 
 	@Override
-	public void act() {
+	public void act(SQLData data) {
 		buildParameters();
-		//System.update(updateParameters);
+		data.updateTable(updateParameters);
 	}
 	private void buildParameters() {
-		updateParameters.setAssignment(parameters.getAssignment());
+		updateParameters.setAssignmentList(parameters.getAssignmentList());
 		updateParameters.setCondition(parameters.getCondition());
 		updateParameters.setTableName(parameters.getTableName());
 	}

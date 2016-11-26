@@ -1,5 +1,6 @@
 package jdbms.sql.parsing.statements;
 
+import jdbms.sql.data.SQLData;
 import jdbms.sql.parsing.expressions.TableNameColumnListExpression;
 import jdbms.sql.parsing.expressions.TableNameValueListExpression;
 import jdbms.sql.parsing.properties.InsertionParameters;
@@ -29,9 +30,9 @@ public class InsertIntoStatement extends InitialStatement {
 	}
 
 	@Override
-	public void act() {
+	public void act(SQLData data) {
 		buildParameters();
-		//System.insert(insertParameters);
+		data.insertInto(insertParameters);
 	}
 	private void buildParameters() {
 		insertParameters.setColumns(parameters.getColumns());

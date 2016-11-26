@@ -1,5 +1,6 @@
 package jdbms.sql.parsing.statements;
 
+import jdbms.sql.data.SQLData;
 import jdbms.sql.parsing.properties.DeletionParameters;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
 
@@ -24,9 +25,9 @@ public class DeleteStatement extends InitialStatement {
 	}
 
 	@Override
-	public void act() {
+	public void act(SQLData data) {
 		buildParameters();
-		//System.delete(deleteParameters);
+		data.deleteFrom(deleteParameters);
 	}
 	private void buildParameters() {
 		deleteParameters.setTableName(parameters.getTableName());

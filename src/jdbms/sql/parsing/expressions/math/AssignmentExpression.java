@@ -21,7 +21,6 @@ public class AssignmentExpression extends BinaryExpression {
 					new ValueExpression(parts[1].trim()).isValidExpressionName()) {
 				setLeftOperand(parts[0].trim());
 				setRightOperand(parts[1].trim());
-				parameters.setAssignment(this);
 				return true;
 			}
 		}

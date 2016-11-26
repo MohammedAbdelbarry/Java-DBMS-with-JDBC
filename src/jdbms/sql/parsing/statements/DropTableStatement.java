@@ -1,5 +1,6 @@
 package jdbms.sql.parsing.statements;
 
+import jdbms.sql.data.SQLData;
 import jdbms.sql.parsing.expressions.TerminatingTableExpression;
 import jdbms.sql.parsing.properties.TableDroppingParameters;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
@@ -26,9 +27,9 @@ public class DropTableStatement extends InitialStatement {
 	}
 
 	@Override
-	public void act() {
+	public void act(SQLData data) {
 		buildParameters();
-		//System.dropTable(dropTableParameters);
+		data.dropTable(dropTableParameters);
 	}
 	private void buildParameters() {
 		dropTableParameters.setTableName(parameters.getTableName());

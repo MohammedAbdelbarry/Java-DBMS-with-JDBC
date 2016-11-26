@@ -1,5 +1,6 @@
 package jdbms.sql.parsing.statements;
 
+import jdbms.sql.data.SQLData;
 import jdbms.sql.parsing.expressions.DatabaseTerminatingExpression;
 import jdbms.sql.parsing.properties.UseParameters;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
@@ -26,9 +27,9 @@ public class UseStatement extends InitialStatement{
 		return false;
 	}
 	@Override
-	public void act() {
+	public void act(SQLData data) {
 		buildParameters();
-		//System.dropDatabase(useParameters);
+		data.setActiveDatabase(useParameters);
 	}
 	private void buildParameters() {
 		useParameters.setDatabaseName(parameters.getDatabaseName());

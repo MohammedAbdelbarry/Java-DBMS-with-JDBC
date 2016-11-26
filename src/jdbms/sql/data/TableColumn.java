@@ -33,6 +33,11 @@ public class TableColumn {
 		this.values.addAll(values);
 	}
 
+	public void assignCell(int cell, String value) {
+		values.set(cell, SQLTypeFactory.getInstance().
+				getTypeObject(columnType, value));
+	}
+
 	public ArrayList<String> getValues() {
 		ArrayList<String> requestedValues = new ArrayList<>();
 		for (SQLType<?> cur : values) {

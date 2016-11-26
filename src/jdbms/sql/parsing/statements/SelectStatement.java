@@ -1,5 +1,7 @@
 package jdbms.sql.parsing.statements;
 
+
+import jdbms.sql.data.SQLData;
 import jdbms.sql.parsing.expressions.ColumnWildcardExpression;
 import jdbms.sql.parsing.expressions.SelectColumnListExpression;
 import jdbms.sql.parsing.properties.SelectionParameters;
@@ -32,9 +34,9 @@ public class SelectStatement extends InitialStatement {
 	}
 
 	@Override
-	public void act() {
+	public void act(SQLData data) {
 		buildParameters();
-		//System.select(selectParameters);
+		data.selectFrom(selectParameters);
 	}
 	private void buildParameters() {
 		selectParameters.setColumns(parameters.getColumns());

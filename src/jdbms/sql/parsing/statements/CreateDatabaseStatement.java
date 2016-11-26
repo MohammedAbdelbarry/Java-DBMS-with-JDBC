@@ -1,5 +1,6 @@
 package jdbms.sql.parsing.statements;
 
+import jdbms.sql.data.SQLData;
 import jdbms.sql.parsing.expressions.DatabaseTerminatingExpression;
 import jdbms.sql.parsing.properties.DatabaseCreationParameters;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
@@ -27,11 +28,12 @@ public class CreateDatabaseStatement extends InitialStatement {
 	}
 
 	@Override
-	public void act() {
+	public void act(SQLData data) {
 		buildParameters();
-		//System.createDatabase(dbParameters);
+		data.createDatabase(createDBParameters);
 	}
 	private void buildParameters() {
 		createDBParameters.setDatabaseName(parameters.getDatabaseName());
 	}
+
 }

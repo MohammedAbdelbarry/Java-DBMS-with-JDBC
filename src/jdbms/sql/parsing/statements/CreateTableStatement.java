@@ -1,5 +1,6 @@
 package jdbms.sql.parsing.statements;
 
+import jdbms.sql.data.SQLData;
 import jdbms.sql.parsing.expressions.TableCreationTableNameExpression;
 import jdbms.sql.parsing.properties.TableCreationParameters;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
@@ -25,9 +26,9 @@ public class CreateTableStatement extends InitialStatement {
 	}
 
 	@Override
-	public void act() {
+	public void act(SQLData data) {
 		buildParameters();
-		//System.createTable(createTableParameters);
+		data.createTable(createTableParameters);
 	}
 	private void buildParameters() {
 		createTableParameters.setTableName(parameters.getTableName());

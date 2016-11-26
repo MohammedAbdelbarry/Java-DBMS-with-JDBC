@@ -1,11 +1,13 @@
 package jdbms.sql.parsing.properties;
 
+import java.util.ArrayList;
+
 import jdbms.sql.parsing.expressions.math.AssignmentExpression;
 import jdbms.sql.parsing.expressions.math.BooleanExpression;
 
 public class UpdatingParameters {
 	private BooleanExpression condition;
-	private AssignmentExpression assignment;
+	private ArrayList<AssignmentExpression> assignmentList;
 	private String tableName;
 	public UpdatingParameters() {
 
@@ -16,11 +18,11 @@ public class UpdatingParameters {
 	public void setCondition(BooleanExpression condition) {
 		this.condition = condition;
 	}
-	public AssignmentExpression getAssignment() {
-		return assignment;
+	public ArrayList<AssignmentExpression> getAssignmentList() {
+		return assignmentList;
 	}
-	public void setAssignment(AssignmentExpression assignment) {
-		this.assignment = assignment;
+	public void setAssignmentList(ArrayList<AssignmentExpression> assignmentList) {
+		this.assignmentList = assignmentList;
 	}
 	public String getTableName() {
 		return tableName;

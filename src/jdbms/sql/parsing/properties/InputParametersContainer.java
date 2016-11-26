@@ -13,7 +13,6 @@ public class InputParametersContainer {
 	private ArrayList<String> columns;
 	private ArrayList<ArrayList<String>> values;
 	private HashMap<String, String> columnDefinitions;
-	private AssignmentExpression assignment;
 	private ArrayList<AssignmentExpression> assignmentList;
 
 	public InputParametersContainer() {
@@ -75,13 +74,6 @@ public class InputParametersContainer {
 		this.columnDefinitions = columnDefinitions;
 	}
 
-	public AssignmentExpression getAssignment() {
-		return assignment;
-	}
-
-	public void setAssignment(AssignmentExpression assignment) {
-		this.assignment = assignment;
-	}
 	public ArrayList<AssignmentExpression> getAssignmentList() {
 		return this.assignmentList;
 	}
