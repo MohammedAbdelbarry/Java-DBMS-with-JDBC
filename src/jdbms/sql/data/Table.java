@@ -18,6 +18,7 @@ import jdbms.sql.exceptions.ValueListTooLargeException;
 import jdbms.sql.exceptions.ValueListTooSmallException;
 import jdbms.sql.parsing.expressions.math.AssignmentExpression;
 import jdbms.sql.parsing.expressions.math.BooleanExpression;
+import jdbms.sql.parsing.expressions.util.DataTypesValidator;
 import jdbms.sql.parsing.properties.InsertionParameters;
 import jdbms.sql.parsing.properties.SelectionParameters;
 import jdbms.sql.parsing.properties.TableCreationParameters;
@@ -68,7 +69,8 @@ public class Table {
 			throws RepeatedColumnException,
 			ColumnListTooLargeException,
 			ColumnNotFoundException,
-			ValueListTooLargeException, ValueListTooSmallException {
+			ValueListTooLargeException, ValueListTooSmallException,
+			TypeMismatchException {
 		if (insertParameters.getColumns() == null) {
 			for (ArrayList<String> rowValue : insertParameters.getValues()) {
 				insertRow(rowValue);
@@ -80,7 +82,10 @@ public class Table {
 		}
 	}
 	private void insertRow(ArrayList<String> values)
-		throws ValueListTooLargeException, ValueListTooSmallException {
+		throws ValueListTooLargeException, ValueListTooSmallException,
+		TypeMismatchException {
+		DataTypesValidator dataTypesValidator
+		= new DataTypesValidator();
 		if (values.size() > tableColumns.size()) {
 			throw new ValueListTooLargeException();
 		} else if (values.size() < tableColumns.size()) {
@@ -88,6 +93,10 @@ public class Table {
 		} else {
 			int index = 0;
 			for (String column : tableColumnNames) {
+				if (!dataTypesValidator.match(tableColumns.get(
+						column).getColumnDataType(), values.get(index))) {
+					throw new TypeMismatchException();
+				}
 				tableColumns.get(column).add(values.get(index));
 				index++;
 			}
@@ -97,7 +106,10 @@ public class Table {
 	private void insertRow(ArrayList<String> columnNames,
 			ArrayList<String> values)
 			throws RepeatedColumnException, ColumnListTooLargeException,
-			ColumnNotFoundException, ValueListTooLargeException {
+			ColumnNotFoundException, ValueListTooLargeException,
+			TypeMismatchException {
+		DataTypesValidator dataTypesValidator
+		= new DataTypesValidator();
 		if (columnNames.size() > tableColumns.size() ||
 				columnNames.size() > values.size()) {
 			throw new ColumnListTooLargeException();
@@ -116,6 +128,10 @@ public class Table {
 		Set<String> nullCells = new HashSet<>(tableColumns.keySet());
 		nullCells.removeAll(columnNames);
 		for (int i = 0; i < columnNames.size(); i++) {
+			if (!dataTypesValidator.match(tableColumns.get(
+					columnNames.get(i)).getColumnDataType(), values.get(i))) {
+				throw new TypeMismatchException();
+			}
 			tableColumns.get(columnNames.get(i)).add(values.get(i));
 		}
 		for (String nullCell : nullCells) {
@@ -180,7 +196,12 @@ public class Table {
 			throws ColumnNotFoundException, TypeMismatchException {
 		ArrayList<AssignmentExpression> assignments
 		= updateParameters.getAssignmentList();
-		ArrayList<Integer> matches = getAllMatches(updateParameters.getCondition());
+		ArrayList<Integer> matches;
+		if (updateParameters.getCondition() == null) {
+			matches = getAllRows();
+		} else {
+			matches = getAllMatches(updateParameters.getCondition());
+		}
 		for (AssignmentExpression assignment : assignments) {
 			AssignColumn(assignment, matches);
 		}

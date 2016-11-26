@@ -11,14 +11,14 @@ import org.junit.Test;
 import jdbms.sql.data.ColumnIdentifier;
 import jdbms.sql.data.Table;
 import jdbms.sql.data.TableIdentifier;
-import jdbms.sql.data.xml.XMLCreator;
-import jdbms.sql.data.xml.XMLParser;
+import jdbms.sql.data.xml.XMLCreator2;
+import jdbms.sql.data.xml.XMLParser2;
 import jdbms.sql.parsing.properties.InsertionParameters;
 
 public class XMLTesting {
 
-	XMLCreator creator;
-	XMLParser parser;
+	XMLCreator2 creator;
+	XMLParser2 parser;
 	Table table;
 	@Before
 	public void setUp() throws Exception {

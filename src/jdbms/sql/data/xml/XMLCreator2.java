@@ -28,6 +28,7 @@ import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
 import jdbms.sql.exceptions.ColumnNotFoundException;
 import jdbms.sql.exceptions.RepeatedColumnException;
+import jdbms.sql.exceptions.TypeMismatchException;
 import jdbms.sql.exceptions.ValueListTooLargeException;
 import jdbms.sql.exceptions.ValueListTooSmallException;
 import jdbms.sql.parsing.properties.InsertionParameters;
@@ -85,6 +86,9 @@ public class XMLCreator2 {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ColumnNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TypeMismatchException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
