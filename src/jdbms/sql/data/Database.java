@@ -26,21 +26,25 @@ public class Database {
 	}
 
 	public void addTable(TableIdentifier newTableIdentifier)
-			throws TableAlreadyExistsException {
-		try {
-			tables.put(newTableIdentifier.getTableName(),
-					new Table(newTableIdentifier));
-		} catch (ColumnAlreadyExistsException e) {
-			// ErrorHandler.printTableAlreadyExistsError();
+			throws TableAlreadyExistsException,
+			ColumnAlreadyExistsException {
+		if (tables.containsKey(newTableIdentifier.getTableName())) {
+			throw new TableAlreadyExistsException();
 		}
+		tables.put(newTableIdentifier.getTableName(),
+			new Table(newTableIdentifier));
+
 	}
 
-	public Table addTable(TableCreationParameters tableParameters) 
-			throws ColumnAlreadyExistsException {
+	public void addTable(TableCreationParameters tableParameters)
+			throws ColumnAlreadyExistsException,
+			TableAlreadyExistsException {
+		if (tables.containsKey(tableParameters.getTableName())) {
+			throw new TableAlreadyExistsException();
+		}
 		Table newTable = new Table(tableParameters);
 		tables.put(tableParameters.getTableName(),
 				newTable);
-		return newTable;
 	}
 	public Table getTable(String tableName) {
 		return tables.get(tableName);
@@ -54,9 +58,9 @@ public class Database {
 		return databaseName;
 	}
 
-	public void insertInto (InsertionParameters parameters) 
-			throws RepeatedColumnException, 
-			ColumnListTooLargeException, 
+	public void insertInto (InsertionParameters parameters)
+			throws RepeatedColumnException,
+			ColumnListTooLargeException,
 			ColumnNotFoundException {
 		tables.get(parameters.getTableName()).insertRows(parameters);
 	}

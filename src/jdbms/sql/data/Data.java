@@ -8,6 +8,7 @@ import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
 import jdbms.sql.exceptions.ColumnNotFoundException;
 import jdbms.sql.exceptions.RepeatedColumnException;
+import jdbms.sql.exceptions.TableAlreadyExistsException;
 import jdbms.sql.parsing.properties.DatabaseCreationParameters;
 import jdbms.sql.parsing.properties.DatabaseDroppingParameters;
 import jdbms.sql.parsing.properties.InsertionParameters;
@@ -79,9 +80,14 @@ public class Data {
 		return null;
 	}
 
-	public Table createTable(TableCreationParameters tableParamters)
-			throws ColumnAlreadyExistsException {
-		return activeDatabase.addTable(tableParamters);
+	public void createTable(TableCreationParameters tableParamters) {
+		try {
+			activeDatabase.addTable(tableParamters);
+		} catch (TableAlreadyExistsException e) {
+			// ErrorHandler.printTableAlreadyExistsError()
+		} catch (ColumnAlreadyExistsException e) {
+			// ErrorHandler.printColumnAlreadyExistsError()
+		}
 	}
 
 	public void dropTable(TableDroppingParameters tableParameters) {

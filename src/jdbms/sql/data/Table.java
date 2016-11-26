@@ -6,13 +6,17 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import jdbms.sql.datatypes.IntSQLType;
+import jdbms.sql.datatypes.VarcharSQLType;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
 import jdbms.sql.exceptions.ColumnNotFoundException;
 import jdbms.sql.exceptions.RepeatedColumnException;
+import jdbms.sql.exceptions.TypeMismatchException;
 import jdbms.sql.parsing.expressions.math.BooleanExpression;
 import jdbms.sql.parsing.properties.InsertionParameters;
 import jdbms.sql.parsing.properties.TableCreationParameters;
+import jdbms.sql.parsing.util.Constants;
 
 public class Table {
 
@@ -121,19 +125,134 @@ public class Table {
 	public String getName() {
 		return tableName;
 	}
-	public void deleteRow(BooleanExpression condition) {
+	public void deleteRows(BooleanExpression condition)
+			throws ColumnNotFoundException, TypeMismatchException {
 		if(condition.leftOperandIsConstant()
 				&& condition.rightOperandIsConstant()) {
 			if (condition.evaluateConstantExpression()) {
-				for (TableColumn column : columns.values()) {
-					column.clearColumn();
-				}
+				clearTable();
 			} else {
 				return;
 			}
 		} else if (condition.leftOperandIsColumnName()
 				&& condition.rightOperandIsConstant()) {
-			
+			String columnName = condition.getLeftOperand();
+			deleteMatching(condition, columnName,
+					condition.getRightOperand(), true);
+		} else if (condition.rightOperandIsColumnName()
+				&& condition.leftOperandIsConstant()) {
+			String columnName = condition.getRightOperand();
+			deleteMatching(condition, columnName,
+					condition.getLeftOperand(), false);
+		} else if (condition.rightOperandIsColumnName() &&
+				condition.leftOperandIsColumnName()) {
+			deleteMatching(condition, condition.getLeftOperand(),
+					condition.getRightOperand());
+		}
+	}
+	private int getFirstMatch(BooleanExpression condition,
+			TableColumn conditionColumn, String other,
+			boolean leftIsTableColumn) {
+		if (Constants.STRING_TYPES.contains(
+				conditionColumn.getColumnDataType())) {
+			for (int i = 0; i < numberOfRows; i++) {
+				if (leftIsTableColumn) {
+					if (condition.evaluate((VarcharSQLType) conditionColumn.get(i),
+							new VarcharSQLType(other))) {
+						return i;
+					}
+				} else {
+					if (condition.evaluate(new VarcharSQLType(other),
+						(VarcharSQLType) conditionColumn.get(i))) {
+						return i;
+					}
+				}
+			}
+		} else if (Constants.INTEGER_TYPES.contains(
+				conditionColumn.getColumnDataType())) {
+			for (int i = 0; i < numberOfRows; i++) {
+				if (leftIsTableColumn) {
+					if (condition.evaluate((IntSQLType) conditionColumn.get(i),
+							new IntSQLType(other))) {
+						return i;
+					}
+				} else {
+					if (condition.evaluate(new IntSQLType(other),
+						(IntSQLType) conditionColumn.get(i))) {
+						return i;
+					}
+				}
+			}
+		}
+		return -1;
+	}
+	private int getFirstMatch(BooleanExpression condition,
+			TableColumn conditionColumn, TableColumn other)
+					throws TypeMismatchException {
+		if (!conditionColumn.getColumnDataType().
+				equals(other.getColumnDataType())) {
+			throw new TypeMismatchException();
+		}
+		if (Constants.STRING_TYPES.contains(
+				conditionColumn.getColumnDataType())) {
+			for (int i = 0; i < numberOfRows; i++) {
+				if (condition.evaluate((VarcharSQLType)conditionColumn.get(i),
+						(VarcharSQLType)other.get(i))) {
+					return i;
+				}
+			}
+		} else if (Constants.INTEGER_TYPES.contains(
+				conditionColumn.getColumnDataType())) {
+			for (int i = 0; i < numberOfRows; i++) {
+				if (condition.evaluate((IntSQLType)conditionColumn.get(i),
+						(IntSQLType)other.get(i))) {
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+	private void deleteRow(int index) {
+		for (TableColumn column : columns.values()) {
+			column.remove(index);
+		}
+	}
+	private void clearTable() {
+		for (TableColumn column : columns.values()) {
+			column.clearColumn();
+		}
+	}
+	private void deleteMatching(BooleanExpression condition,
+			String columnName, String other,
+			boolean leftIsTableColumn)
+					throws ColumnNotFoundException {
+		if (!columns.containsKey(columnName)) {
+			throw new ColumnNotFoundException();
+		}
+		int firstMatch = getFirstMatch(condition, columns.get(columnName),
+			other, leftIsTableColumn);
+		while (firstMatch != -1) {
+			deleteRow(firstMatch);
+			firstMatch = getFirstMatch(condition, columns.get(columnName),
+					other, leftIsTableColumn);
+		}
+	}
+	private void deleteMatching(BooleanExpression condition, String
+			columnName, String otherColumnName)
+					throws ColumnNotFoundException,
+					TypeMismatchException {
+		if (!columns.containsKey(columnName)) {
+			throw new ColumnNotFoundException(columnName);
+		}
+		if (!columns.containsKey(otherColumnName)) {
+			throw new ColumnNotFoundException(otherColumnName);
+		}
+		int firstMatch = getFirstMatch(condition, columns.get(columnName),
+			columns.get(otherColumnName));
+		while (firstMatch != -1) {
+			deleteRow(firstMatch);
+			firstMatch = getFirstMatch(condition, columns.get(columnName),
+					columns.get(otherColumnName));
 		}
 	}
 }
