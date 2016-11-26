@@ -1,8 +1,8 @@
 package jdbms.sql.parsing.properties;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
+import jdbms.sql.data.ColumnIdentifier;
 import jdbms.sql.parsing.expressions.math.AssignmentExpression;
 import jdbms.sql.parsing.expressions.math.BooleanExpression;
 
@@ -12,9 +12,8 @@ public class InputParametersContainer {
 	private String tableName;
 	private ArrayList<String> columns;
 	private ArrayList<ArrayList<String>> values;
-	private HashMap<String, String> columnDefinitions;
+	private ArrayList<ColumnIdentifier> columnDefinitions;
 	private ArrayList<AssignmentExpression> assignmentList;
-
 	public InputParametersContainer() {
 
 	}
@@ -66,18 +65,19 @@ public class InputParametersContainer {
 		}
 	}
 
-	public HashMap<String, String> getColumnDefinitions() {
+	public ArrayList<ColumnIdentifier> getColumnDefinitions() {
 		return columnDefinitions;
 	}
-
-	public void setColumnDefinitions(HashMap<String, String> columnDefinitions) {
+	public void setColumnDefinitions(ArrayList<ColumnIdentifier> columnDefinitions) {
 		this.columnDefinitions = columnDefinitions;
 	}
 
 	public ArrayList<AssignmentExpression> getAssignmentList() {
-		return this.assignmentList;
+		return assignmentList;
 	}
+
 	public void setAssignmentList(ArrayList<AssignmentExpression> assignmentList) {
 		this.assignmentList = assignmentList;
 	}
+
 }

@@ -66,11 +66,15 @@ public class Database {
 		tables.get(deleteParameters.getTableName()).
 		deleteRows(deleteParameters.getCondition());
 	}
-	public void insertInto (InsertionParameters parameters)
+	public void insertInto (InsertionParameters insertParameters)
 			throws RepeatedColumnException,
 			ColumnListTooLargeException, ColumnNotFoundException,
-			ValueListTooLargeException, ValueListTooSmallException {
-		tables.get(parameters.getTableName()).insertRows(parameters);
+			ValueListTooLargeException, ValueListTooSmallException,
+			TableNotFoundException {
+		if (!tables.containsKey(insertParameters.getTableName())) {
+			throw new TableNotFoundException();
+		}
+		tables.get(insertParameters.getTableName()).insertRows(insertParameters);
 	}
 	public SelectQueryOutput selectFrom(
 			SelectionParameters selectParameters)
