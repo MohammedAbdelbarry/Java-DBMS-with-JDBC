@@ -30,8 +30,15 @@ public abstract class BinaryExpression implements Expression {
 	}
 	@Override
 	public boolean interpret(String sqlExpression) {
+		sqlExpression = sqlExpression.trim();
 		if(!sqlExpression.contains(this.operator.getSymbol())){
-			return false;
+			if (sqlExpression.trim().startsWith("TRUE")) {
+				sqlExpression = sqlExpression.trim().replace("TRUE", "1 = 1");
+			} else if (sqlExpression.trim().startsWith("FALSE")) {
+				sqlExpression = sqlExpression.trim().replace("FALSE", "1 > 1");
+			} else {
+				return false;
+			}
 		}
 		int binExpEndIndex = getSepratorIndex(sqlExpression.trim());
 		String binExp = sqlExpression.trim().substring(0, binExpEndIndex);
@@ -45,10 +52,6 @@ public abstract class BinaryExpression implements Expression {
 						+ this.operator.getSymbol().length()).trim();
 		operator.setLeftOperand(leftOperand);
 		operator.setRightOperand(rightOperand);
-		if (!new ColumnExpression(leftOperand).isValidColumnName() ||
-				!new ValueExpression(rightOperand).isValidExpressionName()) {
-			return false;
-		}
 		if (this.nextExpression != null) {
 			return nextExpression.interpret(restOfExpression);
 		} else if (this.nextStatement != null) {

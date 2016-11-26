@@ -1,6 +1,7 @@
 package jdbms.sql.parsing.expressions;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import jdbms.sql.parsing.expressions.util.ColumnExpression;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 
 public class TableCreationColumnsTypesExpression extends TableCreationTableInfo {
-	private List<String> dataTypes;
+	private Collection<String> dataTypes;
 	private HashMap<String, String> columnsDataTypes = null;
 
 	public TableCreationColumnsTypesExpression(
@@ -28,8 +29,9 @@ public class TableCreationColumnsTypesExpression extends TableCreationTableInfo 
 			parts[0] = parts[0].replace("(", "");
 			String[] types = parts[0].split(",");
 			for (String colType : types) {
-				String colName = colType.trim().substring(0, colType.indexOf(" "));
-				String dataType = colType.trim().substring(colType.indexOf(" ") + 1);
+				colType = colType.trim();
+				String colName = colType.trim().substring(0, colType.indexOf(" ")).trim();
+				String dataType = colType.trim().substring(colType.indexOf(" ") + 1).trim();
 				if (new ColumnExpression(colName).isValidColumnName()
 						&& dataTypes.contains(dataType)) {
 					columnsDataTypes.put(colName, dataType);
