@@ -25,6 +25,7 @@ public class LargerThanEqualsExpression extends BooleanExpression {
 	}
 	@Override
 	public boolean evaluateConstantExpression() {
+		System.out.println(getLeftOperand() + ":" + getRightOperand());
 		return getLeftOperand().compareTo(getRightOperand()) >= 0;
 	}
 }

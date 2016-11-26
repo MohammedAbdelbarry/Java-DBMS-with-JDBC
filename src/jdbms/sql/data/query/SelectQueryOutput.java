@@ -2,6 +2,8 @@ package jdbms.sql.data.query;
 
 import java.util.ArrayList;
 
+import jdbms.sql.parsing.util.Constants;
+
 public class SelectQueryOutput {
 	private ArrayList<String> columns;
 	private ArrayList<ArrayList<String>> outputRows;
@@ -15,6 +17,15 @@ public class SelectQueryOutput {
 	}
 	public void setRows(ArrayList<ArrayList<String>> rows) {
 		outputRows = rows;
+		for (ArrayList<String> row : outputRows) {
+			for (int i = 0  ; i < row.size() ; i++) {
+				String cell = row.get(i);
+				if (cell.matches(Constants.DOUBLE_STRING_REGEX) ||
+						cell.matches(Constants.STRING_REGEX)) {
+					row.set(i, cell.substring(1, cell.length() - 1));
+				}
+			}
+		}
 	}
 	public void printOutput() {
 		PrettyPrinter printer = new PrettyPrinter(System.out, NULL_PLACEHOLDER);

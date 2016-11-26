@@ -73,7 +73,7 @@ public class Database {
 			throws RepeatedColumnException,
 			ColumnListTooLargeException, ColumnNotFoundException,
 			ValueListTooLargeException, ValueListTooSmallException,
-			TableNotFoundException {
+			TableNotFoundException, TypeMismatchException {
 		if (!tables.containsKey(insertParameters.getTableName())) {
 			throw new TableNotFoundException(
 					insertParameters.getTableName());

@@ -14,8 +14,10 @@ public class WhereStatement implements Statement {
 	public WhereStatement(InputParametersContainer parameters) {
 		this.parameters = parameters;
 		boolExpressions = new ArrayList<>();
-		for (String key : BooleanExpressionFactory.getInstance().getRegisteredBooleanExpressions()) {
-			boolExpressions.add(BooleanExpressionFactory.getInstance().createBooleanExpression(key, parameters));
+		for (String key : BooleanExpressionFactory.getInstance().
+				getRegisteredBooleanExpressions()) {
+			boolExpressions.add(BooleanExpressionFactory.
+					getInstance().createBooleanExpression(key, parameters));
 		}
 	}
 
