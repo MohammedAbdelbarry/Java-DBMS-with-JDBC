@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -17,20 +18,27 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.omg.CORBA.ARG_IN;
+
+import jdbms.sql.data.ColumnIdentifier;
 import jdbms.sql.data.Database;
 import jdbms.sql.data.Table;
 import jdbms.sql.data.TableColumn;
+import jdbms.sql.data.TableIdentifier;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
 import jdbms.sql.exceptions.ColumnNotFoundException;
 import jdbms.sql.exceptions.RepeatedColumnException;
+import jdbms.sql.exceptions.ValueListTooLargeException;
+import jdbms.sql.exceptions.ValueListTooSmallException;
+import jdbms.sql.parsing.properties.InsertionParameters;
 
 public class XMLCreator {
 
 	/**
 	 * {@link Table} to be parsed to XML.
 	 */
-	private Table table;
+	private static Table table;
 	/**
 	 * Table columns.
 	 */
@@ -52,22 +60,37 @@ public class XMLCreator {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		Database parent = new Database("School");
-		Table newTable = new Table("Students", parent);
-		newTable.addTableColumn("Grade", "INTEGER");
-		newTable.addTableColumn("Name", "TEXT");
-		ArrayList<String> columnNames = new ArrayList<>();
-		columnNames.add("Grade");
-		columnNames.add("Name");
-		ArrayList<String> values = new ArrayList<>();
-		values.add("90");
-		values.add("Ahmed");
-		newTable.insertRow(columnNames, values);
-		values.clear();
-		values.add("250");
-		values.add("HAMADA");
-		newTable.insertRow(columnNames, values);
-		XMLCreator creator = new XMLCreator(newTable);
+		XMLCreator creator;
+		ArrayList<ColumnIdentifier> columns = new ArrayList<>();
+		columns.add(new ColumnIdentifier("Grade", "INTEGER"));
+		columns.add(new ColumnIdentifier("Name", "VARCHAR"));
+		TableIdentifier identifier = new TableIdentifier("Students", columns);
+		table = new Table(identifier);
+		InsertionParameters insertParameters = new InsertionParameters();
+		ArrayList<String> columnList = new ArrayList<>();
+		columnList.add("Grade");
+		columnList.add("Name");
+		insertParameters.setColumns(columnList);
+		ArrayList<ArrayList<String>> values = new ArrayList<>();
+		ArrayList<String> row = new ArrayList<>();
+		row.add("19");
+		row.add("Ahmed");
+		values.add(row);
+		ArrayList<String> newRw = new ArrayList<>();
+		newRw.add("18");
+		newRw.add("Mohamed");
+		values.add(newRw);
+		insertParameters.setValues(values);
+		try {
+			table.insertRows(insertParameters);
+		} catch (ValueListTooLargeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ValueListTooSmallException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		creator = new XMLCreator(table);
 		System.out.println(creator.create());;
    }
 

@@ -2,6 +2,7 @@ package jdbms.sql.data.xml;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,6 +24,9 @@ import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
 import jdbms.sql.exceptions.ColumnNotFoundException;
 import jdbms.sql.exceptions.RepeatedColumnException;
+import jdbms.sql.exceptions.ValueListTooLargeException;
+import jdbms.sql.exceptions.ValueListTooSmallException;
+import jdbms.sql.parsing.properties.InsertionParameters;
 
 public class XMLParser {
 
@@ -33,13 +37,17 @@ public class XMLParser {
 	private Set<String> columns;
 	private ArrayList<String> columnNames;
 
-	public XMLParser(TableIdentifier tableIdentifier) {
+	public XMLParser(TableIdentifier tableIdentifier, Database parent) {
 		this.tableIdentifier = tableIdentifier;
 		String tableName = tableIdentifier.getTableName();
 		columnIdentifiers = tableIdentifier.getColumnsIdentifiers();
 		columns = new HashSet<>(tableIdentifier.getColumnNames());
-		Database parent = tableIdentifier.getParent();
-		table = new Table(tableName, parent);
+		try {
+			table = new Table(tableIdentifier);
+		} catch (ColumnAlreadyExistsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		columnNames = new ArrayList<>();
 		initializeTable();
 	}
@@ -51,21 +59,21 @@ public class XMLParser {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		ArrayList<ColumnIdentifier> columns = new ArrayList<>();
-		columns.add(new ColumnIdentifier("Name", "VARCHAR"));
-		columns.add(new ColumnIdentifier("ID", "INTEGER"));
-		Database parent = new Database("School");
-		TableIdentifier identifier = new TableIdentifier("Students", columns, parent);
-		XMLParser parser = new XMLParser(identifier);
-		XMLInputFactory factory = XMLInputFactory.newInstance();
-		try {
-			XMLEventReader eventReader = factory.createXMLEventReader(new FileReader("input.txt"));
-			Table result = parser.parse(eventReader);
-			XMLCreator creator = new XMLCreator(result);
-			System.out.println(creator.create());
-		} catch (FileNotFoundException | XMLStreamException e) {
-			e.printStackTrace();
-		}
+//		ArrayList<ColumnIdentifier> columns = new ArrayList<>();
+//		columns.add(new ColumnIdentifier("Name", "VARCHAR"));
+//		columns.add(new ColumnIdentifier("ID", "INTEGER"));
+//		Database parent = new Database("School");
+//		TableIdentifier identifier = new TableIdentifier("Students", columns, parent);
+//		XMLParser parser = new XMLParser(identifier);
+//		XMLInputFactory factory = XMLInputFactory.newInstance();
+//		try {
+//			XMLEventReader eventReader = factory.createXMLEventReader(new FileReader("input.txt"));
+//			Table result = parser.parse(eventReader);
+//			XMLCreator creator = new XMLCreator(result);
+//			System.out.println(creator.create());
+//		} catch (FileNotFoundException | XMLStreamException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	private void initializeTable() {
@@ -122,7 +130,11 @@ public class XMLParser {
 		String name = endElement.getName().getLocalPart();
 		if (name.equals("row")) {
 			try {
-				table.insertRow(columnNames, values);
+				ArrayList<ArrayList<String>> forIdent = new ArrayList<>();
+				forIdent.add(values);
+				InsertionParameters parameters = new InsertionParameters();
+				parameters.setValues(forIdent);
+				table.insertRows(parameters);
 			} catch (RepeatedColumnException e) {
 				// ErrorHandler.printRepeatedColumnError()
 				e.printStackTrace();
@@ -131,6 +143,12 @@ public class XMLParser {
 				e.printStackTrace();
 			} catch (ColumnNotFoundException e) {
 				// ErrorHandler.printColumnNotFoundError()
+				e.printStackTrace();
+			} catch (ValueListTooLargeException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ValueListTooSmallException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			valueAvailable = false;

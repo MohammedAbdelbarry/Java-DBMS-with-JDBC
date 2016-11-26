@@ -45,6 +45,7 @@ public class Table {
 		this.tableName = tableIdentifier.getTableName();
 		ArrayList<ColumnIdentifier> columnIdentifiers
 		= tableIdentifier.getColumnsIdentifiers();
+		columns = new HashMap<>();
 		for (ColumnIdentifier columnIdentifier
 				: columnIdentifiers) {
 			addTableColumn(columnIdentifier.getName(),
