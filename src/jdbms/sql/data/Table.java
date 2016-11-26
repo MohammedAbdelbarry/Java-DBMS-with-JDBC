@@ -58,7 +58,7 @@ public class Table {
 	public void addTableColumn(String columnName, String columnDataType)
 			throws ColumnAlreadyExistsException {
 		if (tableColumns.containsKey(columnName)) {
-			throw new ColumnAlreadyExistsException();
+			throw new ColumnAlreadyExistsException(columnName);
 		}
 		TableColumn newColumn = new TableColumn(columnName, columnDataType);
 		tableColumns.put(columnName, newColumn);
@@ -110,7 +110,7 @@ public class Table {
 		}
 		for (String column : columnNames) {
 			if (!tableColumns.containsKey(column)) {
-				throw new ColumnNotFoundException();
+				throw new ColumnNotFoundException(column);
 			}
 		}
 		Set<String> nullCells = new HashSet<>(tableColumns.keySet());
@@ -229,7 +229,7 @@ public class Table {
 		if (!assignment.leftOperandIsColumnName() ||
 				!assignment.rightOperandIsConstant() ||
 				!tableColumns.containsKey(assignment.getLeftOperand())) {
-			throw new ColumnNotFoundException();
+			throw new ColumnNotFoundException(assignment.getLeftOperand());
 		}
 		for (int i : matches) {
 			tableColumns.get(assignment.getLeftOperand()).
@@ -421,7 +421,7 @@ public class Table {
 			boolean leftIsTableColumn)
 					throws ColumnNotFoundException {
 		if (!tableColumns.containsKey(columnName)) {
-			throw new ColumnNotFoundException();
+			throw new ColumnNotFoundException(columnName);
 		}
 		int firstMatch = getFirstMatch(condition, tableColumns.get(columnName),
 			other, leftIsTableColumn);

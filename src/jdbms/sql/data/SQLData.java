@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import jdbms.sql.data.query.SelectQueryOutput;
+import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
 import jdbms.sql.exceptions.ColumnNotFoundException;
@@ -35,7 +36,6 @@ public class SQLData {
 		data = new HashMap<>();
 		data.put("default", new Database(DEFAULT_DATABASE));
 		activeDatabase = data.get(DEFAULT_DATABASE);
-
 	}
 
 	/**
@@ -67,7 +67,8 @@ public class SQLData {
 	 */
 	public void dropDatabase(DatabaseDroppingParameters dropDBParameters) {
 		if (!data.containsKey(dropDBParameters.getDatabaseName())) {
-			//ErrorHandler.printDatabaseNotFoundError();
+			ErrorHandler.printDatabaseNotFoundError(
+					dropDBParameters.getDatabaseName());
 			return;
 		}
 		if (dropDBParameters.getDatabaseName().equals(
@@ -88,11 +89,11 @@ public class SQLData {
 		try {
 			return activeDatabase.selectFrom(selectParameters);
 		} catch (ColumnNotFoundException e) {
-			// ErrorHandler.printColumnNotFoundError()
+			ErrorHandler.printColumnNotFoundError(e.getMessage());
 		} catch (TypeMismatchException e) {
-			// ErrorHandler.printTypeMismatchError()
+			ErrorHandler.printTypeMismatchError();
 		} catch (TableNotFoundException e) {
-			// ErrorHandler.printTableNotFoundError()
+			 ErrorHandler.printTableNotFoundError(e.getMessage());
 		}
 		return null;
 	}
@@ -101,9 +102,9 @@ public class SQLData {
 		try {
 			activeDatabase.addTable(tableParamters);
 		} catch (TableAlreadyExistsException e) {
-			// ErrorHandler.printTableAlreadyExistsError()
+			 ErrorHandler.printTableAlreadyExistsError(e.getMessage());
 		} catch (ColumnAlreadyExistsException e) {
-			// ErrorHandler.printColumnAlreadyExistsError()
+			 ErrorHandler.printColumnAlreadyExistsError(e.getMessage());
 		}
 	}
 
@@ -115,17 +116,17 @@ public class SQLData {
 		try {
 			activeDatabase.insertInto(parameters);
 		} catch (RepeatedColumnException e) {
-			// ErrorHandler.printRepeatedAlreadyExistsError()
+			 ErrorHandler.printRepeatedColumnError();
 		} catch (ColumnListTooLargeException e) {
-			// ErrorHandler.printColumnListTooLarge()
+			 ErrorHandler.printColumnListTooLargeError();
 		} catch (ColumnNotFoundException e) {
-			// ErrorHandler.printColumnNotFoundError();
+			 ErrorHandler.printColumnNotFoundError(e.getMessage());
 		} catch (ValueListTooLargeException e) {
-			// ErrorHandler.printValueListTooLarge()
+			 ErrorHandler.printValueListTooLargeError();
 		} catch (ValueListTooSmallException e) {
-			// ErrorHandler.printValueListTooSmall();
+			 ErrorHandler.printValueListTooSmallError();
 		} catch (TableNotFoundException e) {
-			// ErrorHandler.printTableNotFoundErrors();
+			 ErrorHandler.printTableNotFoundError(e.getMessage());
 		}
 	}
 	public void deleteFrom(DeletionParameters deleteParameters) {

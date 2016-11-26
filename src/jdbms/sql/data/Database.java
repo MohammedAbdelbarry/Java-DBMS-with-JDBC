@@ -35,7 +35,8 @@ public class Database {
 			throws TableAlreadyExistsException,
 			ColumnAlreadyExistsException {
 		if (tables.containsKey(newTableIdentifier.getTableName())) {
-			throw new TableAlreadyExistsException();
+			throw new TableAlreadyExistsException(
+					newTableIdentifier.getTableName());
 		}
 		tables.put(newTableIdentifier.getTableName(),
 			new Table(newTableIdentifier));
@@ -46,7 +47,8 @@ public class Database {
 			throws ColumnAlreadyExistsException,
 			TableAlreadyExistsException {
 		if (tables.containsKey(tableParameters.getTableName())) {
-			throw new TableAlreadyExistsException();
+			throw new TableAlreadyExistsException(
+					tableParameters.getTableName());
 		}
 		Table newTable = new Table(tableParameters);
 		tables.put(tableParameters.getTableName(),
@@ -61,7 +63,8 @@ public class Database {
 			throws ColumnNotFoundException,
 			TypeMismatchException, TableNotFoundException {
 		if (!tables.containsKey(deleteParameters.getTableName())) {
-			throw new TableNotFoundException(deleteParameters.getTableName());
+			throw new TableNotFoundException(
+					deleteParameters.getTableName());
 		}
 		tables.get(deleteParameters.getTableName()).
 		deleteRows(deleteParameters.getCondition());
@@ -72,7 +75,8 @@ public class Database {
 			ValueListTooLargeException, ValueListTooSmallException,
 			TableNotFoundException {
 		if (!tables.containsKey(insertParameters.getTableName())) {
-			throw new TableNotFoundException();
+			throw new TableNotFoundException(
+					insertParameters.getTableName());
 		}
 		tables.get(insertParameters.getTableName()).insertRows(insertParameters);
 	}
@@ -81,7 +85,8 @@ public class Database {
 			throws ColumnNotFoundException,
 			TypeMismatchException, TableNotFoundException {
 		if (!tables.containsKey(selectParameters.getTableName())) {
-			throw new TableNotFoundException();
+			throw new TableNotFoundException(
+					selectParameters.getTableName());
 		}
 		return tables.get(selectParameters.
 				getTableName()).selectFromTable(selectParameters);
@@ -90,7 +95,8 @@ public class Database {
 			throws ColumnNotFoundException, TypeMismatchException,
 			TableNotFoundException {
 		if (!tables.containsKey(updateParameters.getTableName())) {
-			throw new TableNotFoundException();
+			throw new TableNotFoundException(
+					updateParameters.getTableName());
 		}
 		tables.get(updateParameters.getTableName()).
 		updateTable(updateParameters);
