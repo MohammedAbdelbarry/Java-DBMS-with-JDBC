@@ -27,10 +27,17 @@ public class DTDCreator {
 
 	public String create(String database, TableIdentifier identifier, String path) {
 		StringBuilder dtdString = new StringBuilder("");
+		//dtdString.append("<!DOCTYPE \"Table\" [");
+		ArrayList<String> columns = identifier.getColumnNames();
+		ArrayList<ColumnIdentifier> columnIdentifiers = identifier.getColumnsIdentifiers();
 		dtdString.append("<!ELEMENT ");
 		dtdString.append(identifier.getTableName() + " (row)*>");
+		dtdString.append("<!ATTLIST " + identifier.getTableName() + " " +"xmlns CDATA #FIXED '' ");
+		for (ColumnIdentifier column : columnIdentifiers) {
+			dtdString.append(column.getName() +  " NMTOKEN " + "#REQUIRED ");
+		}
+		dtdString.append('>');
 		dtdString.append('\n');
-		ArrayList<String> columns = identifier.getColumnNames();
 		dtdString.append("<!ELEMENT ");
 		dtdString.append("row (");
 		for (int i = 0; i < columns.size(); i++) {
@@ -42,10 +49,15 @@ public class DTDCreator {
 		}
 		dtdString.append(")>");
 		dtdString.append('\n');
-		for (String column : columns) {
-			dtdString.append("<!ELEMENT " + column + " (#CDATA)>");
+		dtdString.append("<!ATTLIST row xmlns CDATA #FIXED ''>");
+		dtdString.append('\n');
+		for (ColumnIdentifier column : columnIdentifiers) {
+			dtdString.append("<!ELEMENT " + column.getName() + " (#PCDATA)>");
+			dtdString.append("<!ATTLIST " + column.getName() + " xmlns CDATA #FIXED ''>");
 			dtdString.append('\n');
 		}
+		dtdString.append('\n');
+		//dtdString.append("]>");
 		String dtd = dtdString.toString();
 		createFile(database, identifier, dtd, path);
 		return dtd;
