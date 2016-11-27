@@ -20,7 +20,7 @@ public class DropTableStatement extends InitialStatement {
 	@Override
 	public boolean interpret(String sqlExpression) {
 		if (sqlExpression.startsWith(STATEMENT_IDENTIFIER)) {
-			String restOfExpression = sqlExpression.replace(STATEMENT_IDENTIFIER, "").trim();
+			String restOfExpression = sqlExpression.replaceFirst(STATEMENT_IDENTIFIER, "").trim();
 			return new TerminatingTableExpression(parameters).interpret(restOfExpression);
 		}
 		return false;

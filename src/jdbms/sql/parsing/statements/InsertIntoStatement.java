@@ -20,7 +20,7 @@ public class InsertIntoStatement extends InitialStatement {
 	@Override
 	public boolean interpret(String sqlExpression) {
 		if (sqlExpression.startsWith(STATEMENT_IDENTIFIER)) {
-			String restOfExpression = sqlExpression.replace(STATEMENT_IDENTIFIER, "").trim();
+			String restOfExpression = sqlExpression.replaceFirst(STATEMENT_IDENTIFIER, "").trim();
 			if (new TableNameColumnListExpression(parameters).interpret(restOfExpression) ||
 					new TableNameValueListExpression(parameters).interpret(restOfExpression)) {
 				return true;

@@ -9,6 +9,7 @@ import jdbms.sql.parsing.statements.DeleteStatement;
 import jdbms.sql.parsing.statements.InsertIntoStatement;
 import jdbms.sql.parsing.statements.SelectStatement;
 import jdbms.sql.parsing.statements.Statement;
+import jdbms.sql.parsing.statements.UpdateStatement;
 
 public class Dummy {
 	Collection<Statement> statements;
@@ -38,7 +39,7 @@ public class Dummy {
 		}
 	}
 	public void parse(String sql) {	
-		SelectStatement x = new SelectStatement();
+		UpdateStatement x = new UpdateStatement();
 		if (x.interpret(sql)) {
 			System.out.println("Success");
 		}
@@ -52,7 +53,8 @@ public class Dummy {
 		String dropTable = "DROP TABLE MY$DBLOL ;";
 		String createTable = "create table mytable (col1 int, col2 text, col3 int, col4 text);";
 		String delete = "delete from mytable where col1 >= 550;";
-		String update = "update _$table_name set column1='value1',column2='value2' where 1 = 'no';";
+		//String update = "update _$table_name set column1='value1',column2='value2' where 1 = 'no';";
+		String update = "update mytable set col2 = \"INSERT UPDATE TABLE DATABASE CREATION\" where col1 = 'set where from select create ';";
 		String terminalUpdate = "update _$table_name set   column1='value1'   ,    column2='value2';";
 		//String select = "    seLeCt colum$$n_name,co$$$LLLmn_name   FrOM table$_name whEre col1='val'     ;";
 		String select = "select * from a where b = ' select * from a where b = e ';";
@@ -63,11 +65,11 @@ public class Dummy {
 		//dummy.parse(p.normalizeCommand(dropDB));
 		//dummy.parse(p.normalizeCommand(dropTable));
 		//dummy.parse(p.normalizeCommand(createTable));
-		//System.out.println(p.normalizeCommand(delete));
+		System.out.println(p.normalizeCommand(update));
 		//dummy.parse(p.normalizeCommand(delete));
-		//dummy.parse(p.normalizeCommand(update));
+		dummy.parse(p.normalizeCommand(update));
 		//dummy.parse(p.normalizeCommand(terminalUpdate));
-		dummy.parse(p.normalizeCommand(select));
+		//dummy.parse(p.normalizeCommand(select));
 	}
 	
 	/*public static void main(String args[]) {

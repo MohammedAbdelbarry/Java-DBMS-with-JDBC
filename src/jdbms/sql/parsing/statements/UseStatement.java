@@ -20,7 +20,7 @@ public class UseStatement extends InitialStatement{
 	public boolean interpret(String sqlExpression) {
 		if (sqlExpression.startsWith(STATEMENT_IDENTIFIER)) {
 			String restOfExpression
-			= sqlExpression.replace(STATEMENT_IDENTIFIER, "").trim();
+			= sqlExpression.replaceFirst(STATEMENT_IDENTIFIER, "").trim();
 			return new DatabaseTerminatingExpression(parameters).
 					interpret(restOfExpression);
 		}

@@ -22,7 +22,7 @@ public class SelectStatement extends InitialStatement {
 	@Override
 	public boolean interpret(String sqlExpression) {
 		if (sqlExpression.startsWith(STATEMENT_IDENTIFIER)) {
-			String restOfExpression = sqlExpression.replace(
+			String restOfExpression = sqlExpression.replaceFirst(
 					STATEMENT_IDENTIFIER, "").trim();
 			if (new ColumnWildcardExpression(
 					parameters).interpret(restOfExpression) ||

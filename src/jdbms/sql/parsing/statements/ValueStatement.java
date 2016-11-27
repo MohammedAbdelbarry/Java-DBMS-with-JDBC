@@ -13,7 +13,7 @@ public class ValueStatement implements Statement {
 	@Override
 	public boolean interpret(String sqlExpression) {
 		if (sqlExpression.startsWith(STATEMENT_IDENTIFIER)) {
-			String restOfExpression = sqlExpression.replace(STATEMENT_IDENTIFIER, "").trim();
+			String restOfExpression = sqlExpression.replaceFirst(STATEMENT_IDENTIFIER, "").trim();
 			return new InsertIntoValueListExpression(parameters).interpret(restOfExpression);
 		}
 		return false;
