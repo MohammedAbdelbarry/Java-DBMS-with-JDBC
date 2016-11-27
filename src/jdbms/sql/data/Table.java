@@ -240,7 +240,8 @@ public class Table {
 			if (!tableColumns.containsKey(condition.getRightOperand().toUpperCase())) {
 				throw new ColumnNotFoundException(condition.getRightOperand());
 			}
-			matches = getAllMatches(condition, tableColumns.get(condition.getLeftOperand().toUpperCase()),
+			matches = getAllMatches(condition, tableColumns.get(
+					condition.getLeftOperand().toUpperCase()),
 					tableColumns.get(condition.getRightOperand().toUpperCase()));
 		}
 		return matches;
@@ -307,14 +308,16 @@ public class Table {
 		if (Constants.STRING_TYPES.contains(
 				conditionColumn.getColumnDataType())) {
 			for (int i = 0; i < numberOfRows; i++) {
+				String cellValue = conditionColumn.get(i).getStringValue();
 				if (leftIsTableColumn) {
-					if (condition.evaluate((VarcharSQLType) conditionColumn.get(i),
-							new VarcharSQLType(other))) {
+					if (condition.evaluate(new VarcharSQLType(cellValue.substring(1,
+							cellValue.length() - 1)), new VarcharSQLType(other))) {
 						return i;
 					}
 				} else {
 					if (condition.evaluate(new VarcharSQLType(other),
-						(VarcharSQLType) conditionColumn.get(i))) {
+							new VarcharSQLType(cellValue.substring(1,
+									cellValue.length() - 1)))) {
 						return i;
 					}
 				}
@@ -340,15 +343,20 @@ public class Table {
 	private int getFirstMatch(BooleanExpression condition,
 			TableColumn conditionColumn, TableColumn other)
 					throws TypeMismatchException {
-		if (!conditionColumn.getColumnDataType().
-				equals(other.getColumnDataType())) {
+		DataTypesValidator validator = new DataTypesValidator();
+		if (!validator.checkDataTypes(conditionColumn.getColumnDataType(),
+				other.getColumnDataType())) {
 			throw new TypeMismatchException();
 		}
 		if (Constants.STRING_TYPES.contains(
 				conditionColumn.getColumnDataType())) {
 			for (int i = 0; i < numberOfRows; i++) {
-				if (condition.evaluate((VarcharSQLType)conditionColumn.get(i),
-						(VarcharSQLType)other.get(i))) {
+				String leftCellValue = conditionColumn.get(i).getStringValue();
+				String rightCellValue = other.get(i).getStringValue();
+				if (condition.evaluate(new VarcharSQLType(leftCellValue.substring(1,
+						leftCellValue.length() - 1)),
+						new VarcharSQLType(rightCellValue.substring(1,
+								rightCellValue.length() - 1)))) {
 					return i;
 				}
 			}
@@ -370,14 +378,17 @@ public class Table {
 		if (Constants.STRING_TYPES.contains(
 				conditionColumn.getColumnDataType())) {
 			for (int i = 0; i < numberOfRows; i++) {
+				String cellValue = conditionColumn.get(i).getStringValue();
 				if (leftIsTableColumn) {
-					if (condition.evaluate((VarcharSQLType) conditionColumn.get(i),
+					if (condition.evaluate(new VarcharSQLType(cellValue.substring(1,
+							cellValue.length() - 1)),
 							new VarcharSQLType(other))) {
 						matches.add(i);
 					}
 				} else {
 					if (condition.evaluate(new VarcharSQLType(other),
-						(VarcharSQLType) conditionColumn.get(i))) {
+							new VarcharSQLType(cellValue.substring(1,
+									cellValue.length() - 1)))) {
 						matches.add(i);
 					}
 				}
@@ -403,16 +414,21 @@ public class Table {
 	private ArrayList<Integer> getAllMatches(BooleanExpression condition,
 			TableColumn conditionColumn, TableColumn other)
 					throws TypeMismatchException {
-		if (!conditionColumn.getColumnDataType().
-				equals(other.getColumnDataType())) {
+		DataTypesValidator validator = new DataTypesValidator();
+		if (!validator.checkDataTypes(conditionColumn.getColumnDataType(),
+				other.getColumnDataType())) {
 			throw new TypeMismatchException();
 		}
 		ArrayList<Integer> matches = new ArrayList<>();
 		if (Constants.STRING_TYPES.contains(
 				conditionColumn.getColumnDataType())) {
 			for (int i = 0; i < numberOfRows; i++) {
-				if (condition.evaluate((VarcharSQLType)conditionColumn.get(i),
-						(VarcharSQLType)other.get(i))) {
+				String leftCellValue = conditionColumn.get(i).getStringValue();
+				String rightCellValue = other.get(i).getStringValue();
+				if (condition.evaluate(new VarcharSQLType(leftCellValue.substring(1,
+						leftCellValue.length() - 1)),
+						new VarcharSQLType(rightCellValue.substring(1,
+								rightCellValue.length() - 1)))) {
 					matches.add(i);
 				}
 			}

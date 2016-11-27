@@ -11,7 +11,7 @@ implements Comparable<SQLType<T>> {
 	}
 	public String getStringValue() {
 		if (value == null) {
-			return "";
+			return "''";
 		}
 		return value.toString();
 	}
