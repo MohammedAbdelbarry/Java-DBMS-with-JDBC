@@ -80,7 +80,11 @@ public class XMLParser2 {
 //		}
 	}
 //         /DatabaseName/
-	public XMLParser2(String tablename, String databaseName, String path) {
+	public XMLParser2() {
+		
+	}
+
+	private void initializeTable(String tablename, String databaseName, String path) {
 		DTDParser parser = new DTDParser(new File(path + tablename + "DTD.dtd"));
 		TableIdentifier identifier = parser.parse();
 		this.tableIdentifier = identifier;
@@ -95,10 +99,6 @@ public class XMLParser2 {
 			e.printStackTrace();
 		}
 		columnNames = new ArrayList<>();
-		initializeTable();
-	}
-
-	private void initializeTable() {
 		for (ColumnIdentifier col : columnIdentifiers) {
 //			try {
 //				//table.addTableColumn(col.getName(), col.getType());
@@ -110,7 +110,8 @@ public class XMLParser2 {
 		}
 	}
 
-	public Table parse() {
+	public Table parse(String tablename, String databaseName, String path) {
+		initializeTable(tablename, databaseName, path);
 		try {
 			File inputFile = new File(path + table.getName() + ".xml");
 			DocumentBuilderFactory dbFactory 
