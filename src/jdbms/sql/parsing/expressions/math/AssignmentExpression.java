@@ -17,7 +17,7 @@ public class AssignmentExpression extends BinaryExpression {
 	public boolean interpret(String assignmentExpression) {
 		String[] parts = assignmentExpression.split("=");
 		if (parts.length == NUMBER_OF_OPERANDS) {
-			if ( new ColumnExpression(parts[0].trim()).isValidColumnName() &&
+			if (new ColumnExpression(parts[0].trim()).isValidColumnName() &&
 					new ValueExpression(parts[1].trim()).isValidExpressionName()) {
 				setLeftOperand(parts[0].trim());
 				setRightOperand(parts[1].trim());

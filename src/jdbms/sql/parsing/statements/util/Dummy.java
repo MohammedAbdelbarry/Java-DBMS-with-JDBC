@@ -50,7 +50,7 @@ public class Dummy {
 		String dropDB = "      DROP DATABASE MY$DBLOL ;";
 		String dropTable = "DROP TABLE MY$DBLOL ;";
 		String createTable = "create table mytable (col1 int, col2 text, col3 int, col4 text);";
-		String delete = "DELETE FROM Customers WHERE col>=0;";
+		String delete = "delete from mytable where col1 >= 550;";
 		String update = "update _$table_name set column1='value1',column2='value2' where 1 = 'no';";
 		String terminalUpdate = "update _$table_name set   column1='value1'   ,    column2='value2';";
 		String select = "    seLeCt colum$$n_name,co$$$LLLmn_name   FrOM table$_name whEre col1='val'     ;";
@@ -61,7 +61,7 @@ public class Dummy {
 		//dummy.parse(p.normalizeCommand(dropDB));
 		//dummy.parse(p.normalizeCommand(dropTable));
 		//dummy.parse(p.normalizeCommand(createTable));
-		System.out.println(p.normalizeCommand(delete));
+		//System.out.println(p.normalizeCommand(delete));
 		dummy.parse(p.normalizeCommand(delete));
 		//dummy.parse(p.normalizeCommand(update));
 		//dummy.parse(p.normalizeCommand(terminalUpdate));

@@ -30,7 +30,7 @@ public class TestingMain {
 			Class.forName("jdbms.sql.parsing.expressions.math.LessThanEqualsExpression");
 			Class.forName("jdbms.sql.parsing.expressions.math.LargerThanExpression");
 			Class.forName("jdbms.sql.parsing.expressions.math.LessThanExpression");
-			Class.forName("jdbms.sql.parsint.expressions.math.NotEqualsExpression");
+			Class.forName("jdbms.sql.parsing.expressions.math.NotEqualsExpression");
 			Class.forName("jdbms.sql.datatypes.IntSQLType");
 			Class.forName("jdbms.sql.datatypes.VarcharSQLType");
 		} catch (ClassNotFoundException e) {

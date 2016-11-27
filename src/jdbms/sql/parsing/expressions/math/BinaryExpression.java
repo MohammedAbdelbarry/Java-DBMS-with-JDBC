@@ -7,7 +7,6 @@ import jdbms.sql.parsing.statements.Statement;
 import jdbms.sql.parsing.util.Constants;
 
 public abstract class BinaryExpression implements Expression {
-	private static final int NUMBER_OF_OPERANDS = 2;
 	private BinaryOperator operator;
 	private Expression nextExpression;
 	private Statement nextStatement;
@@ -29,73 +28,57 @@ public abstract class BinaryExpression implements Expression {
 	@Override
 	public boolean interpret(String sqlExpression) {
 		sqlExpression = sqlExpression.trim();
-		if(!sqlExpression.contains(this.operator.getSymbol())){
-			if (sqlExpression.trim().startsWith("TRUE")) {
-				sqlExpression = sqlExpression.trim().replace("TRUE", "1 = 1");
-			} else if (sqlExpression.trim().startsWith("FALSE")) {
-				sqlExpression = sqlExpression.trim().replace("FALSE", "1 > 1");
-			} else {
-				return false;
-			}
-		}
-		int binExpEndIndex = getSepratorIndex(sqlExpression.trim());
-		String binExp = sqlExpression.trim().substring(0, binExpEndIndex);
-		if(!binExp.contains(this.operator.getSymbol())){
+		String modifiedExpression = removeString(sqlExpression).trim();
+		if (!modifiedExpression.contains(this.operator.getSymbol())) {
 			return false;
 		}
-		String restOfExpression = sqlExpression.trim().substring(binExpEndIndex + 1);
-		String leftOperand = binExp.trim().substring(0, binExp.trim().indexOf(this.operator.getSymbol())).trim();
-		String rightOperand = binExp.trim().
-				substring(binExp.indexOf(this.operator.getSymbol())
-						+ this.operator.getSymbol().length()).trim();
+		int operatorIndex = modifiedExpression.indexOf(this.operator.getSymbol());
+		if (modifiedExpression.substring(0, operatorIndex).contains("<") ||
+				modifiedExpression.substring(0, operatorIndex).contains(">") ||
+				modifiedExpression.substring(0, operatorIndex).contains("!")) {
+			return false;
+		}
+		String leftOperand = sqlExpression.substring(0, operatorIndex).trim();
+		String rightPart = sqlExpression.substring(operatorIndex +
+				this.operator.getSymbol().length()).trim();
+		String[] parts = rightPart.split(" ");
 		operator.setLeftOperand(leftOperand);
-		operator.setRightOperand(rightOperand);
+		operator.setRightOperand(parts[0].trim());
 		if (this.nextExpression != null) {
-			return nextExpression.interpret(restOfExpression);
+			return nextExpression.interpret(parts[1].trim());
 		} else if (this.nextStatement != null) {
-			return nextStatement.interpret(restOfExpression);
+			return nextStatement.interpret(parts[1].trim());
 		}
 		return false;
 	}
-	private int getSepratorIndex(String expression) {
-		int operatorIndex = expression.indexOf(this.operator.getSymbol()), start, endIndex = 0;
-		boolean isSingleQuoted = false, isDoubleQuoted = false;
-		if (expression.charAt(operatorIndex + 1) == ' ') {
-			start = operatorIndex + 2;
-		} else {
-			start = operatorIndex + 1;
-		}
-		
-		if (expression.charAt(start) == '\'') {
-			isSingleQuoted = true;
-		} else if (expression.charAt(start) == '"') {
-			isDoubleQuoted = true;
-		}
-		
-		if (isSingleQuoted) {
-			for (int i = start + 1; i < expression.length(); i++) {
-				if (expression.charAt(i) == '\'') {
-					endIndex = i + 1;
-					break;
+
+	private String removeString(String expression) {
+		String stringless = "";
+		for (int i = 0; i < expression.length(); i++) {
+			stringless += expression.charAt(i);
+			if (expression.charAt(i) == '\'') {
+				for (int j = i + 1; j < expression.length(); j++) {
+					if (expression.charAt(j) == '\'') {
+						stringless += expression.charAt(j);
+						i = j;
+						break;
+					}
+					stringless += "s";
 				}
-			}
-		} else if (isDoubleQuoted) {
-			for (int i = start + 1; i < expression.length(); i++) {
-				if (expression.charAt(i) == '"') {
-					endIndex = i + 1;
-					break;
-				}
-			}
-		} else {
-			for (int i = start + 1; i < expression.length(); i++) {
-				if (expression.charAt(i) == ' ') {
-					endIndex = i;
-					break;
+			} else if (stringless.charAt(i) == '"') {
+				for (int j = i + 1; j < expression.length(); j++) {
+					if (expression.charAt(j) == '"') {
+						stringless += expression.charAt(j);
+						i = j;
+						break;
+					}
+					stringless += "s";
 				}
 			}
 		}
-		return endIndex;
+		return stringless;
 	}
+	
 	public String getLeftOperand() {
 		return operator.getLeftOperand();
 	}

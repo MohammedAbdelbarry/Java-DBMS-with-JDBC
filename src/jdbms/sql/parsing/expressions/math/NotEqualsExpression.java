@@ -11,8 +11,8 @@ public class NotEqualsExpression extends BooleanExpression {
 		BooleanExpressionFactory.getInstance().
 		registerBoolExpression(SYMBOL, NotEqualsExpression.class);
 	}
-	public NotEqualsExpression(String symbol, InputParametersContainer parameters) {
-		super(symbol, parameters);
+	public NotEqualsExpression(InputParametersContainer parameters) {
+		super(SYMBOL, parameters);
 	}
 	@Override
 	public boolean evaluate(VarcharSQLType left, VarcharSQLType right) {
