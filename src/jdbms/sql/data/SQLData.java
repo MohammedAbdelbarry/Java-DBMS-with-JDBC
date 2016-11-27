@@ -75,11 +75,11 @@ public class SQLData {
 					dropDBParameters.getDatabaseName());
 			return;
 		}
-		if (dropDBParameters.getDatabaseName().equals(
-				activeDatabase.getDatabaseName())) {
+		if (dropDBParameters.getDatabaseName().toUpperCase().equals(
+				activeDatabase.getDatabaseName().toUpperCase())) {
 			activeDatabase = databases.get(DEFAULT_DATABASE.toUpperCase());
 		}
-		databases.remove(dropDBParameters.getDatabaseName());
+		databases.remove(dropDBParameters.getDatabaseName().toUpperCase());
 	}
 
 	/**
@@ -113,7 +113,7 @@ public class SQLData {
 	}
 
 	public void dropTable(TableDroppingParameters tableParameters) {
-		activeDatabase.dropTable(tableParameters.getTableName());
+		activeDatabase.dropTable(tableParameters.getTableName().toUpperCase());
 	}
 
 	public void insertInto(InsertionParameters parameters) {

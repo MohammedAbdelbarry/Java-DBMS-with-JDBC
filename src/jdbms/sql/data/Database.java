@@ -40,7 +40,6 @@ public class Database {
 		}
 		tables.put(newTableIdentifier.getTableName().toUpperCase(),
 			new Table(newTableIdentifier));
-
 	}
 
 	public void addTable(TableCreationParameters tableParameters)
@@ -53,7 +52,7 @@ public class Database {
 		Table newTable = new Table(tableParameters);
 		tables.put(tableParameters.getTableName().toUpperCase(),
 				newTable);
-	}
+		}
 
 	public void dropTable(String tableName) {
 		tables.remove(tableName.toUpperCase());

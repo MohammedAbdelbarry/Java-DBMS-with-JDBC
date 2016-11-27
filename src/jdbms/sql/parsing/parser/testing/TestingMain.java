@@ -49,6 +49,7 @@ public class TestingMain {
 					break;
 				}
 			}
+			System.out.println(sql);
 			String normalizedOutput = parser.normalizeCommand(sql);
 			System.out.println(normalizedOutput);
 			for (String key : InitialStatementFactory.getInstance().getRegisteredStatements()) {

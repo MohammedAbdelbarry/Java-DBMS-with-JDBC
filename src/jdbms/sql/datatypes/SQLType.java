@@ -18,6 +18,13 @@ implements Comparable<SQLType<T>> {
 	public abstract String getType();
 	@Override
 	public int compareTo(SQLType<T> other) {
+		if (value == null) {
+			if (other == null) {
+				return 0;
+			} else {
+				return -1;
+			}
+		}
 		return value.compareTo(other.getValue());
 	}
 

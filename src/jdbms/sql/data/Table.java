@@ -126,7 +126,9 @@ public class Table {
 			}
 		}
 		Set<String> nullCells = new HashSet<>(tableColumns.keySet());
-		nullCells.removeAll(columnNames);
+		for (String columnName : columnNames) {
+			nullCells.remove(columnName.toUpperCase());
+		}
 		for (int i = 0; i < columnNames.size(); i++) {
 			if (!dataTypesValidator.match(tableColumns.get(
 					columnNames.get(i).toUpperCase()).getColumnDataType(), values.get(i))) {

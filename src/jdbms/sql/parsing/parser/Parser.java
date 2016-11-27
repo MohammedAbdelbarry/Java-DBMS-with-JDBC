@@ -161,9 +161,13 @@ public class Parser {
 
 	public static void main(String[] args) {
 		Parser parser = new Parser();
-		String send = "update Customers set ContactName=\"Alfred    Schmidt\" where CustomerName='Alfred  s  Futterkiste';";
-		System.out.println(send);
-		System.out.println(parser.normalizeCommand(send));
+		String send1 = "create table nag_gar (name text, age int, id int);";
+		String send2 = "insert into Nag_gar(name, id) values('negro1', 1), (\"negro2\", 2), (\"nigger3\", 69),('nigger4', 666)     , (\"nigger5;where=>=!=<<>table create database nigger drop from nigger where x = 1 set nigger = 14\", 5)   ;";
+		System.out.println(send1);
+		System.out.println(parser.normalizeCommand(send1));
+		System.out.println(send2);
+		System.out.println(parser.normalizeCommand(send2));
+
 	}
 
 }
