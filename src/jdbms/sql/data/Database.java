@@ -34,11 +34,11 @@ public class Database {
 	public void addTable(TableIdentifier newTableIdentifier)
 			throws TableAlreadyExistsException,
 			ColumnAlreadyExistsException {
-		if (tables.containsKey(newTableIdentifier.getTableName())) {
+		if (tables.containsKey(newTableIdentifier.getTableName().toUpperCase())) {
 			throw new TableAlreadyExistsException(
 					newTableIdentifier.getTableName());
 		}
-		tables.put(newTableIdentifier.getTableName(),
+		tables.put(newTableIdentifier.getTableName().toUpperCase(),
 			new Table(newTableIdentifier));
 
 	}
@@ -46,27 +46,27 @@ public class Database {
 	public void addTable(TableCreationParameters tableParameters)
 			throws ColumnAlreadyExistsException,
 			TableAlreadyExistsException {
-		if (tables.containsKey(tableParameters.getTableName())) {
+		if (tables.containsKey(tableParameters.getTableName().toUpperCase())) {
 			throw new TableAlreadyExistsException(
 					tableParameters.getTableName());
 		}
 		Table newTable = new Table(tableParameters);
-		tables.put(tableParameters.getTableName(),
+		tables.put(tableParameters.getTableName().toUpperCase(),
 				newTable);
 	}
 
 	public void dropTable(String tableName) {
-		tables.remove(tableName);
+		tables.remove(tableName.toUpperCase());
 	}
 
 	public void deleteFromTable(DeletionParameters deleteParameters)
 			throws ColumnNotFoundException,
 			TypeMismatchException, TableNotFoundException {
-		if (!tables.containsKey(deleteParameters.getTableName())) {
+		if (!tables.containsKey(deleteParameters.getTableName().toUpperCase())) {
 			throw new TableNotFoundException(
 					deleteParameters.getTableName());
 		}
-		tables.get(deleteParameters.getTableName()).
+		tables.get(deleteParameters.getTableName().toUpperCase()).
 		deleteRows(deleteParameters.getCondition());
 	}
 	public void insertInto (InsertionParameters insertParameters)
@@ -74,37 +74,38 @@ public class Database {
 			ColumnListTooLargeException, ColumnNotFoundException,
 			ValueListTooLargeException, ValueListTooSmallException,
 			TableNotFoundException, TypeMismatchException {
-		if (!tables.containsKey(insertParameters.getTableName())) {
+		if (!tables.containsKey(insertParameters.getTableName().toUpperCase())) {
 			throw new TableNotFoundException(
 					insertParameters.getTableName());
 		}
-		tables.get(insertParameters.getTableName()).insertRows(insertParameters);
+		tables.get(insertParameters.getTableName().toUpperCase()).
+		insertRows(insertParameters);
 	}
 	public SelectQueryOutput selectFrom(
 			SelectionParameters selectParameters)
 			throws ColumnNotFoundException,
 			TypeMismatchException, TableNotFoundException {
-		if (!tables.containsKey(selectParameters.getTableName())) {
+		if (!tables.containsKey(selectParameters.getTableName().toUpperCase())) {
 			throw new TableNotFoundException(
 					selectParameters.getTableName());
 		}
 		return tables.get(selectParameters.
-				getTableName()).selectFromTable(selectParameters);
+				getTableName().toUpperCase()).selectFromTable(selectParameters);
 	}
 	public void updateTable(UpdatingParameters updateParameters)
 			throws ColumnNotFoundException, TypeMismatchException,
 			TableNotFoundException {
-		if (!tables.containsKey(updateParameters.getTableName())) {
+		if (!tables.containsKey(updateParameters.getTableName().toUpperCase())) {
 			throw new TableNotFoundException(
 					updateParameters.getTableName());
 		}
-		tables.get(updateParameters.getTableName()).
+		tables.get(updateParameters.getTableName().toUpperCase()).
 		updateTable(updateParameters);
 	}
 	public String getDatabaseName() {
 		return databaseName;
 	}
 	public Table getTable(String tableName) {
-		return tables.get(tableName);
+		return tables.get(tableName.toUpperCase());
 	}
 }
