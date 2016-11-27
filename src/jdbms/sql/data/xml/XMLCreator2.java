@@ -1,6 +1,7 @@
 package jdbms.sql.data.xml;
 
 import java.io.File;
+import java.security.KeyStore.Entry.Attribute;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -18,6 +19,7 @@ import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentType;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 
 import jdbms.sql.data.ColumnIdentifier;
 import jdbms.sql.data.Table;
@@ -66,7 +68,7 @@ public class XMLCreator2 {
 		try {
 			table.insertRows(insertParameters);
 			creator = new XMLCreator2();
-			creator.create(table, "test", "C:\\Users\\Moham\\Desktop\\");
+			creator.create(table, "test", " ");
 		} catch (ValueListTooLargeException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -93,6 +95,8 @@ public class XMLCreator2 {
 
 	public void create(Table table, String databaseName, String path) {
 		try {
+			TableIdentifier identifier = table.getTableIdentifier();
+			ArrayList<ColumnIdentifier> cols = identifier.getColumnsIdentifiers();
 			DocumentBuilderFactory dbFactory =
 					DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder;
@@ -100,6 +104,9 @@ public class XMLCreator2 {
 			Document doc = dBuilder.newDocument();
 			//root element : Table Name
 			Element root = doc.createElement(table.getName());
+			for (ColumnIdentifier columnIdentifier : cols) {
+				root.setAttribute(columnIdentifier.getName(), columnIdentifier.getType());
+			}
 			doc.appendChild(root);
 			buildRows(doc, root, table.getColumns(), table);
 

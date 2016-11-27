@@ -18,6 +18,7 @@
 //import jdbms.sql.data.ColumnIdentifier;
 //import jdbms.sql.data.Table;
 //import jdbms.sql.data.TableIdentifier;
+//import jdbms.sql.datatypes.util.DataTypesValidator;
 //import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 //import jdbms.sql.exceptions.ColumnListTooLargeException;
 //import jdbms.sql.exceptions.ColumnNotFoundException;
@@ -79,42 +80,26 @@
 //
 //	}
 //
-//	private void initializeTable(String tablename, String databaseName, String path) {
-//		DTDParser parser = new DTDParser(new File(path + tablename + "DTD.dtd"));
-//		TableIdentifier identifier = parser.parse();
-//		this.path = path;
-//		String tableName = identifier.getTableName();
-//		columnIdentifiers = identifier.getColumnsIdentifiers();
-//		columns = new HashSet<>(identifier.getColumnNames());
-//		try {
-//			table = new Table(identifier);
-//		} catch (ColumnAlreadyExistsException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		columnNames = new ArrayList<>();
-//		for (ColumnIdentifier col : columnIdentifiers) {
-////			try {
-////				//table.addTableColumn(col.getName(), col.getType());
-////			} catch (ColumnAlreadyExistsException e) {
-////				e.printStackTrace();
-////				//ErrorHandler.printColumnAlreadyExistsColumn();
-////			}
-//			columnNames.add(col.getName());
-//		}
+//	private ArrayList<String> getColumnNames(String tablename, String databaseName, String path) {
+//		DTDParser parser = new DTDParser();
+//		ArrayList<String> columnNames = parser.parse(new File(path + tablename + "DTD.dtd"));
+//		return columnNames;
 //	}
 //
-//	public Table parse(String tablename, String databaseName, String path) {
-//		initializeTable(tablename, databaseName, path);
+//	public Table parse(String tableName, String databaseName,
+//			String path) {
+//		ArrayList<String> columnNames = getColumnNames(tableName, databaseName, path);
+//		String[] columnTypes = new String[columnNames.size()];
+//		DataTypesValidator validator = new DataTypesValidator();
 //		try {
-//			File inputFile = new File(path + table.getName() + ".xml");
+//			File inputFile = new File(path + tableName + ".xml");
 //			DocumentBuilderFactory dbFactory
 //			= DocumentBuilderFactory.newInstance();
 //			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 //			Document doc;
 //			doc = dBuilder.parse(inputFile);
 //			doc.getDocumentElement().normalize();
-//			String tableName = doc.getDocumentElement().getNodeName();
+//			tableName = doc.getDocumentElement().getNodeName();
 //			 NodeList nList = doc.getElementsByTagName(tableName);
 //			 ArrayList<ArrayList<String>> values
 //			 = new ArrayList<>();
@@ -131,14 +116,16 @@
 //						 value.add(text);
 //					 }
 //					 values.add(value);
+//				 } else if (node.getNodeType() == Node.ATTRIBUTE_NODE) {
+//					 
 //				 }
 //			 }
 //			 InsertionParameters insert = new InsertionParameters();
 //			 insert.setColumns(columnNames);
 //			 insert.setValues(values);
 //			 insert.setTableName(tableName);
-//			 table.insertRows(insert);
-//			 return table;
+//			 //table.insertRows(insert);
+//			 return null;
 //		} catch (SAXException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
@@ -169,5 +156,5 @@
 //		}
 //		return null;
 //	}
-//
+//	
 //}

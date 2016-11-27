@@ -28,4 +28,14 @@ public class DataTypesValidator {
 		}
 		return false;
 	}
+	public String getDataType(String value) {
+		if (value.matches(Constants.STRING_REGEX)
+					|| value.matches(Constants.DOUBLE_STRING_REGEX))  {
+			return "VARCHAR";
+		} else if (value.matches(Constants.INT_REGEX)) {
+			return "INTEGER";
+		} else {
+			return null;
+		}
+	}
 }
