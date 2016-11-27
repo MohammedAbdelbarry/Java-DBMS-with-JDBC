@@ -145,7 +145,7 @@ public class Table {
 	public TableIdentifier getTableIdentifier() {
 		ArrayList<ColumnIdentifier> columnIdentifiers
 		= new ArrayList<>();
-		for (String name : tableColumns.keySet()) {
+		for (String name : tableColumnNames) {
 			columnIdentifiers.add(new
 					ColumnIdentifier(name,
 					tableColumns.get(name.toUpperCase()).getColumnDataType()));
