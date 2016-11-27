@@ -49,10 +49,11 @@ public class TestingMain {
 					break;
 				}
 			}
-			System.out.println(parser.normalizeCommand(sql));
+			String normalizedOutput = parser.normalizeCommand(sql);
+			System.out.println(normalizedOutput);
 			for (String key : InitialStatementFactory.getInstance().getRegisteredStatements()) {
 				InitialStatement statement = InitialStatementFactory.getInstance().createStatement(key);
-				if (statement.interpret(parser.normalizeCommand(sql))) {
+				if (statement.interpret(normalizedOutput)) {
 					System.out.println(key);
 					statement.act(data);
 				}

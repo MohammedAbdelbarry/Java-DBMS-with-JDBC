@@ -30,7 +30,7 @@ public class Parser {
 	private String sapceRegex;
 
 	public Parser() {
-		components = new ArrayList<String>();
+		components = new ArrayList<>();
 		spaceRegexD = "\\s+(?=((\\\\[\\\\\"]|[^\\\\\"])*\"(\\\\[\\\\\"]|[^\\\\\"])*\")*(\\\\[\\\\\"]|[^\\\\\"])*$)";
 		spaceRegexS = "\\s+(?=((\\\\[\\\\\']|[^\\\\\'])*\'(\\\\[\\\\\']|[^\\\\\'])*\')*(\\\\[\\\\\']|[^\\\\\'])*$)";
 		sapceRegex = spaceRegexD + spaceRegexS;
@@ -38,7 +38,7 @@ public class Parser {
 
 	/**
 	 * Processing the given command to a normalized form.
-	 * 
+	 *
 	 * @return output : string containing the normalized form of the user's
 	 *         input
 	 */
@@ -54,13 +54,14 @@ public class Parser {
 		split(output);
 		capitalize();
 		output = merge();
+		components.clear();
 		return output;
 	}
 
 	/**
 	 * Inserting white spaces in special places in the user's command in order
 	 * to recognize all the required data.
-	 * 
+	 *
 	 * @param SQLCommand
 	 *            : user's command
 	 * @return output : The string after inserting the required spaces
@@ -77,7 +78,7 @@ public class Parser {
 			}
 			// component is ready
 			String temp = component.toString();
-			
+
 			temp = temp.replaceAll("[(;,)]", " $0");
 			temp = temp.replaceAll("- ", "-");
 			components.add(temp);
@@ -118,7 +119,7 @@ public class Parser {
 
 	/**
 	 * Splitting the user's command into several components to be processed.
-	 * 
+	 *
 	 * @param SQLCommand
 	 *            : user's command
 	 */
@@ -145,7 +146,7 @@ public class Parser {
 
 	/**
 	 * Merging the components of the command to the final form.
-	 * 
+	 *
 	 * @return normalizedString : string of the normalized form
 	 */
 	public String merge() {
