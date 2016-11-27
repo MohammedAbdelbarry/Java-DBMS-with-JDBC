@@ -456,6 +456,7 @@ public class Table {
 		for (TableColumn column : tableColumns.values()) {
 			column.clearColumn();
 		}
+		numberOfRows = 0;
 	}
 	private void deleteMatching(BooleanExpression condition,
 			String columnName, String other,
