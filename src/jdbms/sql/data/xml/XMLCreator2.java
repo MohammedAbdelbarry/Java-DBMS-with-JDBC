@@ -1,10 +1,12 @@
 package jdbms.sql.data.xml;
 
+import java.io.File;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Map;
 
 import javax.management.monitor.StringMonitor;
+import javax.swing.plaf.basic.BasicTabbedPaneUI.TabbedPaneLayout;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -42,7 +44,7 @@ public class XMLCreator2 {
 	 * Table columns.
 	 */
 	private Map<String, TableColumn> tableData;
-	private Database database;
+	private String database;
 	public static void main(String[] args) throws ColumnAlreadyExistsException {
 		try {
 			Class.forName("jdbms.sql.datatypes.IntSQLType");
@@ -64,15 +66,17 @@ public class XMLCreator2 {
 		ArrayList<ArrayList<String>> values = new ArrayList<>();
 		ArrayList<String> row = new ArrayList<>();
 		row.add("19");
-		row.add("Ahmed");
+		row.add("'Ahmed'");
 		values.add(row);
 		ArrayList<String> newRw = new ArrayList<>();
 		newRw.add("18");
-		newRw.add("Mohamed");
+		newRw.add("'Mohamed'");
 		values.add(newRw);
 		insertParameters.setValues(values);
 		try {
 			table.insertRows(insertParameters);
+//			creator = new XMLCreator2(table, null);
+//			creator.create();
 		} catch (ValueListTooLargeException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -92,17 +96,13 @@ public class XMLCreator2 {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		creator = new XMLCreator2(table, null);
-		creator.create();
 
 	}
-	public XMLCreator2(Table table, Database database) {
-		this.table = table;
-		tableData = table.getColumns();
-		this.database = database;
+	public XMLCreator2() {
 	}
-
-	public void create() {
+ 
+	public void create(Table table, String databaseName, String path) {
+		initialize(table, databaseName);
 				try {
 					DocumentBuilderFactory dbFactory =
 							DocumentBuilderFactory.newInstance();
@@ -113,16 +113,16 @@ public class XMLCreator2 {
 					Element root = doc.createElement(table.getName());
 					doc.appendChild(root);
 					buildRows(doc, root);
-					 TransformerFactory transformerFactory =
+					TransformerFactory transformerFactory =
 					         TransformerFactory.newInstance();
-					 transformerFactory.setAttribute("indent-number", 4);
-					 Transformer transformer =
+					transformerFactory.setAttribute("indent-number", 4);
+					Transformer transformer =
 					         transformerFactory.newTransformer();
 					 transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 					 DOMSource source = new DOMSource(doc);
-					 StreamResult consoleResult =
-					         new StreamResult(System.out);
-					 transformer.transform(source, consoleResult);
+					 StreamResult fileResult =
+					         new StreamResult(new File(path + table.getName() + ".xml"));
+					 transformer.transform(source, fileResult);
 				} catch (ParserConfigurationException |
 						TransformerException e) {
 					e.printStackTrace();
@@ -152,5 +152,11 @@ public class XMLCreator2 {
 				row.appendChild(col);
 			}
 		}
+	}
+
+	private void initialize(Table table, String database) {
+		this.table = table;
+		tableData = table.getColumns();
+		this.database = database;
 	}
 }

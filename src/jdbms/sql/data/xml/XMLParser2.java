@@ -7,12 +7,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.lang.model.element.Element;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -20,6 +21,7 @@ import org.xml.sax.SAXException;
 import jdbms.sql.data.ColumnIdentifier;
 import jdbms.sql.data.Database;
 import jdbms.sql.data.Table;
+import jdbms.sql.data.TableColumn;
 import jdbms.sql.data.TableIdentifier;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
@@ -36,43 +38,82 @@ public class XMLParser2 {
 	private Table table;
 	private ArrayList<ColumnIdentifier> columnIdentifiers;
 	private Set<String> columns;
-	private ArrayList<String> columnNames;
+	private String path;
+	public static ArrayList<String> columnNames;
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		try {
+			Class.forName("jdbms.sql.parsing.statements.CreateDatabaseStatement");
+			Class.forName("jdbms.sql.parsing.statements.CreateTableStatement");
+			Class.forName("jdbms.sql.parsing.statements.DropDatabaseStatement");
+			Class.forName("jdbms.sql.parsing.statements.DropTableStatement");
+			Class.forName("jdbms.sql.parsing.statements.InsertIntoStatement");
+			Class.forName("jdbms.sql.parsing.statements.DeleteStatement");
+			Class.forName("jdbms.sql.parsing.statements.SelectStatement");
+			Class.forName("jdbms.sql.parsing.statements.UpdateStatement");
+			Class.forName("jdbms.sql.parsing.statements.UseStatement");
+			Class.forName("jdbms.sql.parsing.expressions.math.EqualsExpression");
+			Class.forName("jdbms.sql.parsing.expressions.math.LargerThanEqualsExpression");
+			Class.forName("jdbms.sql.parsing.expressions.math.LessThanEqualsExpression");
+			Class.forName("jdbms.sql.parsing.expressions.math.LargerThanExpression");
+			Class.forName("jdbms.sql.parsing.expressions.math.LessThanExpression");
+			Class.forName("jdbms.sql.parsing.expressions.math.NotEqualsExpression");
+			Class.forName("jdbms.sql.datatypes.IntSQLType");
+			Class.forName("jdbms.sql.datatypes.VarcharSQLType");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		ArrayList<ColumnIdentifier> columns = new ArrayList<>();
+		columns.add(new ColumnIdentifier("Name", "VARCHAR"));
+		columns.add(new ColumnIdentifier("ID", "INTEGER"));
+		Database parent = new Database("School");
+		TableIdentifier identifier = new TableIdentifier("Students", columns);
+//		XMLParser2 parser2 = new XMLParser2(identifier, null);
+//		parser2.parse();
+//		Table test = parser2.geTable();
+//		ArrayList<TableColumn> data = test.getColumnList(columnNames); 
+//		for (int i = 0; i < data.size(); i++) {
+//			TableColumn col = data.get(i);
+//			for (int j = 0; j < col.getSize(); j++) {				
+//				System.out.println(col.get(j).getStringValue());
+//			}
+//		}
+	}
+//         /DatabaseName/
+	public XMLParser2() {
+		
 	}
 
-	public XMLParser2(TableIdentifier tableIdentifier, Database parent) {
-		this.tableIdentifier = tableIdentifier;
-		String tableName = tableIdentifier.getTableName();
-		columnIdentifiers = tableIdentifier.getColumnsIdentifiers();
-		columns = new HashSet<>(tableIdentifier.getColumnNames());
+	private void initializeTable(String tablename, String databaseName, String path) {
+		DTDParser parser = new DTDParser(new File(path + tablename + "DTD.dtd"));
+		TableIdentifier identifier = parser.parse();
+		this.tableIdentifier = identifier;
+		this.path = path;
+		String tableName = identifier.getTableName();
+		columnIdentifiers = identifier.getColumnsIdentifiers();
+		columns = new HashSet<>(identifier.getColumnNames());
 		try {
-			table = new Table(tableIdentifier);
+			table = new Table(identifier);
 		} catch (ColumnAlreadyExistsException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		columnNames = new ArrayList<>();
-		initializeTable();
-	}
-
-	private void initializeTable() {
 		for (ColumnIdentifier col : columnIdentifiers) {
-			try {
-				table.addTableColumn(col.getName(), col.getType());
-			} catch (ColumnAlreadyExistsException e) {
-				e.printStackTrace();
-				//ErrorHandler.printColumnAlreadyExistsColumn();
-			}
+//			try {
+//				//table.addTableColumn(col.getName(), col.getType());
+//			} catch (ColumnAlreadyExistsException e) {
+//				e.printStackTrace();
+//				//ErrorHandler.printColumnAlreadyExistsColumn();
+//			}
 			columnNames.add(col.getName());
 		}
 	}
 
-	public void parse() {
+	public Table parse(String tablename, String databaseName, String path) {
+		initializeTable(tablename, databaseName, path);
 		try {
-			File inputFile = new File("input.txt");
+			File inputFile = new File(path + table.getName() + ".xml");
 			DocumentBuilderFactory dbFactory 
 			= DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -89,10 +130,11 @@ public class XMLParser2 {
 					 Element element = (Element) node;
 					 ArrayList<String> value = new ArrayList<>();
 					 for (String column : columnNames) {
-						 value.add(((Document) element)
+						 String text = (element)
 				                  .getElementsByTagName(column)
 				                  .item(0)
-				                  .getTextContent());
+				                  .getTextContent();
+						 value.add(text);
 					 }
 					 values.add(value);
 				 }
@@ -102,6 +144,7 @@ public class XMLParser2 {
 			 insert.setValues(values);
 			 insert.setTableName(tableName);
 			 table.insertRows(insert);
+			 return table;
 		} catch (SAXException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -130,6 +173,10 @@ public class XMLParser2 {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return null;
+	}
 
+	public Table geTable() {
+		return table;
 	}
 }
