@@ -279,6 +279,9 @@ public class Table {
 	}
 	public void deleteRows(BooleanExpression condition)
 			throws ColumnNotFoundException, TypeMismatchException {
+		if (condition == null) {
+			clearTable();
+		}
 		if(condition.leftOperandIsConstant()
 				&& condition.rightOperandIsConstant()) {
 			if (condition.evaluateConstantExpression()) {
