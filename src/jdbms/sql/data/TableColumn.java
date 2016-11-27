@@ -3,9 +3,9 @@ package jdbms.sql.data;
 import java.util.ArrayList;
 
 import jdbms.sql.datatypes.SQLType;
+import jdbms.sql.datatypes.util.DataTypesValidator;
 import jdbms.sql.datatypes.util.SQLTypeFactory;
 import jdbms.sql.exceptions.TypeMismatchException;
-import jdbms.sql.parsing.expressions.util.DataTypesValidator;
 
 public class TableColumn {
 

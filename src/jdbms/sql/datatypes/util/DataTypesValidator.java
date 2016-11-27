@@ -1,4 +1,4 @@
-package jdbms.sql.parsing.expressions.util;
+package jdbms.sql.datatypes.util;
 
 import jdbms.sql.parsing.util.Constants;
 

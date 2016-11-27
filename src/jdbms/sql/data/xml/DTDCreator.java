@@ -5,35 +5,27 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.print.DocFlavor.STRING;
-import javax.xml.transform.dom.DOMSource;
-
 import jdbms.sql.data.ColumnIdentifier;
-import jdbms.sql.data.Database;
 import jdbms.sql.data.TableIdentifier;
-import jdbms.sql.parsing.statements.CreateDatabaseStatement;
 
 public class DTDCreator {
+	private static final String DTD_IDENTIFIER = "DTD";
+	private static final String DTD_EXTENSION = ".dtd";
 
-	private TableIdentifier identifier;
-	private String database;
-	
 	public static void main(String[] args) {
 		ArrayList<ColumnIdentifier> columns = new ArrayList<>();
 		columns.add(new ColumnIdentifier("Grade", "INTEGER"));
 		columns.add(new ColumnIdentifier("Name", "VARCHAR"));
 		String db = "MyData";
 		TableIdentifier identifier = new TableIdentifier("Students", columns);
-		DTDCreator creator = new DTDCreator(db, identifier);
-		System.out.println(creator.create());
+//		DTDCreator creator = new DTDCreator(db, identifier);
+//		System.out.println(creator.create());
 	}
 
-	public DTDCreator(String database,TableIdentifier identifier) {
-		this.identifier = identifier;
-		this.database = database;
+	public DTDCreator() {
 	}
 
-	public String create() {
+	public String create(String database, TableIdentifier identifier, String path) {
 		StringBuilder dtdString = new StringBuilder("");
 		dtdString.append("<!ELEMENT ");
 		dtdString.append(identifier.getTableName() + " (row)*>");
@@ -55,13 +47,14 @@ public class DTDCreator {
 			dtdString.append('\n');
 		}
 		String dtd = dtdString.toString();
-		//createFile(dtd);
+		createFile(database, identifier, dtd, path);
 		return dtd;
 	}
 
-	public void createFile(String dtd) {		
-		File dtdFile = new File(System.getProperty("user.dir") + "/" +database
-		+ "/" + identifier.getTableName() + "DTD" + ".dtd");
+	public void createFile(String database,TableIdentifier identifier
+			, String dtd, String path) {
+		File dtdFile = new File(path + database
+		+ "/" + identifier.getTableName() + DTD_IDENTIFIER + DTD_EXTENSION);
 		try {
 			FileWriter writer = new FileWriter(dtdFile);
 			writer.write(dtd);
@@ -70,6 +63,6 @@ public class DTDCreator {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 }

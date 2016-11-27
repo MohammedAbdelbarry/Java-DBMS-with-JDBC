@@ -1,28 +1,25 @@
 package jdbms.sql.data.xml;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Map;
 
-import javax.management.monitor.StringMonitor;
-import javax.swing.plaf.basic.BasicTabbedPaneUI.TabbedPaneLayout;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
+import org.w3c.dom.DocumentType;
 import org.w3c.dom.Element;
 
 import jdbms.sql.data.ColumnIdentifier;
-import jdbms.sql.data.Database;
 import jdbms.sql.data.Table;
 import jdbms.sql.data.TableColumn;
 import jdbms.sql.data.TableIdentifier;
@@ -36,15 +33,8 @@ import jdbms.sql.exceptions.ValueListTooSmallException;
 import jdbms.sql.parsing.properties.InsertionParameters;
 
 public class XMLCreator2 {
-
-	 /** {@link Table} to be parsed to XML.
-	 */
-	private static Table table;
-	/**
-	 * Table columns.
-	 */
-	private Map<String, TableColumn> tableData;
-	private String database;
+	private static final String DTD_IDENTIFIER = "DTD";
+	private static final String DTD_EXTENSION = ".dtd";
 	public static void main(String[] args) throws ColumnAlreadyExistsException {
 		try {
 			Class.forName("jdbms.sql.datatypes.IntSQLType");
@@ -57,7 +47,7 @@ public class XMLCreator2 {
 		columns.add(new ColumnIdentifier("Grade", "INTEGER"));
 		columns.add(new ColumnIdentifier("Name", "VARCHAR"));
 		TableIdentifier identifier = new TableIdentifier("Students", columns);
-		table = new Table(identifier);
+		Table table = new Table(identifier);
 		InsertionParameters insertParameters = new InsertionParameters();
 		ArrayList<String> columnList = new ArrayList<>();
 		columnList.add("Grade");
@@ -75,8 +65,8 @@ public class XMLCreator2 {
 		insertParameters.setValues(values);
 		try {
 			table.insertRows(insertParameters);
-//			creator = new XMLCreator2(table, null);
-//			creator.create();
+			creator = new XMLCreator2();
+			creator.create(table, "test", "C:\\Users\\Moham\\Desktop\\");
 		} catch (ValueListTooLargeException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -100,47 +90,47 @@ public class XMLCreator2 {
 	}
 	public XMLCreator2() {
 	}
- 
+
 	public void create(Table table, String databaseName, String path) {
-		initialize(table, databaseName);
-				try {
-					DocumentBuilderFactory dbFactory =
-							DocumentBuilderFactory.newInstance();
-					DocumentBuilder dBuilder;
-					dBuilder = dbFactory.newDocumentBuilder();
-					Document doc = dBuilder.newDocument();
-					//root element : Table Name
-					Element root = doc.createElement(table.getName());
-					doc.appendChild(root);
-					buildRows(doc, root);
-					TransformerFactory transformerFactory =
-					         TransformerFactory.newInstance();
-					transformerFactory.setAttribute("indent-number", 4);
-					Transformer transformer =
-					         transformerFactory.newTransformer();
-					 transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-					 DOMSource source = new DOMSource(doc);
-					 StreamResult fileResult =
-					         new StreamResult(new File(path + table.getName() + ".xml"));
-					 transformer.transform(source, fileResult);
-				} catch (ParserConfigurationException |
-						TransformerException e) {
-					e.printStackTrace();
-				}
-				createDTD();
+		try {
+			DocumentBuilderFactory dbFactory =
+					DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder;
+			dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.newDocument();
+			//root element : Table Name
+			Element root = doc.createElement(table.getName());
+			doc.appendChild(root);
+			buildRows(doc, root, table.getColumns(), table);
+
+			DOMSource source = new DOMSource(doc);
+			File xmlPath = new File(path + databaseName + File.separator);
+			File xmlFile = new File(path
+	        		+ databaseName + File.separator
+	        		+ table.getName() + ".xml");
+			xmlPath.mkdirs();
+			StreamResult fileResult =
+			        new StreamResult(xmlFile);
+			applyTransform(source, fileResult, doc, table.getName());
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}
+		createDTD(table.getColumns(), table, databaseName, path);
 	}
 
-	private void createDTD() {
+	private void createDTD(Map<String, TableColumn> tableData,
+			Table table, String database, String path) {
 		ArrayList<ColumnIdentifier> columns = new ArrayList<>();
 		for (String name : tableData.keySet()) {
 			columns.add(new ColumnIdentifier(name, tableData.get(name).getColumnDataType()));
 		}
 		TableIdentifier identifier = new TableIdentifier(table.getName(),columns);
-		DTDCreator dtd = new DTDCreator(database, identifier);
-		dtd.create();
+		DTDCreator dtd = new DTDCreator();
+		dtd.create(database, identifier, path);
 	}
 
-	private void buildRows(Document doc,Element root) {
+	private void buildRows(Document doc, Element root,
+			Map<String, TableColumn> tableData, Table table) {
 		for (int i = 0; i < table.getNumberOfRows(); i++) {
 			Element row = doc.createElement("row");
 			root.appendChild(row);
@@ -153,10 +143,25 @@ public class XMLCreator2 {
 			}
 		}
 	}
-
-	private void initialize(Table table, String database) {
-		this.table = table;
-		tableData = table.getColumns();
-		this.database = database;
+	private void applyTransform(DOMSource source, StreamResult fileResult,
+			Document document, String tableName) {
+		TransformerFactory transformerFactory =
+		        TransformerFactory.newInstance();
+		transformerFactory.setAttribute("indent-number", 4);
+		Transformer transformer;
+		try {
+			transformer = transformerFactory.newTransformer();
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			DOMImplementation domImpl = document.getImplementation();
+			DocumentType doctype = domImpl.createDocumentType("doctype",
+				    "Table",
+				    tableName + DTD_IDENTIFIER + DTD_EXTENSION);
+			transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, doctype.getPublicId());
+			transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, doctype.getSystemId());
+			transformer.transform(source, fileResult);
+		} catch (TransformerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
