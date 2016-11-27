@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<class>
-<row>
-<Name>"Ahmed"</Name>
-<ID>14</ID>
-</row>
-</class>
