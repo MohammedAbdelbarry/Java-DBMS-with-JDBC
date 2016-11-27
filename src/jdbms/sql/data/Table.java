@@ -259,7 +259,7 @@ public class Table {
 		}
 	}
 
-	private ArrayList<TableColumn> getColumnList(ArrayList<String> cols) {
+	public ArrayList<TableColumn> getColumnList(ArrayList<String> cols) {
 		ArrayList<TableColumn> requestedColumns = new ArrayList<>();
 		for (String key : cols) {
 			if (tableColumns.containsKey(key.toUpperCase())) {

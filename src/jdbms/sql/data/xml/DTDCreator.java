@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.print.DocFlavor.STRING;
+import javax.xml.transform.dom.DOMSource;
 
 import jdbms.sql.data.ColumnIdentifier;
 import jdbms.sql.data.Database;
@@ -15,19 +16,19 @@ import jdbms.sql.parsing.statements.CreateDatabaseStatement;
 public class DTDCreator {
 
 	private TableIdentifier identifier;
-	private Database database;
+	private String database;
 	
 	public static void main(String[] args) {
 		ArrayList<ColumnIdentifier> columns = new ArrayList<>();
 		columns.add(new ColumnIdentifier("Grade", "INTEGER"));
 		columns.add(new ColumnIdentifier("Name", "VARCHAR"));
-		Database db = new Database("MyData");
+		String db = "MyData";
 		TableIdentifier identifier = new TableIdentifier("Students", columns);
 		DTDCreator creator = new DTDCreator(db, identifier);
 		System.out.println(creator.create());
 	}
 
-	public DTDCreator(Database database,TableIdentifier identifier) {
+	public DTDCreator(String database,TableIdentifier identifier) {
 		this.identifier = identifier;
 		this.database = database;
 	}
@@ -35,7 +36,7 @@ public class DTDCreator {
 	public String create() {
 		StringBuilder dtdString = new StringBuilder("");
 		dtdString.append("<!ELEMENT ");
-		dtdString.append(identifier.getTableName() + " (row)>");
+		dtdString.append(identifier.getTableName() + " (row)*>");
 		dtdString.append('\n');
 		ArrayList<String> columns = identifier.getColumnNames();
 		dtdString.append("<!ELEMENT ");
@@ -50,17 +51,17 @@ public class DTDCreator {
 		dtdString.append(")>");
 		dtdString.append('\n');
 		for (String column : columns) {
-			dtdString.append("<!ELEMENT " + column + " (#PCDATA)>");
+			dtdString.append("<!ELEMENT " + column + " (#CDATA)>");
 			dtdString.append('\n');
 		}
 		String dtd = dtdString.toString();
-		createFile(dtd);
+		//createFile(dtd);
 		return dtd;
 	}
 
 	public void createFile(String dtd) {		
-		File dtdFile = new File(System.getProperty("user.dir") + "/" +database.getDatabaseName()
-		+ "/" + identifier.getTableName() + ".dtd");
+		File dtdFile = new File(System.getProperty("user.dir") + "/" +database
+		+ "/" + identifier.getTableName() + "DTD" + ".dtd");
 		try {
 			FileWriter writer = new FileWriter(dtdFile);
 			writer.write(dtd);
