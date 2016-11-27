@@ -281,6 +281,7 @@ public class Table {
 			throws ColumnNotFoundException, TypeMismatchException {
 		if (condition == null) {
 			clearTable();
+			return;
 		}
 		if(condition.leftOperandIsConstant()
 				&& condition.rightOperandIsConstant()) {
