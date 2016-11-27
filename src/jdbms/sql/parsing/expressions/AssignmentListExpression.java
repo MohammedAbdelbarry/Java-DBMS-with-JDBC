@@ -29,7 +29,6 @@ public abstract class AssignmentListExpression implements Expression {
 	@Override
 	public boolean interpret(String sqlExpression) {
 		sqlExpression = sqlExpression.trim();
-		String modifiedExpression = removeString(sqlExpression).trim();
 		String[] parts = sqlExpression.split(",");
 		for (int i = 0; i < parts.length - 1; i++) {
 			assignmentList.add(new AssignmentExpression(parameters));
@@ -37,19 +36,14 @@ public abstract class AssignmentListExpression implements Expression {
 				return false;
 			}
 		}
-		int whereIndex = parts[parts.length - 1].trim().indexOf(" WHERE "),
-				semiColon = parts[parts.length - 1].trim().indexOf(" ;");
-		if (semiColon == -1 && whereIndex == -1) {
-			return false;
+		parts[parts.length - 1] = parts[parts.length - 1].trim();
+		String modifiedExpression = removeString(parts[parts.length - 1].trim()).trim();
+		int seperatorIndex = modifiedExpression.indexOf("WHERE");
+		if (seperatorIndex == -1) {
+			seperatorIndex = modifiedExpression.indexOf(";");
 		}
-		String restOfExpression, AssignmentExp;
-		if (whereIndex == -1) {
-			restOfExpression = ";";
-			AssignmentExp = parts[parts.length - 1].trim().substring(0, semiColon).trim();
-		} else {
-			restOfExpression = parts[parts.length - 1].trim().substring(whereIndex).trim();
-			AssignmentExp = parts[parts.length - 1].trim().substring(0, whereIndex).trim();
-		}
+		String AssignmentExp = parts[parts.length - 1].trim().substring(0, seperatorIndex).trim();
+		String restOfExpression = parts[parts.length - 1].trim().substring(seperatorIndex);
 		assignmentList.add(new AssignmentExpression(parameters));
 		if (!assignmentList.get(assignmentList.size() - 1).interpret(AssignmentExp.trim())) {
 			return false;

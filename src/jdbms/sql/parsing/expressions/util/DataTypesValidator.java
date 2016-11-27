@@ -17,4 +17,15 @@ public class DataTypesValidator {
 			return false;
 		}
 	}
+	public boolean checkDataTypes(String first, String second) {
+		if (Constants.STRING_TYPES.contains(first)
+				&& Constants.STRING_TYPES.contains(second)) {
+			return true;
+		}
+		if (Constants.INTEGER_TYPES.contains(first)
+				&& Constants.INTEGER_TYPES.contains(second)) {
+			return true;
+		}
+		return false;
+	}
 }

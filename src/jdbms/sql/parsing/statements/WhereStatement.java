@@ -24,7 +24,7 @@ public class WhereStatement implements Statement {
 	@Override
 	public boolean interpret(String sqlExpression) {
 		if (sqlExpression.startsWith(STATEMENT_IDENTIFIER)) {
-			String restOfExpression = sqlExpression.replace(STATEMENT_IDENTIFIER, "").trim();
+			String restOfExpression = sqlExpression.replaceFirst(STATEMENT_IDENTIFIER, "").trim();
 			for (BooleanExpression exp : boolExpressions) {
 				if (exp.interpret(restOfExpression)) {
 					return true;

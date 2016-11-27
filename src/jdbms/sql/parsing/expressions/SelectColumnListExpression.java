@@ -18,6 +18,7 @@ public class SelectColumnListExpression extends ColumnListExpression {
 
 	@Override
 	public boolean interpret(String sqlExpression) {
+		sqlExpression = sqlExpression.trim();
 		String[] columns = sqlExpression.split(",");
 		columns[columns.length - 1] = columns[columns.length - 1].trim();
 		String restOfExp = columns[columns.length - 1]
@@ -32,7 +33,7 @@ public class SelectColumnListExpression extends ColumnListExpression {
 		}
 		ArrayList<String> columnNames = new ArrayList<>();
 		for (String column : columns) {
-			columnNames.add(column);
+			columnNames.add(column.trim());
 		}
 		parameters.setColumns(columnNames);
 		return super.interpret(restOfExp);
