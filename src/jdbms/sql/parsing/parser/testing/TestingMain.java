@@ -34,7 +34,7 @@ public class TestingMain {
 			Class.forName("jdbms.sql.datatypes.IntSQLType");
 			Class.forName("jdbms.sql.datatypes.VarcharSQLType");
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			System.err.println("Internal Error");
 		}
 		SQLData data = new SQLData();
 		Parser parser = new Parser();

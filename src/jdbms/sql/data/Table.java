@@ -310,14 +310,13 @@ public class Table {
 			for (int i = 0; i < numberOfRows; i++) {
 				String cellValue = conditionColumn.get(i).getStringValue();
 				if (leftIsTableColumn) {
-					if (condition.evaluate(new VarcharSQLType(cellValue.substring(1,
-							cellValue.length() - 1)), new VarcharSQLType(other))) {
+					if (condition.evaluate(new VarcharSQLType(removeQuotes
+							(cellValue)), new VarcharSQLType(removeQuotes(other)))) {
 						return i;
 					}
 				} else {
-					if (condition.evaluate(new VarcharSQLType(other),
-							new VarcharSQLType(cellValue.substring(1,
-									cellValue.length() - 1)))) {
+					if (condition.evaluate(new VarcharSQLType(removeQuotes(other)),
+							new VarcharSQLType(removeQuotes(cellValue)))) {
 						return i;
 					}
 				}
@@ -382,11 +381,11 @@ public class Table {
 				if (leftIsTableColumn) {
 					if (condition.evaluate(new VarcharSQLType(cellValue.substring(1,
 							cellValue.length() - 1)),
-							new VarcharSQLType(other))) {
+							new VarcharSQLType(removeQuotes(other)))) {
 						matches.add(i);
 					}
 				} else {
-					if (condition.evaluate(new VarcharSQLType(other),
+					if (condition.evaluate(new VarcharSQLType(removeQuotes(other)),
 							new VarcharSQLType(cellValue.substring(1,
 									cellValue.length() - 1)))) {
 						matches.add(i);
@@ -493,5 +492,8 @@ public class Table {
 			rows.add(i);
 		}
 		return rows;
+	}
+	private String removeQuotes(String s) {
+		return s.substring(1, s.length() - 1);
 	}
 }
