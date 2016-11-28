@@ -37,11 +37,6 @@ public abstract class BinaryExpression implements Expression {
 			return false;
 		}
 		int operatorIndex = modifiedExpression.indexOf(this.operator.getSymbol());
-		if (modifiedExpression.substring(0, operatorIndex).contains("<") ||
-				modifiedExpression.substring(0, operatorIndex).contains(">") ||
-				modifiedExpression.substring(0, operatorIndex).contains("!")) {
-			return false;
-		}
 		String modifiedRightPart = modifiedExpression.substring(operatorIndex +
 				this.operator.getSymbol().length()).trim();
 		String sqlExpRightPart = sqlExpression.substring(operatorIndex +
@@ -49,6 +44,9 @@ public abstract class BinaryExpression implements Expression {
 		int seperatorIndex = modifiedRightPart.indexOf(" ");
 		String leftOperand = sqlExpression.substring(0, operatorIndex).trim();
 		String rightOperand = sqlExpRightPart.substring(0, seperatorIndex).trim();
+		if (!validOperand(leftOperand) || !validOperand(rightOperand)) {
+			return false;
+		}
 		String restOfExpression = sqlExpRightPart.substring(seperatorIndex).trim();
 		operator.setLeftOperand(leftOperand);
 		operator.setRightOperand(rightOperand);
@@ -60,6 +58,15 @@ public abstract class BinaryExpression implements Expression {
 		return false;
 	}
 	
+	private boolean validOperand(String exp) {
+		if (exp.matches(Constants.INT_REGEX) ||
+				exp.matches(Constants.COLUMN_REGEX) ||
+				exp.matches(Constants.STRING_REGEX) ||
+				exp.matches(Constants.DOUBLE_STRING_REGEX)) {
+			return true;
+		}
+		return false;
+	}
 	public String getLeftOperand() {
 		return operator.getLeftOperand();
 	}

@@ -15,7 +15,6 @@ public class TerminalExpression implements Expression {
 		if (sqlExpression.equals(";")) {
 			return true;
 		}
-		ErrorHandler.printSyntaxErrorNear("Command end.");
 		return false;
 	}
 }
