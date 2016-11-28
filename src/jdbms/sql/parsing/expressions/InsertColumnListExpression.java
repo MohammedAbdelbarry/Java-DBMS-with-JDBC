@@ -17,10 +17,11 @@ public class InsertColumnListExpression extends ColumnListExpression {
 
 	@Override
 	public boolean interpret(String sqlExpression) {
+		sqlExpression = sqlExpression.trim();
 		String allColumns = sqlExpression.substring(0, sqlExpression.indexOf(")")).trim();
 		String restOfExpression = sqlExpression.substring(sqlExpression.indexOf(")") + 1);
 		if (allColumns.startsWith("(")) {
-			allColumns = allColumns.replace("(", "").trim();
+			allColumns = allColumns.replaceFirst("(", "").trim();
 			String[] columns = allColumns.split(",");
 			for (String col : columns) {
 				if (new ColumnExpression(col.trim()).isValidColumnName()) {
