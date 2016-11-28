@@ -1,6 +1,5 @@
 package jdbms.sql.parsing.expressions;
 
-import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 import jdbms.sql.parsing.statements.Statement;
 

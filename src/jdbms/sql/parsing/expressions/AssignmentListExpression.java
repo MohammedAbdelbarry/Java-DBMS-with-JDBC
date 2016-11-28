@@ -40,6 +40,7 @@ public abstract class AssignmentListExpression implements Expression {
 			if (!assignmentList.get(assignmentList.size() - 1).
 					interpret(sqlExpression.substring(0,
 							modifiedExpression.indexOf(",")).trim())) {
+				ErrorHandler.printSyntaxErrorNear("SET");
 				return false;
 			}
 			sqlExpression = sqlExpression.substring(modifiedExpression.indexOf(",") + 1).trim();

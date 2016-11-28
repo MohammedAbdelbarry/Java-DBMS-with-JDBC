@@ -35,13 +35,13 @@ public class TableCreationColumnsTypesExpression extends ColumnsDatatypesExpress
 					colName = colType.trim().substring(0, colType.indexOf(" ")).trim();
 					dataType = colType.trim().substring(colType.indexOf(" ") + 1).trim();
 				} catch(Exception e) {
-					ErrorHandler.printSyntaxErrorNear("");
+					ErrorHandler.printSyntaxErrorNear("Columns Datatypes");
 				}
 				if (new ColumnExpression(colName).isValidColumnName()
 						&& dataTypes.contains(dataType)) {
 					columnsDataTypes.add(new ColumnIdentifier(colName, dataType));
 				} else {
-					ErrorHandler.printSyntaxErrorNear("defining columns.");
+					ErrorHandler.printSyntaxErrorNear("Columns Datatypes");
 					return false;
 				}
 			}

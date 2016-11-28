@@ -2,7 +2,6 @@ package jdbms.sql.parsing.expressions;
 
 import java.util.ArrayList;
 
-import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.parsing.expressions.util.StringModifier;
 import jdbms.sql.parsing.expressions.util.ValueExpression;
 import jdbms.sql.parsing.properties.InputParametersContainer;
@@ -24,7 +23,6 @@ public class InsertIntoValueListExpression extends ValueListExpression {
 		String modifiedExpression = modifier.modifyString(sqlExpression).trim();
 		while (modifiedExpression.indexOf(")") != -1) {
 			if (!sqlExpression.startsWith("(")) {
-				ErrorHandler.printSyntaxErrorNear("Opening Parenthesis");
 				return false;
 			} else {
 				sqlExpression = sqlExpression.replaceFirst("\\(", "").trim();
@@ -38,7 +36,6 @@ public class InsertIntoValueListExpression extends ValueListExpression {
 			while (modifiedValues.indexOf(",") != -1) {
 				if (!new ValueExpression(currValues.substring(0,
 						modifiedValues.indexOf(",")).trim()).isValidExpressionName()) {
-					ErrorHandler.printSyntaxErrorNear("Inserted Value");
 					return false;
 				}
 				currValuesList.add(currValues.substring(0,modifiedValues.indexOf(",")).trim());
@@ -46,7 +43,6 @@ public class InsertIntoValueListExpression extends ValueListExpression {
 				modifiedValues = modifiedValues.substring(modifiedValues.indexOf(",") + 1).trim();
 			}
 			if (!new ValueExpression(currValues.trim()).isValidExpressionName()) {
-				ErrorHandler.printSyntaxErrorNear("Inserted Value");
 				return false;
 			}
 			currValuesList.add(currValues.trim());

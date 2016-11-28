@@ -2,7 +2,6 @@ package jdbms.sql.parsing.expressions;
 
 import java.util.ArrayList;
 
-import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.parsing.expressions.util.ColumnExpression;
 import jdbms.sql.parsing.expressions.util.StringModifier;
 import jdbms.sql.parsing.properties.InputParametersContainer;
@@ -33,13 +32,11 @@ public class SelectColumnListExpression extends ColumnListExpression {
 			modifiedExpression = modifiedExpression.replace(modifiedCol + ",", "").trim();
 			columnsNames.add(currCol.trim());
 			if (!new ColumnExpression(currCol.trim()).isValidColumnName()) {
-				ErrorHandler.printSyntaxErrorNear("Column Name");
 				return false;
 			}
 		}
 		columnsNames.add(sqlExpression.substring(0, sqlExpression.indexOf(" ")).trim());
 		if (!new ColumnExpression(columnsNames.get(columnsNames.size() - 1)).isValidColumnName()) {
-			ErrorHandler.printSyntaxErrorNear("Column Name");
 			return false;
 		}
 		parameters.setColumns(columnsNames);
