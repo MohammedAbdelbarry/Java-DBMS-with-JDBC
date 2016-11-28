@@ -50,7 +50,7 @@ public class XMLCreator {
 						columnIdentifier.getType());
 			}
 			doc.appendChild(root);
-			buildRows(doc, root, table.getColumns(), table);
+			buildRows(doc, root, table.getColumns(), table, table.getColumnNames());
 			DOMSource source = new DOMSource(doc);
 			File xmlFile = new File(path
 	        		+ databaseName + File.separator
@@ -61,28 +61,23 @@ public class XMLCreator {
 		} catch (ParserConfigurationException e) {
 			ErrorHandler.printInternalError();
 		}
-		createDTD(table.getColumns(), table, databaseName, path);
+		createDTD(table.getColumnNames(), table, databaseName, path);
 	}
 
-	private void createDTD(Map<String, TableColumn> tableData,
+	private void createDTD(ArrayList<String> columnNames,
 			Table table, String database, String path) {
-		ArrayList<ColumnIdentifier> columns = new ArrayList<>();
-		for (String name : tableData.keySet()) {
-			columns.add(new ColumnIdentifier(name,
-					tableData.get(name).getColumnDataType()));
-		}
-		TableIdentifier identifier = new TableIdentifier(table.getName(),columns);
 		DTDCreator dtd = new DTDCreator();
-		dtd.create(database, identifier, path);
+		dtd.create(database, columnNames, table.getName(), path);
 	}
 
 	private void buildRows(Document doc, Element root,
-			Map<String, TableColumn> tableData, Table table) {
+			Map<String, TableColumn> tableData, Table table
+			, ArrayList<String> columnNames) {
 		for (int i = 0; i < table.getNumberOfRows(); i++) {
 			Element row = doc.createElement("row");
 			root.appendChild(row);
-			for (String key : table.getColumns().keySet()) {
-				TableColumn current = tableData.get(key);
+			for (String key : columnNames) {
+				TableColumn current = tableData.get(key.toUpperCase());
 				String value = current.get(i).getStringValue();
 				Element col = doc.createElement(key);
 				col.appendChild(doc.createTextNode(value));

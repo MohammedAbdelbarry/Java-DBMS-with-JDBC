@@ -173,13 +173,7 @@ public class Table {
 	}
 
 	public Map<String, TableColumn> getColumns() {
-		Map<String, TableColumn> clone = new HashMap<>();
-		for(String key : tableColumnNames) {
-			TableColumn current
-			= tableColumns.get(key.toUpperCase());
-			clone.put(key, current);
-		}
-		return clone;
+		return tableColumns;
 	}
 	public SelectQueryOutput selectFromTable(SelectionParameters
 			selectParameters) throws ColumnNotFoundException,
@@ -289,14 +283,8 @@ public class Table {
 		}
 	}
 
-	public ArrayList<TableColumn> getColumnList(ArrayList<String> cols) {
-		ArrayList<TableColumn> requestedColumns = new ArrayList<>();
-		for (String key : cols) {
-			if (tableColumns.containsKey(key.toUpperCase())) {
-				requestedColumns.add(tableColumns.get(key.toUpperCase()));
-			}
-		}
-		return requestedColumns;
+	public ArrayList<String> getColumnNames() {
+		return tableColumnNames;
 	}
 
 	public int getNumberOfRows() {
