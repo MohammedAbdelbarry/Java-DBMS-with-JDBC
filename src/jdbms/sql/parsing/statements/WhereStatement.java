@@ -32,7 +32,6 @@ public class WhereStatement implements Statement {
 				}
 			}
 		}
-		ErrorHandler.printSyntaxErrorNear("Where");
 		return false;
 	}
 }
