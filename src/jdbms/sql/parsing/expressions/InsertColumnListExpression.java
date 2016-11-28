@@ -2,6 +2,7 @@ package jdbms.sql.parsing.expressions;
 
 import java.util.ArrayList;
 
+import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.parsing.expressions.util.ColumnExpression;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 import jdbms.sql.parsing.statements.ValueStatement;
@@ -27,12 +28,14 @@ public class InsertColumnListExpression extends ColumnListExpression {
 				if (new ColumnExpression(col.trim()).isValidColumnName()) {
 					columnsNames.add(col.trim());
 				} else {
+					ErrorHandler.printSyntaxErrorNear("Column Name");
 					return false;
 				}
 			}
 			parameters.setColumns(columnsNames);
 			return super.interpret(restOfExpression.trim());
 		}
+		ErrorHandler.printSyntaxErrorNear("Opening Parenthesis");
 		return false;
 	}
 }
