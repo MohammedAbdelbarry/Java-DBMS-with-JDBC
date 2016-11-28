@@ -28,7 +28,6 @@ public class ValueListExpression implements Expression {
 		} else if (this.nextStatement != null) {
 			return this.nextStatement.interpret(sqlExpression);
 		}
-		ErrorHandler.printSyntaxErrorNear("assigning values.");
 		return false;
 	}
 }

@@ -3,6 +3,7 @@ package jdbms.sql.parsing.statements;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.parsing.expressions.math.BooleanExpression;
 import jdbms.sql.parsing.expressions.math.util.BooleanExpressionFactory;
 import jdbms.sql.parsing.properties.InputParametersContainer;
@@ -31,6 +32,7 @@ public class WhereStatement implements Statement {
 				}
 			}
 		}
+		ErrorHandler.printSyntaxErrorNear("Where");
 		return false;
 	}
 }

@@ -5,8 +5,8 @@ import java.util.List;
 
 import jdbms.sql.data.ColumnIdentifier;
 import jdbms.sql.datatypes.util.SQLTypeFactory;
+import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.parsing.expressions.util.ColumnExpression;
-import jdbms.sql.parsing.expressions.util.ValueExpression;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 
 public class DefineColumnExpression extends ColumnsDatatypesExpression {
@@ -33,6 +33,7 @@ public class DefineColumnExpression extends ColumnsDatatypesExpression {
 			parameters.setColumnDefinitions(columnsDataTypes);
 			return super.interpret(rightPart.substring(rightPart.indexOf(" ") + 1).trim());
 		}
+		ErrorHandler.printSyntaxErrorNear("Column Datatype");
 		return false;
 	}
 }

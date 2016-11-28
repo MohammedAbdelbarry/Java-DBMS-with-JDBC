@@ -1,5 +1,6 @@
 package jdbms.sql.parsing.statements;
 
+import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.parsing.expressions.ConditionalAssignmentListExpression;
 import jdbms.sql.parsing.expressions.TerminalAssignmentExpression;
 import jdbms.sql.parsing.properties.InputParametersContainer;
@@ -20,6 +21,7 @@ public class SetStatement implements Statement {
 					new TerminalAssignmentExpression(
 							parameters).interpret(restOfExpression);
 		}
+		ErrorHandler.printSyntaxErrorNear("Set");
 		return false;
 	}
 }

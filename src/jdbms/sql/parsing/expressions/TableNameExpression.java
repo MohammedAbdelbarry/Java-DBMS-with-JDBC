@@ -38,7 +38,7 @@ public abstract class TableNameExpression implements Expression {
 				return this.nextExpression.interpret(restOfExpression);
 			}
 		}
-		ErrorHandler.printSyntaxErrorNear("defining table name.");
+		ErrorHandler.printSyntaxErrorNear("Table Name");
 		return false;
 	}
 }

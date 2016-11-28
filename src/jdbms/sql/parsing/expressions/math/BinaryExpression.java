@@ -1,5 +1,6 @@
 package jdbms.sql.parsing.expressions.math;
 
+import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.parsing.expressions.Expression;
 import jdbms.sql.parsing.expressions.util.StringModifier;
 import jdbms.sql.parsing.operators.BinaryOperator;
@@ -45,6 +46,7 @@ public abstract class BinaryExpression implements Expression {
 		String leftOperand = sqlExpression.substring(0, operatorIndex).trim();
 		String rightOperand = sqlExpRightPart.substring(0, seperatorIndex).trim();
 		if (!validOperand(leftOperand) || !validOperand(rightOperand)) {
+			ErrorHandler.printSyntaxErrorNear("Boolean Expression");
 			return false;
 		}
 		String restOfExpression = sqlExpRightPart.substring(seperatorIndex).trim();

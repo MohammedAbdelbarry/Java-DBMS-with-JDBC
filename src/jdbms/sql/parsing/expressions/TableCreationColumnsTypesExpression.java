@@ -35,7 +35,7 @@ public class TableCreationColumnsTypesExpression extends ColumnsDatatypesExpress
 					colName = colType.trim().substring(0, colType.indexOf(" ")).trim();
 					dataType = colType.trim().substring(colType.indexOf(" ") + 1).trim();
 				} catch(Exception e) {
-					ErrorHandler.printSyntaxErrorNear("defining columns.");
+					ErrorHandler.printSyntaxErrorNear("");
 				}
 				if (new ColumnExpression(colName).isValidColumnName()
 						&& dataTypes.contains(dataType)) {
@@ -48,7 +48,7 @@ public class TableCreationColumnsTypesExpression extends ColumnsDatatypesExpress
 			parameters.setColumnDefinitions(columnsDataTypes);
 			return super.interpret(parts[parts.length - 1].trim());
 		}
-		ErrorHandler.printSyntaxErrorNear("defining columns.");
+		ErrorHandler.printSyntaxErrorNear("Opening Parenthesis");
 		return false;
 	}
 }

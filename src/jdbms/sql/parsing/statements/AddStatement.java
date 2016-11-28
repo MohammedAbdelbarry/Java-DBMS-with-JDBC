@@ -1,5 +1,6 @@
 package jdbms.sql.parsing.statements;
 
+import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.parsing.expressions.DefineColumnExpression;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 
@@ -16,6 +17,7 @@ public class AddStatement implements Statement {
 			String restOfExpression = sqlExpression.replaceFirst(STATEMENT_IDENTIFIER, "").trim();
 			return new DefineColumnExpression(parameters).interpret(restOfExpression);
 		}
+		ErrorHandler.printSyntaxErrorNear("Add");
 		return false;
 	}
 }

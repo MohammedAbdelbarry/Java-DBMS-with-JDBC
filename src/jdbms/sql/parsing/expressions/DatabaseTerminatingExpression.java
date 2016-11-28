@@ -23,6 +23,7 @@ public class DatabaseTerminatingExpression extends DatabaseExpression {
 			parameters.setDatabaseName(databaseName);
 			return super.interpret(restOfExpression);
 		}
+		ErrorHandler.printSyntaxErrorNear("Database Name");
 		return false;
 	}
 }
