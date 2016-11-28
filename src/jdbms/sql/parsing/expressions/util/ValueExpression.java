@@ -8,7 +8,7 @@ public class ValueExpression {
 	}
 
 	public boolean isValidExpressionName() {
-		return this.expression.matches("^\\d+") || 
+		return this.expression.matches("^-?\\d+") || 
 				this.expression.matches("^[\"].*?[\"]") ||
 				this.expression.matches("^['].*?[']");
 	}

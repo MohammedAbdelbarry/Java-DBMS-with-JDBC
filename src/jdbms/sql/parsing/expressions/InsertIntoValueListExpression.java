@@ -19,7 +19,7 @@ public class InsertIntoValueListExpression extends ValueListExpression {
 	public boolean interpret(String sqlExpression) {
 		String[] parts = sqlExpression.split("\\)");
 		if (parts[0].trim().startsWith("(")) {
-			parts[0] = parts[0].trim().replace("(", "");
+			parts[0] = parts[0].trim().replaceFirst("\\(", "");
 			String[] values = parts[0].trim().split(",");
 			for (int i = 0; i < values.length; i++) {
 				values[i] = values[i].trim();

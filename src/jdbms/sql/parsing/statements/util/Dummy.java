@@ -39,35 +39,38 @@ public class Dummy {
 		}
 	}
 	public void parse(String sql) {	
-		UpdateStatement x = new UpdateStatement();
+		DeleteStatement x = new DeleteStatement();
 		if (x.interpret(sql)) {
 			System.out.println("Success");
 		}
 	}
 	public static void main(String args[]) {
 		Dummy dummy = new Dummy();
-		//String insertInto = "INSERT INTO STUDENTS VALUES (12,'HEHE',20),(13,'HOHO' ,\"70\"),(13,'HOHO' ,'701');";
-		String insertInto = "insert into tab (col1 ,col2) values(5, 'lol');";
-		String createDB = "cREATe                                                       dAtAbASE     Mn$DdtOL;";
-		String dropDB = "      DROP DATABASE MY$DBLOL ;";
-		String dropTable = "DROP TABLE MY$DBLOL ;";
-		String createTable = "create table mytable (col1 int, col2 text, col3 int, col4 text);";
-		String delete = "delete from mytable where col1 >= 550;";
-		//String update = "update _$table_name set column1='value1',column2='value2' where 1 = 'no';";
-		String update = "update mytable set col2 = \"INSERT UPDATE TABLE DATABASE CREATION\" where col1 = 'set where from select create ';";
-		String terminalUpdate = "update _$table_name set   column1='value1'   ,    column2='value2';";
+		//String insertInto = "INSERT INTO STUDENTS VALUES (12,'HEHE',-20),(13,'HOHO' ,\"70\"),(-13,'HOHO' ,'701');";
+		//String insertInto = "insert into MYTABLE (col2, col3) values (\"insert into MYTABLE (col1, col2) values\", 'insert into MYTABLE (col1, col2) values');";
+		//String createDB = "cREATe             dAtAbASE     Mn$DdtOL;";
+		//String dropDB = "      DROP DATABASE MY$DBLOL ;";
+		//String dropTable = "DROP TABLE MY$DBLOL ;";
+		//String createTable = "create table mytable (col1 int, col2 text, col3 int, col4 text);";
+		//String delete = "delete from mytable where col1 >= 550;";
+		//String update = "update _$table_name set column1=-8,column2=9 where 1 = 'no';";
+		//String update = "update mytable set col2 = \"INSERT UPDATE TABLE DATABASE CREATION\" where col1 = 'set where from select create ';";
+		//String terminalUpdate = "update _$table_name set   column1='value1'   ,    column2='value2';";
 		//String select = "    seLeCt colum$$n_name,co$$$LLLmn_name   FrOM table$_name whEre col1='val'     ;";
-		String select = "select * from a where b = ' select * from a where b = e ';";
-		String selectAll = "    selecT  * fRom   fan$$555$tbaleshNammmmm         where _hamada=5  ;";
+		//String select = "select * from a where b = ' select * from a where b = e ';";
+		//String selectAll = "    selecT  * fRom   fan$$555$tbaleshNammmmm         where _hamada=-5  ;";
+		//String delete = "delete from a where b = ' delete ; )( /*SET * from a where b = e ';";
+		String delete = "delete from a where b = 'hi space' ;";
+		
 		Parser p = new Parser();
 		//dummy.parse(p.normalizeCommand(insertInto));
 		//dummy.parse(p.normalizeCommand(createDB));
 		//dummy.parse(p.normalizeCommand(dropDB));
 		//dummy.parse(p.normalizeCommand(dropTable));
 		//dummy.parse(p.normalizeCommand(createTable));
-		System.out.println(p.normalizeCommand(update));
-		//dummy.parse(p.normalizeCommand(delete));
-		dummy.parse(p.normalizeCommand(update));
+		//System.out.println(p.normalizeCommand(update));
+		dummy.parse(p.normalizeCommand(delete));
+		//dummy.parse(p.normalizeCommand(update));
 		//dummy.parse(p.normalizeCommand(terminalUpdate));
 		//dummy.parse(p.normalizeCommand(select));
 	}

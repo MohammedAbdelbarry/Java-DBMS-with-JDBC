@@ -45,9 +45,9 @@ public abstract class BinaryExpression implements Expression {
 		operator.setLeftOperand(leftOperand);
 		operator.setRightOperand(parts[0].trim());
 		if (this.nextExpression != null) {
-			return nextExpression.interpret(parts[1].trim());
+			return nextExpression.interpret(parts[parts.length - 1].trim());
 		} else if (this.nextStatement != null) {
-			return nextStatement.interpret(parts[1].trim());
+			return nextStatement.interpret(parts[parts.length - 1].trim());
 		}
 		return false;
 	}
