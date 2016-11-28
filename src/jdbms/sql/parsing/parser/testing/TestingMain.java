@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import jdbms.sql.data.SQLData;
+import jdbms.sql.parsing.expressions.util.StringModifier;
 import jdbms.sql.parsing.parser.Parser;
 import jdbms.sql.parsing.statements.InitialStatement;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
@@ -44,8 +45,10 @@ public class TestingMain {
 			String sql = null;
 			while (in.hasNextLine()) {
 				stringBuilder.append(in.nextLine());
-				if (stringBuilder.indexOf(";") != -1) {
-					sql = stringBuilder.substring(0, stringBuilder.indexOf(";") + 1);
+				StringModifier modifier = new StringModifier();
+				String modifiedExpression = modifier.modifyString(stringBuilder.toString()).trim();
+				if (modifiedExpression.indexOf(";") != -1) {
+					sql = stringBuilder.substring(0, modifiedExpression.indexOf(";") + 1);
 					break;
 				}
 			}
