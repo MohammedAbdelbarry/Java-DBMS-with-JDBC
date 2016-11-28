@@ -14,6 +14,7 @@ public class InputParametersContainer {
 	private ArrayList<ArrayList<String>> values;
 	private ArrayList<ColumnIdentifier> columnDefinitions;
 	private ArrayList<AssignmentExpression> assignmentList;
+	
 	public InputParametersContainer() {
 
 	}

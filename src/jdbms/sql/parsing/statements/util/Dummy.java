@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import jdbms.sql.parsing.parser.Parser;
+import jdbms.sql.parsing.statements.AlterTableStatement;
 import jdbms.sql.parsing.statements.CreateTableStatement;
 import jdbms.sql.parsing.statements.DeleteStatement;
 import jdbms.sql.parsing.statements.InsertIntoStatement;
@@ -39,7 +40,7 @@ public class Dummy {
 		}
 	}
 	public void parse(String sql) {	
-		InsertIntoStatement x = new InsertIntoStatement();
+		DeleteStatement x = new DeleteStatement();
 		if (x.interpret(sql)) {
 			System.out.println("Accepted");
 		}
@@ -47,7 +48,7 @@ public class Dummy {
 	public static void main(String args[]) {
 		Dummy dummy = new Dummy();
 		//String insertInto = "INSERT INTO STUDENTS VALUES (12,'HEHE',-20),(13,'HOHO' ,\"70\"),(-13,'HOHO' ,'701');";
-		String insertInto = "insert into MYTABLE values (\"(c1,c2);\", '(c3,c4);'), ('()', '),;();');";
+		//String insertInto = "insert into MYTABLE values (\"(c1,c2);\", '(c3,c4);'), ('()', '),;();');";
 		//String createDB = "cREATe             dAtAbASE     Mn$DdtOL;";
 		//String dropDB = "      DROP DATABASE MY$DBLOL ;";
 		//String dropTable = "DROP TABLE MY$DBLOL ;";
@@ -60,19 +61,20 @@ public class Dummy {
 		//String select = "select * from a where b = ' select * from a where b = e ';";
 		//String selectAll = "    selecT  * fRom   fan$$555$tbaleshNammmmm         where _hamada=-5  ;";
 		//String delete = "delete from a where b = ' delete ; )( /*SET * from a where b = e ';";
-		//String delete = "delete from a where col = -7 ;";
-		
+		String delete = "delete from a where col>=-7 ;";
+		//String alter = "alter table mytable add col1 int ;";
 		Parser p = new Parser();
-		dummy.parse(p.normalizeCommand(insertInto));
+		//dummy.parse(p.normalizeCommand(insertInto));
 		//dummy.parse(p.normalizeCommand(createDB));
 		//dummy.parse(p.normalizeCommand(dropDB));
 		//dummy.parse(p.normalizeCommand(dropTable));
 		//dummy.parse(p.normalizeCommand(createTable));
 		//System.out.println(p.normalizeCommand(update));
-		//dummy.parse(p.normalizeCommand(delete));
+		dummy.parse(p.normalizeCommand(delete));
 		//dummy.parse(p.normalizeCommand(update));
 		//dummy.parse(p.normalizeCommand(terminalUpdate));
 		//dummy.parse(p.normalizeCommand(select));
+		//dummy.parse(p.normalizeCommand(alter));
 	}
 	
 	/*public static void main(String args[]) {

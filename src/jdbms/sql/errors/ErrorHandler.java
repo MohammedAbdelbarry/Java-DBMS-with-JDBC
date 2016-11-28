@@ -62,4 +62,7 @@ public abstract class ErrorHandler {
 		}
 		return string;
 	}
+	public static void printSyntaxErrorNear(String name) {
+        System.err.println("Syntax Error Near \"" + name + "\"");
+	}
 }

@@ -1,20 +1,21 @@
 package jdbms.sql.parsing.expressions;
 
+import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 import jdbms.sql.parsing.statements.Statement;
 
-public abstract class TableCreationTableInfo implements Expression {
+public abstract class ColumnsDatatypesExpression implements Expression {
 
 	private Expression nextExpression;
 	private Statement nextStatement;
 	protected InputParametersContainer parameters;
-	public TableCreationTableInfo(Expression nextExpression,
+	public ColumnsDatatypesExpression(Expression nextExpression,
 			InputParametersContainer parameters) {
 		this.nextExpression = nextExpression;
 		this.parameters = parameters;
 	}
 
-	public TableCreationTableInfo(Statement nextStatement,
+	public ColumnsDatatypesExpression(Statement nextStatement,
 			InputParametersContainer parameters) {
 		this.nextStatement = nextStatement;
 		this.parameters = parameters;
@@ -27,7 +28,7 @@ public abstract class TableCreationTableInfo implements Expression {
 		} else if (this.nextStatement != null) {
 			return this.nextStatement.interpret(sqlExpression);
 		}
+		ErrorHandler.printSyntaxErrorNear("defining columns");
 		return false;
 	}
-
 }
