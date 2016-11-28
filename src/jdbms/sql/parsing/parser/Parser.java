@@ -92,6 +92,7 @@ public class Parser {
 						component.append(command.charAt(i));
 						i++;
 					}
+					if (i < command.length())
 					component.append(command.charAt(i));
 				} else if (command.charAt(i) == '\'') {
 					i++;
@@ -99,6 +100,7 @@ public class Parser {
 						component.append(command.charAt(i));
 						i++;
 					}
+					if (i < command.length())
 					component.append(command.charAt(i));
 				}
 				// Another component is ready

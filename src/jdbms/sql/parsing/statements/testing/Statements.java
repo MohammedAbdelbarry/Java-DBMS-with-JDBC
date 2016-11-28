@@ -9,6 +9,7 @@ import java.util.HashMap;
 import org.junit.Before;
 import org.junit.Test;
 
+import jdbms.sql.data.ColumnIdentifier;
 import jdbms.sql.parsing.parser.Parser;
 import jdbms.sql.parsing.statements.CreateDatabaseStatement;
 import jdbms.sql.parsing.statements.CreateTableStatement;
@@ -59,10 +60,10 @@ public class Statements {
 
 	@Test
 	public void testCreateDataBase() {
-		String SQLCommand = "      CREATE    DAtAbASE my_database  ;  ";
+		String SQLCommand = "   CREATE    DAtAbASE my_database  ;  ";
 		SQLCommand = p.normalizeCommand(SQLCommand);
 		InitialStatement createDb = new CreateDatabaseStatement();
-		String name = "MY_DATABASE";
+		String name = "my_database";
 		if (createDb.interpret(SQLCommand)) {
 			check = true;
 		}
@@ -72,10 +73,10 @@ public class Statements {
 
 	@Test
 	public void testDropDataBase() {
-		String SQLCommand = "DrOP   database   my_SQLDatabase   ;";
+		String SQLCommand = "Drop   database   my_SQLDatabase   ;";
 		SQLCommand = p.normalizeCommand(SQLCommand);
 		InitialStatement dropDb = new DropDatabaseStatement();
-		String name = "MY_SQLDATABASE";
+		String name = "my_SQLDatabase";
 		if (dropDb.interpret(SQLCommand)) {
 			check = true;
 		}
@@ -85,21 +86,24 @@ public class Statements {
 
 	@Test
 	public void testCreateTable() {
-		//String SQLCommand = "CREATE table Students(StudentID int,LastName varchar,FirstName varchar,Address varchar,Grades int);";
-		String SQLCommand = "CREATE TABLE NEWTABLE (ID INT, AGE INT, NAME VARCHAR) ;";
+		String SQLCommand = "CREATE TABLE NEWTABLE (ID INTEGER, AGE INTEGER, NAME TEXT) ;";
 		SQLCommand = p.normalizeCommand(SQLCommand);
 		InitialStatement create = new CreateTableStatement();
-		HashMap<String, String> columnId = new HashMap<>();
+		ArrayList<ColumnIdentifier> columnId = new ArrayList<>();
 		String name = "NEWTABLE";
-		columnId.put("ID", "INTEGER");
-		columnId.put("AGE", "INTEGER");
-		columnId.put("NAME", "TEXT");
+		ColumnIdentifier cd = new ColumnIdentifier("ID", "INTEGER");
+		columnId.add(cd);
+		cd = new ColumnIdentifier("AGE", "INTEGER");
+		columnId.add(cd);
+		cd = new ColumnIdentifier("NAME", "TEXT");
+		columnId.add(cd);
 		if (create.interpret(SQLCommand)) {
 			check = true;
 		}
 		assertEquals(check, true);
-		//assertEquals(create.getParameters().getColumnDefinitions(), columnId);
-		//assertEquals(create.getParameters().getTableName(), name);
+		assertEquals(create.getParameters().getTableName(), name);
+		assertEquals(create.getParameters().getColumnDefinitions(), columnId);
+		
 	}
 
 	@Test
@@ -107,7 +111,7 @@ public class Statements {
 		String SQLCommand = "drop table My_SQLDatabase ;";
 		SQLCommand = p.normalizeCommand(SQLCommand);
 		InitialStatement dropTable = new DropTableStatement();
-		String name = "MY_SQLDATABASE";
+		String name = "My_SQLDatabase";
 		if (dropTable.interpret(SQLCommand)) {
 			check = true;
 		}
@@ -120,14 +124,14 @@ public class Statements {
 		String SQLCommand = "INSERT into my_TABLE(A_B,C_D) VALUES (\"x\",'y');";
 		SQLCommand = p.normalizeCommand(SQLCommand);
 		InitialStatement insertInto = new InsertIntoStatement();
-		String name = "MY_TABLE";
+		String name = "my_TABLE";
 		ArrayList<String> cols = new ArrayList<>();
 		cols.add("A_B");
 		cols.add("C_D");
 		ArrayList<ArrayList<String>> vals = new ArrayList<>();
 		ArrayList<String> temp = new ArrayList<>();
-		temp.add("\"X\"");
-		temp.add("'Y'");
+		temp.add("\"x\"");
+		temp.add("'y'");
 		vals.add(temp);
 		if (insertInto.interpret(SQLCommand)) {
 			check = true;
@@ -140,25 +144,26 @@ public class Statements {
 
 	@Test
 	public void testInsertIntoGluedExpression() {
-		String SQLCommand = "INSERT INTO Customers(CustomerName, ContactName, Address, City, PostalCode, Country)VALUES(12345,'Tom B. Erichsen','Skagen 21','Stavanger',4006,'Norway');";
+		String SQLCommand = "INSERT INTO Customers(CustomerName, ContactName, Address, City, PostalCode, Country)"
+				+ "VALUES(12345,'Tom B. Erichsen','Skagen 21','Stavanger',4006,'Norway');";
 		SQLCommand = p.normalizeCommand(SQLCommand);
 		InitialStatement insertInto = new InsertIntoStatement();
-		String name = "CUSTOMERS";
+		String name = "Customers";
 		ArrayList<String> cols = new ArrayList<>();
-		cols.add("CUSTOMERNAME");
-		cols.add("CONTACTNAME");
-		cols.add("ADDRESS");
-		cols.add("CITY");
-		cols.add("POSTALCODE");
-		cols.add("COUNTRY");
+		cols.add("CustomerName");
+		cols.add("ContactName");
+		cols.add("Address");
+		cols.add("City");
+		cols.add("PostalCode");
+		cols.add("Country");
 		ArrayList<ArrayList<String>> vals = new ArrayList<>();
 		ArrayList<String> temp = new ArrayList<>();
 		temp.add("12345");
-		temp.add("'TOM B. ERICHSEN'");
-		temp.add("'SKAGEN 21'");
-		temp.add("'STAVANGER'");
+		temp.add("'Tom B. Erichsen'");
+		temp.add("'Skagen 21'");
+		temp.add("'Stavanger'");
 		temp.add("4006");
-		temp.add("'NORWAY'");
+		temp.add("'Norway'");
 		vals.add(temp);
 		if (insertInto.interpret(SQLCommand)) {
 			check = true;
@@ -171,19 +176,19 @@ public class Statements {
 
 	@Test
 	public void testInsertIntoWithoutColumns() {
-		//String SQLCommand = "INSERT INTO Customers   VALuES   (    12345  ,   'Tom B. Erichsen',   'Skagen 21','Stavanger',   4006,   'Norway PLEB'   )   ;   ";
-		String SQLCommand = "INSERT INTO STUDENTS VALUES (12, 'HEHE', 20), (13, 'HOHO' , 70) ;";
+		String SQLCommand = "INSERT INTO Customers   VALuES   "
+				+ "(    12345  ,   'Tom B. Erichsen',   'Skagen 21','Stavanger',   4006,   'Norway PLEB'   )   ;   ";
 		SQLCommand = p.normalizeCommand(SQLCommand);
 		InitialStatement insertInto = new InsertIntoStatement();
-		String name = "CUSTOMERS";
+		String name = "Customers";
 		ArrayList<ArrayList<String>> vals = new ArrayList<>();
 		ArrayList<String> temp = new ArrayList<>();
 		temp.add("12345");
-		temp.add("'TOM B. ERICHSEN'");
-		temp.add("'SKAGEN 21'");
-		temp.add("'STAVANGER'");
+		temp.add("'Tom B. Erichsen'");
+		temp.add("'Skagen 21'");
+		temp.add("'Stavanger'");
 		temp.add("4006");
-		temp.add("'NORWAY PLEB'");
+		temp.add("'Norway PLEB'");
 		vals.add(temp);
 		if (insertInto.interpret(SQLCommand)) {
 			check = true;
@@ -198,7 +203,7 @@ public class Statements {
 		String SQLCommand = "SELECT * FROM table_name;";
 		SQLCommand = p.normalizeCommand(SQLCommand);
 		InitialStatement select = new SelectStatement();
-		String name = "TABLE_NAME";
+		String name = "table_name";
 		ArrayList<String> cols = new ArrayList<>();
 		cols.add("*");
 		if (select.interpret(SQLCommand)) {
@@ -215,7 +220,7 @@ public class Statements {
 		String SQLCommand = "SELECT * FROM Customers WHERE CustomerID>=1;";
 		SQLCommand = p.normalizeCommand(SQLCommand);
 		InitialStatement select = new SelectStatement();
-		String name = "CUSTOMERS";
+		String name = "Customers";
 		ArrayList<String> cols = new ArrayList<>();
 		cols.add("*");
 		if (select.interpret(SQLCommand)) {
@@ -224,7 +229,7 @@ public class Statements {
 		assertEquals(check, true);
 		assertEquals(name, select.getParameters().getTableName());
 		assertEquals(cols, select.getParameters().getColumns());
-		assertEquals("CUSTOMERID", select.getParameters().getCondition().getLeftOperand());
+		assertEquals("CustomerID", select.getParameters().getCondition().getLeftOperand());
 		assertEquals("1", select.getParameters().getCondition().getRightOperand());
 	}
 
@@ -233,11 +238,11 @@ public class Statements {
 		String SQLCommand = "SELECT CustomerID,CustomerName,  Grades FROM Customers;";
 		SQLCommand = p.normalizeCommand(SQLCommand);
 		InitialStatement select = new SelectStatement();
-		String name = "CUSTOMERS";
+		String name = "Customers";
 		ArrayList<String> cols = new ArrayList<>();
-		cols.add("CUSTOMERID");
-		cols.add("CUSTOMERNAME");
-		cols.add("GRADES");
+		cols.add("CustomerID");
+		cols.add("CustomerName");
+		cols.add("Grades");
 		if (select.interpret(SQLCommand)) {
 			check = true;
 		}
@@ -252,18 +257,18 @@ public class Statements {
 		String SQLCommand = "SELECT CustomerID,CustomerName FROM Customers WHERE Country = \"Germany\" ;";
 		SQLCommand = p.normalizeCommand(SQLCommand);
 		InitialStatement select = new SelectStatement();
-		String name = "CUSTOMERS";
+		String name = "Customers";
 		ArrayList<String> cols = new ArrayList<>();
-		cols.add("CUSTOMERID");
-		cols.add("CUSTOMERNAME");
+		cols.add("CustomerID");
+		cols.add("CustomerName");
 		if (select.interpret(SQLCommand)) {
 			check = true;
 		}
 		assertEquals(check, true);
 		assertEquals(name, select.getParameters().getTableName());
 		assertEquals(cols, select.getParameters().getColumns());
-		assertEquals("COUNTRY", select.getParameters().getCondition().getLeftOperand());
-		assertEquals("\"GERMANY\"", select.getParameters().getCondition().getRightOperand());
+		assertEquals("Country", select.getParameters().getCondition().getLeftOperand());
+		assertEquals("\"Germany\"", select.getParameters().getCondition().getRightOperand());
 	}
 
 	@Test
@@ -274,34 +279,35 @@ public class Statements {
 		if (statement.interpret(SQLCommand)) {
 			check = true;
 		}
-		assertEquals(statement.getParameters().getTableName(), "CUSTOMERS");
+		assertEquals(statement.getParameters().getTableName(), "Customers");
 		ArrayList<String> columns = new ArrayList<>();
-		columns.add("CUSTOMERID");
-		columns.add("CUSTOMERNAME");
+		columns.add("CustomerID");
+		columns.add("CustomerName");
 		assertEquals(check, true);
 		assertEquals(columns, statement.getParameters().getColumns());
-		assertEquals("ID", statement.getParameters().getCondition().getLeftOperand());
+		assertEquals("id", statement.getParameters().getCondition().getLeftOperand());
 		assertEquals("447", statement.getParameters().getCondition().getRightOperand());
 
 	}
 
 	@Test
 	public void testUpdate() {
-		String SQLCommand = "UPDATE Customers set ContactName='Alfred Schmidt',City  = ' Ham\'bu\'rg' WHERE CustomerName = 'Alfr\"eds Futter\"kiste';";
+		String SQLCommand = "UPDATE Customers set"
+				+ " ContactName='Alfred Schmidt',City  = ' Ham\"bu\"rg' WHERE CustomerName = 'Alfr\"eds Futter\"kiste';";
 		SQLCommand = p.normalizeCommand(SQLCommand);
 		InitialStatement update = new UpdateStatement();
-		String name = "CUSTOMERS";
+		String name = "Customers";
 		if (update.interpret(SQLCommand)) {
 			check = true;
 		}
 		assertEquals(check, true);
 		assertEquals(name, update.getParameters().getTableName());
-		assertEquals("CUSTOMERNAME", update.getParameters().getCondition().getLeftOperand());
-		assertEquals("'ALFR\"EDS FUTTER\"KISTE'", update.getParameters().getCondition().getRightOperand());
-		assertEquals("CONTACTNAME", update.getParameters().getAssignmentList().get(0).getLeftOperand());
-		assertEquals("'ALFRED SCHMIDT'", update.getParameters().getAssignmentList().get(0).getRightOperand());
-		assertEquals("CITY", update.getParameters().getAssignmentList().get(1).getLeftOperand());
-		assertEquals("' HAM\'BU\'RG'", update.getParameters().getAssignmentList().get(1).getRightOperand());
+		assertEquals("ContactName", update.getParameters().getAssignmentList().get(0).getLeftOperand());
+		assertEquals("'Alfred Schmidt'", update.getParameters().getAssignmentList().get(0).getRightOperand());
+		assertEquals("City", update.getParameters().getAssignmentList().get(1).getLeftOperand());
+		assertEquals("' Ham\"bu\"rg'", update.getParameters().getAssignmentList().get(1).getRightOperand());
+		assertEquals("CustomerName", update.getParameters().getCondition().getLeftOperand());
+		assertEquals("'Alfr\"eds Futter\"kiste'", update.getParameters().getCondition().getRightOperand());
 	}
 
 	@Test
@@ -317,7 +323,7 @@ public class Statements {
 		assertEquals(name, update.getParameters().getTableName());
 		assertEquals(null, update.getParameters().getCondition());
 		assertEquals("ADDRESS", update.getParameters().getAssignmentList().get(0).getLeftOperand());
-		assertEquals("'PUNE'", update.getParameters().getAssignmentList().get(0).getRightOperand());
+		assertEquals("'Pune'", update.getParameters().getAssignmentList().get(0).getRightOperand());
 		assertEquals("SALARY", update.getParameters().getAssignmentList().get(1).getLeftOperand());
 		assertEquals("1000", update.getParameters().getAssignmentList().get(1).getRightOperand());
 	}
@@ -327,7 +333,7 @@ public class Statements {
 		String SQLCommand = "DELETE FROM table_name;";
 		SQLCommand = p.normalizeCommand(SQLCommand);
 		InitialStatement delete = new DeleteStatement();
-		String name = "TABLE_NAME";
+		String name = "table_name";
 		if (delete.interpret(SQLCommand)) {
 			check = true;
 		}
@@ -341,13 +347,13 @@ public class Statements {
 		String SQLCommand = "DELETE FROM Customers WHERE name='x y';";
 		SQLCommand = p.normalizeCommand(SQLCommand);
 		InitialStatement delete = new DeleteStatement();
-		String name = "CUSTOMERS";
+		String name = "Customers";
 		if (delete.interpret(SQLCommand)) {
 			check = true;
 		}
 		assertEquals(check, true);
 		assertEquals(name, delete.getParameters().getTableName());
-		assertEquals("NAME", delete.getParameters().getCondition().getLeftOperand());
-		assertEquals("'X Y'", delete.getParameters().getCondition().getRightOperand());
+		assertEquals("name", delete.getParameters().getCondition().getLeftOperand());
+		assertEquals("'x y'", delete.getParameters().getCondition().getRightOperand());
 	}
 }
