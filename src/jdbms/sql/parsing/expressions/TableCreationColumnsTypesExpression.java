@@ -25,7 +25,7 @@ public class TableCreationColumnsTypesExpression extends TableCreationTableInfo 
 	public boolean interpret(String sqlExpression) {
 		String[] parts = sqlExpression.trim().split("\\)");
 		if (parts[0].startsWith("(")) {
-			parts[0] = parts[0].replaceFirst("(", "");
+			parts[0] = parts[0].replaceFirst("\\(", "");
 			String[] types = parts[0].split(",");
 			for (String colType : types) {
 				colType = colType.trim();

@@ -1,6 +1,7 @@
 package jdbms.sql.parsing.expressions.math;
 
 import jdbms.sql.parsing.expressions.Expression;
+import jdbms.sql.parsing.expressions.util.StringModifier;
 import jdbms.sql.parsing.operators.BinaryOperator;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 import jdbms.sql.parsing.statements.Statement;
@@ -10,6 +11,7 @@ public abstract class BinaryExpression implements Expression {
 	private BinaryOperator operator;
 	private Expression nextExpression;
 	private Statement nextStatement;
+	private StringModifier modifier;
 	protected InputParametersContainer parameters;
 	public BinaryExpression(String symbol,
 			Expression nextExpression,
@@ -17,6 +19,7 @@ public abstract class BinaryExpression implements Expression {
 		this.operator = new BinaryOperator(symbol);
 		this.nextExpression = nextExpression;
 		this.parameters = parameters;
+		this.modifier = new StringModifier();
 	}
 	public BinaryExpression(String symbol,
 			Statement nextStatement,
@@ -24,11 +27,12 @@ public abstract class BinaryExpression implements Expression {
 		this.operator = new BinaryOperator(symbol);
 		this.nextStatement = nextStatement;
 		this.parameters = parameters;
+		this.modifier = new StringModifier();
 	}
 	@Override
 	public boolean interpret(String sqlExpression) {
 		sqlExpression = sqlExpression.trim();
-		String modifiedExpression = removeString(sqlExpression).trim();
+		String modifiedExpression = modifier.modifyString(sqlExpression).trim();
 		if (!modifiedExpression.contains(this.operator.getSymbol())) {
 			return false;
 		}
@@ -54,33 +58,6 @@ public abstract class BinaryExpression implements Expression {
 			return nextStatement.interpret(restOfExpression.trim());
 		}
 		return false;
-	}
-
-	private String removeString(String expression) {
-		String stringless = "";
-		for (int i = 0; i < expression.length(); i++) {
-			stringless += expression.charAt(i);
-			if (expression.charAt(i) == '\'') {
-				for (int j = i + 1; j < expression.length(); j++) {
-					if (expression.charAt(j) == '\'') {
-						stringless += expression.charAt(j);
-						i = j;
-						break;
-					}
-					stringless += "s";
-				}
-			} else if (stringless.charAt(i) == '"') {
-				for (int j = i + 1; j < expression.length(); j++) {
-					if (expression.charAt(j) == '"') {
-						stringless += expression.charAt(j);
-						i = j;
-						break;
-					}
-					stringless += "s";
-				}
-			}
-		}
-		return stringless;
 	}
 	
 	public String getLeftOperand() {
