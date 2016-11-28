@@ -14,6 +14,11 @@ public class DTDParser {
 
 	}
 
+	/**
+	 * Parses the DTD file given and returns array of column names.
+	 * @param file the DTD file to be parsed*
+	 * @return array of column names as extracted from the DTD
+	 */
 	public ArrayList<String> parse(File file) {
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(file));

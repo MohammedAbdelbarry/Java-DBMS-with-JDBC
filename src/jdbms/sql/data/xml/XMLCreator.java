@@ -26,15 +26,27 @@ import jdbms.sql.data.TableIdentifier;
 import jdbms.sql.errors.ErrorHandler;
 
 public class XMLCreator {
+	/**DTD Identifier to be inserted in the DTD file Name.*/
 	private static final String DTD_IDENTIFIER = "DTD";
+	/**DTD extension to be inserted in the DTD file.*/
 	private static final String DTD_EXTENSION = ".dtd";
+	/**XML extension to be inserted in the XML file.*/
 	private static final String XML_EXTENSION = ".xml";
+	/**external resource for the indentation in XML files.*/
 	private static final String INDENTATION = "{http://xml.apache.org/xslt}indent-amount";
+	/**Number of indentation tabs in XML files as a String.*/
 	private static final String INDENT_NUMBER = "4";
 
 	public XMLCreator() {
 	}
 
+	/**
+	 * Creates an XMl File for the given table
+	 *  and stores it in the proper folder path.
+	 *  @param table the table for which the XML file will be created
+	 *  @param databaseName the name of the database to which the table belongs
+	 *  @param path the path to which the XML file will be stored
+	 */
 	public void create(Table table, String databaseName, String path) {
 		try {
 			TableIdentifier identifier = table.getTableIdentifier();
@@ -66,6 +78,13 @@ public class XMLCreator {
 		createDTD(table.getColumnNames(), table, databaseName, path);
 	}
 
+	/**Creates the DTD file for the
+	 * given XML file given the table data.
+	 * @param columnNames array of column names
+	 * @param table the table for which the DTD will be created
+	 * @param database the name of the database
+	 * @param path the path of the database directory
+	 */	
 	private void createDTD(ArrayList<String> columnNames,
 			Table table, String database, String path) {
 		DTDCreator dtd = new DTDCreator();
@@ -73,6 +92,14 @@ public class XMLCreator {
 				table.getName().toUpperCase(), path);
 	}
 
+	/**Extract the rows from the table and insert them
+	 * into the XML file.
+	 * @param doc the document to which the rows elements will be inserted
+	 * @param root the root element to which the rows would be appended
+	 * @param tableData columns of the table
+	 * @param table the table for which the XML file will be created
+	 * @param columnNames array of the column names
+	 */
 	private void buildRows(Document doc, Element root,
 			Map<String, TableColumn> tableData, Table table
 			, ArrayList<String> columnNames) {
@@ -88,6 +115,15 @@ public class XMLCreator {
 			}
 		}
 	}
+
+	/** 
+	 * 	Transforms the XML file from a single line
+	 *  String to fully indented file.
+	 *  @param source the file source that will be transformed
+	 *  @param fileResult a stream of the XML file generated
+	 *  @param document the document that contains the XML tree
+	 *  @param tableName the table name
+	 */
 	private void applyTransform(DOMSource source, StreamResult fileResult,
 			Document document, String tableName) {
 		TransformerFactory transformerFactory =
