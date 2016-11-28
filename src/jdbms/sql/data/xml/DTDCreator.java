@@ -8,12 +8,21 @@ import java.util.ArrayList;
 import jdbms.sql.errors.ErrorHandler;
 
 public class DTDCreator {
+	/**DTD Identifier to be inserted in the DTD file Name.*/
 	private static final String DTD_IDENTIFIER = "DTD";
+	/**DTD extension to be inserted in the DTD file.*/
 	private static final String DTD_EXTENSION = ".dtd";
 
 	public DTDCreator() {
 	}
 
+	/**
+	 * Creates the DTD file according to the given table identifiers.
+	 * @param database name of the database
+	 * @param identifier table identifier
+	 * @param path  path to the file to be created
+	 * @return the DTD file as a string
+	 * */
 	public String create(String database, ArrayList<String> columnNames,
 			String tableName, String path) {
 		StringBuilder dtdString = new StringBuilder("");
@@ -52,6 +61,13 @@ public class DTDCreator {
 		return dtd;
 	}
 
+	/**
+	 * Creates the file using the previously generated DTD string.
+	 * @param database name of the database
+	 * @param identifier table identifiers
+	 * @param dtd the generated DTD string to be stored
+	 * @param path the path where the file would be saved
+	 */	
 	public void createFile(String database, String tableName
 			, String dtd, String path) {
 		File dtdFile = new File(path + database

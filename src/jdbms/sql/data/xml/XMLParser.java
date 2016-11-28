@@ -29,9 +29,13 @@ import jdbms.sql.parsing.properties.InsertionParameters;
 import jdbms.sql.parsing.properties.TableCreationParameters;
 
 public class XMLParser {
+	/**DTD Identifier to be inserted in the DTD file Name.*/
 	private static final String DTD_IDENTIFIER = "DTD";
+	/**DTD extension to be inserted in the DTD file.*/
 	private static final String DTD_EXTENSION = ".dtd";
+	/**XML extension to be inserted in the XML file.*/
 	private static final String XML_EXTENSION = ".xml";
+
 	public XMLParser() {
 
 	}
@@ -52,6 +56,12 @@ public class XMLParser {
 		return columnNames;
 	}
 
+	/**
+	 * Parses the XML file with the provided table name and database name.
+	 * @param tableName the name of the table
+	 * @param databaseName the name of the database
+	 * @return table constructed using the parsed XML file
+	 */
 	public Table parse(String tableName, String databaseName,
 			String path)
 		throws ColumnAlreadyExistsException, RepeatedColumnException,
@@ -93,6 +103,14 @@ public class XMLParser {
 		return null;
 	}
 
+	/**
+	 * Creates the table after the parsing process has completed successfully.
+	 * @param columns array of column identifiers
+	 * @param values array of each column values
+	 * @param tableName name of the table to be created
+	 * @param columnNames array of the column names
+	 * @return table the new created table
+	 */
 	private Table createTable(ArrayList<ColumnIdentifier> columns,
 			ArrayList<ArrayList<String>> values, String tableName,
 			ArrayList<String> columnNames)
@@ -116,6 +134,12 @@ public class XMLParser {
 		return table;
 	}
 
+	/**
+	 * Extracts the rows out of the XML file.
+	 * @param values array of each column values
+	 * @param nList array of the rows stored in the XML file
+	 * @param columnNames array of column names
+	 */
 	private void extractRows(ArrayList<ArrayList<String>> values,
 			NodeList nList, ArrayList<String> columnNames) {
 		for (int i = 0; i < nList.getLength(); i++) {
