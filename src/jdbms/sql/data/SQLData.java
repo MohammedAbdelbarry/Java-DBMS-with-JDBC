@@ -16,6 +16,7 @@ import jdbms.sql.exceptions.TypeMismatchException;
 import jdbms.sql.exceptions.ValueListTooLargeException;
 import jdbms.sql.exceptions.ValueListTooSmallException;
 import jdbms.sql.file.FileHandler;
+import jdbms.sql.parsing.properties.AddColumnParameters;
 import jdbms.sql.parsing.properties.DatabaseCreationParameters;
 import jdbms.sql.parsing.properties.DatabaseDroppingParameters;
 import jdbms.sql.parsing.properties.DeletionParameters;
@@ -203,6 +204,18 @@ public class SQLData {
 			 ErrorHandler.printTypeMismatchError();
 		} catch (TableNotFoundException e) {
 			 ErrorHandler.printTableNotFoundError(e.getMessage());
+		}
+	}
+	public void addTableColumn(AddColumnParameters parameters) {
+		try {
+			activeDatabase.addTableColumn(parameters);
+			saveTable(parameters.getTableName());
+		} catch (ColumnAlreadyExistsException e) {
+			ErrorHandler.printColumnAlreadyExistsError(
+					parameters.getColumnIdentifier().getName());
+		} catch (TableNotFoundException e) {
+			ErrorHandler.printTableNotFoundError(
+					parameters.getTableName());
 		}
 	}
 	private Database createTemporaryDatabase()

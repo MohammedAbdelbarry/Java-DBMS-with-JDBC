@@ -104,9 +104,6 @@ public class XMLParser {
 			ValueListTooSmallException,
 			TypeMismatchException {
 		TableCreationParameters parameters = new TableCreationParameters();
-		for (ColumnIdentifier col : columns) {
-			System.out.println(col.getName() + ":" + col.getType());
-		}
 		parameters.setColumnDefinitions(columns);
 		parameters.setTableName(tableName);
 		Table table = null;

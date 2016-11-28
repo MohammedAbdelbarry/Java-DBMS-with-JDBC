@@ -38,7 +38,8 @@ public class XMLCreator {
 	public void create(Table table, String databaseName, String path) {
 		try {
 			TableIdentifier identifier = table.getTableIdentifier();
-			ArrayList<ColumnIdentifier> cols = identifier.getColumnsIdentifiers();
+			ArrayList<ColumnIdentifier> cols
+			= identifier.getColumnsIdentifiers();
 			DocumentBuilderFactory dbFactory =
 					DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder;
@@ -50,11 +51,12 @@ public class XMLCreator {
 						columnIdentifier.getType());
 			}
 			doc.appendChild(root);
-			buildRows(doc, root, table.getColumns(), table, table.getColumnNames());
+			buildRows(doc, root,
+					table.getColumns(), table, table.getColumnNames());
 			DOMSource source = new DOMSource(doc);
 			File xmlFile = new File(path
 	        		+ databaseName + File.separator
-	        		+ table.getName() + XML_EXTENSION);
+	        		+ table.getName().toUpperCase() + XML_EXTENSION);
 			StreamResult fileResult =
 			        new StreamResult(xmlFile);
 			applyTransform(source, fileResult, doc, table.getName());
@@ -67,7 +69,8 @@ public class XMLCreator {
 	private void createDTD(ArrayList<String> columnNames,
 			Table table, String database, String path) {
 		DTDCreator dtd = new DTDCreator();
-		dtd.create(database, columnNames, table.getName(), path);
+		dtd.create(database, columnNames,
+				table.getName().toUpperCase(), path);
 	}
 
 	private void buildRows(Document doc, Element root,
@@ -98,8 +101,10 @@ public class XMLCreator {
 			DocumentType doctype = domImpl.createDocumentType("doctype",
 				    "Table",
 				    tableName + DTD_IDENTIFIER + DTD_EXTENSION);
-			transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, doctype.getPublicId());
-			transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, doctype.getSystemId());
+			transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC,
+					doctype.getPublicId());
+			transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM,
+					doctype.getSystemId());
 			transformer.transform(source, fileResult);
 		} catch (TransformerException e) {
 			ErrorHandler.printInternalError();

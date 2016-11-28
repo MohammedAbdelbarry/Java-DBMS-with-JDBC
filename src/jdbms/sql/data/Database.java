@@ -13,6 +13,7 @@ import jdbms.sql.exceptions.TableNotFoundException;
 import jdbms.sql.exceptions.TypeMismatchException;
 import jdbms.sql.exceptions.ValueListTooLargeException;
 import jdbms.sql.exceptions.ValueListTooSmallException;
+import jdbms.sql.parsing.properties.AddColumnParameters;
 import jdbms.sql.parsing.properties.DeletionParameters;
 import jdbms.sql.parsing.properties.InsertionParameters;
 import jdbms.sql.parsing.properties.SelectionParameters;
@@ -110,6 +111,17 @@ public class Database {
 		}
 		tables.get(updateParameters.getTableName().toUpperCase()).
 		updateTable(updateParameters);
+	}
+	public void addTableColumn(AddColumnParameters parameters)
+			throws ColumnAlreadyExistsException,
+			TableNotFoundException {
+		if (!tables.containsKey(parameters.
+				getTableName().toUpperCase())) {
+			throw new TableNotFoundException(parameters.getTableName());
+		}
+		tables.get(parameters.getTableName().toUpperCase()
+				).addTableColumn(parameters.getColumnIdentifier().getName(),
+				parameters.getColumnIdentifier().getType());
 	}
 	public String getDatabaseName() {
 		return databaseName;

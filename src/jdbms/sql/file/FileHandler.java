@@ -30,11 +30,15 @@ public class FileHandler {
 	private static final String XML_EXTENSION = ".xml";
 	private static final String DTD_IDENTIFIER = "DTD";
 	private static final String DTD_EXTENSION = ".dtd";
+	private static final String DATA_DIRECTORY = "Data";
 	public FileHandler() {
 		try {
-			CodeSource codeSource = TestingMain.class.getProtectionDomain().getCodeSource();
-			File jarFile = new File(codeSource.getLocation().toURI().getPath());
-			path = jarFile.getParentFile().getPath();
+			CodeSource codeSource = TestingMain.class.
+					getProtectionDomain().getCodeSource();
+			File jarFile = new File(
+					codeSource.getLocation().toURI().getPath());
+			path = jarFile.getParentFile().getPath()
+					+ File.separator + DATA_DIRECTORY;
 		} catch (URISyntaxException e) {
 			ErrorHandler.printInternalError();
 		}
@@ -55,9 +59,11 @@ public class FileHandler {
 	public void deleteTable(String tableName, String databaseName)
 			throws TableNotFoundException {
 		File tableXML = new File(path + File.separator
-				+ databaseName + File.separator + tableName);
+				+ databaseName.toUpperCase() + File.separator
+				+ tableName.toUpperCase() + XML_EXTENSION);
 		File tableDTD = new File(path + File.separator
-				+ databaseName + File.separator + tableName +
+				+ databaseName.toUpperCase()
+				+ File.separator + tableName.toUpperCase() +
 				DTD_IDENTIFIER + DTD_EXTENSION);
 		if (!tableXML.exists()) {
 			throw new TableNotFoundException(tableName);
@@ -90,7 +96,7 @@ public class FileHandler {
 		if (database.exists()) {
 			throw new DatabaseAlreadyExistsException(databaseName);
 		}
-		if (!database.mkdir()) {
+		if (!database.mkdirs()) {
 			ErrorHandler.printInternalError();
 		}
 	}
@@ -100,7 +106,7 @@ public class FileHandler {
 		if (database.exists()) {
 			throw new DatabaseAlreadyExistsException(tempName);
 		}
-		if (!database.mkdir()) {
+		if (!database.mkdirs()) {
 			ErrorHandler.printInternalError();
 		}
 		database.deleteOnExit();

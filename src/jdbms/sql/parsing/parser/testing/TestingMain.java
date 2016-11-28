@@ -10,7 +10,7 @@ import jdbms.sql.parsing.statements.InitialStatement;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
 
 public class TestingMain {
-
+	private static final String QUIT = "QUIT;";
 	public TestingMain() {
 
 	}
@@ -51,6 +51,10 @@ public class TestingMain {
 					sql = stringBuilder.substring(0, modifiedExpression.indexOf(";") + 1);
 					break;
 				}
+			}
+			if (sql.trim().toUpperCase().equals(QUIT)) {
+				in.close();
+				break;
 			}
 			System.out.println(sql);
 			String normalizedOutput = parser.normalizeCommand(sql);

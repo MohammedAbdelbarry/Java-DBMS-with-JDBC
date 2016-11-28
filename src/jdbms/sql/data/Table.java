@@ -64,6 +64,9 @@ public class Table {
 		TableColumn newColumn = new TableColumn(columnName, columnDataType);
 		tableColumns.put(columnName.toUpperCase(), newColumn);
 		tableColumnNames.add(columnName);
+		for (int i = 0 ; i < numberOfRows ; i++) {
+			tableColumns.get(columnName.toUpperCase()).add(null);
+		}
 	}
 	public void insertRows(InsertionParameters insertParameters)
 			throws RepeatedColumnException,
@@ -189,6 +192,8 @@ public class Table {
 				columnNames.get(0).equals("*")) {
 			columnNames = new ArrayList<>(tableColumnNames);
 		}
+		Set<String> uniqueColumnNames = new HashSet<>(columnNames);
+		columnNames = new ArrayList<>(uniqueColumnNames);
 		for (String column : columnNames) {
 			if (!tableColumns.containsKey(column.toUpperCase())) {
 				throw new ColumnNotFoundException(column);
