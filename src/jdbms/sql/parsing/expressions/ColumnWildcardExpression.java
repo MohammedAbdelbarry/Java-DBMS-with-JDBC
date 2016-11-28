@@ -18,7 +18,7 @@ public class ColumnWildcardExpression extends ColumnListExpression {
 			ArrayList<String> list = new ArrayList<>();
 			list.add("*");
 			parameters.setColumns(list);
-			return super.interpret(sqlExpression.replaceFirst("*", "").trim());
+			return super.interpret(sqlExpression.substring(sqlExpression.indexOf("*") + 1).trim());
 		}
 		ErrorHandler.printSyntaxErrorNear("*");
 		return false;
