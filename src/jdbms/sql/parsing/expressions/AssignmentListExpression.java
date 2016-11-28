@@ -29,30 +29,34 @@ public abstract class AssignmentListExpression implements Expression {
 	@Override
 	public boolean interpret(String sqlExpression) {
 		sqlExpression = sqlExpression.trim();
-		String[] parts = sqlExpression.split(",");
-		for (int i = 0; i < parts.length - 1; i++) {
+		String modifiedExpression = removeString(sqlExpression).trim();
+		while (modifiedExpression.indexOf(",") != -1) {
+			String currAssignmentExp = sqlExpression.substring(0,
+					modifiedExpression.indexOf(","));
+			String modifiedAssignment = modifiedExpression.substring(0,
+					modifiedExpression.indexOf(","));
+			sqlExpression = sqlExpression.replaceFirst(sqlExpression.substring(0,
+					modifiedExpression.indexOf(",")) + ",", "").trim();
+			modifiedExpression = modifiedExpression.replaceFirst(modifiedAssignment + ",", "").trim();
 			assignmentList.add(new AssignmentExpression(parameters));
-			if (!assignmentList.get(i).interpret(parts[i].trim())) {
+			if (!assignmentList.get(assignmentList.size() - 1).interpret(currAssignmentExp.trim())) {
 				return false;
 			}
 		}
-		parts[parts.length - 1] = parts[parts.length - 1].trim();
-		String modifiedExpression = removeString(parts[parts.length - 1].trim()).trim();
 		int seperatorIndex = modifiedExpression.indexOf("WHERE");
 		if (seperatorIndex == -1) {
 			seperatorIndex = modifiedExpression.indexOf(";");
 		}
-		String AssignmentExp = parts[parts.length - 1].trim().substring(0, seperatorIndex).trim();
-		String restOfExpression = parts[parts.length - 1].trim().substring(seperatorIndex);
 		assignmentList.add(new AssignmentExpression(parameters));
-		if (!assignmentList.get(assignmentList.size() - 1).interpret(AssignmentExp.trim())) {
+		if (!assignmentList.get(assignmentList.size() - 1).
+				interpret(sqlExpression.substring(0, seperatorIndex).trim())) {
 			return false;
 		}
 		parameters.setAssignmentList(this.assignmentList);
 		if (this.nextExpression != null) {
-			return this.nextExpression.interpret(restOfExpression.trim());
+			return this.nextExpression.interpret(sqlExpression.substring(seperatorIndex).trim());
 		} else if (this.nextStatement != null) {
-			return this.nextStatement.interpret(restOfExpression.trim());
+			return this.nextStatement.interpret(sqlExpression.substring(seperatorIndex).trim());
 		}
 		return false;
 	}

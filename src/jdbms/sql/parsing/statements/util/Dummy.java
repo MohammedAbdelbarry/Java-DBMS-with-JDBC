@@ -39,7 +39,7 @@ public class Dummy {
 		}
 	}
 	public void parse(String sql) {	
-		DeleteStatement x = new DeleteStatement();
+		UpdateStatement x = new UpdateStatement();
 		if (x.interpret(sql)) {
 			System.out.println("Success");
 		}
@@ -54,13 +54,13 @@ public class Dummy {
 		//String createTable = "create table mytable (col1 int, col2 text, col3 int, col4 text);";
 		//String delete = "delete from mytable where col1 >= 550;";
 		//String update = "update _$table_name set column1=-8,column2=9 where 1 = 'no';";
-		//String update = "update mytable set col2 = \"INSERT UPDATE TABLE DATABASE CREATION\" where col1 = 'set where from select create ';";
+		String update = "update mytable set col2 = ', ',col3 = ' WHERE ',col4 = ' ; ',col5='WHERE,; ; ,' where col1 = 'set where from \"select\" create ';";
 		//String terminalUpdate = "update _$table_name set   column1='value1'   ,    column2='value2';";
 		//String select = "    seLeCt colum$$n_name,co$$$LLLmn_name   FrOM table$_name whEre col1='val'     ;";
 		//String select = "select * from a where b = ' select * from a where b = e ';";
 		//String selectAll = "    selecT  * fRom   fan$$555$tbaleshNammmmm         where _hamada=-5  ;";
 		//String delete = "delete from a where b = ' delete ; )( /*SET * from a where b = e ';";
-		String delete = "delete from a where \"SELECT DELETE TEXT WHERE \"hi babe\"\" = \"hel'lo' '=' kitty\" ;";
+		//String delete = "delete from a where col = -7 ;";
 		
 		Parser p = new Parser();
 		//dummy.parse(p.normalizeCommand(insertInto));
@@ -69,8 +69,8 @@ public class Dummy {
 		//dummy.parse(p.normalizeCommand(dropTable));
 		//dummy.parse(p.normalizeCommand(createTable));
 		//System.out.println(p.normalizeCommand(update));
-		dummy.parse(p.normalizeCommand(delete));
-		//dummy.parse(p.normalizeCommand(update));
+		//dummy.parse(p.normalizeCommand(delete));
+		dummy.parse(p.normalizeCommand(update));
 		//dummy.parse(p.normalizeCommand(terminalUpdate));
 		//dummy.parse(p.normalizeCommand(select));
 	}
