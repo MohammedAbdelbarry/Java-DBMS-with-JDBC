@@ -3,14 +3,10 @@ package jdbms.sql.parsing.statements.util;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import jdbms.sql.data.ColumnIdentifier;
 import jdbms.sql.parsing.parser.Parser;
-import jdbms.sql.parsing.statements.AlterTableStatement;
 import jdbms.sql.parsing.statements.CreateTableStatement;
-import jdbms.sql.parsing.statements.DeleteStatement;
-import jdbms.sql.parsing.statements.InsertIntoStatement;
-import jdbms.sql.parsing.statements.SelectStatement;
 import jdbms.sql.parsing.statements.Statement;
-import jdbms.sql.parsing.statements.UpdateStatement;
 
 public class Dummy {
 	Collection<Statement> statements;
@@ -39,10 +35,13 @@ public class Dummy {
 			statements.add(InitialStatementFactory.getInstance().createStatement(key));
 		}
 	}
-	public void parse(String sql) {	
-		DeleteStatement x = new DeleteStatement();
+	public void parse(String sql) {
+		CreateTableStatement x = new CreateTableStatement();
 		if (x.interpret(sql)) {
 			System.out.println("Accepted");
+		}
+		for (ColumnIdentifier col : x.getParameters().getColumnDefinitions()) {
+			System.out.println(col.getName());
 		}
 	}
 	public static void main(String args[]) {
@@ -61,8 +60,10 @@ public class Dummy {
 		//String select = "select * from a where b = ' select * from a where b = e ';";
 		//String selectAll = "    selecT  * fRom   fan$$555$tbaleshNammmmm         where _hamada=-5  ;";
 		//String delete = "delete from a where b = ' delete ; )( /*SET * from a where b = e ';";
-		String delete = "delete from a where col>=-7 ;";
+//		String delete = "delete from a where col>=-7 ;";
 		//String alter = "alter table mytable add col1 int ;";
+		//String insert = "insert into t values (4, 'hello\"myFag\"friend can , make you sad', \"where 'you' want tot fuck;().,!@#$%/*-+\", -555);";
+		String create = "create table t (c1 int, c2 varchar, c3 text, c4 integer);";
 		Parser p = new Parser();
 		//dummy.parse(p.normalizeCommand(insertInto));
 		//dummy.parse(p.normalizeCommand(createDB));
@@ -70,20 +71,21 @@ public class Dummy {
 		//dummy.parse(p.normalizeCommand(dropTable));
 		//dummy.parse(p.normalizeCommand(createTable));
 		//System.out.println(p.normalizeCommand(update));
-		dummy.parse(p.normalizeCommand(delete));
+		dummy.parse(p.normalizeCommand(create));
+
 		//dummy.parse(p.normalizeCommand(update));
 		//dummy.parse(p.normalizeCommand(terminalUpdate));
 		//dummy.parse(p.normalizeCommand(select));
 		//dummy.parse(p.normalizeCommand(alter));
 	}
-	
+
 	/*public static void main(String args[]) {
-		String right;    
+		String right;
         String test = "name = '777 555' and id = 7 ;";
         String[] operands = test.split("=");
         operands[1] = operands[1].trim();
         System.out.println("The left operand is:" + operands[1]);
-        
+
         char check = operands[1].charAt(0);
         System.out.println(check);
         if (check == '\'' || check == '"') {
@@ -92,9 +94,9 @@ public class Dummy {
             System.out.println(trimy);
             right = check + trimy.trim().substring(0, trimy.trim().indexOf(check)).trim() + check;
             System.out.println(right);
-            
+
             // Getting the rest of the expression
-            
+
         } else {
             System.out.println("I'm a number");
             right = operands[1].trim().substring(0, operands[1].trim().indexOf(" ")).trim();

@@ -56,13 +56,16 @@ public abstract class ErrorHandler {
 		System.err.println("Error: Couldn't Delete Database \""
 			+ handleNull(databaseName) + "\"");
 	}
+	public static void printSyntaxErrorNear(String name) {
+		System.err.println("Syntax Error Near \"" + name + "\"");
+	}
+	public static void printSyntaxError() {
+		System.err.println("Syntax Error");
+	}
 	private static String handleNull(String string) {
 		if (string == null) {
 			return NULL_PLACEHOLDER;
 		}
 		return string;
-	}
-	public static void printSyntaxErrorNear(String name) {
-        System.err.println("Syntax Error Near \"" + name + "\"");
 	}
 }

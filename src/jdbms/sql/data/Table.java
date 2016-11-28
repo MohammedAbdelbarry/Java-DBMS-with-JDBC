@@ -3,6 +3,7 @@ package jdbms.sql.data;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -192,7 +193,7 @@ public class Table {
 				columnNames.get(0).equals("*")) {
 			columnNames = new ArrayList<>(tableColumnNames);
 		}
-		Set<String> uniqueColumnNames = new HashSet<>(columnNames);
+		Set<String> uniqueColumnNames = new LinkedHashSet<>(columnNames);
 		columnNames = new ArrayList<>(uniqueColumnNames);
 		for (String column : columnNames) {
 			if (!tableColumns.containsKey(column.toUpperCase())) {

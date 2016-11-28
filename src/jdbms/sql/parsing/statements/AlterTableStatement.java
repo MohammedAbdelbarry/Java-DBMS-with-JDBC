@@ -2,6 +2,7 @@ package jdbms.sql.parsing.statements;
 
 import jdbms.sql.data.SQLData;
 import jdbms.sql.parsing.expressions.AddColumnTableNameExpression;
+import jdbms.sql.parsing.properties.AddColumnParameters;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
 
 public class AlterTableStatement extends InitialStatement {
@@ -10,13 +11,13 @@ public class AlterTableStatement extends InitialStatement {
 	= "ALTER TABLE";
 	private static final String CLASS_ID
 	= "ALTERTABLESTATEMENTCLASS";
-	//private AddColumnParameters addColumnParameters;
+	private AddColumnParameters addColumnParameters;
 	static {
 		InitialStatementFactory.getInstance().
 		registerStatement(CLASS_ID, AlterTableStatement.class);
 	}
 	public AlterTableStatement() {
-		//addColumnParameters = new AddColumnParameters();
+		addColumnParameters = new AddColumnParameters();
 	}
 
 	@Override
@@ -32,7 +33,12 @@ public class AlterTableStatement extends InitialStatement {
 
 	@Override
 	public void act(SQLData data) {
-		// TODO Auto-generated method stub
-		
+		buildParameters();
+		data.addTableColumn(addColumnParameters);
+	}
+	private void buildParameters() {
+		addColumnParameters.setTableName(parameters.getTableName());
+		addColumnParameters.setColumnIdentifier(
+				parameters.getColumnDefinitions().get(0));
 	}
 }
