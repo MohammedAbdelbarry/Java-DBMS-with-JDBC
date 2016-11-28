@@ -38,16 +38,20 @@ public abstract class BinaryExpression implements Expression {
 				modifiedExpression.substring(0, operatorIndex).contains("!")) {
 			return false;
 		}
-		String leftOperand = sqlExpression.substring(0, operatorIndex).trim();
-		String rightPart = sqlExpression.substring(operatorIndex +
+		String modifiedRightPart = modifiedExpression.substring(operatorIndex +
 				this.operator.getSymbol().length()).trim();
-		String[] parts = rightPart.split(" ");
+		String sqlExpRightPart = sqlExpression.substring(operatorIndex +
+				this.operator.getSymbol().length()).trim();
+		int seperatorIndex = modifiedRightPart.indexOf(" ");
+		String leftOperand = sqlExpression.substring(0, operatorIndex).trim();
+		String rightOperand = sqlExpRightPart.substring(0, seperatorIndex).trim();
+		String restOfExpression = sqlExpRightPart.substring(seperatorIndex).trim();
 		operator.setLeftOperand(leftOperand);
-		operator.setRightOperand(parts[0].trim());
+		operator.setRightOperand(rightOperand);
 		if (this.nextExpression != null) {
-			return nextExpression.interpret(parts[parts.length - 1].trim());
+			return nextExpression.interpret(restOfExpression.trim());
 		} else if (this.nextStatement != null) {
-			return nextStatement.interpret(parts[parts.length - 1].trim());
+			return nextStatement.interpret(restOfExpression.trim());
 		}
 		return false;
 	}

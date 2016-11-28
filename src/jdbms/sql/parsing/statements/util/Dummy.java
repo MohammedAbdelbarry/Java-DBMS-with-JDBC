@@ -60,7 +60,7 @@ public class Dummy {
 		//String select = "select * from a where b = ' select * from a where b = e ';";
 		//String selectAll = "    selecT  * fRom   fan$$555$tbaleshNammmmm         where _hamada=-5  ;";
 		//String delete = "delete from a where b = ' delete ; )( /*SET * from a where b = e ';";
-		String delete = "delete from a where b = 'hi space' ;";
+		String delete = "delete from a where \"SELECT DELETE TEXT WHERE \"hi babe\"\" = \"hel'lo' '=' kitty\" ;";
 		
 		Parser p = new Parser();
 		//dummy.parse(p.normalizeCommand(insertInto));
