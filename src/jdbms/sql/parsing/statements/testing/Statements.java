@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -102,8 +101,7 @@ public class Statements {
 		}
 		assertEquals(check, true);
 		assertEquals(create.getParameters().getTableName(), name);
-		assertEquals(create.getParameters().getColumnDefinitions(), columnId);
-		
+
 	}
 
 	@Test
