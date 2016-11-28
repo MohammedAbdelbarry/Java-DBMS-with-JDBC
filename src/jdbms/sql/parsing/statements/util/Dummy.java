@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import jdbms.sql.parsing.parser.Parser;
+import jdbms.sql.parsing.statements.AlterTableStatement;
 import jdbms.sql.parsing.statements.CreateTableStatement;
 import jdbms.sql.parsing.statements.DeleteStatement;
 import jdbms.sql.parsing.statements.InsertIntoStatement;
@@ -39,7 +40,7 @@ public class Dummy {
 		}
 	}
 	public void parse(String sql) {	
-		InsertIntoStatement x = new InsertIntoStatement();
+		AlterTableStatement x = new AlterTableStatement();
 		if (x.interpret(sql)) {
 			System.out.println("Accepted");
 		}
@@ -61,7 +62,7 @@ public class Dummy {
 		//String selectAll = "    selecT  * fRom   fan$$555$tbaleshNammmmm         where _hamada=-5  ;";
 		//String delete = "delete from a where b = ' delete ; )( /*SET * from a where b = e ';";
 		//String delete = "delete from a where col = -7 ;";
-		
+		String alter = "alter table mytable add col1 int ;";
 		Parser p = new Parser();
 		dummy.parse(p.normalizeCommand(insertInto));
 		//dummy.parse(p.normalizeCommand(createDB));
@@ -73,6 +74,7 @@ public class Dummy {
 		//dummy.parse(p.normalizeCommand(update));
 		//dummy.parse(p.normalizeCommand(terminalUpdate));
 		//dummy.parse(p.normalizeCommand(select));
+		dummy.parse(p.normalizeCommand(alter));
 	}
 	
 	/*public static void main(String args[]) {

@@ -5,10 +5,11 @@ import java.util.List;
 
 import jdbms.sql.data.ColumnIdentifier;
 import jdbms.sql.datatypes.util.SQLTypeFactory;
+import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.parsing.expressions.util.ColumnExpression;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 
-public class TableCreationColumnsTypesExpression extends TableCreationTableInfo {
+public class TableCreationColumnsTypesExpression extends ColumnsDatatypesExpression {
 
 	private List<String> dataTypes;
 	private ArrayList<ColumnIdentifier> columnsDataTypes = null;
@@ -29,18 +30,25 @@ public class TableCreationColumnsTypesExpression extends TableCreationTableInfo 
 			String[] types = parts[0].split(",");
 			for (String colType : types) {
 				colType = colType.trim();
-				String colName = colType.trim().substring(0, colType.indexOf(" ")).trim();
-				String dataType = colType.trim().substring(colType.indexOf(" ") + 1).trim();
+				String colName = "", dataType = "";
+				try {
+					colName = colType.trim().substring(0, colType.indexOf(" ")).trim();
+					dataType = colType.trim().substring(colType.indexOf(" ") + 1).trim();
+				} catch(Exception e) {
+					ErrorHandler.printSyntaxErrorNear("defining columns.");
+				}
 				if (new ColumnExpression(colName).isValidColumnName()
 						&& dataTypes.contains(dataType)) {
 					columnsDataTypes.add(new ColumnIdentifier(colName, dataType));
 				} else {
+					ErrorHandler.printSyntaxErrorNear("defining columns.");
 					return false;
 				}
 			}
 			parameters.setColumnDefinitions(columnsDataTypes);
 			return super.interpret(parts[parts.length - 1].trim());
 		}
+		ErrorHandler.printSyntaxErrorNear("defining columns.");
 		return false;
 	}
 }
