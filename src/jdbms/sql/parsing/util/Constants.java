@@ -14,7 +14,7 @@ public abstract class Constants {
 	public static final String COLUMN_REGEX = "^[a-zA-Z_][a-zA-Z0-9_\\$]*$";
 	public static final String STRING_REGEX = "^'.*?'$";
 	public static final String DOUBLE_STRING_REGEX = "^\".*?\"$";
-	public static final String INT_REGEX = "^\\d+$";
+	public static final String INT_REGEX = "^-?\\d+$";
 	public static final List<String> STRING_TYPES =
 			Collections.unmodifiableList(Arrays.asList("TEXT",
 					"VARCHAR"));
