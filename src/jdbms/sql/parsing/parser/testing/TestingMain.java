@@ -71,11 +71,9 @@ public class TestingMain {
 				in.close();
 				break;
 			}
-			System.out.println(sql);
 			String normalizedOutput;
 			try {
 				normalizedOutput = parser.normalizeCommand(sql);
-				System.out.println(normalizedOutput);
 			} catch (IndexOutOfBoundsException e) {
 				ErrorHandler.printSyntaxError();
 				continue;
@@ -92,8 +90,12 @@ public class TestingMain {
 					break;
 				}
 				if (interpreted) {
-					System.out.println(key);
-					statement.act(data);
+					try {
+						statement.act(data);
+					} catch (Exception e) {
+						ErrorHandler.printInternalError();
+						break;
+					}
 				}
 			}
 		}
