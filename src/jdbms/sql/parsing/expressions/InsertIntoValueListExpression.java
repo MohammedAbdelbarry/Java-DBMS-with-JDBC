@@ -2,14 +2,13 @@ package jdbms.sql.parsing.expressions;
 
 import java.util.ArrayList;
 
-import jdbms.sql.parsing.expressions.math.AssignmentExpression;
 import jdbms.sql.parsing.expressions.util.StringModifier;
 import jdbms.sql.parsing.expressions.util.ValueExpression;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 
 public class InsertIntoValueListExpression extends ValueListExpression {
 
-	private ArrayList<String[]> rowsValues;
+	private ArrayList< ArrayList<String> > rowsValues;
 	private StringModifier modifier;
 	public InsertIntoValueListExpression(
 			InputParametersContainer parameters) {
@@ -21,51 +20,45 @@ public class InsertIntoValueListExpression extends ValueListExpression {
 	@Override
 	public boolean interpret(String sqlExpression) {
 		sqlExpression = sqlExpression.trim();
-		String modifiedExpression = modifier.modifyString(sqlExpression);
-		/*while (modifiedExpression.indexOf(")") != -1) {
+		String modifiedExpression = modifier.modifyString(sqlExpression).trim();
+		while (modifiedExpression.indexOf(")") != -1) {
+			if (!sqlExpression.startsWith("(")) {
+				return false;
+			} else {
+				sqlExpression = sqlExpression.replaceFirst("\\(", "").trim();
+				modifiedExpression = modifiedExpression.replaceFirst("\\(", "").trim();
+			}
 			String currValues = sqlExpression.substring(0,
 					modifiedExpression.indexOf(")")).trim();
-			String modifiedAssignment = modifiedExpression.substring(0,
+			String modifiedValues = modifiedExpression.substring(0,
 					modifiedExpression.indexOf(")")).trim();
-			sqlExpression = sqlExpression.replaceFirst(sqlExpression.substring(0,
-					modifiedExpression.indexOf(",")) + ",", "").trim();
-			modifiedExpression = modifiedExpression.replaceFirst(modifiedAssignment + ",", "").trim();
-			//assignmentList.add(new AssignmentExpression(parameters));
-			//if (!assignmentList.get(assignmentList.size() - 1).interpret(currAssignmentExp.trim())) {
-				//return false;
-			//}
-		}*/
-		String[] parts = sqlExpression.split("\\)");
-		if (parts[0].trim().startsWith("(")) {
-			parts[0] = parts[0].trim().replaceFirst("\\(", "");
-			String[] values = parts[0].trim().split(",");
-			for (int i = 0; i < values.length; i++) {
-				values[i] = values[i].trim();
-				if (!new ValueExpression(values[i]).isValidExpressionName()) {
+			ArrayList<String> currValuesList = new ArrayList<>();
+			while (modifiedValues.indexOf(",") != -1) {
+				if (!new ValueExpression(currValues.substring(0,
+						modifiedValues.indexOf(",")).trim()).isValidExpressionName()) {
 					return false;
 				}
+				currValuesList.add(currValues.substring(0,modifiedValues.indexOf(",")).trim());
+				currValues = currValues.substring(modifiedValues.indexOf(",") + 1).trim();
+				modifiedValues = modifiedValues.substring(modifiedValues.indexOf(",") + 1).trim();
 			}
-			rowsValues.add(values);
-			for (int i = 1; i < parts.length - 1; i++) {
-				parts[i] = parts[i].trim();
-				if (parts[i].startsWith(",(") || parts[i].startsWith(", (")) {
-					parts[i] = parts[i].trim().replace(",(", "").trim();
-					parts[i] = parts[i].trim().replace(", (", "").trim();
-					String[] restOfValues = parts[i].trim().split(",");
-					for (int j = 0; j < restOfValues.length; j++) {
-						restOfValues[j] = restOfValues[j].trim();
-						if (!new ValueExpression(restOfValues[j].trim()).isValidExpressionName()) {
-							return false;
-						}
-					}
-					rowsValues.add(restOfValues);
-				} else {
-					return false;
-				}
+			if (!new ValueExpression(currValues.trim()).isValidExpressionName()) {
+				return false;
 			}
-			parameters.setValues(rowsValues);
-			return super.interpret(parts[parts.length - 1].trim());
+			currValuesList.add(currValues.trim());
+			rowsValues.add(currValuesList);
+			sqlExpression = sqlExpression.substring(modifiedExpression.indexOf(")") + 1).trim();
+			modifiedExpression = modifiedExpression.substring(modifiedExpression.indexOf(")") + 1).trim();
+			if (!sqlExpression.startsWith(",")) {
+				break;
+			}
+			sqlExpression = sqlExpression.replaceFirst(",", "").trim();
+			modifiedExpression = modifiedExpression.replaceFirst(",", "").trim();
 		}
-		return false;
+		if (!sqlExpression.trim().startsWith(";")) {
+			return false;
+		}
+		parameters.setValues(rowsValues);
+		return super.interpret(sqlExpression.trim());
 	}
 }

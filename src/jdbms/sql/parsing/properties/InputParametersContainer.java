@@ -54,15 +54,8 @@ public class InputParametersContainer {
 		return values;
 	}
 
-	public void setValues(ArrayList<String[]> values) {
-		this.values = new ArrayList<>();
-		for (String[] row : values) {
-			ArrayList<String> temp = new ArrayList<>();
-			for (String cell : row) {
-				temp.add(cell);
-			}
-			this.values.add(temp);
-		}
+	public void setValues(ArrayList<ArrayList<String>> values) {
+		this.values = values;
 	}
 
 	public ArrayList<ColumnIdentifier> getColumnDefinitions() {
