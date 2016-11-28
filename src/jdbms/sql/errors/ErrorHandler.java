@@ -49,6 +49,13 @@ public abstract class ErrorHandler {
 		System.err.println("Error: Name \"" +
 			handleNull(name) + "\" is A Reserved Keyword");
 	}
+	public static void printInternalError() {
+		System.err.println("Internal Error");
+	}
+	public static void  printFailedToDeleteDatabase(String databaseName) {
+		System.err.println("Error: Couldn't Delete Database \""
+			+ handleNull(databaseName) + "\"");
+	}
 	private static String handleNull(String string) {
 		if (string == null) {
 			return NULL_PLACEHOLDER;

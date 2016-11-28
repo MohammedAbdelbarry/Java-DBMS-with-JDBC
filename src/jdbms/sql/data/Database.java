@@ -52,9 +52,19 @@ public class Database {
 		Table newTable = new Table(tableParameters);
 		tables.put(tableParameters.getTableName().toUpperCase(),
 				newTable);
+	}
+	public void addTable(Table newTable)
+			throws TableAlreadyExistsException {
+		if (tables.containsKey(newTable.getName().toUpperCase())) {
+			throw new TableAlreadyExistsException(
+					newTable.getName());
 		}
-
-	public void dropTable(String tableName) {
+		tables.put(newTable.getName().toUpperCase(), newTable);
+	}
+	public void dropTable(String tableName) throws TableNotFoundException {
+		if (!tables.containsKey(tableName.toUpperCase())) {
+			throw new TableNotFoundException(tableName);
+		}
 		tables.remove(tableName.toUpperCase());
 	}
 
@@ -107,4 +117,5 @@ public class Database {
 	public Table getTable(String tableName) {
 		return tables.get(tableName.toUpperCase());
 	}
+
 }

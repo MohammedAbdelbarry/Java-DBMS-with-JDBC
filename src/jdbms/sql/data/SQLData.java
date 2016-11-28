@@ -1,19 +1,21 @@
 package jdbms.sql.data;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Random;
 
 import jdbms.sql.data.query.SelectQueryOutput;
 import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
 import jdbms.sql.exceptions.ColumnNotFoundException;
+import jdbms.sql.exceptions.DatabaseAlreadyExistsException;
+import jdbms.sql.exceptions.DatabaseNotFoundException;
 import jdbms.sql.exceptions.RepeatedColumnException;
 import jdbms.sql.exceptions.TableAlreadyExistsException;
 import jdbms.sql.exceptions.TableNotFoundException;
 import jdbms.sql.exceptions.TypeMismatchException;
 import jdbms.sql.exceptions.ValueListTooLargeException;
 import jdbms.sql.exceptions.ValueListTooSmallException;
+import jdbms.sql.file.FileHandler;
 import jdbms.sql.parsing.properties.DatabaseCreationParameters;
 import jdbms.sql.parsing.properties.DatabaseDroppingParameters;
 import jdbms.sql.parsing.properties.DeletionParameters;
@@ -27,24 +29,51 @@ import jdbms.sql.parsing.properties.UseParameters;
 
 public class SQLData {
 
-	/**array of databases.*/
-	private Map<String, Database> databases;
 	/**Currently Active Database.*/
 	private Database activeDatabase;
+	private FileHandler handler;
 	private static final String DEFAULT_DATABASE = "default";
 	public SQLData() {
-		databases = new HashMap<>();
-		databases.put(DEFAULT_DATABASE.toUpperCase(), new Database(DEFAULT_DATABASE));
-		activeDatabase = databases.get(DEFAULT_DATABASE.toUpperCase());
+		handler = new FileHandler();
+		while (activeDatabase == null) {
+			try {
+				activeDatabase = createTemporaryDatabase();
+			} catch (DatabaseAlreadyExistsException e) {
+
+			}
+		}
 	}
 
 	/**
 	 * Sets the given {@link Database} as active.
 	 * @param useParameters The parameters of the sql use
 	 * statement
+	 * @throws TableAlreadyExistsException
+	 * @throws DatabaseNotFoundException
 	 */
 	public void setActiveDatabase(UseParameters useParameters) {
-		activeDatabase = databases.get(useParameters.getDatabaseName().toUpperCase());
+		try {
+			activeDatabase = handler.loadDatabase(
+					useParameters.getDatabaseName().toUpperCase());
+		} catch (DatabaseNotFoundException e) {
+			ErrorHandler.printDatabaseNotFoundError(e.getMessage());
+		} catch (TableAlreadyExistsException e) {
+			ErrorHandler.printTableAlreadyExistsError(e.getMessage());
+		} catch (ColumnAlreadyExistsException e) {
+			ErrorHandler.printColumnAlreadyExistsError(e.getMessage());
+		} catch (RepeatedColumnException e) {
+			ErrorHandler.printRepeatedColumnError();
+		} catch (ColumnListTooLargeException e) {
+			ErrorHandler.printColumnListTooLargeError();
+		} catch (ColumnNotFoundException e) {
+			ErrorHandler.printColumnNotFoundError(e.getMessage());
+		} catch (ValueListTooLargeException e) {
+			ErrorHandler.printValueListTooLargeError();
+		} catch (ValueListTooSmallException e) {
+			ErrorHandler.printValueListTooSmallError();
+		} catch (TypeMismatchException e) {
+			ErrorHandler.printTypeMismatchError();
+		}
 	}
 
 	/**
@@ -54,32 +83,40 @@ public class SQLData {
 	 */
 	public void createDatabase(DatabaseCreationParameters
 			createDBParameters) {
-		if (databases.containsKey(createDBParameters.
-				getDatabaseName().toUpperCase())) {
+
+		try {
+			Database newDatabase
+			= new Database(createDBParameters.getDatabaseName().toUpperCase());
+			handler.createDatabase(
+					createDBParameters.getDatabaseName().toUpperCase());
+			activeDatabase = newDatabase;
+		} catch (DatabaseAlreadyExistsException e) {
 			ErrorHandler.printDatabaseAlreadyExistsError(
 					createDBParameters.getDatabaseName());
-			return;
 		}
-		Database newDatabase
-		= new Database(createDBParameters.getDatabaseName());
-		databases.put(createDBParameters.getDatabaseName().toUpperCase(), newDatabase);
-		activeDatabase = newDatabase;
 	}
 
 	/**
 	 * Drops the database with the provided name.
 	 */
 	public void dropDatabase(DatabaseDroppingParameters dropDBParameters) {
-		if (!databases.containsKey(dropDBParameters.getDatabaseName().toUpperCase())) {
-			ErrorHandler.printDatabaseNotFoundError(
-					dropDBParameters.getDatabaseName());
-			return;
+		try {
+			handler.deleteDatabase(
+					dropDBParameters.getDatabaseName().toUpperCase());
+			if (dropDBParameters.getDatabaseName().toUpperCase().equals(
+					activeDatabase.getDatabaseName().toUpperCase())) {
+				activeDatabase = null;
+				while (activeDatabase == null) {
+					try {
+						activeDatabase = createTemporaryDatabase();
+					} catch (DatabaseAlreadyExistsException e) {
+
+					}
+				}
+			}
+		} catch (DatabaseNotFoundException e) {
+			ErrorHandler.printDatabaseNotFoundError(e.getMessage());
 		}
-		if (dropDBParameters.getDatabaseName().toUpperCase().equals(
-				activeDatabase.getDatabaseName().toUpperCase())) {
-			activeDatabase = databases.get(DEFAULT_DATABASE.toUpperCase());
-		}
-		databases.remove(dropDBParameters.getDatabaseName().toUpperCase());
 	}
 
 	/**
@@ -105,6 +142,7 @@ public class SQLData {
 	public void createTable(TableCreationParameters tableParamters) {
 		try {
 			activeDatabase.addTable(tableParamters);
+			saveTable(tableParamters.getTableName());
 		} catch (TableAlreadyExistsException e) {
 			 ErrorHandler.printTableAlreadyExistsError(e.getMessage());
 		} catch (ColumnAlreadyExistsException e) {
@@ -113,12 +151,19 @@ public class SQLData {
 	}
 
 	public void dropTable(TableDroppingParameters tableParameters) {
-		activeDatabase.dropTable(tableParameters.getTableName().toUpperCase());
+		try {
+			activeDatabase.dropTable(tableParameters.getTableName());
+			handler.deleteTable(tableParameters.getTableName().toUpperCase(),
+					activeDatabase.getDatabaseName().toUpperCase());
+		} catch (TableNotFoundException e) {
+			ErrorHandler.printTableNotFoundError(e.getMessage());
+		}
 	}
 
 	public void insertInto(InsertionParameters parameters) {
 		try {
 			activeDatabase.insertInto(parameters);
+			saveTable(parameters.getTableName());
 		} catch (RepeatedColumnException e) {
 			 ErrorHandler.printRepeatedColumnError();
 		} catch (ColumnListTooLargeException e) {
@@ -126,9 +171,9 @@ public class SQLData {
 		} catch (ColumnNotFoundException e) {
 			 ErrorHandler.printColumnNotFoundError(e.getMessage());
 		} catch (ValueListTooLargeException e) {
-			 ErrorHandler.printValueListTooLargeError();
+			ErrorHandler.printValueListTooLargeError();
 		} catch (ValueListTooSmallException e) {
-			 ErrorHandler.printValueListTooSmallError();
+			ErrorHandler.printValueListTooSmallError();
 		} catch (TableNotFoundException e) {
 			 ErrorHandler.printTableNotFoundError(e.getMessage());
 		} catch (TypeMismatchException e) {
@@ -138,6 +183,7 @@ public class SQLData {
 	public void deleteFrom(DeletionParameters deleteParameters) {
 		try {
 			activeDatabase.deleteFromTable(deleteParameters);
+			saveTable(deleteParameters.getTableName());
 		} catch (ColumnNotFoundException e) {
 			 ErrorHandler.printColumnNotFoundError(e.getMessage());
 		} catch (TypeMismatchException e) {
@@ -150,6 +196,7 @@ public class SQLData {
 	public void updateTable(UpdatingParameters updateParameters) {
 		try {
 			activeDatabase.updateTable(updateParameters);
+			saveTable(updateParameters.getTableName());
 		} catch (ColumnNotFoundException e) {
 			 ErrorHandler.printColumnNotFoundError(e.getMessage());
 		} catch (TypeMismatchException e) {
@@ -157,5 +204,15 @@ public class SQLData {
 		} catch (TableNotFoundException e) {
 			 ErrorHandler.printTableNotFoundError(e.getMessage());
 		}
+	}
+	private Database createTemporaryDatabase()
+			throws DatabaseAlreadyExistsException {
+		return handler.createTemporaryDatabase(
+				DEFAULT_DATABASE.toUpperCase() +
+				new Random().nextLong());
+	}
+	private void saveTable(String tableName) {
+		handler.createTable(activeDatabase.getTable(tableName.toUpperCase()),
+				activeDatabase.getDatabaseName().toUpperCase());
 	}
  }
