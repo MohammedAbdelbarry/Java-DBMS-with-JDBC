@@ -43,7 +43,8 @@ public class XMLParser {
 	 * @param path path of the data main Directory
 	 * @return returns an ArrayList of column names
 	 * */
-	private ArrayList<String> getColumnNames(String tablename, String databaseName, String path) {
+	private ArrayList<String> getColumnNames(String tablename,
+			String databaseName, String path) {
 		DTDParser parser = new DTDParser();
 		ArrayList<String> columnNames = parser.parse(new File(path +
 				databaseName + File.separator + tablename + DTD_IDENTIFIER
@@ -57,7 +58,8 @@ public class XMLParser {
 		ColumnListTooLargeException, ColumnNotFoundException,
 		ValueListTooLargeException, ValueListTooSmallException,
 		TypeMismatchException {
-		ArrayList<String> columnNames = getColumnNames(tableName, databaseName, path);
+		ArrayList<String> columnNames
+		= getColumnNames(tableName, databaseName, path);
 		ArrayList<ColumnIdentifier> columns = new ArrayList<>();
 		try {
 			File inputFile = new File(path + databaseName + File.separator
@@ -65,16 +67,17 @@ public class XMLParser {
 			DocumentBuilderFactory dbFactory
 			= DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc;
-			doc = dBuilder.parse(inputFile);
+			Document doc = dBuilder.parse(inputFile);
 			doc.getDocumentElement().normalize();
 			Element root = doc.getDocumentElement();
 			tableName = root.getNodeName();
 			NamedNodeMap columnMap = root.getAttributes();
 			// loading column Data Types
 			for (int i = 0; i < columnNames.size(); i++) {
-				Node columnName = columnMap.item(i);
-				columns.add(new ColumnIdentifier(columnNames.get(i), columnName.getTextContent()));
+				Node columnName = columnMap.getNamedItem(
+						columnNames.get(i));
+				columns.add(new ColumnIdentifier(columnNames.get(i),
+						columnName.getTextContent()));
 			}
 			NodeList nList = root.getChildNodes();
 			ArrayList<ArrayList<String>> values
@@ -101,6 +104,9 @@ public class XMLParser {
 			ValueListTooSmallException,
 			TypeMismatchException {
 		TableCreationParameters parameters = new TableCreationParameters();
+		for (ColumnIdentifier col : columns) {
+			System.out.println(col.getName() + ":" + col.getType());
+		}
 		parameters.setColumnDefinitions(columns);
 		parameters.setTableName(tableName);
 		Table table = null;

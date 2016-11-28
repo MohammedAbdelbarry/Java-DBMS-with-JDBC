@@ -6,7 +6,6 @@ import jdbms.sql.data.ColumnIdentifier;
 
 public class TableCreationParameters {
 	private String tableName;
-	//private HashMap<String, String> columnDefinitions;
 	private ArrayList<ColumnIdentifier> columnDefinitions;
 	public TableCreationParameters() {
 
