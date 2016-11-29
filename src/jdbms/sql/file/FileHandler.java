@@ -21,7 +21,7 @@ import jdbms.sql.exceptions.TableNotFoundException;
 import jdbms.sql.exceptions.TypeMismatchException;
 import jdbms.sql.exceptions.ValueListTooLargeException;
 import jdbms.sql.exceptions.ValueListTooSmallException;
-import jdbms.sql.parsing.parser.testing.TestingMain;
+import jdbms.sql.parsing.parser.ParserMain;
 
 public class FileHandler {
 	String path;
@@ -33,7 +33,7 @@ public class FileHandler {
 	private static final String DATA_DIRECTORY = "Data";
 	public FileHandler() {
 		try {
-			final CodeSource codeSource = TestingMain.class.
+			final CodeSource codeSource = ParserMain.class.
 					getProtectionDomain().getCodeSource();
 			final File jarFile = new File(
 					codeSource.getLocation().toURI().getPath());

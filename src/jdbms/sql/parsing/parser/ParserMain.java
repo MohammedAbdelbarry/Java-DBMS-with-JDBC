@@ -1,4 +1,4 @@
-package jdbms.sql.parsing.parser.testing;
+package jdbms.sql.parsing.parser;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -6,13 +6,10 @@ import java.util.Scanner;
 import jdbms.sql.data.SQLData;
 import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.parsing.expressions.util.StringModifier;
-import jdbms.sql.parsing.parser.Parser;
-import jdbms.sql.parsing.statements.InitialStatement;
-import jdbms.sql.parsing.statements.util.InitialStatementFactory;
 
-public class TestingMain {
+public class ParserMain {
 	private static final String QUIT = "QUIT;";
-	public TestingMain() {
+	public ParserMain() {
 
 	}
 
@@ -40,8 +37,9 @@ public class TestingMain {
 			System.err.println("Internal Error");
 		}
 		final SQLData data = new SQLData();
-		final Parser parser = new Parser();
+		final StringNormalizer normalizer = new StringNormalizer();
 		final Scanner in = new Scanner(System.in);
+		final Parser parser = new Parser();
 		while (true) {
 			final StringBuilder stringBuilder = new StringBuilder();
 			String sql = null;
@@ -73,36 +71,12 @@ public class TestingMain {
 			}
 			String normalizedOutput;
 			try {
-				normalizedOutput = parser.normalizeCommand(sql);
+				normalizedOutput = normalizer.normalizeCommand(sql);
 			} catch (final IndexOutOfBoundsException e) {
 				ErrorHandler.printSyntaxError();
 				continue;
 			}
-			boolean correctSyntax = false;
-			for (final String key : InitialStatementFactory.getInstance().getRegisteredStatements()) {
-				final InitialStatement statement =
-						InitialStatementFactory.
-						getInstance().createStatement(key);
-				boolean interpreted;
-				try {
-					interpreted = statement.interpret(normalizedOutput);
-				} catch (final Exception e) {
-					ErrorHandler.printSyntaxError();
-					break;
-				}
-				correctSyntax = correctSyntax || interpreted;
-				if (interpreted) {
-					try {
-						statement.act(data);
-					} catch (final Exception e) {
-						ErrorHandler.printInternalError();
-						break;
-					}
-				}
-			}
-			if (!correctSyntax) {
-				ErrorHandler.printSyntaxError();
-			}
+			parser.parse(normalizedOutput, data);
 		}
 	}
 }

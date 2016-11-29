@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import jdbms.sql.data.ColumnIdentifier;
-import jdbms.sql.parsing.parser.Parser;
+import jdbms.sql.parsing.parser.StringNormalizer;
 import jdbms.sql.parsing.statements.CreateDatabaseStatement;
 import jdbms.sql.parsing.statements.CreateTableStatement;
 import jdbms.sql.parsing.statements.DeleteStatement;
@@ -26,12 +26,12 @@ public class Statements {
 
 	Collection<Statement> statements;
 	boolean check;
-	Parser p;
+	StringNormalizer p;
 
 	@Before
 	public void executedBeforeEach() {
 		check = false;
-		p = new Parser();
+		p = new StringNormalizer();
 		statements = new ArrayList<>();
 		try {
 			Class.forName("jdbms.sql.parsing.statements.CreateDatabaseStatement");
