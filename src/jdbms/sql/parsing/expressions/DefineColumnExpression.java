@@ -9,10 +9,18 @@ import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.parsing.expressions.util.ColumnExpression;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 
+/**
+ * The Class DefineColumnExpression.
+ */
 public class DefineColumnExpression extends ColumnsDatatypesExpression {
 
 	private List<String> dataTypes;
 	private ArrayList<ColumnIdentifier> columnsDataTypes = null;
+	
+	/**
+	 * Instantiates a new define column expression.
+	 * @param parameters the input parameters
+	 */
 	public DefineColumnExpression(InputParametersContainer parameters) {
 		super(new TerminalExpression(parameters), parameters);
 		this.columnsDataTypes = new ArrayList<>();
@@ -24,14 +32,24 @@ public class DefineColumnExpression extends ColumnsDatatypesExpression {
 	@Override
 	public boolean interpret(String sqlExpression) {
 		sqlExpression = sqlExpression.trim();
-		String col = sqlExpression.substring(0, sqlExpression.indexOf(" ")).trim();
-		String rightPart = sqlExpression.substring(sqlExpression.indexOf(" ") + 1).trim();
-		if (new ColumnExpression(col).isValidColumnName() &&
-				dataTypes.contains(rightPart.substring(0, rightPart.indexOf(" ")).trim())) {
+		String col = sqlExpression.substring(0,
+				sqlExpression.indexOf(" ")).trim();
+		String rightPart = sqlExpression.
+				substring(sqlExpression.
+						indexOf(" ") + 1).trim();
+		if (new ColumnExpression(col).isValidColumnName() 
+				&& dataTypes.contains(rightPart.
+						substring(0,
+								rightPart.
+								indexOf(" ")).trim())) {
 			columnsDataTypes.add(new ColumnIdentifier(col,
-					rightPart.substring(0, rightPart.indexOf(" ")).trim()));
+					rightPart.substring(0,
+							rightPart.
+							indexOf(" ")).trim()));
 			parameters.setColumnDefinitions(columnsDataTypes);
-			return super.interpret(rightPart.substring(rightPart.indexOf(" ") + 1).trim());
+			return super.interpret(rightPart.
+					substring(rightPart.indexOf(" ") + 1).
+					trim());
 		}
 		ErrorHandler.printSyntaxErrorNear("Column Datatype");
 		return false;

@@ -5,13 +5,23 @@ import jdbms.sql.parsing.expressions.util.ValueExpression;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 import jdbms.sql.parsing.statements.WhereStatement;
 
+/**
+ * The assignment expression class.
+ */
 public class AssignmentExpression extends BinaryExpression {
+	
 	private static final String SYMBOL = "=";
 	private static final int NUMBER_OF_OPERANDS = 2;
+	
+	/**
+	 * Instantiates a new assignment expression.
+	 * @param parameters the input parameters
+	 */
 	public AssignmentExpression(
 			InputParametersContainer parameters) {
 		super(SYMBOL, new WhereStatement(parameters), parameters);
 	}
+
 
 	@Override
 	public boolean interpret(String assignmentExpression) {

@@ -1,10 +1,22 @@
 package jdbms.sql.parsing.expressions.util;
 
+/**
+ * The string modifier helper class.
+ */
 public class StringModifier {
 
+	/**
+	 * Instantiates a new string modifier.
+	 */
 	public StringModifier() {
 
 	}
+	
+	/**
+	 * Modify string, replaces the given expression with a modified one.
+	 * @param expression the input expression
+	 * @return the modified string
+	 */
 	public String modifyString(String expression) {
 		String stringless = "";
 		for (int i = 0; i < expression.length(); i++) {

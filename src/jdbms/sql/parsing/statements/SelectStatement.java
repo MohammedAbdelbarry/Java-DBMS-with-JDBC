@@ -8,13 +8,25 @@ import jdbms.sql.parsing.expressions.SelectColumnListExpression;
 import jdbms.sql.parsing.properties.SelectionParameters;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
 
+/**
+ * The Class SelectStatement.
+ */
 public class SelectStatement extends InitialStatement {
-	private static final String STATEMENT_IDENTIFIER = "SELECT";
-	private static final String CLASS_ID = "SELECTSTATEMENTCLASS";
+	
+	private static final String STATEMENT_IDENTIFIER
+	= "SELECT";
+	private static final String CLASS_ID
+	= "SELECTSTATEMENTCLASS";
 	private SelectionParameters selectParameters;
 	static {
-		InitialStatementFactory.getInstance().registerStatement(CLASS_ID, SelectStatement.class);
+		InitialStatementFactory.getInstance().
+		registerStatement(CLASS_ID,
+				SelectStatement.class);
 	}
+	
+	/**
+	 * Instantiates a new select statement.
+	 */
 	public SelectStatement() {
 		selectParameters = new SelectionParameters();
 	}
@@ -43,6 +55,7 @@ public class SelectStatement extends InitialStatement {
 		}
 		output.printOutput();
 	}
+
 	private void buildParameters() {
 		selectParameters.setColumns(parameters.getColumns());
 		selectParameters.setTableName(parameters.getTableName());

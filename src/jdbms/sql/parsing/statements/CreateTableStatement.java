@@ -5,22 +5,38 @@ import jdbms.sql.parsing.expressions.TableCreationTableNameExpression;
 import jdbms.sql.parsing.properties.TableCreationParameters;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
 
+/**
+ * The Class Create Table Statement.
+ */
 public class CreateTableStatement extends InitialStatement {
-	private static final String STATEMENT_IDENTIFIER = "CREATE TABLE";
-	private static final String CLASS_ID = "CREATETABLESTATEMENTCLASS";
+
+	private static final String STATEMENT_IDENTIFIER
+	= "CREATE TABLE";
+	private static final String CLASS_ID
+	= "CREATETABLESTATEMENTCLASS";
 	private TableCreationParameters createTableParameters;
 	static {
-		InitialStatementFactory.getInstance().registerStatement(CLASS_ID, CreateTableStatement.class);
+		InitialStatementFactory.getInstance().
+		registerStatement(CLASS_ID,
+				CreateTableStatement.class);
 	}
+	
+	/**
+	 * Instantiates a new creates the table statement.
+	 */
 	public CreateTableStatement() {
-		createTableParameters = new TableCreationParameters();
+		createTableParameters
+		= new TableCreationParameters();
 	}
 
 	@Override
 	public boolean interpret(String sqlExpression) {
-		if (sqlExpression.startsWith(STATEMENT_IDENTIFIER)) {
-			String restOfExpression = sqlExpression.replaceFirst(STATEMENT_IDENTIFIER, "").trim();
-			return new TableCreationTableNameExpression(parameters).interpret(restOfExpression);
+		if (sqlExpression.
+				startsWith(STATEMENT_IDENTIFIER)) {
+			String restOfExpression = sqlExpression.
+					replaceFirst(STATEMENT_IDENTIFIER, "").trim();
+			return new TableCreationTableNameExpression(parameters).
+					interpret(restOfExpression);
 		}
 		return false;
 	}
@@ -30,6 +46,10 @@ public class CreateTableStatement extends InitialStatement {
 		buildParameters();
 		data.createTable(createTableParameters);
 	}
+	
+	/**
+	 * Builds the parameters.
+	 */
 	private void buildParameters() {
 		createTableParameters.setTableName(parameters.getTableName());
 		createTableParameters.setColumnDefinitions(

@@ -5,17 +5,26 @@ import jdbms.sql.parsing.expressions.AddColumnTableNameExpression;
 import jdbms.sql.parsing.properties.AddColumnParameters;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
 
+/**
+ * The alter table class.
+ */
 public class AlterTableStatement extends InitialStatement {
 
 	private static final String STATEMENT_IDENTIFIER
 	= "ALTER TABLE";
+	
 	private static final String CLASS_ID
 	= "ALTERTABLESTATEMENTCLASS";
+	
 	private AddColumnParameters addColumnParameters;
 	static {
 		InitialStatementFactory.getInstance().
 		registerStatement(CLASS_ID, AlterTableStatement.class);
 	}
+	
+	/**
+	 * Instantiates a new alter table statement.
+	 */
 	public AlterTableStatement() {
 		addColumnParameters = new AddColumnParameters();
 	}
@@ -36,8 +45,13 @@ public class AlterTableStatement extends InitialStatement {
 		buildParameters();
 		data.addTableColumn(addColumnParameters);
 	}
+	
+	/**
+	 * Builds the parameters.
+	 */
 	private void buildParameters() {
-		addColumnParameters.setTableName(parameters.getTableName());
+		addColumnParameters.
+		setTableName(parameters.getTableName());
 		addColumnParameters.setColumnIdentifier(
 				parameters.getColumnDefinitions().get(0));
 	}

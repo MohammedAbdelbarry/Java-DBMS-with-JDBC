@@ -5,24 +5,37 @@ import jdbms.sql.datatypes.VarcharSQLType;
 import jdbms.sql.parsing.expressions.math.util.BooleanExpressionFactory;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 
+/**
+ * The equals boolean expression class.
+ */
 public class EqualsExpression extends BooleanExpression {
+	
 	private static final String SYMBOL = "=";
 	static {
 		BooleanExpressionFactory.getInstance().
 		registerBoolExpression(SYMBOL, EqualsExpression.class);
 	}
+	
+	/**
+	 * Instantiates a new equals expression.
+	 * @param parameters the input parameters
+	 */
 	public EqualsExpression(
 			InputParametersContainer parameters) {
 		super(SYMBOL, parameters);
 	}
+	
 	@Override
-	public boolean evaluate(VarcharSQLType left, VarcharSQLType right) {
+	public boolean evaluate(VarcharSQLType left,
+			VarcharSQLType right) {
 		return left.compareTo(right) == 0;
 	}
+	
 	@Override
 	public boolean evaluate(IntSQLType left, IntSQLType right) {
 		return left.compareTo(right) == 0;
 	}
+	
 	@Override
 	public boolean evaluateConstantExpression() {
 		return getLeftOperand().compareTo(getRightOperand()) == 0;

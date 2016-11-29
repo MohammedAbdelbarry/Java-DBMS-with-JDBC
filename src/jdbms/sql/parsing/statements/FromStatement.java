@@ -5,13 +5,25 @@ import jdbms.sql.parsing.expressions.TableConditionalExpression;
 import jdbms.sql.parsing.expressions.TerminatingTableExpression;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 
+/**
+ * The Class FromStatement.
+ */
 public class FromStatement implements Statement {
+	
 	private static final String STATEMENT_IDENTIFIER = "FROM";
 	private InputParametersContainer parameters;
+	
+	/**
+	 * Instantiates a new from statement.
+	 * @param parameters the input parameters
+	 */
 	public FromStatement(InputParametersContainer parameters) {
 		this.parameters = parameters;
 	}
 
+	/* (non-Javadoc)
+	 * @see jdbms.sql.parsing.statements.Statement#interpret(java.lang.String)
+	 */
 	@Override
 	public boolean interpret(String sqlExpression) {
 		if (sqlExpression.startsWith(STATEMENT_IDENTIFIER)) {

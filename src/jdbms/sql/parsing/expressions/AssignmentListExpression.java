@@ -8,13 +8,22 @@ import jdbms.sql.parsing.expressions.util.StringModifier;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 import jdbms.sql.parsing.statements.Statement;
 
+/**
+ * The Class AssignmentListExpression.
+ */
 public abstract class AssignmentListExpression implements Expression {
 
 	private Expression nextExpression;
 	private Statement nextStatement;
 	private StringModifier modifier;
+	private ArrayList<AssignmentExpression> assignmentList;
 	protected InputParametersContainer parameters;
-	ArrayList<AssignmentExpression> assignmentList;
+
+	/**
+	 * Instantiates a new assignment list expression.
+	 * @param nextExpression the next expression
+	 * @param parameters the parameters
+	 */
 	public AssignmentListExpression(Expression nextExpression,
 			InputParametersContainer parameters) {
 		this.nextExpression = nextExpression;
@@ -23,6 +32,11 @@ public abstract class AssignmentListExpression implements Expression {
 		this.modifier = new StringModifier();
 	}
 
+	/**
+	 * Instantiates a new assignment list expression.
+	 * @param nextStatement the next statement
+	 * @param parameters the parameters
+	 */
 	public AssignmentListExpression(Statement nextStatement,
 			InputParametersContainer parameters) {
 		this.nextStatement = nextStatement;
@@ -34,33 +48,50 @@ public abstract class AssignmentListExpression implements Expression {
 	@Override
 	public boolean interpret(String sqlExpression) {
 		sqlExpression = sqlExpression.trim();
-		String modifiedExpression = modifier.modifyString(sqlExpression).trim();
+		String modifiedExpression = modifier.
+				modifyString(sqlExpression).trim();
 		while (modifiedExpression.indexOf(",") != -1) {
-			assignmentList.add(new AssignmentExpression(parameters));
-			if (!assignmentList.get(assignmentList.size() - 1).
+			assignmentList.
+			add(new AssignmentExpression(parameters));
+			if (!assignmentList.
+					get(assignmentList.size() - 1).
 					interpret(sqlExpression.substring(0,
-							modifiedExpression.indexOf(",")).trim())) {
+							modifiedExpression.
+							indexOf(",")).trim())) {
 				ErrorHandler.printSyntaxErrorNear("SET");
 				return false;
 			}
-			sqlExpression = sqlExpression.substring(modifiedExpression.indexOf(",") + 1).trim();
-			modifiedExpression = modifiedExpression.substring(modifiedExpression.indexOf(",") + 1).trim();
+			sqlExpression = sqlExpression.
+					substring(modifiedExpression.
+						indexOf(",") + 1).trim();
+			modifiedExpression = modifiedExpression.
+					substring(modifiedExpression.
+						indexOf(",") + 1).trim();
 		}
-		int seperatorIndex = modifiedExpression.indexOf("WHERE");
+		int seperatorIndex
+		= modifiedExpression.indexOf("WHERE");
 		if (seperatorIndex == -1) {
 			seperatorIndex = modifiedExpression.indexOf(";");
 		}
 		assignmentList.add(new AssignmentExpression(parameters));
 		if (!assignmentList.get(assignmentList.size() - 1).
-				interpret(sqlExpression.substring(0, seperatorIndex).trim())) {
+				interpret(sqlExpression.
+						substring(0, seperatorIndex).
+						trim())) {
 			ErrorHandler.printSyntaxErrorNear("SET");
 			return false;
 		}
 		parameters.setAssignmentList(this.assignmentList);
 		if (this.nextExpression != null) {
-			return this.nextExpression.interpret(sqlExpression.substring(seperatorIndex).trim());
+			return this.nextExpression.
+					interpret(sqlExpression.
+							substring(seperatorIndex)
+							.trim());
 		} else if (this.nextStatement != null) {
-			return this.nextStatement.interpret(sqlExpression.substring(seperatorIndex).trim());
+			return this.nextStatement.
+					interpret(sqlExpression.
+							substring(seperatorIndex)
+							.trim());
 		}
 		return false;
 	}
