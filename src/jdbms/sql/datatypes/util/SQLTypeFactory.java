@@ -19,17 +19,18 @@ public class SQLTypeFactory {
 	public static SQLTypeFactory getInstance() {
 		return factory;
 	}
-	public void registerType(String key,
-			Class<? extends SQLType<?>> typeClass) {
+	public void registerType(final String key,
+			final Class<? extends SQLType<?>> typeClass) {
 		registeredTypes.put(key, typeClass);
 	}
-	public SQLType<?> getTypeObject(String key, String value) {
-		Class<? extends SQLType<?>> typeClass
+	public SQLType<?> getTypeObject(final String key,
+			final String value) {
+		final Class<? extends SQLType<?>> typeClass
 				= registeredTypes.get(key);
 		try {
-			Constructor<?> constructor
+			final Constructor<?> constructor
 			= typeClass.getConstructor(String.class);
-			SQLType<?> instance
+			final SQLType<?> instance
 			= (SQLType<?>)constructor.newInstance(value);
 			return instance;
 		} catch(NoSuchMethodException

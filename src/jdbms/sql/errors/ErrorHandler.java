@@ -2,39 +2,39 @@ package jdbms.sql.errors;
 
 public abstract class ErrorHandler {
 	private static final String NULL_PLACEHOLDER = "";
-	public static void printColumnNotFoundError(String columnName) {
+	public static void printColumnNotFoundError(final String columnName) {
 		System.err.println("Error: Column \""
-			+ handleNull(columnName) + "\" Not Found");
+				+ handleNull(columnName) + "\" Not Found");
 	}
 	public static void printRepeatedColumnError() {
 		System.err.println("Error: Column List Has Repeated Columns");
 	}
-	public static void printColumnAlreadyExistsError(String columnName) {
+	public static void printColumnAlreadyExistsError(final String columnName) {
 		System.err.println("Error: Column \""
-			+ handleNull(columnName) + "\" Already Exists");
+				+ handleNull(columnName) + "\" Already Exists");
 	}
 	public static void  printColumnListTooLargeError() {
 		System.err.println("Error: Column List is Too Large");
 	}
-	public static void  printDatabaseAlreadyExistsError(String databaseName) {
+	public static void  printDatabaseAlreadyExistsError(final String databaseName) {
 		System.err.println("Error: Database \""
-			+ handleNull(databaseName) + "\" Already Exists");
+				+ handleNull(databaseName) + "\" Already Exists");
 	}
-	public static void  printDatabaseNotFoundError(String databaseName) {
+	public static void  printDatabaseNotFoundError(final String databaseName) {
 		System.err.println("Error: Database \""
-			+ handleNull(databaseName) + "\" Not Found");
+				+ handleNull(databaseName) + "\" Not Found");
 	}
-	public static void printDataTypeNotSupportedError(String dataType) {
+	public static void printDataTypeNotSupportedError(final String dataType) {
 		System.err.println("Error: Data Type \""
-			+ dataType + "\" Not Supported");
+				+ dataType + "\" Not Supported");
 	}
-	public static void printTableAlreadyExistsError(String tableName) {
+	public static void printTableAlreadyExistsError(final String tableName) {
 		System.err.println("Error: Table \"" +
-			handleNull(tableName) + "\" Already Exists");
+				handleNull(tableName) + "\" Already Exists");
 	}
-	public static void printTableNotFoundError(String tableName) {
+	public static void printTableNotFoundError(final String tableName) {
 		System.err.println("Error: Table \"" +
-			handleNull(tableName) + "\" Not Found");
+				handleNull(tableName) + "\" Not Found");
 	}
 	public static void printTypeMismatchError() {
 		System.err.println("Error: Type Mismatch");
@@ -45,24 +45,24 @@ public abstract class ErrorHandler {
 	public static void printValueListTooSmallError() {
 		System.err.println("Error: Value List is Too Small");
 	}
-	public static void printReservedKeywordError(String name) {
+	public static void printReservedKeywordError(final String name) {
 		System.err.println("Error: Name \"" +
-			handleNull(name) + "\" is A Reserved Keyword");
+				handleNull(name) + "\" is A Reserved Keyword");
 	}
 	public static void printInternalError() {
 		System.err.println("Internal Error");
 	}
-	public static void  printFailedToDeleteDatabase(String databaseName) {
+	public static void  printFailedToDeleteDatabase(final String databaseName) {
 		System.err.println("Error: Couldn't Delete Database \""
-			+ handleNull(databaseName) + "\"");
+				+ handleNull(databaseName) + "\"");
 	}
-	public static void printSyntaxErrorNear(String name) {
+	public static void printSyntaxErrorNear(final String name) {
 		System.err.println("Syntax Error Near \"" + name + "\"");
 	}
 	public static void printSyntaxError() {
 		System.err.println("Syntax Error");
 	}
-	private static String handleNull(String string) {
+	private static String handleNull(final String string) {
 		if (string == null) {
 			return NULL_PLACEHOLDER;
 		}

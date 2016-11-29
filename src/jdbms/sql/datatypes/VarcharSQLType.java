@@ -7,7 +7,7 @@ public class VarcharSQLType extends SQLType<String>{
 		SQLTypeFactory.getInstance().registerType("VARCHAR", VarcharSQLType.class);
 		SQLTypeFactory.getInstance().registerType("TEXT", VarcharSQLType.class);
 	}
-	public VarcharSQLType(String value) {
+	public VarcharSQLType(final String value) {
 		super(value);
 	}
 
@@ -15,5 +15,11 @@ public class VarcharSQLType extends SQLType<String>{
 	public String getType() {
 		return "VARCHAR";
 	}
-
+	@Override
+	public String getStringValue() {
+		if (value == null) {
+			return "''";
+		}
+		return value.toString();
+	}
 }

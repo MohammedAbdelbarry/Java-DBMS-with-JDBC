@@ -25,58 +25,109 @@ import jdbms.sql.parsing.properties.SelectionParameters;
 import jdbms.sql.parsing.properties.TableCreationParameters;
 import jdbms.sql.parsing.properties.UpdatingParameters;
 import jdbms.sql.parsing.util.Constants;
-
+/**
+ * The class representing a sql column.
+ * @author Moham
+ */
 public class Table {
-
-	private String tableName;
-	private Map<String, TableColumn> tableColumns;
-	private ArrayList<String> tableColumnNames;
+	/**
+	 * The name of the table.
+	 */
+	private final String tableName;
+	/**
+	 * A map between the name of
+	 * the column and the actual
+	 * {@link TableColumn}
+	 */
+	private final Map<String, TableColumn> tableColumns;
+	/**
+	 * An array list holding
+	 * the name
+	 */
+	private final ArrayList<String> tableColumnNames;
+	/**
+	 * The number of rows in the table.
+	 */
 	private int numberOfRows;
-	public Table(TableCreationParameters createTableParameters)
-			throws ColumnAlreadyExistsException {
+	/**
+	 * Creates a table given its
+	 * {@link TableCreationParameters}
+	 * @param createTableParameters the table
+	 * creation parameters
+	 * @throws ColumnAlreadyExistsException
+	 */
+	public Table(final TableCreationParameters
+			createTableParameters)
+					throws ColumnAlreadyExistsException {
 		this.tableName = createTableParameters.getTableName();
 		tableColumns = new HashMap<>();
 		tableColumnNames = new ArrayList<>();
 		numberOfRows = 0;
-		ArrayList<ColumnIdentifier> colDefinitions
+		final ArrayList<ColumnIdentifier> colDefinitions
 		= createTableParameters.getColumnDefinitions();
-		for (ColumnIdentifier column : colDefinitions) {
-				addTableColumn(column.getName(), column.getType());
+		for (final ColumnIdentifier column : colDefinitions) {
+			addTableColumn(column.getName(), column.getType());
 		}
 	}
-	public Table(TableIdentifier tableIdentifier)
+	/**
+	 * Creates a table given its
+	 * {@link TableIdentifier}
+	 * @param tableIdentifier the table
+	 * identifier
+	 * @throws ColumnAlreadyExistsException
+	 */
+	public Table(final TableIdentifier tableIdentifier)
 			throws ColumnAlreadyExistsException {
 		this.tableName = tableIdentifier.getTableName();
-		ArrayList<ColumnIdentifier> columnIdentifiers
+		final ArrayList<ColumnIdentifier> columnIdentifiers
 		= tableIdentifier.getColumnsIdentifiers();
 		tableColumns = new HashMap<>();
 		tableColumnNames = new ArrayList<>();
-		for (ColumnIdentifier columnIdentifier
+		for (final ColumnIdentifier columnIdentifier
 				: columnIdentifiers) {
 			addTableColumn(columnIdentifier.getName(),
 					columnIdentifier.getType());
 		}
 	}
-	public void addTableColumn(String columnName, String columnDataType)
+	/**
+	 * Adds a new table column.
+	 * @param columnName the name
+	 * of the column
+	 * @param columnDataType the data
+	 * type of the column
+	 * @throws ColumnAlreadyExistsException
+	 */
+	public void addTableColumn(final String columnName, final String columnDataType)
 			throws ColumnAlreadyExistsException {
 		if (tableColumns.containsKey(columnName.toUpperCase())) {
 			throw new ColumnAlreadyExistsException(columnName);
 		}
-		TableColumn newColumn = new TableColumn(columnName, columnDataType);
+		final TableColumn newColumn = new TableColumn(columnName, columnDataType);
 		tableColumns.put(columnName.toUpperCase(), newColumn);
 		tableColumnNames.add(columnName);
 		for (int i = 0 ; i < numberOfRows ; i++) {
 			tableColumns.get(columnName.toUpperCase()).add(null);
 		}
 	}
-	public void insertRows(InsertionParameters insertParameters)
+	/**
+	 * Inserts rows into the table.
+	 * @param insertParameters the
+	 * {@link InsertionParameters}
+	 * @throws RepeatedColumnException
+	 * @throws ColumnListTooLargeException
+	 * @throws ColumnNotFoundException
+	 * @throws ValueListTooLargeException
+	 * @throws ValueListTooSmallException
+	 * @throws TypeMismatchException
+	 */
+	public void insertRows(final InsertionParameters insertParameters)
 			throws RepeatedColumnException,
 			ColumnListTooLargeException,
 			ColumnNotFoundException,
 			ValueListTooLargeException, ValueListTooSmallException,
 			TypeMismatchException {
 		if (insertParameters.getColumns() == null) {
-			for (ArrayList<String> rowValue
+			for (final ArrayList<String> rowValue
 					: insertParameters.getValues()) {
 				if (rowValue.size()
 						> tableColumnNames.size()) {
@@ -86,14 +137,14 @@ public class Table {
 					throw new ValueListTooSmallException();
 				}
 			}
-			for (ArrayList<String> rowValue
+			for (final ArrayList<String> rowValue
 					: insertParameters.getValues()) {
 				insertRow(rowValue);
 			}
 		} else {
-			ArrayList<String> columnNames
+			final ArrayList<String> columnNames
 			= insertParameters.getColumns();
-			for (String column : columnNames) {
+			for (final String column : columnNames) {
 				if (!tableColumns.containsKey(
 						column.toUpperCase())) {
 					throw new ColumnNotFoundException(column);
@@ -103,12 +154,12 @@ public class Table {
 					< columnNames.size()) {
 				throw new RepeatedColumnException();
 			}
-			Set<String> nullCells
+			final Set<String> nullCells
 			= new HashSet<>(tableColumns.keySet());
-			for (String columnName : columnNames) {
+			for (final String columnName : columnNames) {
 				nullCells.remove(columnName.toUpperCase());
 			}
-			for (ArrayList<String> rowValue
+			for (final ArrayList<String> rowValue
 					: insertParameters.getValues()) {
 				if (rowValue.size() >
 				insertParameters.getColumns().size()) {
@@ -118,20 +169,27 @@ public class Table {
 					throw new ValueListTooSmallException();
 				}
 			}
-			for (ArrayList<String> rowValue
+			for (final ArrayList<String> rowValue
 					: insertParameters.getValues()) {
 				insertRow(insertParameters.getColumns(
 						), rowValue, nullCells);
 			}
 		}
 	}
-	private void insertRow(ArrayList<String> values)
-		throws ValueListTooLargeException, ValueListTooSmallException,
-		TypeMismatchException {
-		DataTypesValidator dataTypesValidator
+	/**
+	 * Inserts a row.
+	 * @param values the values in the row
+	 * @throws ValueListTooLargeException
+	 * @throws ValueListTooSmallException
+	 * @throws TypeMismatchException
+	 */
+	private void insertRow(final ArrayList<String> values)
+			throws ValueListTooLargeException, ValueListTooSmallException,
+			TypeMismatchException {
+		final DataTypesValidator dataTypesValidator
 		= new DataTypesValidator();
 		int index = 0;
-		for (String column : tableColumnNames) {
+		for (final String column : tableColumnNames) {
 			if (!dataTypesValidator.match(tableColumns.get(
 					column.toUpperCase()).getColumnDataType(
 							), values.get(index))) {
@@ -142,12 +200,26 @@ public class Table {
 		}
 		numberOfRows++;
 	}
-	private void insertRow(ArrayList<String> columnNames,
-			ArrayList<String> values, Set<String> nullCells)
-			throws RepeatedColumnException, ColumnListTooLargeException,
-			ColumnNotFoundException, ValueListTooLargeException,
-			TypeMismatchException {
-		DataTypesValidator dataTypesValidator
+	/**
+	 * Inserts a row.
+	 * @param columnNames the columns
+	 * in which the values will get
+	 * inserted
+	 * @param values the values
+	 * @param nullCells the columns
+	 * to be filled with null
+	 * @throws RepeatedColumnException
+	 * @throws ColumnListTooLargeException
+	 * @throws ColumnNotFoundException
+	 * @throws ValueListTooLargeException
+	 * @throws TypeMismatchException
+	 */
+	private void insertRow(final ArrayList<String> columnNames,
+			final ArrayList<String> values, final Set<String> nullCells)
+					throws RepeatedColumnException, ColumnListTooLargeException,
+					ColumnNotFoundException, ValueListTooLargeException,
+					TypeMismatchException {
+		final DataTypesValidator dataTypesValidator
 		= new DataTypesValidator();
 		for (int i = 0; i < columnNames.size(); i++) {
 			if (!dataTypesValidator.match(tableColumns.get(
@@ -158,28 +230,44 @@ public class Table {
 			tableColumns.get(columnNames.get(i).
 					toUpperCase()).add(values.get(i));
 		}
-		for (String nullCell : nullCells) {
+		for (final String nullCell : nullCells) {
 			tableColumns.get(nullCell).add(null);
 		}
 		numberOfRows++;
 	}
-
+	/**
+	 * Generated the table identifier
+	 * of the table.
+	 * @return The table indentifier.
+	 */
 	public TableIdentifier getTableIdentifier() {
-		ArrayList<ColumnIdentifier> columnIdentifiers
+		final ArrayList<ColumnIdentifier> columnIdentifiers
 		= new ArrayList<>();
-		for (String name : tableColumnNames) {
+		for (final String name : tableColumnNames) {
 			columnIdentifiers.add(new
 					ColumnIdentifier(name,
-					tableColumns.get(
-							name.toUpperCase()).getColumnDataType()));
+							tableColumns.get(
+									name.toUpperCase()).getColumnDataType()));
 		}
 		return new TableIdentifier(tableName, columnIdentifiers);
 	}
-
+	/**
+	 * Gets the columns in a table.
+	 * @return the map representing the
+	 * table columns
+	 */
 	public Map<String, TableColumn> getColumns() {
 		return tableColumns;
 	}
-	public SelectQueryOutput selectFromTable(SelectionParameters
+	/**
+	 * Selects values from a table.
+	 * @param selectParameters the parameters
+	 * of the select statement
+	 * @return the select output
+	 * @throws ColumnNotFoundException
+	 * @throws TypeMismatchException
+	 */
+	public SelectQueryOutput selectFromTable(final SelectionParameters
 			selectParameters) throws ColumnNotFoundException,
 	TypeMismatchException {
 		ArrayList<Integer> matches = null;
@@ -193,18 +281,18 @@ public class Table {
 				columnNames.get(0).equals("*")) {
 			columnNames = new ArrayList<>(tableColumnNames);
 		}
-		Set<String> uniqueColumnNames = new LinkedHashSet<>(columnNames);
+		final Set<String> uniqueColumnNames = new LinkedHashSet<>(columnNames);
 		columnNames = new ArrayList<>(uniqueColumnNames);
-		for (String column : columnNames) {
+		for (final String column : columnNames) {
 			if (!tableColumns.containsKey(column.toUpperCase())) {
 				throw new ColumnNotFoundException(column);
 			}
 		}
-		SelectQueryOutput output = new SelectQueryOutput();
+		final SelectQueryOutput output = new SelectQueryOutput();
 		output.setColumns(columnNames);
-		ArrayList<ArrayList<String>> rows = new ArrayList<>();
+		final ArrayList<ArrayList<String>> rows = new ArrayList<>();
 		int index = 0;
-		for (int i : matches) {
+		for (final int i : matches) {
 			rows.add(new ArrayList<>());
 			for (int j = 0 ; j < columnNames.size() ; j++) {
 				rows.get(index).add(tableColumns.get(
@@ -216,9 +304,16 @@ public class Table {
 		output.setRows(rows);
 		return output;
 	}
-	public void updateTable(UpdatingParameters updateParameters)
+	/**
+	 * Performs the sql update statement.
+	 * @param updateParameters the
+	 * update statement parameters
+	 * @throws ColumnNotFoundException
+	 * @throws TypeMismatchException
+	 */
+	public void updateTable(final UpdatingParameters updateParameters)
 			throws ColumnNotFoundException, TypeMismatchException {
-		ArrayList<AssignmentExpression> assignments
+		final ArrayList<AssignmentExpression> assignments
 		= updateParameters.getAssignmentList();
 		ArrayList<Integer> matches;
 		if (updateParameters.getCondition() == null) {
@@ -226,12 +321,21 @@ public class Table {
 		} else {
 			matches = getAllMatches(updateParameters.getCondition());
 		}
-		for (AssignmentExpression assignment : assignments) {
+		for (final AssignmentExpression assignment : assignments) {
 			AssignColumn(assignment, matches);
 		}
 	}
-	private ArrayList<Integer> getAllMatches(BooleanExpression condition)
-			throws ColumnNotFoundException, TypeMismatchException {
+	/**
+	 * Gets all the rows matching
+	 * a boolean expression.
+	 * @param condition the boolean expression
+	 * @return a list of the matching rows
+	 * @throws ColumnNotFoundException
+	 * @throws TypeMismatchException
+	 */
+	private ArrayList<Integer> getAllMatches(
+			final BooleanExpression condition)
+					throws ColumnNotFoundException, TypeMismatchException {
 		ArrayList<Integer> matches = new ArrayList<>();
 		if(condition.leftOperandIsConstant()
 				&& condition.rightOperandIsConstant()) {
@@ -240,7 +344,7 @@ public class Table {
 			}
 		} else if (condition.leftOperandIsColumnName()
 				&& condition.rightOperandIsConstant()) {
-			String columnName = condition.getLeftOperand();
+			final String columnName = condition.getLeftOperand();
 			if (!tableColumns.containsKey(columnName.toUpperCase())) {
 				throw new ColumnNotFoundException(columnName);
 			}
@@ -249,7 +353,7 @@ public class Table {
 					condition.getRightOperand(), true);
 		} else if (condition.rightOperandIsColumnName()
 				&& condition.leftOperandIsConstant()) {
-			String columnName = condition.getRightOperand();
+			final String columnName = condition.getRightOperand();
 			if (!tableColumns.containsKey(columnName.toUpperCase())) {
 				throw new ColumnNotFoundException(columnName);
 			}
@@ -275,32 +379,62 @@ public class Table {
 		}
 		return matches;
 	}
-	private void AssignColumn(AssignmentExpression assignment,
-			ArrayList<Integer> matches) throws ColumnNotFoundException,
-			TypeMismatchException {
+	/**
+	 * Assigns a value to a column.
+	 * @param assignment the assignment
+	 * expression.
+	 * @param matches the rows
+	 * matching the condition of the
+	 * assignment
+	 * @throws ColumnNotFoundException
+	 * @throws TypeMismatchException
+	 */
+	private void AssignColumn(final AssignmentExpression assignment,
+			final ArrayList<Integer> matches) throws ColumnNotFoundException,
+	TypeMismatchException {
 		if (!assignment.leftOperandIsColumnName() ||
 				!assignment.rightOperandIsConstant() ||
-				!tableColumns.containsKey(assignment.getLeftOperand().toUpperCase())) {
-			throw new ColumnNotFoundException(assignment.getLeftOperand());
+				!tableColumns.containsKey(
+						assignment.getLeftOperand().toUpperCase())) {
+			throw new ColumnNotFoundException(
+					assignment.getLeftOperand());
 		}
-		for (int i : matches) {
-			tableColumns.get(assignment.getLeftOperand().toUpperCase()).
+		for (final int i : matches) {
+			tableColumns.get(assignment.
+					getLeftOperand().toUpperCase()).
 			assignCell(i, assignment.getRightOperand());
 		}
 	}
-
+	/**
+	 * Gets a list of all the names of the columns
+	 * in this table.
+	 * @return a list of all the names of the columns
+	 * in this table
+	 */
 	public ArrayList<String> getColumnNames() {
 		return tableColumnNames;
 	}
-
+	/**
+	 * Gets the number of rows.
+	 * @return the number of rows
+	 */
 	public int getNumberOfRows() {
 		return numberOfRows;
 	}
-
+	/**
+	 * Gets the table name.
+	 * @return the table name.
+	 */
 	public String getName() {
 		return tableName;
 	}
-	public void deleteRows(BooleanExpression condition)
+	/**
+	 * Deletes all rows matching a boolean condition.
+	 * @param condition the boolean condition.
+	 * @throws ColumnNotFoundException
+	 * @throws TypeMismatchException
+	 */
+	public void deleteRows(final BooleanExpression condition)
 			throws ColumnNotFoundException, TypeMismatchException {
 		if (condition == null) {
 			clearTable();
@@ -315,12 +449,12 @@ public class Table {
 			}
 		} else if (condition.leftOperandIsColumnName()
 				&& condition.rightOperandIsConstant()) {
-			String columnName = condition.getLeftOperand();
+			final String columnName = condition.getLeftOperand();
 			deleteMatching(condition, columnName,
 					condition.getRightOperand(), true);
 		} else if (condition.rightOperandIsColumnName()
 				&& condition.leftOperandIsConstant()) {
-			String columnName = condition.getRightOperand();
+			final String columnName = condition.getRightOperand();
 			deleteMatching(condition, columnName,
 					condition.getLeftOperand(), false);
 		} else if (condition.rightOperandIsColumnName() &&
@@ -329,54 +463,110 @@ public class Table {
 					condition.getRightOperand());
 		}
 	}
-	private void deleteMatching(BooleanExpression condition,
-			String columnName, String other,
-			boolean leftIsTableColumn)
+	/**
+	 * Deletes all the rows matching a
+	 * boolean condition.
+	 * @param condition the boolean condition
+	 * @param columnName the name of the
+	 * column in the condition
+	 * @param other the value
+	 * compared to the column
+	 * @param leftIsTableColumn specifies
+	 * if the left hand side of the expression
+	 * is a column or a value
+	 * @throws ColumnNotFoundException
+	 */
+	private void deleteMatching(final BooleanExpression condition,
+			final String columnName, final String other,
+			final boolean leftIsTableColumn)
 					throws ColumnNotFoundException {
 		if (!tableColumns.containsKey(columnName.toUpperCase())) {
 			throw new ColumnNotFoundException(columnName);
 		}
-		int firstMatch = getFirstMatch(condition, tableColumns.get(columnName.toUpperCase()),
+		int firstMatch = getFirstMatch(condition,
+				tableColumns.get(columnName.toUpperCase()),
 				other, leftIsTableColumn);
 		while (firstMatch != -1) {
 			deleteRow(firstMatch);
-			firstMatch = getFirstMatch(condition, tableColumns.get(columnName.toUpperCase()),
+			firstMatch = getFirstMatch(condition,
+					tableColumns.get(columnName.toUpperCase()),
 					other, leftIsTableColumn);
 		}
 	}
-	private void deleteMatching(BooleanExpression condition, String
-			columnName, String otherColumnName)
+	/**
+	 * Deletes all the rows matching a
+	 * boolean condition.
+	 * @param condition the boolean condition
+	 * @param columnName the name of the
+	 * column in the condition
+	 * @param otherColumnName the value
+	 * of the other column
+	 * @throws ColumnNotFoundException
+	 * @throws TypeMismatchException
+	 */
+	private void deleteMatching(final BooleanExpression condition, final String
+			columnName, final String otherColumnName)
 					throws ColumnNotFoundException,
 					TypeMismatchException {
-		if (!tableColumns.containsKey(columnName.toUpperCase())) {
-			throw new ColumnNotFoundException(columnName);
+		if (!tableColumns.
+				containsKey(
+						columnName.toUpperCase())) {
+			throw
+			new
+			ColumnNotFoundException(
+					columnName);
 		}
-		if (!tableColumns.containsKey(otherColumnName.toUpperCase())) {
+		if (!tableColumns.
+				containsKey(
+						otherColumnName.toUpperCase())) {
 			throw new ColumnNotFoundException(otherColumnName);
 		}
-		int firstMatch = getFirstMatch(condition, tableColumns.get(columnName.toUpperCase()),
+		int firstMatch = getFirstMatch(condition,
+				tableColumns.get(columnName.toUpperCase()),
 				tableColumns.get(otherColumnName));
 		while (firstMatch != -1) {
 			deleteRow(firstMatch);
-			firstMatch = getFirstMatch(condition, tableColumns.get(columnName.toUpperCase()),
+			firstMatch = getFirstMatch(condition,
+					tableColumns.get(columnName.toUpperCase()),
 					tableColumns.get(otherColumnName.toUpperCase()));
 		}
 	}
-	private int getFirstMatch(BooleanExpression condition,
-			TableColumn conditionColumn, String other,
-			boolean leftIsTableColumn) {
+	/**
+	 * gets the first match for
+	 * a boolean expression.
+	 * @param condition the boolean
+	 * condition
+	 * @param conditionColumn the column
+	 * of the condition
+	 * @param other the value
+	 * compared to the column
+	 * @param leftIsTableColumn specifies
+	 * if the left hand side of the expression
+	 * is a column or a value
+	 * @return the index of the first match
+	 */
+	private int getFirstMatch(final BooleanExpression condition,
+			final TableColumn conditionColumn, final String other,
+			final boolean leftIsTableColumn) {
 		if (Constants.STRING_TYPES.contains(
 				conditionColumn.getColumnDataType())) {
 			for (int i = 0; i < numberOfRows; i++) {
-				String cellValue = conditionColumn.get(i).getStringValue();
+				final String cellValue
+				= conditionColumn.get(i).getStringValue();
 				if (leftIsTableColumn) {
-					if (condition.evaluate(new VarcharSQLType(removeQuotes
-							(cellValue)), new VarcharSQLType(removeQuotes(other)))) {
+					if (condition.evaluate(
+							new VarcharSQLType(removeQuotes
+									(cellValue)),
+							new VarcharSQLType(
+									removeQuotes(other)))) {
 						return i;
 					}
 				} else {
-					if (condition.evaluate(new VarcharSQLType(removeQuotes(other)),
-							new VarcharSQLType(removeQuotes(cellValue)))) {
+					if (condition.evaluate(
+							new VarcharSQLType(
+									removeQuotes(other)),
+							new VarcharSQLType(
+									removeQuotes(cellValue)))) {
 						return i;
 					}
 				}
@@ -385,13 +575,14 @@ public class Table {
 				conditionColumn.getColumnDataType())) {
 			for (int i = 0; i < numberOfRows; i++) {
 				if (leftIsTableColumn) {
-					if (condition.evaluate((IntSQLType) conditionColumn.get(i),
+					if (condition.evaluate((IntSQLType)
+							conditionColumn.get(i),
 							new IntSQLType(other))) {
 						return i;
 					}
 				} else {
 					if (condition.evaluate(new IntSQLType(other),
-						(IntSQLType) conditionColumn.get(i))) {
+							(IntSQLType) conditionColumn.get(i))) {
 						return i;
 					}
 				}
@@ -399,30 +590,48 @@ public class Table {
 		}
 		return -1;
 	}
-	private int getFirstMatch(BooleanExpression condition,
-			TableColumn conditionColumn, TableColumn other)
+	/**
+	 * gets the first match for
+	 * a boolean expression.
+	 * @param condition the boolean
+	 * condition
+	 * @param conditionColumn the column
+	 * of the condition
+	 * @param other the other column
+	 * @return the index of the first match
+	 */
+	private int getFirstMatch(final BooleanExpression condition,
+			final TableColumn conditionColumn, final TableColumn other)
 					throws TypeMismatchException {
-		DataTypesValidator validator = new DataTypesValidator();
-		if (!validator.checkDataTypes(conditionColumn.getColumnDataType(),
+		final DataTypesValidator validator
+		= new DataTypesValidator();
+		if (!validator.checkDataTypes(
+				conditionColumn.getColumnDataType(),
 				other.getColumnDataType())) {
 			throw new TypeMismatchException();
 		}
 		if (Constants.STRING_TYPES.contains(
 				conditionColumn.getColumnDataType())) {
 			for (int i = 0; i < numberOfRows; i++) {
-				String leftCellValue = conditionColumn.get(i).getStringValue();
-				String rightCellValue = other.get(i).getStringValue();
-				if (condition.evaluate(new VarcharSQLType(leftCellValue.substring(1,
-						leftCellValue.length() - 1)),
-						new VarcharSQLType(rightCellValue.substring(1,
-								rightCellValue.length() - 1)))) {
+				final String leftCellValue
+				= conditionColumn.get(i).getStringValue();
+				final String rightCellValue
+				= other.get(i).getStringValue();
+				if (condition.evaluate(
+						new VarcharSQLType(
+								leftCellValue.substring(1,
+										leftCellValue.length() - 1)),
+						new VarcharSQLType(
+								rightCellValue.substring(1,
+										rightCellValue.length() - 1)))) {
 					return i;
 				}
 			}
 		} else if (Constants.INTEGER_TYPES.contains(
 				conditionColumn.getColumnDataType())) {
 			for (int i = 0; i < numberOfRows; i++) {
-				if (condition.evaluate((IntSQLType)conditionColumn.get(i),
+				if (condition.evaluate((
+						IntSQLType)conditionColumn.get(i),
 						(IntSQLType)other.get(i))) {
 					return i;
 				}
@@ -430,22 +639,37 @@ public class Table {
 		}
 		return -1;
 	}
-	private ArrayList<Integer> getAllMatches(BooleanExpression condition,
-			TableColumn conditionColumn, String other,
-			boolean leftIsTableColumn) {
-		ArrayList<Integer> matches = new ArrayList<>();
+	/**
+	 * Gets all matches of a boolean expression.
+	 * @param condition the boolean condition
+	 * @param conditionColumn the column
+	 * of the condition
+	 * @param other the value
+	 * compared to the column
+	 * @param leftIsTableColumn specifies
+	 * if the left hand side of the expression
+	 * is a column or a value
+	 * @return
+	 */
+	private ArrayList<Integer> getAllMatches(final BooleanExpression condition,
+			final TableColumn conditionColumn, final String other,
+			final boolean leftIsTableColumn) {
+		final ArrayList<Integer> matches = new ArrayList<>();
 		if (Constants.STRING_TYPES.contains(
 				conditionColumn.getColumnDataType())) {
 			for (int i = 0; i < numberOfRows; i++) {
-				String cellValue = conditionColumn.get(i).getStringValue();
+				final String cellValue
+				= conditionColumn.get(i).getStringValue();
 				if (leftIsTableColumn) {
-					if (condition.evaluate(new VarcharSQLType(cellValue.substring(1,
-							cellValue.length() - 1)),
+					if (condition.evaluate(
+							new VarcharSQLType(cellValue.substring(1,
+									cellValue.length() - 1)),
 							new VarcharSQLType(removeQuotes(other)))) {
 						matches.add(i);
 					}
 				} else {
-					if (condition.evaluate(new VarcharSQLType(removeQuotes(other)),
+					if (condition.evaluate(
+							new VarcharSQLType(removeQuotes(other)),
 							new VarcharSQLType(cellValue.substring(1,
 									cellValue.length() - 1)))) {
 						matches.add(i);
@@ -456,13 +680,14 @@ public class Table {
 				conditionColumn.getColumnDataType())) {
 			for (int i = 0; i < numberOfRows; i++) {
 				if (leftIsTableColumn) {
-					if (condition.evaluate((IntSQLType) conditionColumn.get(i),
+					if (condition.evaluate(
+							(IntSQLType) conditionColumn.get(i),
 							new IntSQLType(other))) {
 						matches.add(i);
 					}
 				} else {
 					if (condition.evaluate(new IntSQLType(other),
-						(IntSQLType) conditionColumn.get(i))) {
+							(IntSQLType) conditionColumn.get(i))) {
 						matches.add(i);
 					}
 				}
@@ -470,22 +695,41 @@ public class Table {
 		}
 		return matches;
 	}
-	private ArrayList<Integer> getAllMatches(BooleanExpression condition,
-			TableColumn conditionColumn, TableColumn other)
+	/**
+	 * gets all matches for
+	 * a boolean expression.
+	 * @param condition the boolean
+	 * condition
+	 * @param conditionColumn the column
+	 * of the condition
+	 * @param other the other column
+	 * @return a list of all matches
+	 */
+	private ArrayList<Integer> getAllMatches(
+			final BooleanExpression condition,
+			final TableColumn conditionColumn,
+			final TableColumn other)
 					throws TypeMismatchException {
-		DataTypesValidator validator = new DataTypesValidator();
-		if (!validator.checkDataTypes(conditionColumn.getColumnDataType(),
+		final DataTypesValidator validator
+		= new DataTypesValidator();
+		if (!validator.checkDataTypes(
+				conditionColumn.getColumnDataType(),
 				other.getColumnDataType())) {
 			throw new TypeMismatchException();
 		}
-		ArrayList<Integer> matches = new ArrayList<>();
+		final ArrayList<Integer> matches
+		= new ArrayList<>();
 		if (Constants.STRING_TYPES.contains(
 				conditionColumn.getColumnDataType())) {
 			for (int i = 0; i < numberOfRows; i++) {
-				String leftCellValue = conditionColumn.get(i).getStringValue();
-				String rightCellValue = other.get(i).getStringValue();
-				if (condition.evaluate(new VarcharSQLType(leftCellValue.substring(1,
-						leftCellValue.length() - 1)),
+				final String leftCellValue
+				= conditionColumn.get(i).getStringValue();
+				final String rightCellValue
+				= other.get(i).getStringValue();
+				if (condition.evaluate(
+						new VarcharSQLType(
+								leftCellValue.substring(1,
+										leftCellValue.length() - 1)),
 						new VarcharSQLType(rightCellValue.substring(1,
 								rightCellValue.length() - 1)))) {
 					matches.add(i);
@@ -494,7 +738,8 @@ public class Table {
 		} else if (Constants.INTEGER_TYPES.contains(
 				conditionColumn.getColumnDataType())) {
 			for (int i = 0; i < numberOfRows; i++) {
-				if (condition.evaluate((IntSQLType)conditionColumn.get(i),
+				if (condition.evaluate(
+						(IntSQLType)conditionColumn.get(i),
 						(IntSQLType)other.get(i))) {
 					matches.add(i);
 				}
@@ -502,26 +747,46 @@ public class Table {
 		}
 		return matches;
 	}
-	private void deleteRow(int index) {
-		for (TableColumn column : tableColumns.values()) {
+	/**
+	 * Deletes a row from the table.
+	 * @param index the index of the row
+	 */
+	private void deleteRow(final int index) {
+		for (final TableColumn column
+				: tableColumns.values()) {
 			column.remove(index);
 		}
 		numberOfRows--;
 	}
+	/**
+	 * Clears the table.
+	 */
 	private void clearTable() {
-		for (TableColumn column : tableColumns.values()) {
+		for (final TableColumn column
+				: tableColumns.values()) {
 			column.clearColumn();
 		}
 		numberOfRows = 0;
 	}
+	/**
+	 * Gets all rows in the table.
+	 * @return a list of all rows
+	 * in the table
+	 */
 	private ArrayList<Integer> getAllRows() {
-		ArrayList<Integer> rows = new ArrayList<>();
+		final ArrayList<Integer> rows = new ArrayList<>();
 		for (int i = 0 ; i < numberOfRows ; i++) {
 			rows.add(i);
 		}
 		return rows;
 	}
-	private String removeQuotes(String s) {
+	/**
+	 * removes the quotes from a string
+	 * value.
+	 * @param s the string
+	 * @return the quote-less string
+	 */
+	private String removeQuotes(final String s) {
 		return s.substring(1, s.length() - 1);
 	}
 }

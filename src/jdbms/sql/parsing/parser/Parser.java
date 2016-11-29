@@ -27,18 +27,17 @@ public class Parser {
 	 * The final regex for reducing multiple spaces except for strings of single
 	 * or double quotes.
 	 */
-	private String sapceRegex;
+	private String spaceRegex;
 
 	public Parser() {
 		components = new ArrayList<>();
-		spaceRegexD = "\\s+(?=((\\\\[\\\\\"]|[^\\\\\"])*\"(\\\\[\\\\\"]|[^\\\\\"])*\")*(\\\\[\\\\\"]|[^\\\\\"])*$)";
-		spaceRegexS = "\\s+(?=((\\\\[\\\\\']|[^\\\\\'])*\'(\\\\[\\\\\']|[^\\\\\'])*\')*(\\\\[\\\\\']|[^\\\\\'])*$)";
-		sapceRegex = spaceRegexD + spaceRegexS;
+		spaceRegexD = "\\s+(?=(([\"]|[^\"])*\"([\"]|[^\"])*\")*([\"]|[^\"])*$)";
+		spaceRegexS = "\\s+(?=(([\']|[^\'])*\'([\']|[^\'])*\')*([\']|[^\'])*$)";
+		spaceRegex = spaceRegexD + spaceRegexS;
 	}
 
 	/**
 	 * Processing the given command to a normalized form.
-	 *
 	 * @return output : string containing the normalized form of the user's
 	 *         input
 	 */
@@ -46,7 +45,7 @@ public class Parser {
 		String output = SQLCommand;
 
 		// Replace multiple space with only one space EXCEPT for quoted strings
-		output = output.replaceAll(sapceRegex, " ");
+		output = output.replaceAll(spaceRegex, " ");
 		output = output.trim();
 
 		// Preparing the output
@@ -61,7 +60,6 @@ public class Parser {
 	/**
 	 * Inserting white spaces in special places in the user's command in order
 	 * to recognize all the required data.
-	 *
 	 * @param SQLCommand
 	 *            : user's command
 	 * @return output : The string after inserting the required spaces
@@ -72,7 +70,8 @@ public class Parser {
 		StringBuilder component = new StringBuilder();
 
 		for (int i = 0; i < command.length(); i++) {
-			while ((i < command.length()) && !(command.charAt(i) == '"') && !(command.charAt(i) == '\'')) {
+			while ((i < command.length()) && !(command.charAt(i)
+					== '"') && !(command.charAt(i) == '\'')) {
 				component.append(command.charAt(i));
 				i++;
 			}
@@ -88,7 +87,8 @@ public class Parser {
 				component.append(command.charAt(i));
 				if (command.charAt(i) == '"') {
 					i++;
-					while (i < command.length() && !(command.charAt(i) == '"')) {
+					while (i < command.length() && !(
+							command.charAt(i) == '"')) {
 						component.append(command.charAt(i));
 						i++;
 					}
@@ -96,7 +96,8 @@ public class Parser {
 					component.append(command.charAt(i));
 				} else if (command.charAt(i) == '\'') {
 					i++;
-					while (i < command.length() && !(command.charAt(i) == '\'')) {
+					while (i < command.length() && !(
+							command.charAt(i) == '\'')) {
 						component.append(command.charAt(i));
 						i++;
 					}
@@ -121,9 +122,7 @@ public class Parser {
 
 	/**
 	 * Splitting the user's command into several components to be processed.
-	 *
-	 * @param SQLCommand
-	 *            : user's command
+	 * @param SQLCommand user's command
 	 */
 	public void split(String SQLCommand) {
 		// Splitting by spaces outside the quotes
@@ -148,7 +147,6 @@ public class Parser {
 
 	/**
 	 * Merging the components of the command to the final form.
-	 *
 	 * @return normalizedString : string of the normalized form
 	 */
 	public String merge() {
@@ -159,17 +157,6 @@ public class Parser {
 		}
 		String normalizedString = output.toString();
 		return normalizedString;
-	}
-
-	public static void main(String[] args) {
-		Parser parser = new Parser();
-		String send1 = "create table nag_gar (name text, age int, id int);";
-		String send2 = "insert into Nag_gar(name, id) values('negro1', 1), (\"negro2\", 2), (\"nigger3\", 69),('nigger4', 666)     , (\"nigger5;where=>=!=<<>table create database nigger drop from nigger where x = 1 set nigger = 14\", 5)   ;";
-		System.out.println(send1);
-		System.out.println(parser.normalizeCommand(send1));
-		System.out.println(send2);
-		System.out.println(parser.normalizeCommand(send2));
-
 	}
 
 }

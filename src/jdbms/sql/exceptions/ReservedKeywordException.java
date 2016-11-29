@@ -2,7 +2,7 @@ package jdbms.sql.exceptions;
 
 public class ReservedKeywordException extends Exception {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -1737842687623416520L;
 
@@ -10,20 +10,21 @@ public class ReservedKeywordException extends Exception {
 		super();
 	}
 
-	public ReservedKeywordException(String message) {
+	public ReservedKeywordException(final String message) {
 		super(message);
 	}
 
-	public ReservedKeywordException(Throwable cause) {
+	public ReservedKeywordException(final Throwable cause) {
 		super(cause);
 	}
 
-	public ReservedKeywordException(String message, Throwable cause) {
+	public ReservedKeywordException(final String message, final Throwable cause) {
 		super(message, cause);
 	}
 
-	public ReservedKeywordException(String message, Throwable cause, boolean enableSuppression,
-			boolean writableStackTrace) {
+	public ReservedKeywordException(final String message,
+			final Throwable cause, final boolean enableSuppression,
+			final boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
 }

@@ -27,19 +27,22 @@ import jdbms.sql.parsing.properties.TableDroppingParameters;
 import jdbms.sql.parsing.properties.UpdatingParameters;
 import jdbms.sql.parsing.properties.UseParameters;
 
-
+/** A class representing the current sql
+ * data.
+ * @author Moham
+ */
 public class SQLData {
 
 	/**Currently Active Database.*/
 	private Database activeDatabase;
-	private FileHandler handler;
+	private final FileHandler handler;
 	private static final String DEFAULT_DATABASE = "default";
 	public SQLData() {
 		handler = new FileHandler();
 		while (activeDatabase == null) {
 			try {
 				activeDatabase = createTemporaryDatabase();
-			} catch (DatabaseAlreadyExistsException e) {
+			} catch (final DatabaseAlreadyExistsException e) {
 
 			}
 		}
@@ -52,27 +55,27 @@ public class SQLData {
 	 * @throws TableAlreadyExistsException
 	 * @throws DatabaseNotFoundException
 	 */
-	public void setActiveDatabase(UseParameters useParameters) {
+	public void setActiveDatabase(final UseParameters useParameters) {
 		try {
 			activeDatabase = handler.loadDatabase(
 					useParameters.getDatabaseName().toUpperCase());
-		} catch (DatabaseNotFoundException e) {
+		} catch (final DatabaseNotFoundException e) {
 			ErrorHandler.printDatabaseNotFoundError(e.getMessage());
-		} catch (TableAlreadyExistsException e) {
+		} catch (final TableAlreadyExistsException e) {
 			ErrorHandler.printTableAlreadyExistsError(e.getMessage());
-		} catch (ColumnAlreadyExistsException e) {
+		} catch (final ColumnAlreadyExistsException e) {
 			ErrorHandler.printColumnAlreadyExistsError(e.getMessage());
-		} catch (RepeatedColumnException e) {
+		} catch (final RepeatedColumnException e) {
 			ErrorHandler.printRepeatedColumnError();
-		} catch (ColumnListTooLargeException e) {
+		} catch (final ColumnListTooLargeException e) {
 			ErrorHandler.printColumnListTooLargeError();
-		} catch (ColumnNotFoundException e) {
+		} catch (final ColumnNotFoundException e) {
 			ErrorHandler.printColumnNotFoundError(e.getMessage());
-		} catch (ValueListTooLargeException e) {
+		} catch (final ValueListTooLargeException e) {
 			ErrorHandler.printValueListTooLargeError();
-		} catch (ValueListTooSmallException e) {
+		} catch (final ValueListTooSmallException e) {
 			ErrorHandler.printValueListTooSmallError();
-		} catch (TypeMismatchException e) {
+		} catch (final TypeMismatchException e) {
 			ErrorHandler.printTypeMismatchError();
 		}
 	}
@@ -82,16 +85,16 @@ public class SQLData {
 	 * @param createDBParameters The parameters of the sql
 	 * create statement
 	 */
-	public void createDatabase(DatabaseCreationParameters
+	public void createDatabase(final DatabaseCreationParameters
 			createDBParameters) {
 
 		try {
-			Database newDatabase
+			final Database newDatabase
 			= new Database(createDBParameters.getDatabaseName().toUpperCase());
 			handler.createDatabase(
 					createDBParameters.getDatabaseName().toUpperCase());
 			activeDatabase = newDatabase;
-		} catch (DatabaseAlreadyExistsException e) {
+		} catch (final DatabaseAlreadyExistsException e) {
 			ErrorHandler.printDatabaseAlreadyExistsError(
 					createDBParameters.getDatabaseName());
 		}
@@ -100,7 +103,7 @@ public class SQLData {
 	/**
 	 * Drops the database with the provided name.
 	 */
-	public void dropDatabase(DatabaseDroppingParameters dropDBParameters) {
+	public void dropDatabase(final DatabaseDroppingParameters dropDBParameters) {
 		try {
 			handler.deleteDatabase(
 					dropDBParameters.getDatabaseName().toUpperCase());
@@ -110,12 +113,12 @@ public class SQLData {
 				while (activeDatabase == null) {
 					try {
 						activeDatabase = createTemporaryDatabase();
-					} catch (DatabaseAlreadyExistsException e) {
+					} catch (final DatabaseAlreadyExistsException e) {
 
 					}
 				}
 			}
-		} catch (DatabaseNotFoundException e) {
+		} catch (final DatabaseNotFoundException e) {
 			ErrorHandler.printDatabaseNotFoundError(e.getMessage());
 		}
 	}
@@ -126,106 +129,157 @@ public class SQLData {
 	 * specifying the parameters of the select query
 	 * @return the output of the select query
 	 */
-	public SelectQueryOutput selectFrom(SelectionParameters
+	public SelectQueryOutput selectFrom(final SelectionParameters
 			selectParameters) {
 		try {
 			return activeDatabase.selectFrom(selectParameters);
-		} catch (ColumnNotFoundException e) {
-			ErrorHandler.printColumnNotFoundError(e.getMessage());
-		} catch (TypeMismatchException e) {
+		} catch (final ColumnNotFoundException e) {
+			ErrorHandler.
+			printColumnNotFoundError(e.getMessage());
+		} catch (final TypeMismatchException e) {
 			ErrorHandler.printTypeMismatchError();
-		} catch (TableNotFoundException e) {
-			 ErrorHandler.printTableNotFoundError(e.getMessage());
+		} catch (final TableNotFoundException e) {
+			ErrorHandler.
+			printTableNotFoundError(e.getMessage());
 		}
 		return null;
 	}
-
-	public void createTable(TableCreationParameters tableParamters) {
+	/**
+	 * Creates a table given the table
+	 * creation parameters.
+	 * @param tableParamters the table creation parameters
+	 */
+	public void createTable(final TableCreationParameters tableParamters) {
 		try {
 			activeDatabase.addTable(tableParamters);
 			saveTable(tableParamters.getTableName());
-		} catch (TableAlreadyExistsException e) {
-			 ErrorHandler.printTableAlreadyExistsError(e.getMessage());
-		} catch (ColumnAlreadyExistsException e) {
-			 ErrorHandler.printColumnAlreadyExistsError(e.getMessage());
+		} catch (final TableAlreadyExistsException e) {
+			ErrorHandler.printTableAlreadyExistsError(e.getMessage());
+		} catch (final ColumnAlreadyExistsException e) {
+			ErrorHandler.printColumnAlreadyExistsError(e.getMessage());
 		}
 	}
-
-	public void dropTable(TableDroppingParameters tableParameters) {
+	/**
+	 * Drops a table given the
+	 * table dropping parameters.
+	 * @param tableParameters the table
+	 * dropping parameters
+	 */
+	public void dropTable(final TableDroppingParameters tableParameters) {
 		try {
-			activeDatabase.dropTable(tableParameters.getTableName());
-			handler.deleteTable(tableParameters.getTableName().toUpperCase(),
+			activeDatabase.dropTable(
+					tableParameters.getTableName());
+			handler.deleteTable(
+					tableParameters.getTableName().toUpperCase(),
 					activeDatabase.getDatabaseName().toUpperCase());
-		} catch (TableNotFoundException e) {
-			ErrorHandler.printTableNotFoundError(e.getMessage());
+		} catch (final TableNotFoundException e) {
+			ErrorHandler.
+			printTableNotFoundError(e.getMessage());
 		}
 	}
 
-	public void insertInto(InsertionParameters parameters) {
+	public void insertInto(final InsertionParameters parameters) {
 		try {
 			activeDatabase.insertInto(parameters);
 			saveTable(parameters.getTableName());
-		} catch (RepeatedColumnException e) {
-			 ErrorHandler.printRepeatedColumnError();
-		} catch (ColumnListTooLargeException e) {
-			 ErrorHandler.printColumnListTooLargeError();
-		} catch (ColumnNotFoundException e) {
-			 ErrorHandler.printColumnNotFoundError(e.getMessage());
-		} catch (ValueListTooLargeException e) {
+		} catch (final RepeatedColumnException e) {
+			ErrorHandler.printRepeatedColumnError();
+		} catch (final ColumnListTooLargeException e) {
+			ErrorHandler.printColumnListTooLargeError();
+		} catch (final ColumnNotFoundException e) {
+			ErrorHandler.
+			printColumnNotFoundError(e.getMessage());
+		} catch (final ValueListTooLargeException e) {
 			ErrorHandler.printValueListTooLargeError();
-		} catch (ValueListTooSmallException e) {
+		} catch (final ValueListTooSmallException e) {
 			ErrorHandler.printValueListTooSmallError();
-		} catch (TableNotFoundException e) {
-			 ErrorHandler.printTableNotFoundError(e.getMessage());
-		} catch (TypeMismatchException e) {
+		} catch (final TableNotFoundException e) {
+			ErrorHandler.
+			printTableNotFoundError(e.getMessage());
+		} catch (final TypeMismatchException e) {
 			ErrorHandler.printTypeMismatchError();
 		}
 	}
-	public void deleteFrom(DeletionParameters deleteParameters) {
+	/**
+	 * Deletes rows from a table
+	 * given its table deletion parameters.
+	 * @param deleteParameters the table deletion parameters.
+	 */
+	public void deleteFrom(final DeletionParameters
+			deleteParameters) {
 		try {
 			activeDatabase.deleteFromTable(deleteParameters);
 			saveTable(deleteParameters.getTableName());
-		} catch (ColumnNotFoundException e) {
-			 ErrorHandler.printColumnNotFoundError(e.getMessage());
-		} catch (TypeMismatchException e) {
-			 ErrorHandler.printTypeMismatchError();
+		} catch (final ColumnNotFoundException e) {
+			ErrorHandler.
+			printColumnNotFoundError(e.getMessage());
+		} catch (final TypeMismatchException e) {
+			ErrorHandler.
+			printTypeMismatchError();
 			e.printStackTrace();
-		} catch (TableNotFoundException e) {
-			 ErrorHandler.printTableNotFoundError(e.getMessage());
+		} catch (final TableNotFoundException e) {
+			ErrorHandler.
+			printTableNotFoundError(e.getMessage());
 		}
 	}
-	public void updateTable(UpdatingParameters updateParameters) {
+	/**
+	 * Updates a table given its update parameters
+	 * @param updateParameters the update parameters
+	 */
+	public void updateTable(final UpdatingParameters
+			updateParameters) {
 		try {
 			activeDatabase.updateTable(updateParameters);
 			saveTable(updateParameters.getTableName());
-		} catch (ColumnNotFoundException e) {
-			 ErrorHandler.printColumnNotFoundError(e.getMessage());
-		} catch (TypeMismatchException e) {
-			 ErrorHandler.printTypeMismatchError();
-		} catch (TableNotFoundException e) {
-			 ErrorHandler.printTableNotFoundError(e.getMessage());
+		} catch (final ColumnNotFoundException e) {
+			ErrorHandler.printColumnNotFoundError(
+					e.getMessage());
+		} catch (final TypeMismatchException e) {
+			ErrorHandler.printTypeMismatchError();
+		} catch (final TableNotFoundException e) {
+			ErrorHandler.printTableNotFoundError(
+					e.getMessage());
 		}
 	}
-	public void addTableColumn(AddColumnParameters parameters) {
+	/**
+	 * Adds a new table column.
+	 * @param parameters the column addition
+	 * parameters
+	 */
+	public void addTableColumn(final
+			AddColumnParameters parameters) {
 		try {
 			activeDatabase.addTableColumn(parameters);
 			saveTable(parameters.getTableName());
-		} catch (ColumnAlreadyExistsException e) {
-			ErrorHandler.printColumnAlreadyExistsError(
-					parameters.getColumnIdentifier().getName());
-		} catch (TableNotFoundException e) {
-			ErrorHandler.printTableNotFoundError(
-					parameters.getTableName());
+		} catch (final ColumnAlreadyExistsException e) {
+			ErrorHandler.
+			printColumnAlreadyExistsError(e.getMessage());
+		} catch (final TableNotFoundException e) {
+			ErrorHandler.
+			printTableNotFoundError(
+					e.getMessage());
 		}
 	}
+	/**
+	 * Creates a temporary database.
+	 * @return a temporary database
+	 * @throws DatabaseAlreadyExistsException
+	 */
 	private Database createTemporaryDatabase()
 			throws DatabaseAlreadyExistsException {
 		return handler.createTemporaryDatabase(
 				DEFAULT_DATABASE.toUpperCase() +
 				new Random().nextLong());
 	}
-	private void saveTable(String tableName) {
-		handler.createTable(activeDatabase.getTable(tableName.toUpperCase()),
-				activeDatabase.getDatabaseName().toUpperCase());
+	/**
+	 * Saves a table to an xml file.
+	 * @param tableName the table to be saved
+	 */
+	private void saveTable(final String tableName) {
+		handler.createTable(
+				activeDatabase.getTable(
+						tableName.toUpperCase()),
+				activeDatabase.getDatabaseName(
+						).toUpperCase());
 	}
- }
+}

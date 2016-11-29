@@ -11,20 +11,21 @@ public class TableNotFoundException extends Exception {
 		super();
 	}
 
-	public TableNotFoundException(String message) {
+	public TableNotFoundException(final String message) {
 		super(message);
 	}
 
-	public TableNotFoundException(Throwable cause) {
+	public TableNotFoundException(final Throwable cause) {
 		super(cause);
 	}
 
-	public TableNotFoundException(String message, Throwable cause) {
+	public TableNotFoundException(final String message, final Throwable cause) {
 		super(message, cause);
 	}
 
-	public TableNotFoundException(String message, Throwable cause, boolean enableSuppression,
-			boolean writableStackTrace) {
+	public TableNotFoundException(final String message,
+			final Throwable cause, final boolean enableSuppression,
+			final boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
 

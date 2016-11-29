@@ -16,7 +16,7 @@ public class TestingMain {
 
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(final String[] args) throws IOException {
 		try {
 			Class.forName("jdbms.sql.parsing.statements.CreateDatabaseStatement");
 			Class.forName("jdbms.sql.parsing.statements.CreateTableStatement");
@@ -36,17 +36,17 @@ public class TestingMain {
 			Class.forName("jdbms.sql.parsing.expressions.math.NotEqualsExpression");
 			Class.forName("jdbms.sql.datatypes.IntSQLType");
 			Class.forName("jdbms.sql.datatypes.VarcharSQLType");
-		} catch (ClassNotFoundException e) {
+		} catch (final ClassNotFoundException e) {
 			System.err.println("Internal Error");
 		}
-		SQLData data = new SQLData();
-		Parser parser = new Parser();
-		Scanner in = new Scanner(System.in);
+		final SQLData data = new SQLData();
+		final Parser parser = new Parser();
+		final Scanner in = new Scanner(System.in);
 		while (true) {
-			StringBuilder stringBuilder = new StringBuilder();
+			final StringBuilder stringBuilder = new StringBuilder();
 			String sql = null;
 			boolean invalid = false;
-			StringModifier modifier = new StringModifier();
+			final StringModifier modifier = new StringModifier();
 			while (in.hasNextLine()) {
 				stringBuilder.append(in.nextLine());
 				String modifiedExpression = null;
@@ -58,7 +58,7 @@ public class TestingMain {
 								modifiedExpression.indexOf(";") + 1);
 						break;
 					}
-				} catch (IndexOutOfBoundsException e) {
+				} catch (final IndexOutOfBoundsException e) {
 					invalid = true;
 					break;
 				}
@@ -74,29 +74,34 @@ public class TestingMain {
 			String normalizedOutput;
 			try {
 				normalizedOutput = parser.normalizeCommand(sql);
-			} catch (IndexOutOfBoundsException e) {
+			} catch (final IndexOutOfBoundsException e) {
 				ErrorHandler.printSyntaxError();
 				continue;
 			}
-			for (String key : InitialStatementFactory.getInstance().getRegisteredStatements()) {
-				InitialStatement statement =
+			boolean correctSyntax = false;
+			for (final String key : InitialStatementFactory.getInstance().getRegisteredStatements()) {
+				final InitialStatement statement =
 						InitialStatementFactory.
 						getInstance().createStatement(key);
 				boolean interpreted;
 				try {
 					interpreted = statement.interpret(normalizedOutput);
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					ErrorHandler.printSyntaxError();
 					break;
 				}
+				correctSyntax = correctSyntax || interpreted;
 				if (interpreted) {
 					try {
 						statement.act(data);
-					} catch (Exception e) {
+					} catch (final Exception e) {
 						ErrorHandler.printInternalError();
 						break;
 					}
 				}
+			}
+			if (!correctSyntax) {
+				ErrorHandler.printSyntaxError();
 			}
 		}
 	}

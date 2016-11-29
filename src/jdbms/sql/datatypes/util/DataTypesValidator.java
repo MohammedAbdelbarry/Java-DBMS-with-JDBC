@@ -7,7 +7,7 @@ public class DataTypesValidator {
 	public DataTypesValidator() {
 
 	}
-	public boolean match(String dataType, String value) {
+	public boolean match(final String dataType, final String value) {
 		if (Constants.STRING_TYPES.contains(dataType)) {
 			return value.matches(Constants.STRING_REGEX)
 					|| value.matches(Constants.DOUBLE_STRING_REGEX);
@@ -17,7 +17,7 @@ public class DataTypesValidator {
 			return false;
 		}
 	}
-	public boolean checkDataTypes(String first, String second) {
+	public boolean checkDataTypes(final String first, final String second) {
 		if (Constants.STRING_TYPES.contains(first)
 				&& Constants.STRING_TYPES.contains(second)) {
 			return true;
@@ -28,9 +28,9 @@ public class DataTypesValidator {
 		}
 		return false;
 	}
-	public String getDataType(String value) {
+	public String getDataType(final String value) {
 		if (value.matches(Constants.STRING_REGEX)
-					|| value.matches(Constants.DOUBLE_STRING_REGEX))  {
+				|| value.matches(Constants.DOUBLE_STRING_REGEX))  {
 			return "VARCHAR";
 		} else if (value.matches(Constants.INT_REGEX)) {
 			return "INTEGER";

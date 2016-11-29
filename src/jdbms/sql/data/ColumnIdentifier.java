@@ -1,15 +1,15 @@
 package jdbms.sql.data;
 
 public class ColumnIdentifier {
-	private String name;
-	private String type;
+	private final String name;
+	private final String type;
 	public String getName() {
 		return name;
 	}
 	public String getType() {
 		return type;
 	}
-	public ColumnIdentifier(String name, String type) {
+	public ColumnIdentifier(final String name, final String type) {
 		this.name = name;
 		this.type = type;
 	}
@@ -22,14 +22,14 @@ public class ColumnIdentifier {
 		return result;
 	}
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ColumnIdentifier other = (ColumnIdentifier) obj;
+		final ColumnIdentifier other = (ColumnIdentifier) obj;
 		if (name == null) {
 			if (other.name != null)
 				return false;

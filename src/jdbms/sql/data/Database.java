@@ -23,16 +23,16 @@ import jdbms.sql.parsing.properties.UpdatingParameters;
 public class Database {
 
 	/**Array of database tables.*/
-	private Map<String, Table> tables;
+	private final Map<String, Table> tables;
 	/**Database name.*/
-	private String databaseName;
+	private final String databaseName;
 
-	public Database(String databaseName) {
+	public Database(final String databaseName) {
 		this.databaseName = databaseName;
 		tables = new HashMap<>();
 	}
 
-	public void addTable(TableIdentifier newTableIdentifier)
+	public void addTable(final TableIdentifier newTableIdentifier)
 			throws TableAlreadyExistsException,
 			ColumnAlreadyExistsException {
 		if (tables.containsKey(newTableIdentifier.getTableName().toUpperCase())) {
@@ -40,21 +40,21 @@ public class Database {
 					newTableIdentifier.getTableName());
 		}
 		tables.put(newTableIdentifier.getTableName().toUpperCase(),
-			new Table(newTableIdentifier));
+				new Table(newTableIdentifier));
 	}
 
-	public void addTable(TableCreationParameters tableParameters)
+	public void addTable(final TableCreationParameters tableParameters)
 			throws ColumnAlreadyExistsException,
 			TableAlreadyExistsException {
 		if (tables.containsKey(tableParameters.getTableName().toUpperCase())) {
 			throw new TableAlreadyExistsException(
 					tableParameters.getTableName());
 		}
-		Table newTable = new Table(tableParameters);
+		final Table newTable = new Table(tableParameters);
 		tables.put(tableParameters.getTableName().toUpperCase(),
 				newTable);
 	}
-	public void addTable(Table newTable)
+	public void addTable(final Table newTable)
 			throws TableAlreadyExistsException {
 		if (tables.containsKey(newTable.getName().toUpperCase())) {
 			throw new TableAlreadyExistsException(
@@ -62,14 +62,14 @@ public class Database {
 		}
 		tables.put(newTable.getName().toUpperCase(), newTable);
 	}
-	public void dropTable(String tableName) throws TableNotFoundException {
+	public void dropTable(final String tableName) throws TableNotFoundException {
 		if (!tables.containsKey(tableName.toUpperCase())) {
 			throw new TableNotFoundException(tableName);
 		}
 		tables.remove(tableName.toUpperCase());
 	}
 
-	public void deleteFromTable(DeletionParameters deleteParameters)
+	public void deleteFromTable(final DeletionParameters deleteParameters)
 			throws ColumnNotFoundException,
 			TypeMismatchException, TableNotFoundException {
 		if (!tables.containsKey(deleteParameters.getTableName().toUpperCase())) {
@@ -79,7 +79,7 @@ public class Database {
 		tables.get(deleteParameters.getTableName().toUpperCase()).
 		deleteRows(deleteParameters.getCondition());
 	}
-	public void insertInto (InsertionParameters insertParameters)
+	public void insertInto (final InsertionParameters insertParameters)
 			throws RepeatedColumnException,
 			ColumnListTooLargeException, ColumnNotFoundException,
 			ValueListTooLargeException, ValueListTooSmallException,
@@ -92,9 +92,9 @@ public class Database {
 		insertRows(insertParameters);
 	}
 	public SelectQueryOutput selectFrom(
-			SelectionParameters selectParameters)
-			throws ColumnNotFoundException,
-			TypeMismatchException, TableNotFoundException {
+			final SelectionParameters selectParameters)
+					throws ColumnNotFoundException,
+					TypeMismatchException, TableNotFoundException {
 		if (!tables.containsKey(selectParameters.getTableName().toUpperCase())) {
 			throw new TableNotFoundException(
 					selectParameters.getTableName());
@@ -102,7 +102,7 @@ public class Database {
 		return tables.get(selectParameters.
 				getTableName().toUpperCase()).selectFromTable(selectParameters);
 	}
-	public void updateTable(UpdatingParameters updateParameters)
+	public void updateTable(final UpdatingParameters updateParameters)
 			throws ColumnNotFoundException, TypeMismatchException,
 			TableNotFoundException {
 		if (!tables.containsKey(updateParameters.getTableName().toUpperCase())) {
@@ -112,7 +112,7 @@ public class Database {
 		tables.get(updateParameters.getTableName().toUpperCase()).
 		updateTable(updateParameters);
 	}
-	public void addTableColumn(AddColumnParameters parameters)
+	public void addTableColumn(final AddColumnParameters parameters)
 			throws ColumnAlreadyExistsException,
 			TableNotFoundException {
 		if (!tables.containsKey(parameters.
@@ -121,12 +121,12 @@ public class Database {
 		}
 		tables.get(parameters.getTableName().toUpperCase()
 				).addTableColumn(parameters.getColumnIdentifier().getName(),
-				parameters.getColumnIdentifier().getType());
+						parameters.getColumnIdentifier().getType());
 	}
 	public String getDatabaseName() {
 		return databaseName;
 	}
-	public Table getTable(String tableName) {
+	public Table getTable(final String tableName) {
 		return tables.get(tableName.toUpperCase());
 	}
 

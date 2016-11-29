@@ -11,20 +11,21 @@ public class DatabaseNotFoundException extends Exception {
 		super();
 	}
 
-	public DatabaseNotFoundException(String message) {
+	public DatabaseNotFoundException(final String message) {
 		super(message);
 	}
 
-	public DatabaseNotFoundException(Throwable cause) {
+	public DatabaseNotFoundException(final Throwable cause) {
 		super(cause);
 	}
 
-	public DatabaseNotFoundException(String message, Throwable cause) {
+	public DatabaseNotFoundException(final String message, final Throwable cause) {
 		super(message, cause);
 	}
 
-	public DatabaseNotFoundException(String message, Throwable cause, boolean enableSuppression,
-			boolean writableStackTrace) {
+	public DatabaseNotFoundException(final String message,
+			final Throwable cause, final boolean enableSuppression,
+			final boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
 

@@ -19,21 +19,21 @@ public class DTDParser {
 	 * @param file the DTD file to be parsed*
 	 * @return array of column names as extracted from the DTD
 	 */
-	public ArrayList<String> parse(File file) {
+	public ArrayList<String> parse(final File file) {
 		try {
-			BufferedReader reader = new BufferedReader(new FileReader(file));
+			final BufferedReader reader = new BufferedReader(new FileReader(file));
 			String line;
 			line = reader.readLine();
 			line = reader.readLine();
-			String columnNames = line.substring(line.indexOf('(') + 1, line.indexOf(')'));
-			String[] cols = columnNames.split(",");
-			ArrayList<String> columns = new  ArrayList<>();
-			for (String component : cols) {
+			final String columnNames = line.substring(line.indexOf('(') + 1, line.indexOf(')'));
+			final String[] cols = columnNames.split(",");
+			final ArrayList<String> columns = new  ArrayList<>();
+			for (final String component : cols) {
 				columns.add((component));
 			}
 			reader.close();
 			return columns;
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			ErrorHandler.printInternalError();
 			return null;
 		}

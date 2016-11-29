@@ -11,20 +11,21 @@ public class TypeMismatchException extends Exception {
 		super();
 	}
 
-	public TypeMismatchException(String message) {
+	public TypeMismatchException(final String message) {
 		super(message);
 	}
 
-	public TypeMismatchException(Throwable cause) {
+	public TypeMismatchException(final Throwable cause) {
 		super(cause);
 	}
 
-	public TypeMismatchException(String message, Throwable cause) {
+	public TypeMismatchException(final String message, final Throwable cause) {
 		super(message, cause);
 	}
 
-	public TypeMismatchException(String message, Throwable cause, boolean enableSuppression,
-			boolean writableStackTrace) {
+	public TypeMismatchException(final String message,
+			final Throwable cause, final boolean enableSuppression,
+			final boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
 }

@@ -11,20 +11,21 @@ public class DatabaseAlreadyExistsException extends Exception {
 		super();
 	}
 
-	public DatabaseAlreadyExistsException(String message) {
+	public DatabaseAlreadyExistsException(final String message) {
 		super(message);
 	}
 
-	public DatabaseAlreadyExistsException(Throwable cause) {
+	public DatabaseAlreadyExistsException(final Throwable cause) {
 		super(cause);
 	}
 
-	public DatabaseAlreadyExistsException(String message, Throwable cause) {
+	public DatabaseAlreadyExistsException(final String message, final Throwable cause) {
 		super(message, cause);
 	}
 
-	public DatabaseAlreadyExistsException(String message, Throwable cause, boolean enableSuppression,
-			boolean writableStackTrace) {
+	public DatabaseAlreadyExistsException(final String message,
+			final Throwable cause, final boolean enableSuppression,
+			final boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
 

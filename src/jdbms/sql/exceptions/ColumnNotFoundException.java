@@ -11,20 +11,21 @@ public class ColumnNotFoundException extends Exception {
 		super();
 	}
 
-	public ColumnNotFoundException(String message) {
+	public ColumnNotFoundException(final String message) {
 		super(message);
 	}
 
-	public ColumnNotFoundException(Throwable cause) {
+	public ColumnNotFoundException(final Throwable cause) {
 		super(cause);
 	}
 
-	public ColumnNotFoundException(String message, Throwable cause) {
+	public ColumnNotFoundException(final String message, final Throwable cause) {
 		super(message, cause);
 	}
 
-	public ColumnNotFoundException(String message, Throwable cause, boolean enableSuppression,
-			boolean writableStackTrace) {
+	public ColumnNotFoundException(final String message,
+			final Throwable cause, final boolean enableSuppression,
+			final boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
 

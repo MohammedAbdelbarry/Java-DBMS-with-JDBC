@@ -6,74 +6,136 @@ import jdbms.sql.datatypes.SQLType;
 import jdbms.sql.datatypes.util.DataTypesValidator;
 import jdbms.sql.datatypes.util.SQLTypeFactory;
 import jdbms.sql.exceptions.TypeMismatchException;
-
+/** The class representing a sql column. **/
 public class TableColumn {
 
 	/**column name.*/
-	private String columnName;
+	private final String columnName;
 	/**values of the column.*/
-	private ArrayList<SQLType<?>> values;
+	private final ArrayList<SQLType<?>> values;
 	/** The column data type. **/
-	private String columnType;
-
-	public TableColumn(String columnName, String columnType) {
+	private final String columnType;
+	/**
+	 * Constructs a column given its name
+	 * and data type.
+	 * @param columnName the name of the column
+	 * @param columnType the data type of the
+	 * column
+	 */
+	public TableColumn(final String columnName,
+			final String columnType) {
 		this.columnName = columnName;
 		this.columnType = columnType;
 		values = new ArrayList<>();
 	}
-	public TableColumn(ColumnIdentifier columnIdentifier) {
+	/**
+	 * Constructs a table column given
+	 * its column identifier.
+	 * @param columnIdentifier The {@link ColumnIdentifier}
+	 * representing the column
+	 */
+	public TableColumn(final ColumnIdentifier
+			columnIdentifier) {
 		this.columnName = columnIdentifier.getName();
 		this.columnType = columnIdentifier.getType();
 		values = new ArrayList<>();
 	}
-	public void add(String value) {
+	/**
+	 * Appends a value to the
+	 * end of the column.
+	 * @param value the value to be
+	 * added
+	 */
+	public void add(final String value) {
 		values.add(SQLTypeFactory.getInstance().
 				getTypeObject(columnType, value));
 	}
-
-	public void addAll(ArrayList<SQLType<?>> values) {
+	/**
+	 * Adds a list of SQLType values to
+	 * the column.
+	 * @param values the list of {@link SQLType} values
+	 * to be added
+	 */
+	public void addAll(final ArrayList<SQLType<?>> values) {
 		this.values.addAll(values);
 	}
-
-	public void assignCell(int cell, String value)
+	/**
+	 * Assigns a value to a specific cell
+	 * in the column.
+	 * @param cell the index of the
+	 * cell
+	 * @param value the value to be
+	 * assigned.
+	 * @throws TypeMismatchException
+	 */
+	public void assignCell(final int cell, final String value)
 			throws TypeMismatchException {
-		DataTypesValidator dataTypesValidator =
-		new DataTypesValidator();
+		final DataTypesValidator dataTypesValidator =
+				new DataTypesValidator();
 		if (!dataTypesValidator.match(columnType, value)) {
 			throw new TypeMismatchException();
 		}
 		values.set(cell, SQLTypeFactory.getInstance().
 				getTypeObject(columnType, value));
 	}
-
+	/**
+	 * Gets the values in the table column.
+	 * @return returns an arraylist of
+	 * all the values in the column
+	 */
 	public ArrayList<String> getValues() {
-		ArrayList<String> requestedValues = new ArrayList<>();
-		for (SQLType<?> cur : values) {
+		final ArrayList<String> requestedValues = new ArrayList<>();
+		for (final SQLType<?> cur : values) {
 			requestedValues.add(cur.getStringValue());
 		}
 		return requestedValues;
 	}
-
-	public SQLType<?> get(int index) {
+	/**
+	 * Gets the value of a specific
+	 * cell in the column.
+	 * @param index the index of
+	 * the cell
+	 * @return the cell
+	 */
+	public SQLType<?> get(final int index) {
 		return values.get(index);
 	}
-
-	public void remove(int index) {
+	/**
+	 * Removes a cell from the
+	 * column.
+	 * @param index the index of the
+	 * cell to be removed
+	 */
+	public void remove(final int index) {
 		values.remove(index);
 	}
-
+	/**
+	 * Gets the name of the column.
+	 * @return the name of the column
+	 */
 	public String getColumnName() {
 		return columnName;
 	}
-
+	/**
+	 * Gets the data type of the
+	 * column.
+	 * @return the data type of the
+	 * column
+	 */
 	public String getColumnDataType() {
 		return columnType;
 	}
-
+	/**
+	 * Gets the number of cells
+	 * in the column.
+	 * @return the size of the column
+	 */
 	public int getSize() {
 		return values.size();
 	}
-
+	/**
+	 * Clears the column.
+	 */
 	public void clearColumn() {
 		values.clear();
 	}

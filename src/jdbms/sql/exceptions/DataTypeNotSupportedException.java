@@ -11,20 +11,21 @@ public class DataTypeNotSupportedException extends Exception {
 		super();
 	}
 
-	public DataTypeNotSupportedException(String message) {
+	public DataTypeNotSupportedException(final String message) {
 		super(message);
 	}
 
-	public DataTypeNotSupportedException(Throwable cause) {
+	public DataTypeNotSupportedException(final Throwable cause) {
 		super(cause);
 	}
 
-	public DataTypeNotSupportedException(String message, Throwable cause) {
+	public DataTypeNotSupportedException(final String message, final Throwable cause) {
 		super(message, cause);
 	}
 
-	public DataTypeNotSupportedException(String message, Throwable cause, boolean enableSuppression,
-			boolean writableStackTrace) {
+	public DataTypeNotSupportedException(final String message,
+			final Throwable cause, final boolean enableSuppression,
+			final boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
 

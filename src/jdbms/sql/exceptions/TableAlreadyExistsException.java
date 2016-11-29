@@ -11,20 +11,21 @@ public class TableAlreadyExistsException extends Exception {
 		super();
 	}
 
-	public TableAlreadyExistsException(String message) {
+	public TableAlreadyExistsException(final String message) {
 		super(message);
 	}
 
-	public TableAlreadyExistsException(Throwable cause) {
+	public TableAlreadyExistsException(final Throwable cause) {
 		super(cause);
 	}
 
-	public TableAlreadyExistsException(String message, Throwable cause) {
+	public TableAlreadyExistsException(final String message, final Throwable cause) {
 		super(message, cause);
 	}
 
-	public TableAlreadyExistsException(String message, Throwable cause, boolean enableSuppression,
-			boolean writableStackTrace) {
+	public TableAlreadyExistsException(final String message,
+			final Throwable cause, final boolean enableSuppression,
+			final boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
 

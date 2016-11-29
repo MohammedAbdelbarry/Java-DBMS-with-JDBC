@@ -33,22 +33,22 @@ public class FileHandler {
 	private static final String DATA_DIRECTORY = "Data";
 	public FileHandler() {
 		try {
-			CodeSource codeSource = TestingMain.class.
+			final CodeSource codeSource = TestingMain.class.
 					getProtectionDomain().getCodeSource();
-			File jarFile = new File(
+			final File jarFile = new File(
 					codeSource.getLocation().toURI().getPath());
 			path = jarFile.getParentFile().getPath()
 					+ File.separator + DATA_DIRECTORY;
-		} catch (URISyntaxException e) {
+		} catch (final URISyntaxException e) {
 			ErrorHandler.printInternalError();
 		}
 		parser = new XMLParser();
 		creator = new XMLCreator();
 	}
 
-	public void deleteDatabase(String databaseName)
+	public void deleteDatabase(final String databaseName)
 			throws DatabaseNotFoundException {
-		File database = new File(path + File.separator + databaseName);
+		final File database = new File(path + File.separator + databaseName);
 		if (!database.exists()) {
 			throw new DatabaseNotFoundException(databaseName);
 		}
@@ -56,12 +56,12 @@ public class FileHandler {
 			ErrorHandler.printFailedToDeleteDatabase(databaseName);
 		}
 	}
-	public void deleteTable(String tableName, String databaseName)
+	public void deleteTable(final String tableName, final String databaseName)
 			throws TableNotFoundException {
-		File tableXML = new File(path + File.separator
+		final File tableXML = new File(path + File.separator
 				+ databaseName.toUpperCase() + File.separator
 				+ tableName.toUpperCase() + XML_EXTENSION);
-		File tableDTD = new File(path + File.separator
+		final File tableDTD = new File(path + File.separator
 				+ databaseName.toUpperCase()
 				+ File.separator + tableName.toUpperCase() +
 				DTD_IDENTIFIER + DTD_EXTENSION);
@@ -69,30 +69,30 @@ public class FileHandler {
 			throw new TableNotFoundException(tableName);
 		}
 		if (!tableXML.delete()
-		 || !tableDTD.delete()) {
+				|| !tableDTD.delete()) {
 			ErrorHandler.printInternalError();
 		}
 	}
-	public Database loadDatabase(String databaseName)
-	throws DatabaseNotFoundException, TableAlreadyExistsException,
-	ColumnAlreadyExistsException, RepeatedColumnException,
-	ColumnListTooLargeException, ColumnNotFoundException,
-	ValueListTooLargeException, ValueListTooSmallException,
-	TypeMismatchException {
-		File database = new File(path + File.separator + databaseName);
+	public Database loadDatabase(final String databaseName)
+			throws DatabaseNotFoundException, TableAlreadyExistsException,
+			ColumnAlreadyExistsException, RepeatedColumnException,
+			ColumnListTooLargeException, ColumnNotFoundException,
+			ValueListTooLargeException, ValueListTooSmallException,
+			TypeMismatchException {
+		final File database = new File(path + File.separator + databaseName);
 		if (!database.exists()) {
 			throw new DatabaseNotFoundException(databaseName);
 		}
-		ArrayList<String> tables = findTables(databaseName);
-		Database newDatabase = new Database(databaseName);
-		for (String table : tables) {
+		final ArrayList<String> tables = findTables(databaseName);
+		final Database newDatabase = new Database(databaseName);
+		for (final String table : tables) {
 			newDatabase.addTable(loadTable(databaseName, table));
 		}
 		return newDatabase;
 	}
-	public void createDatabase(String databaseName)
+	public void createDatabase(final String databaseName)
 			throws DatabaseAlreadyExistsException {
-		File database = new File(path + File.separator + databaseName);
+		final File database = new File(path + File.separator + databaseName);
 		if (database.exists()) {
 			throw new DatabaseAlreadyExistsException(databaseName);
 		}
@@ -100,9 +100,9 @@ public class FileHandler {
 			ErrorHandler.printInternalError();
 		}
 	}
-	public Database createTemporaryDatabase(String tempName)
+	public Database createTemporaryDatabase(final String tempName)
 			throws DatabaseAlreadyExistsException {
-		File database = new File(path + File.separator + tempName);
+		final File database = new File(path + File.separator + tempName);
 		if (database.exists()) {
 			throw new DatabaseAlreadyExistsException(tempName);
 		}
@@ -112,22 +112,22 @@ public class FileHandler {
 		database.deleteOnExit();
 		return new Database(tempName);
 	}
-	public void createTable(Table table, String databaseName) {
+	public void createTable(final Table table, final String databaseName) {
 		creator.create(table, databaseName, path + File.separator);
 	}
-	public Table loadTable(String databaseName, String tableName)
-	throws ColumnAlreadyExistsException, RepeatedColumnException,
-	ColumnListTooLargeException, ColumnNotFoundException,
-	ValueListTooLargeException, ValueListTooSmallException,
-	TypeMismatchException {
+	public Table loadTable(final String databaseName, final String tableName)
+			throws ColumnAlreadyExistsException, RepeatedColumnException,
+			ColumnListTooLargeException, ColumnNotFoundException,
+			ValueListTooLargeException, ValueListTooSmallException,
+			TypeMismatchException {
 		return parser.parse(tableName, databaseName, path + File.separator);
 	}
-	private ArrayList<String> findTables(String databaseName) {
-		File database = new File(path + File.separator + databaseName);
-		File[] files = database.listFiles();
-		ArrayList<String> tables = new ArrayList<>();
+	private ArrayList<String> findTables(final String databaseName) {
+		final File database = new File(path + File.separator + databaseName);
+		final File[] files = database.listFiles();
+		final ArrayList<String> tables = new ArrayList<>();
 		for (int i = 0 ; i < files.length ; i++) {
-			String fileName = files[i].getName();
+			final String fileName = files[i].getName();
 			if (fileName.endsWith(XML_EXTENSION)) {
 				tables.add(fileName.replaceAll(XML_EXTENSION, ""));
 			}

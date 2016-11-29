@@ -23,14 +23,14 @@ public class DTDCreator {
 	 * @param path  path to the file to be created
 	 * @return the DTD file as a string
 	 * */
-	public String create(String database, ArrayList<String> columnNames,
-			String tableName, String path) {
-		StringBuilder dtdString = new StringBuilder("");
+	public String create(final String database, final ArrayList<String> columnNames,
+			final String tableName, final String path) {
+		final StringBuilder dtdString = new StringBuilder("");
 		dtdString.append("<!ELEMENT ");
 		dtdString.append(tableName + " (row)*>");
 		dtdString.append("<!ATTLIST " + tableName +
 				" " +"xmlns CDATA #FIXED '' ");
-		for (String column : columnNames) {
+		for (final String column : columnNames) {
 			dtdString.append(column +  " NMTOKEN " + "#REQUIRED ");
 		}
 		dtdString.append('>');
@@ -38,7 +38,7 @@ public class DTDCreator {
 		dtdString.append("<!ELEMENT ");
 		dtdString.append("row (");
 		for (int i = 0; i < columnNames.size(); i++) {
-			String column = columnNames.get(i);
+			final String column = columnNames.get(i);
 			dtdString.append(column);
 			if (i != columnNames.size() - 1) {
 				dtdString.append(",");
@@ -48,7 +48,7 @@ public class DTDCreator {
 		dtdString.append('\n');
 		dtdString.append("<!ATTLIST row xmlns CDATA #FIXED ''>");
 		dtdString.append('\n');
-		for (String column : columnNames) {
+		for (final String column : columnNames) {
 			dtdString.append("<!ELEMENT " + column +
 					" (#PCDATA)>");
 			dtdString.append("<!ATTLIST " + column +
@@ -56,7 +56,7 @@ public class DTDCreator {
 			dtdString.append('\n');
 		}
 		dtdString.append('\n');
-		String dtd = dtdString.toString();
+		final String dtd = dtdString.toString();
 		createFile(database, tableName, dtd, path);
 		return dtd;
 	}
@@ -67,16 +67,16 @@ public class DTDCreator {
 	 * @param identifier table identifiers
 	 * @param dtd the generated DTD string to be stored
 	 * @param path the path where the file would be saved
-	 */	
-	public void createFile(String database, String tableName
-			, String dtd, String path) {
-		File dtdFile = new File(path + database
-		+ "/" + tableName + DTD_IDENTIFIER + DTD_EXTENSION);
+	 */
+	public void createFile(final String database, final String tableName
+			, final String dtd, final String path) {
+		final File dtdFile = new File(path + database
+				+ "/" + tableName + DTD_IDENTIFIER + DTD_EXTENSION);
 		try {
-			FileWriter writer = new FileWriter(dtdFile);
+			final FileWriter writer = new FileWriter(dtdFile);
 			writer.write(dtd);
 			writer.close();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			ErrorHandler.printInternalError();
 		}
 

@@ -47,32 +47,32 @@ public class XMLCreator {
 	 *  @param databaseName the name of the database to which the table belongs
 	 *  @param path the path to which the XML file will be stored
 	 */
-	public void create(Table table, String databaseName, String path) {
+	public void create(final Table table, final String databaseName, final String path) {
 		try {
-			TableIdentifier identifier = table.getTableIdentifier();
-			ArrayList<ColumnIdentifier> cols
+			final TableIdentifier identifier = table.getTableIdentifier();
+			final ArrayList<ColumnIdentifier> cols
 			= identifier.getColumnsIdentifiers();
-			DocumentBuilderFactory dbFactory =
+			final DocumentBuilderFactory dbFactory =
 					DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder;
 			dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.newDocument();
-			Element root = doc.createElement(table.getName());
-			for (ColumnIdentifier columnIdentifier : cols) {
+			final Document doc = dBuilder.newDocument();
+			final Element root = doc.createElement(table.getName());
+			for (final ColumnIdentifier columnIdentifier : cols) {
 				root.setAttribute(columnIdentifier.getName(),
 						columnIdentifier.getType());
 			}
 			doc.appendChild(root);
 			buildRows(doc, root,
 					table.getColumns(), table, table.getColumnNames());
-			DOMSource source = new DOMSource(doc);
-			File xmlFile = new File(path
-	        		+ databaseName + File.separator
-	        		+ table.getName().toUpperCase() + XML_EXTENSION);
-			StreamResult fileResult =
-			        new StreamResult(xmlFile);
+			final DOMSource source = new DOMSource(doc);
+			final File xmlFile = new File(path
+					+ databaseName + File.separator
+					+ table.getName().toUpperCase() + XML_EXTENSION);
+			final StreamResult fileResult =
+					new StreamResult(xmlFile);
 			applyTransform(source, fileResult, doc, table.getName());
-		} catch (ParserConfigurationException e) {
+		} catch (final ParserConfigurationException e) {
 			ErrorHandler.printInternalError();
 		}
 		createDTD(table.getColumnNames(), table, databaseName, path);
@@ -84,10 +84,10 @@ public class XMLCreator {
 	 * @param table the table for which the DTD will be created
 	 * @param database the name of the database
 	 * @param path the path of the database directory
-	 */	
-	private void createDTD(ArrayList<String> columnNames,
-			Table table, String database, String path) {
-		DTDCreator dtd = new DTDCreator();
+	 */
+	private void createDTD(final ArrayList<String> columnNames,
+			final Table table, final String database, final String path) {
+		final DTDCreator dtd = new DTDCreator();
 		dtd.create(database, columnNames,
 				table.getName().toUpperCase(), path);
 	}
@@ -100,23 +100,23 @@ public class XMLCreator {
 	 * @param table the table for which the XML file will be created
 	 * @param columnNames array of the column names
 	 */
-	private void buildRows(Document doc, Element root,
-			Map<String, TableColumn> tableData, Table table
-			, ArrayList<String> columnNames) {
+	private void buildRows(final Document doc, final Element root,
+			final Map<String, TableColumn> tableData, final Table table
+			, final ArrayList<String> columnNames) {
 		for (int i = 0; i < table.getNumberOfRows(); i++) {
-			Element row = doc.createElement("row");
+			final Element row = doc.createElement("row");
 			root.appendChild(row);
-			for (String key : columnNames) {
-				TableColumn current = tableData.get(key.toUpperCase());
-				String value = current.get(i).getStringValue();
-				Element col = doc.createElement(key);
+			for (final String key : columnNames) {
+				final TableColumn current = tableData.get(key.toUpperCase());
+				final String value = current.get(i).getStringValue();
+				final Element col = doc.createElement(key);
 				col.appendChild(doc.createTextNode(value));
 				row.appendChild(col);
 			}
 		}
 	}
 
-	/** 
+	/**
 	 * 	Transforms the XML file from a single line
 	 *  String to fully indented file.
 	 *  @param source the file source that will be transformed
@@ -124,25 +124,25 @@ public class XMLCreator {
 	 *  @param document the document that contains the XML tree
 	 *  @param tableName the table name
 	 */
-	private void applyTransform(DOMSource source, StreamResult fileResult,
-			Document document, String tableName) {
-		TransformerFactory transformerFactory =
-		        TransformerFactory.newInstance();
+	private void applyTransform(final DOMSource source, final StreamResult fileResult,
+			final Document document, final String tableName) {
+		final TransformerFactory transformerFactory =
+				TransformerFactory.newInstance();
 		Transformer transformer;
 		try {
 			transformer = transformerFactory.newTransformer();
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			transformer.setOutputProperty(INDENTATION, INDENT_NUMBER);
-			DOMImplementation domImpl = document.getImplementation();
-			DocumentType doctype = domImpl.createDocumentType("doctype",
-				    "Table",
-				    tableName + DTD_IDENTIFIER + DTD_EXTENSION);
+			final DOMImplementation domImpl = document.getImplementation();
+			final DocumentType doctype = domImpl.createDocumentType("doctype",
+					"Table",
+					tableName + DTD_IDENTIFIER + DTD_EXTENSION);
 			transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC,
 					doctype.getPublicId());
 			transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM,
 					doctype.getSystemId());
 			transformer.transform(source, fileResult);
-		} catch (TransformerException e) {
+		} catch (final TransformerException e) {
 			ErrorHandler.printInternalError();
 		}
 	}

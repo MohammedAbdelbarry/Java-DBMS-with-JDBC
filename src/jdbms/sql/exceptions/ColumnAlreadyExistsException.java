@@ -11,20 +11,21 @@ public class ColumnAlreadyExistsException extends Exception {
 		super();
 	}
 
-	public ColumnAlreadyExistsException(String message) {
+	public ColumnAlreadyExistsException(final String message) {
 		super(message);
 	}
 
-	public ColumnAlreadyExistsException(Throwable cause) {
+	public ColumnAlreadyExistsException(final Throwable cause) {
 		super(cause);
 	}
 
-	public ColumnAlreadyExistsException(String message, Throwable cause) {
+	public ColumnAlreadyExistsException(final String message, final Throwable cause) {
 		super(message, cause);
 	}
 
-	public ColumnAlreadyExistsException(String message, Throwable cause, boolean enableSuppression,
-			boolean writableStackTrace) {
+	public ColumnAlreadyExistsException(final String message,
+			final Throwable cause, final boolean enableSuppression,
+			final boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
 

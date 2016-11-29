@@ -3,10 +3,10 @@ package jdbms.sql.data;
 import java.util.ArrayList;
 
 public class TableIdentifier {
-	private String tableName;
-	private ArrayList<ColumnIdentifier> columns;
-	public TableIdentifier(String name,
-			ArrayList<ColumnIdentifier> columns) {
+	private final String tableName;
+	private final ArrayList<ColumnIdentifier> columns;
+	public TableIdentifier(final String name,
+			final ArrayList<ColumnIdentifier> columns) {
 		tableName = name;
 		this.columns = columns;
 	}
@@ -14,12 +14,13 @@ public class TableIdentifier {
 		return tableName;
 	}
 
-	public ArrayList<ColumnIdentifier> getColumnsIdentifiers() {
+	public ArrayList<ColumnIdentifier>
+	getColumnsIdentifiers() {
 		return columns;
 	}
 	public ArrayList<String> getColumnNames() {
-		ArrayList<String> names = new ArrayList<>();
-		for (ColumnIdentifier columnIdentifier : columns) {
+		final ArrayList<String> names = new ArrayList<>();
+		for (final ColumnIdentifier columnIdentifier : columns) {
 			names.add(columnIdentifier.getName());
 		}
 		return names;
