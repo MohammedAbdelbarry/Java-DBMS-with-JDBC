@@ -14,14 +14,12 @@ public class WhereStatement implements Statement {
 	
 	private static final String STATEMENT_IDENTIFIER = "WHERE";	
 	private Collection<BooleanExpression> boolExpressions;
-	private InputParametersContainer parameters;
-	
+
 	/**
 	 * Instantiates a new where statement.
 	 * @param parameters the internal parameters
 	 */
 	public WhereStatement(InputParametersContainer parameters) {
-		this.parameters = parameters;
 		boolExpressions = new ArrayList<>();
 		for (String key : BooleanExpressionFactory.getInstance().
 				getRegisteredBooleanExpressions()) {

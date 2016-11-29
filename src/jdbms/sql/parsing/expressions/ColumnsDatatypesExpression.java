@@ -34,9 +34,6 @@ public abstract class ColumnsDatatypesExpression implements Expression {
 		this.parameters = parameters;
 	}
 
-	/* (non-Javadoc)
-	 * @see jdbms.sql.parsing.expressions.Expression#interpret(java.lang.String)
-	 */
 	@Override
 	public boolean interpret(String sqlExpression) {
 		if (this.nextExpression != null) {

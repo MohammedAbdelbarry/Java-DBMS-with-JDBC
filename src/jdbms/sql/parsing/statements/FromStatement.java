@@ -21,9 +21,6 @@ public class FromStatement implements Statement {
 		this.parameters = parameters;
 	}
 
-	/* (non-Javadoc)
-	 * @see jdbms.sql.parsing.statements.Statement#interpret(java.lang.String)
-	 */
 	@Override
 	public boolean interpret(String sqlExpression) {
 		if (sqlExpression.startsWith(STATEMENT_IDENTIFIER)) {

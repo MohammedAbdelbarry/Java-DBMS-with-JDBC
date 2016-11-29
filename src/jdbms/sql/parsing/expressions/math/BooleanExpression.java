@@ -29,11 +29,16 @@ public abstract class BooleanExpression extends BinaryExpression {
 	@Override
 	public boolean interpret(String sqlExpression) {
 		sqlExpression = sqlExpression.trim();
-		if(!sqlExpression.contains(this.operator.getSymbol())) {
+		if(!sqlExpression.
+				contains(this.operator.getSymbol())) {
 			if (sqlExpression.trim().startsWith("TRUE")) {
-				sqlExpression = sqlExpression.trim().replace("TRUE", "1 = 1");
+				sqlExpression
+				= sqlExpression.trim().
+				replace("TRUE", "1 = 1");
 			} else if (sqlExpression.trim().startsWith("FALSE")) {
-				sqlExpression = sqlExpression.trim().replace("FALSE", "1 > 1");
+				sqlExpression
+				= sqlExpression.trim().
+				replace("FALSE", "1 > 1");
 			} else {
 				return false;
 			}

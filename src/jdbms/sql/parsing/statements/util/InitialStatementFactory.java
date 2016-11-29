@@ -64,7 +64,6 @@ public class InitialStatementFactory {
 	
 	/**
 	 * Gets the registered statements.
-	 *
 	 * @return the registered statements
 	 */
 	public Collection<String> getRegisteredStatements() {

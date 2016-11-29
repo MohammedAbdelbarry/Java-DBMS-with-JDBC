@@ -4,9 +4,8 @@ import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.parsing.expressions.InsertIntoValueListExpression;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class ValueStatement.
+ * The Class Value Statement.
  */
 public class ValueStatement implements Statement {
 	
