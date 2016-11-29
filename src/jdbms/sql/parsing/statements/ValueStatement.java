@@ -4,9 +4,18 @@ import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.parsing.expressions.InsertIntoValueListExpression;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 
+/**
+ * The Class Value Statement.
+ */
 public class ValueStatement implements Statement {
+	
 	private static final String STATEMENT_IDENTIFIER = "VALUES";
 	private InputParametersContainer parameters;
+	
+	/**
+	 * Instantiates a new value statement.
+	 * @param parameters the parameters
+	 */
 	public ValueStatement(InputParametersContainer parameters) {
 		this.parameters = parameters;
 	}

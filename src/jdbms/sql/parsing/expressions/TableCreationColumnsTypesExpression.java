@@ -9,10 +9,19 @@ import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.parsing.expressions.util.ColumnExpression;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 
-public class TableCreationColumnsTypesExpression extends ColumnsDatatypesExpression {
+/**
+ * The Class TableCreationColumnsTypesExpression.
+ */
+public class TableCreationColumnsTypesExpression
+extends ColumnsDatatypesExpression {
 
 	private List<String> dataTypes;
 	private ArrayList<ColumnIdentifier> columnsDataTypes = null;
+	
+	/**
+	 * Instantiates a new table creation columns types expression.
+	 * @param parameters the parameters
+	 */
 	public TableCreationColumnsTypesExpression(
 			InputParametersContainer parameters) {
 		super(new TerminalExpression(parameters), parameters);
@@ -24,7 +33,8 @@ public class TableCreationColumnsTypesExpression extends ColumnsDatatypesExpress
 
 	@Override
 	public boolean interpret(String sqlExpression) {
-		String[] parts = sqlExpression.trim().split("\\)");
+		String[] parts = sqlExpression.
+				trim().split("\\)");
 		if (parts[0].startsWith("(")) {
 			parts[0] = parts[0].replaceFirst("\\(", "");
 			String[] types = parts[0].split(",");
@@ -32,16 +42,27 @@ public class TableCreationColumnsTypesExpression extends ColumnsDatatypesExpress
 				colType = colType.trim();
 				String colName = "", dataType = "";
 				try {
-					colName = colType.trim().substring(0, colType.indexOf(" ")).trim();
-					dataType = colType.trim().substring(colType.indexOf(" ") + 1).trim();
+					colName = colType.trim().substring(0,
+							colType.indexOf(" ")).
+							trim();
+					dataType = colType.trim().
+							substring(colType.
+									indexOf(" ") + 1).
+							trim();
 				} catch(Exception e) {
-					ErrorHandler.printSyntaxErrorNear("Columns Datatypes");
+					ErrorHandler.
+					printSyntaxErrorNear("Columns Datatypes");
 				}
-				if (new ColumnExpression(colName).isValidColumnName()
-						&& dataTypes.contains(dataType)) {
-					columnsDataTypes.add(new ColumnIdentifier(colName, dataType));
+				if (new ColumnExpression(colName).
+						isValidColumnName()
+						&& dataTypes.
+						contains(dataType)) {
+					columnsDataTypes.
+					add(new ColumnIdentifier(colName,
+							dataType));
 				} else {
-					ErrorHandler.printSyntaxErrorNear("Columns Datatypes");
+					ErrorHandler.
+					printSyntaxErrorNear("Columns Datatypes");
 					return false;
 				}
 			}

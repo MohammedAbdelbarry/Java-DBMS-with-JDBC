@@ -4,13 +4,22 @@ import jdbms.sql.data.SQLData;
 import jdbms.sql.parsing.properties.DeletionParameters;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
 
+/**
+ * The Class Delete Statement.
+ */
 public class DeleteStatement extends InitialStatement {
+	
 	private static final String STATEMENT_IDENTIFIER = "DELETE";
 	private static final String CLASS_ID = "DELETESTATEMENTCLASS";
 	private DeletionParameters deleteParameters;
 	static {
-		InitialStatementFactory.getInstance().registerStatement(CLASS_ID, DeleteStatement.class);
+		InitialStatementFactory.getInstance().
+		registerStatement(CLASS_ID, DeleteStatement.class);
 	}
+	
+	/**
+	 * Instantiates a new delete statement.
+	 */
 	public DeleteStatement() {
 		deleteParameters = new DeletionParameters();
 	}
@@ -18,8 +27,11 @@ public class DeleteStatement extends InitialStatement {
 	@Override
 	public boolean interpret(String sqlExpression) {
 		if (sqlExpression.startsWith(STATEMENT_IDENTIFIER)) {
-			String restOfExpression = sqlExpression.replaceFirst(STATEMENT_IDENTIFIER, "").trim();
-			return new FromStatement(parameters).interpret(restOfExpression);
+			String restOfExpression = sqlExpression.
+					replaceFirst(STATEMENT_IDENTIFIER, "").
+					trim();
+			return new FromStatement(parameters).
+					interpret(restOfExpression);
 		}
 		return false;
 	}
@@ -29,8 +41,14 @@ public class DeleteStatement extends InitialStatement {
 		buildParameters();
 		data.deleteFrom(deleteParameters);
 	}
+	
+	/**
+	 * Builds the parameters.
+	 */
 	private void buildParameters() {
-		deleteParameters.setTableName(parameters.getTableName());
-		deleteParameters.setCondition(parameters.getCondition());
+		deleteParameters.
+		setTableName(parameters.getTableName());
+		deleteParameters.
+		setCondition(parameters.getCondition());
 	}
 }

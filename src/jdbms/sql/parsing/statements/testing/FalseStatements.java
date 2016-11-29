@@ -4,31 +4,18 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-
 import org.junit.Before;
 import org.junit.Test;
-
-import jdbms.sql.data.ColumnIdentifier;
 import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.parsing.parser.Parser;
-import jdbms.sql.parsing.statements.CreateDatabaseStatement;
-import jdbms.sql.parsing.statements.CreateTableStatement;
-import jdbms.sql.parsing.statements.DeleteStatement;
-import jdbms.sql.parsing.statements.DropDatabaseStatement;
-import jdbms.sql.parsing.statements.DropTableStatement;
 import jdbms.sql.parsing.statements.InitialStatement;
-import jdbms.sql.parsing.statements.InsertIntoStatement;
-import jdbms.sql.parsing.statements.SelectStatement;
 import jdbms.sql.parsing.statements.Statement;
-import jdbms.sql.parsing.statements.UpdateStatement;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
 
 public class FalseStatements {
 
-	Collection<Statement> statements;
-	boolean check;
-	Parser p;
+	private Collection<Statement> statements;
+	private Parser p;
 
 	private boolean interpret(String SQLcommand){
 		for (String key : InitialStatementFactory.getInstance().getRegisteredStatements()) {
@@ -51,9 +38,8 @@ public class FalseStatements {
 	
 	@Before
 	public void executedBeforeEach() {
-		check = false;
-		p = new Parser();
-		statements = new ArrayList<>();
+		this.p = new Parser();
+		this.statements = new ArrayList<>();
 		try {
 			Class.forName("jdbms.sql.parsing.statements.CreateDatabaseStatement");
 			Class.forName("jdbms.sql.parsing.statements.CreateTableStatement");

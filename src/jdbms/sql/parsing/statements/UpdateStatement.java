@@ -5,14 +5,25 @@ import jdbms.sql.parsing.expressions.TableUpdateTableNameExpression;
 import jdbms.sql.parsing.properties.UpdatingParameters;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
 
+/**
+ * The Class Update Statement.
+ */
 public class UpdateStatement extends InitialStatement {
-	private static final String STATEMENT_IDENTIFIER = "UPDATE";
-	private static final String CLASS_ID = "UPDATESTATEMENTCLASS";
+	
+	private static final String STATEMENT_IDENTIFIER
+	= "UPDATE";
+	private static final String CLASS_ID
+	= "UPDATESTATEMENTCLASS";
 	private UpdatingParameters updateParameters;
 	static {
 		InitialStatementFactory.getInstance().registerStatement(
-				CLASS_ID, UpdateStatement.class);
+				CLASS_ID,
+				UpdateStatement.class);
 	}
+	
+	/**
+	 * Instantiates a new update statement.
+	 */
 	public UpdateStatement() {
 		updateParameters = new UpdatingParameters();
 	}
@@ -33,6 +44,10 @@ public class UpdateStatement extends InitialStatement {
 		buildParameters();
 		data.updateTable(updateParameters);
 	}
+	
+	/**
+	 * Builds the parameters.
+	 */
 	private void buildParameters() {
 		updateParameters.setAssignmentList(parameters.getAssignmentList());
 		updateParameters.setCondition(parameters.getCondition());
