@@ -36,6 +36,8 @@ public class XMLCreator {
 	private static final String INDENTATION = "{http://xml.apache.org/xslt}indent-amount";
 	/**Number of indentation tabs in XML files as a String.*/
 	private static final String INDENT_NUMBER = "4";
+	/** indicates a null value. **/
+	private static final String NULL_INDICATOR = "null";
 
 	public XMLCreator() {
 	}
@@ -110,7 +112,11 @@ public class XMLCreator {
 				final TableColumn current = tableData.get(key.toUpperCase());
 				final String value = current.get(i).getStringValue();
 				final Element col = doc.createElement(key);
-				col.appendChild(doc.createTextNode(value));
+				if (value == "") {
+					col.appendChild(doc.createTextNode(NULL_INDICATOR));
+				} else {
+					col.appendChild(doc.createTextNode(value));
+				}
 				row.appendChild(col);
 			}
 		}

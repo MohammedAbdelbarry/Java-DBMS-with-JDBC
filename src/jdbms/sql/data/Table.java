@@ -49,6 +49,8 @@ public class Table {
 	 * The number of rows in the table.
 	 */
 	private int numberOfRows;
+	/** indicates a null value. **/
+	private static final String NULL_INDICATOR = "null";
 	/**
 	 * Creates a table given its
 	 * {@link TableCreationParameters}
@@ -190,12 +192,18 @@ public class Table {
 		= new DataTypesValidator();
 		int index = 0;
 		for (final String column : tableColumnNames) {
-			if (!dataTypesValidator.match(tableColumns.get(
-					column.toUpperCase()).getColumnDataType(
-							), values.get(index))) {
+			if (values.get(index).equals(NULL_INDICATOR)) {
+				tableColumns.get(
+						column.toUpperCase()).add(null);
+			} else if (!dataTypesValidator.
+					match(tableColumns.get(
+							column.toUpperCase()).getColumnDataType(
+									), values.get(index))) {
 				throw new TypeMismatchException();
+			} else {
+				tableColumns.get(column.toUpperCase()).add(
+						values.get(index));
 			}
-			tableColumns.get(column.toUpperCase()).add(values.get(index));
 			index++;
 		}
 		numberOfRows++;
@@ -222,13 +230,17 @@ public class Table {
 		final DataTypesValidator dataTypesValidator
 		= new DataTypesValidator();
 		for (int i = 0; i < columnNames.size(); i++) {
-			if (!dataTypesValidator.match(tableColumns.get(
+			if (values.get(i).equals(NULL_INDICATOR)) {
+				tableColumns.get(
+						columnNames.get(i).toUpperCase()).add(null);
+			} else if (!dataTypesValidator.match(tableColumns.get(
 					columnNames.get(i).toUpperCase()).
 					getColumnDataType(), values.get(i))) {
 				throw new TypeMismatchException();
+			} else {
+				tableColumns.get(columnNames.get(i).
+						toUpperCase()).add(values.get(i));
 			}
-			tableColumns.get(columnNames.get(i).
-					toUpperCase()).add(values.get(i));
 		}
 		for (final String nullCell : nullCells) {
 			tableColumns.get(nullCell).add(null);
