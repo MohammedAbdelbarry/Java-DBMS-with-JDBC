@@ -14,9 +14,10 @@ public class InputParametersContainer {
 	private ArrayList<ArrayList<String>> values;
 	private ArrayList<ColumnIdentifier> columnDefinitions;
 	private ArrayList<AssignmentExpression> assignmentList;
-	
-	public InputParametersContainer() {
+	private boolean distinct;
 
+	public InputParametersContainer() {
+		this.distinct = false;
 	}
 
 	public String getDatabaseName() {
@@ -74,4 +75,11 @@ public class InputParametersContainer {
 		this.assignmentList = assignmentList;
 	}
 
+	public void setDistinct(boolean distinct) {
+		this.distinct = distinct;
+	}
+
+	public boolean isDistinct() {
+		return this.distinct;
+	}
 }

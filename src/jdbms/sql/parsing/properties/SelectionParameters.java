@@ -8,9 +8,10 @@ public class SelectionParameters {
 	private ArrayList<String> columns;
 	private String tableName;
 	private BooleanExpression condition;
+	private boolean distinct;
 
 	public SelectionParameters() {
-
+		this.distinct = false;
 	}
 
 	public ArrayList<String> getColumns() {
@@ -37,4 +38,11 @@ public class SelectionParameters {
 		this.condition = condition;
 	}
 
+	public void setDistinct(boolean distinct) {
+		this.distinct = distinct;
+	}
+
+	public boolean isDistinct() {
+		return this.distinct;
+	}
 }

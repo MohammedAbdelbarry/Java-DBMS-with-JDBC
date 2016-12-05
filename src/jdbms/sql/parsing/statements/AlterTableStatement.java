@@ -2,6 +2,7 @@ package jdbms.sql.parsing.statements;
 
 import jdbms.sql.data.SQLData;
 import jdbms.sql.parsing.expressions.AddColumnTableNameExpression;
+import jdbms.sql.parsing.expressions.DropColumnTableNameExpression;
 import jdbms.sql.parsing.properties.AddColumnParameters;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
 
@@ -35,6 +36,8 @@ public class AlterTableStatement extends InitialStatement {
 			String restOfExpression = sqlExpression.replaceFirst(
 					STATEMENT_IDENTIFIER, "").trim();
 			return new AddColumnTableNameExpression(parameters).
+					interpret(restOfExpression)
+					|| new DropColumnTableNameExpression(parameters).
 					interpret(restOfExpression);
 		}
 		return false;

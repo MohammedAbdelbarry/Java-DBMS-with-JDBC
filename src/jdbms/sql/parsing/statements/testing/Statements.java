@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import jdbms.sql.data.ColumnIdentifier;
 import jdbms.sql.parsing.parser.StringNormalizer;
+import jdbms.sql.parsing.statements.AlterTableStatement;
 import jdbms.sql.parsing.statements.CreateDatabaseStatement;
 import jdbms.sql.parsing.statements.CreateTableStatement;
 import jdbms.sql.parsing.statements.DeleteStatement;
@@ -45,7 +46,7 @@ public class Statements {
 			Class.forName("jdbms.sql.parsing.expressions.math.EqualsExpression");
 			Class.forName("jdbms.sql.parsing.expressions.math.LargerThanEqualsExpression");
 			Class.forName("jdbms.sql.parsing.expressions.math.LessThanEqualsExpression");
-			Class.forName("jdbms.sql.parsing.expressions.math.LargerThanExpression");
+			Class.forName("jdbms.sql.parsing.expressions.math.LargerThanExpression");	
 			Class.forName("jdbms.sql.parsing.expressions.math.LessThanExpression");
 			Class.forName("jdbms.sql.datatypes.IntSQLType");
 			Class.forName("jdbms.sql.datatypes.VarcharSQLType");
@@ -353,5 +354,31 @@ public class Statements {
 		assertEquals(name, delete.getParameters().getTableName());
 		assertEquals("name", delete.getParameters().getCondition().getLeftOperand());
 		assertEquals("'x y'", delete.getParameters().getCondition().getRightOperand());
+	}
+
+	@Test
+	public void testAlterTableDropColumn() {
+		String SQLCommand = "ALTER TABLE table_name DROP COLUMN column_name;";
+		SQLCommand = p.normalizeCommand(SQLCommand);
+		InitialStatement alter = new AlterTableStatement();
+		String name = "table_name";
+		if (alter.interpret(SQLCommand)) {
+			check = true;
+		}
+		assertEquals(check, true);
+		assertEquals(name, alter.getParameters().getTableName());
+	}
+
+	@Test
+	public void testSelectDistinct() {
+		String SQLCommand = "SELECT DISTINCT column_name,column_name FROM table_name;";
+		SQLCommand = p.normalizeCommand(SQLCommand);
+		InitialStatement selectDistinct = new SelectStatement();
+		String name = "table_name";
+		if (selectDistinct.interpret(SQLCommand)) {
+			check = true;
+		}
+		assertEquals(check, true);
+		assertEquals(name, selectDistinct.getParameters().getTableName());
 	}
 }

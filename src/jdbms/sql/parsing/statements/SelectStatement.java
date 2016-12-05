@@ -39,7 +39,8 @@ public class SelectStatement extends InitialStatement {
 			if (new ColumnWildcardExpression(
 					parameters).interpret(restOfExpression) ||
 					new SelectColumnListExpression(
-							parameters).interpret(restOfExpression)) {
+							parameters).interpret(restOfExpression)
+					|| new DistinctStatement(parameters).interpret(restOfExpression)) {
 				return true;
 			}
 		}
