@@ -22,7 +22,7 @@ public class SelectColumnListExpression extends ColumnListExpression {
 	public SelectColumnListExpression(
 			InputParametersContainer parameters) {
 		super(new FromStatement(parameters), parameters);
-		columnsNames = new ArrayList<>();
+		this.columnsNames = new ArrayList<>();
 		this.modifier = new StringModifier();
 	}
 

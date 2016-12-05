@@ -15,9 +15,12 @@ public class InputParametersContainer {
 	private ArrayList<ColumnIdentifier> columnDefinitions;
 	private ArrayList<AssignmentExpression> assignmentList;
 	private boolean distinct;
+	private Boolean isAscending;
+	private String sortingColumnName;
 
 	public InputParametersContainer() {
 		this.distinct = false;
+		this.isAscending = null;
 	}
 
 	public String getDatabaseName() {
@@ -81,5 +84,21 @@ public class InputParametersContainer {
 
 	public boolean isDistinct() {
 		return this.distinct;
+	}
+
+	public void setAscending(boolean ascending) {
+		this.isAscending = ascending;
+	}
+
+	public boolean isAscending() {
+		return this.isAscending;
+	}
+
+	public void setSortingColumnName(String columnName) {
+		this.sortingColumnName = columnName;
+	}
+
+	public String getSortingColumnName() {
+		return this.sortingColumnName;
 	}
 }

@@ -380,12 +380,31 @@ public class Statements {
 		String name = "table_name";
 		ArrayList <String> list = new ArrayList<>();
 		list.add("column_name1");
-		list.add("column_name2");	
+		list.add("column_name2");
 		if (selectDistinct.interpret(SQLCommand)) {
 			check = true;
 		}
 		assertEquals(check, true);
 		assertEquals(name, selectDistinct.getParameters().getTableName());
 		assertEquals(list, selectDistinct.getParameters().getColumns());
+	}
+
+	@Test
+	public void testOrderBy() {
+		String SQLCommand = "SELECT col1, col2 FROM table_name orDer BY column_name DESC;";
+		SQLCommand = p.normalizeCommand(SQLCommand);
+		InitialStatement orderBy = new SelectStatement();
+		String name = "table_name";
+		ArrayList <String> list = new ArrayList<>();
+		list.add("col1");
+		list.add("col2");
+		if (orderBy.interpret(SQLCommand)) {
+			check = true;
+		}
+		assertEquals(check, true);
+		assertEquals(name, orderBy.getParameters().getTableName());
+		assertEquals(false, orderBy.getParameters().isAscending());
+		assertEquals(list, orderBy.getParameters().getColumns());
+		assertEquals("column_name", orderBy.getParameters().getSortingColumnName());
 	}
 }

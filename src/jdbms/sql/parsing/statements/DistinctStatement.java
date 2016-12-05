@@ -28,7 +28,7 @@ public class DistinctStatement implements Statement {
 			String restOfExpression = sqlExpression.
 					replaceFirst(STATEMENT_IDENTIFIER
 							, "").trim();
-			parameters.setDistinct(true);
+			this.parameters.setDistinct(true);
 			if (new ColumnWildcardExpression(
 					parameters).interpret(restOfExpression) ||
 					new SelectColumnListExpression(
