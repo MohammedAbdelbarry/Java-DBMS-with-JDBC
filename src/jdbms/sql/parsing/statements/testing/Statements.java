@@ -362,23 +362,30 @@ public class Statements {
 		SQLCommand = p.normalizeCommand(SQLCommand);
 		InitialStatement alter = new AlterTableStatement();
 		String name = "table_name";
+		ArrayList <String> list = new ArrayList<>();
+		list.add("column_name");
 		if (alter.interpret(SQLCommand)) {
 			check = true;
 		}
 		assertEquals(check, true);
 		assertEquals(name, alter.getParameters().getTableName());
+		assertEquals(list, alter.getParameters().getColumns());
 	}
 
 	@Test
 	public void testSelectDistinct() {
-		String SQLCommand = "SELECT DISTINCT column_name,column_name FROM table_name;";
+		String SQLCommand = "SELECT DISTINCT column_name1,column_name2 FROM table_name;";
 		SQLCommand = p.normalizeCommand(SQLCommand);
 		InitialStatement selectDistinct = new SelectStatement();
 		String name = "table_name";
+		ArrayList <String> list = new ArrayList<>();
+		list.add("column_name1");
+		list.add("column_name2");	
 		if (selectDistinct.interpret(SQLCommand)) {
 			check = true;
 		}
 		assertEquals(check, true);
 		assertEquals(name, selectDistinct.getParameters().getTableName());
+		assertEquals(list, selectDistinct.getParameters().getColumns());
 	}
 }
