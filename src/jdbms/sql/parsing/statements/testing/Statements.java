@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import jdbms.sql.data.ColumnIdentifier;
 import jdbms.sql.parsing.parser.StringNormalizer;
+import jdbms.sql.parsing.statements.AlterTableStatement;
 import jdbms.sql.parsing.statements.CreateDatabaseStatement;
 import jdbms.sql.parsing.statements.CreateTableStatement;
 import jdbms.sql.parsing.statements.DeleteStatement;
@@ -45,7 +46,7 @@ public class Statements {
 			Class.forName("jdbms.sql.parsing.expressions.math.EqualsExpression");
 			Class.forName("jdbms.sql.parsing.expressions.math.LargerThanEqualsExpression");
 			Class.forName("jdbms.sql.parsing.expressions.math.LessThanEqualsExpression");
-			Class.forName("jdbms.sql.parsing.expressions.math.LargerThanExpression");
+			Class.forName("jdbms.sql.parsing.expressions.math.LargerThanExpression");	
 			Class.forName("jdbms.sql.parsing.expressions.math.LessThanExpression");
 			Class.forName("jdbms.sql.datatypes.IntSQLType");
 			Class.forName("jdbms.sql.datatypes.VarcharSQLType");
@@ -353,5 +354,57 @@ public class Statements {
 		assertEquals(name, delete.getParameters().getTableName());
 		assertEquals("name", delete.getParameters().getCondition().getLeftOperand());
 		assertEquals("'x y'", delete.getParameters().getCondition().getRightOperand());
+	}
+
+	@Test
+	public void testAlterTableDropColumn() {
+		String SQLCommand = "ALTER TABLE table_name DROP COLUMN column_name;";
+		SQLCommand = p.normalizeCommand(SQLCommand);
+		InitialStatement alter = new AlterTableStatement();
+		String name = "table_name";
+		ArrayList <String> list = new ArrayList<>();
+		list.add("column_name");
+		if (alter.interpret(SQLCommand)) {
+			check = true;
+		}
+		assertEquals(check, true);
+		assertEquals(name, alter.getParameters().getTableName());
+		assertEquals(list, alter.getParameters().getColumns());
+	}
+
+	@Test
+	public void testSelectDistinct() {
+		String SQLCommand = "SELECT DISTINCT column_name1,column_name2 FROM table_name;";
+		SQLCommand = p.normalizeCommand(SQLCommand);
+		InitialStatement selectDistinct = new SelectStatement();
+		String name = "table_name";
+		ArrayList <String> list = new ArrayList<>();
+		list.add("column_name1");
+		list.add("column_name2");
+		if (selectDistinct.interpret(SQLCommand)) {
+			check = true;
+		}
+		assertEquals(check, true);
+		assertEquals(name, selectDistinct.getParameters().getTableName());
+		assertEquals(list, selectDistinct.getParameters().getColumns());
+	}
+
+	@Test
+	public void testOrderBy() {
+		String SQLCommand = "SELECT col1, col2 FROM table_name orDer BY column_name DESC;";
+		SQLCommand = p.normalizeCommand(SQLCommand);
+		InitialStatement orderBy = new SelectStatement();
+		String name = "table_name";
+		ArrayList <String> list = new ArrayList<>();
+		list.add("col1");
+		list.add("col2");
+		if (orderBy.interpret(SQLCommand)) {
+			check = true;
+		}
+		assertEquals(check, true);
+		assertEquals(name, orderBy.getParameters().getTableName());
+		assertEquals(false, orderBy.getParameters().isAscending());
+		assertEquals(list, orderBy.getParameters().getColumns());
+		assertEquals("column_name", orderBy.getParameters().getSortingColumnName());
 	}
 }

@@ -9,8 +9,10 @@ public abstract class Constants {
 		    Collections.unmodifiableList(Arrays.asList("SELECT",
 		    		"TABLE", "DELETE", "UPDATE", "INSERT", "INTO", "VALUES",
 		    		"SET", "WHERE", "FROM", "CREATE", "DROP", "DATABASE",
-		    		"INTEGER", "VARCHAR", "TEXT", "INT", "USE",
-		    		"TRUE", "FALSE", "ALTER", "ADD"));
+		    		"INTEGER", "VARCHAR", "TEXT", "INT", "USE", "DISTINCT",
+		    		"TRUE", "FALSE", "ALTER", "ADD", "ORDER", "BY",
+		    		"ASC", "DESC"));
+
 	public static final String COLUMN_REGEX = "^[a-zA-Z_][a-zA-Z0-9_\\$]*$";
 	public static final String STRING_REGEX = "^'.*?'$";
 	public static final String DOUBLE_STRING_REGEX = "^\".*?\"$";
