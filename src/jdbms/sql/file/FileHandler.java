@@ -24,9 +24,9 @@ import jdbms.sql.exceptions.ValueListTooSmallException;
 import jdbms.sql.parsing.parser.ParserMain;
 
 public class FileHandler {
-	String path;
-	XMLParser parser;
-	XMLCreator creator;
+	private String path;
+	private final XMLParser parser;
+	private final XMLCreator creator;
 	private static final String XML_EXTENSION = ".xml";
 	private static final String DTD_IDENTIFIER = "DTD";
 	private static final String DTD_EXTENSION = ".dtd";
@@ -52,6 +52,7 @@ public class FileHandler {
 		if (!database.exists()) {
 			throw new DatabaseNotFoundException(databaseName);
 		}
+		database.setWritable(true);
 		if (!database.delete()) {
 			ErrorHandler.printFailedToDeleteDatabase(databaseName);
 		}
@@ -68,6 +69,8 @@ public class FileHandler {
 		if (!tableXML.exists()) {
 			throw new TableNotFoundException(tableName);
 		}
+		tableXML.setWritable(true);
+		tableDTD.setWritable(true);
 		if (!tableXML.delete()
 				|| !tableDTD.delete()) {
 			ErrorHandler.printInternalError();
