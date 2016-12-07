@@ -12,6 +12,9 @@ public class HelperClass {
 			Class.forName("jdbms.sql.parsing.statements.DeleteStatement");
 			Class.forName("jdbms.sql.parsing.statements.SelectStatement");
 			Class.forName("jdbms.sql.parsing.statements.UpdateStatement");
+			Class.forName("jdbms.sql.parsing.statements.UseStatement");
+			Class.forName("jdbms.sql.parsing.statements.AlterTableAddStatement");
+			Class.forName("jdbms.sql.parsing.statements.AlterTableDropStatement");
 			Class.forName("jdbms.sql.parsing.expressions.math.EqualsExpression");
 			Class.forName("jdbms.sql.parsing.expressions.math.LargerThanEqualsExpression");
 			Class.forName("jdbms.sql.parsing.expressions.math.LessThanEqualsExpression");

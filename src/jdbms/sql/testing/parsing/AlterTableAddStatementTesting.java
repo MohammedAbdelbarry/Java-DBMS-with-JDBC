@@ -10,13 +10,13 @@ import org.junit.Test;
 
 import jdbms.sql.data.ColumnIdentifier;
 import jdbms.sql.parsing.parser.StringNormalizer;
-import jdbms.sql.parsing.statements.AlterTableStatement;
+import jdbms.sql.parsing.statements.AlterTableAddStatement;
 import jdbms.sql.parsing.statements.InitialStatement;
 import jdbms.sql.parsing.statements.Statement;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
 import jdbms.sql.util.HelperClass;
 
-public class AlterTableStatementTesting {
+public class AlterTableAddStatementTesting {
 
 	private StringNormalizer normalizer;
 	private Collection<Statement> statements;
@@ -26,7 +26,7 @@ public class AlterTableStatementTesting {
 	public void executedBeforeEach() {
 		normalizer = new StringNormalizer();
 		statements = new ArrayList<>();
-		alter = new AlterTableStatement();
+		alter = new AlterTableAddStatement();
 		HelperClass.registerInitialStatements();
 		for (String key : InitialStatementFactory.getInstance().getRegisteredStatements()) {
 			statements.add(InitialStatementFactory.getInstance().createStatement(key));
@@ -37,12 +37,7 @@ public class AlterTableStatementTesting {
 	public void testAlterTableDropColumn() {
 		String SQLCommand = "ALTER TABLE table_name DROP COLUMN column_name;";
 		SQLCommand = normalizer.normalizeCommand(SQLCommand);
-		String name = "table_name";
-		ArrayList <String> list = new ArrayList<>();
-		list.add("column_name");
-		assertEquals(alter.interpret(SQLCommand), true);
-		assertEquals(name, alter.getParameters().getTableName());
-		assertEquals(list, alter.getParameters().getColumns());
+		assertEquals(alter.interpret(SQLCommand), false);
 	}
 
 	@Test
