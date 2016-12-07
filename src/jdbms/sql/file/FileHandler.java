@@ -9,12 +9,13 @@ import jdbms.sql.data.Database;
 import jdbms.sql.data.Table;
 import jdbms.sql.data.xml.XMLCreator;
 import jdbms.sql.data.xml.XMLParser;
-import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
 import jdbms.sql.exceptions.ColumnNotFoundException;
 import jdbms.sql.exceptions.DatabaseAlreadyExistsException;
 import jdbms.sql.exceptions.DatabaseNotFoundException;
+import jdbms.sql.exceptions.FailedToDeleteDatabaseException;
+import jdbms.sql.exceptions.FailedToDeleteTableException;
 import jdbms.sql.exceptions.RepeatedColumnException;
 import jdbms.sql.exceptions.TableAlreadyExistsException;
 import jdbms.sql.exceptions.TableNotFoundException;
@@ -40,25 +41,25 @@ public class FileHandler {
 			path = jarFile.getParentFile().getPath()
 					+ File.separator + DATA_DIRECTORY;
 		} catch (final URISyntaxException e) {
-			ErrorHandler.printInternalError();
+			throw new RuntimeException();
 		}
 		parser = new XMLParser();
 		creator = new XMLCreator();
 	}
 
 	public void deleteDatabase(final String databaseName)
-			throws DatabaseNotFoundException {
-		final File database = new File(path + File.separator + databaseName);
+			throws DatabaseNotFoundException, FailedToDeleteDatabaseException {
+		final File database = new File(path + File.separator + databaseName.toUpperCase());
 		if (!database.exists()) {
 			throw new DatabaseNotFoundException(databaseName);
 		}
 		database.setWritable(true);
 		if (!database.delete()) {
-			ErrorHandler.printFailedToDeleteDatabase(databaseName);
+			throw new FailedToDeleteDatabaseException(databaseName);
 		}
 	}
 	public void deleteTable(final String tableName, final String databaseName)
-			throws TableNotFoundException {
+			throws TableNotFoundException, FailedToDeleteTableException {
 		final File tableXML = new File(path + File.separator
 				+ databaseName.toUpperCase() + File.separator
 				+ tableName.toUpperCase() + XML_EXTENSION);
@@ -73,15 +74,11 @@ public class FileHandler {
 		tableDTD.setWritable(true);
 		if (!tableXML.delete()
 				|| !tableDTD.delete()) {
-			ErrorHandler.printInternalError();
+			throw new FailedToDeleteTableException(tableName);
 		}
 	}
 	public Database loadDatabase(final String databaseName)
-			throws DatabaseNotFoundException, TableAlreadyExistsException,
-			ColumnAlreadyExistsException, RepeatedColumnException,
-			ColumnListTooLargeException, ColumnNotFoundException,
-			ValueListTooLargeException, ValueListTooSmallException,
-			TypeMismatchException {
+			throws DatabaseNotFoundException, TableAlreadyExistsException {
 		final File database = new File(path + File.separator + databaseName);
 		if (!database.exists()) {
 			throw new DatabaseNotFoundException(databaseName);
@@ -89,7 +86,7 @@ public class FileHandler {
 		final ArrayList<String> tables = findTables(databaseName);
 		final Database newDatabase = new Database(databaseName);
 		for (final String table : tables) {
-			newDatabase.addTable(loadTable(databaseName, table));
+			newDatabase.addTableName(table);
 		}
 		return newDatabase;
 	}
@@ -100,7 +97,7 @@ public class FileHandler {
 			throw new DatabaseAlreadyExistsException(databaseName);
 		}
 		if (!database.mkdirs()) {
-			ErrorHandler.printInternalError();
+			throw new RuntimeException();
 		}
 	}
 	public Database createTemporaryDatabase(final String tempName)
@@ -110,7 +107,7 @@ public class FileHandler {
 			throw new DatabaseAlreadyExistsException(tempName);
 		}
 		if (!database.mkdirs()) {
-			ErrorHandler.printInternalError();
+			throw new RuntimeException();
 		}
 		database.deleteOnExit();
 		return new Database(tempName);
@@ -123,7 +120,8 @@ public class FileHandler {
 			ColumnListTooLargeException, ColumnNotFoundException,
 			ValueListTooLargeException, ValueListTooSmallException,
 			TypeMismatchException {
-		return parser.parse(tableName, databaseName, path + File.separator);
+		return parser.parse(tableName.toUpperCase(),
+				databaseName.toUpperCase(), path + File.separator);
 	}
 	private ArrayList<String> findTables(final String databaseName) {
 		final File database = new File(path + File.separator + databaseName);

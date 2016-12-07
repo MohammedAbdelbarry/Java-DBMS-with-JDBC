@@ -1,6 +1,8 @@
 package jdbms.sql.parsing.statements;
 
 import jdbms.sql.data.SQLData;
+import jdbms.sql.exceptions.FailedToDeleteTableException;
+import jdbms.sql.exceptions.TableNotFoundException;
 import jdbms.sql.parsing.expressions.TerminatingTableExpression;
 import jdbms.sql.parsing.properties.TableDroppingParameters;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
@@ -9,12 +11,12 @@ import jdbms.sql.parsing.statements.util.InitialStatementFactory;
  * The Class DropTableStatement.
  */
 public class DropTableStatement extends InitialStatement {
-	
+
 	private static final String STATEMENT_IDENTIFIER
 	= "DROP TABLE";
 	private static final String CLASS_ID
-	= "DROPTABLESTATEMENTCLASS";	
-	private TableDroppingParameters dropTableParameters;
+	= "DROPTABLESTATEMENTCLASS";
+	private final TableDroppingParameters dropTableParameters;
 	static {
 		InitialStatementFactory.
 		getInstance().
@@ -30,20 +32,22 @@ public class DropTableStatement extends InitialStatement {
 	}
 
 	@Override
-	public boolean interpret(String sqlExpression) {
+	public boolean interpret(final String sqlExpression) {
 		if (sqlExpression.startsWith(STATEMENT_IDENTIFIER)) {
-			String restOfExpression = sqlExpression.replaceFirst(STATEMENT_IDENTIFIER, "").trim();
+			final String restOfExpression = sqlExpression.replaceFirst(STATEMENT_IDENTIFIER, "").trim();
 			return new TerminatingTableExpression(parameters).interpret(restOfExpression);
 		}
 		return false;
 	}
 
 	@Override
-	public void act(SQLData data) {
+	public void act(final SQLData data)
+			throws TableNotFoundException,
+			FailedToDeleteTableException {
 		buildParameters();
 		data.dropTable(dropTableParameters);
 	}
-	
+
 	/**
 	 * Builds the parameters.
 	 */

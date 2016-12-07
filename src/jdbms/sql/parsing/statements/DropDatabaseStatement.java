@@ -1,6 +1,8 @@
 package jdbms.sql.parsing.statements;
 
 import jdbms.sql.data.SQLData;
+import jdbms.sql.exceptions.DatabaseNotFoundException;
+import jdbms.sql.exceptions.FailedToDeleteDatabaseException;
 import jdbms.sql.parsing.expressions.DatabaseTerminatingExpression;
 import jdbms.sql.parsing.properties.DatabaseDroppingParameters;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
@@ -9,16 +11,16 @@ import jdbms.sql.parsing.statements.util.InitialStatementFactory;
  * The Class Drop Database Statement.
  */
 public class DropDatabaseStatement extends InitialStatement {
-	
+
 	private static final String STATEMENT_IDENTIFIER = "DROP DATABASE";
 	private static final String CLASS_ID = "DROPDATABASESTATEMENTCLASS";
-	private DatabaseDroppingParameters dropDBParameters;
+	private final DatabaseDroppingParameters dropDBParameters;
 	static {
 		InitialStatementFactory.getInstance().
 		registerStatement(CLASS_ID,
 				DropDatabaseStatement.class);
 	}
-	
+
 	/**
 	 * Instantiates a new drop database statement.
 	 */
@@ -28,9 +30,9 @@ public class DropDatabaseStatement extends InitialStatement {
 	}
 
 	@Override
-	public boolean interpret(String sqlExpression) {
+	public boolean interpret(final String sqlExpression) {
 		if (sqlExpression.startsWith(STATEMENT_IDENTIFIER)) {
-			String restOfExpression = sqlExpression.
+			final String restOfExpression = sqlExpression.
 					replaceFirst(STATEMENT_IDENTIFIER,
 							"").trim();
 			return new DatabaseTerminatingExpression(parameters).
@@ -40,11 +42,13 @@ public class DropDatabaseStatement extends InitialStatement {
 	}
 
 	@Override
-	public void act(SQLData data) {
+	public void act(final SQLData data)
+			throws DatabaseNotFoundException,
+			FailedToDeleteDatabaseException {
 		buildParameters();
 		data.dropDatabase(dropDBParameters);
 	}
-	
+
 	/**
 	 * Builds the parameters.
 	 */

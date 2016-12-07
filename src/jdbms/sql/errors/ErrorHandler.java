@@ -52,9 +52,13 @@ public abstract class ErrorHandler {
 	public static void printInternalError() {
 		System.err.println("Internal Error");
 	}
-	public static void  printFailedToDeleteDatabase(final String databaseName) {
+	public static void printFailedToDeleteDatabase(final String databaseName) {
 		System.err.println("Error: Couldn't Delete Database \""
 				+ handleNull(databaseName) + "\"");
+	}
+	public static void printFailedToDeleteTable(final String tableName) {
+		System.err.println("Error: Couldn't Delete Table \""
+				+ handleNull(tableName) + "\"");
 	}
 	public static void printSyntaxErrorNear(final String name) {
 		System.err.println("Syntax Error Near \"" + name + "\"");

@@ -1,6 +1,8 @@
 package jdbms.sql.parsing.statements;
 
 import jdbms.sql.data.SQLData;
+import jdbms.sql.exceptions.ColumnAlreadyExistsException;
+import jdbms.sql.exceptions.TableAlreadyExistsException;
 import jdbms.sql.parsing.expressions.TableCreationTableNameExpression;
 import jdbms.sql.parsing.properties.TableCreationParameters;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
@@ -14,13 +16,13 @@ public class CreateTableStatement extends InitialStatement {
 	= "CREATE TABLE";
 	private static final String CLASS_ID
 	= "CREATETABLESTATEMENTCLASS";
-	private TableCreationParameters createTableParameters;
+	private final TableCreationParameters createTableParameters;
 	static {
 		InitialStatementFactory.getInstance().
 		registerStatement(CLASS_ID,
 				CreateTableStatement.class);
 	}
-	
+
 	/**
 	 * Instantiates a new creates the table statement.
 	 */
@@ -30,10 +32,10 @@ public class CreateTableStatement extends InitialStatement {
 	}
 
 	@Override
-	public boolean interpret(String sqlExpression) {
+	public boolean interpret(final String sqlExpression) {
 		if (sqlExpression.
 				startsWith(STATEMENT_IDENTIFIER)) {
-			String restOfExpression = sqlExpression.
+			final String restOfExpression = sqlExpression.
 					replaceFirst(STATEMENT_IDENTIFIER, "").trim();
 			return new TableCreationTableNameExpression(parameters).
 					interpret(restOfExpression);
@@ -42,11 +44,13 @@ public class CreateTableStatement extends InitialStatement {
 	}
 
 	@Override
-	public void act(SQLData data) {
+	public void act(final SQLData data)
+			throws ColumnAlreadyExistsException,
+			TableAlreadyExistsException {
 		buildParameters();
 		data.createTable(createTableParameters);
 	}
-	
+
 	/**
 	 * Builds the parameters.
 	 */

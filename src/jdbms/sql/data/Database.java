@@ -1,18 +1,20 @@
 package jdbms.sql.data;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 import jdbms.sql.data.query.SelectQueryOutput;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
 import jdbms.sql.exceptions.ColumnNotFoundException;
+import jdbms.sql.exceptions.FailedToDeleteTableException;
 import jdbms.sql.exceptions.RepeatedColumnException;
 import jdbms.sql.exceptions.TableAlreadyExistsException;
 import jdbms.sql.exceptions.TableNotFoundException;
 import jdbms.sql.exceptions.TypeMismatchException;
 import jdbms.sql.exceptions.ValueListTooLargeException;
 import jdbms.sql.exceptions.ValueListTooSmallException;
+import jdbms.sql.file.FileHandler;
 import jdbms.sql.parsing.properties.AddColumnParameters;
 import jdbms.sql.parsing.properties.DeletionParameters;
 import jdbms.sql.parsing.properties.InsertionParameters;
@@ -23,111 +25,142 @@ import jdbms.sql.parsing.properties.UpdatingParameters;
 public class Database {
 
 	/**Array of database tables.*/
-	private final Map<String, Table> tables;
+	//private final Map<String, Table> tables;
+	private final Set<String> tables;
 	/**Database name.*/
 	private final String databaseName;
 
 	public Database(final String databaseName) {
 		this.databaseName = databaseName;
-		tables = new HashMap<>();
+		tables = new HashSet<>();
 	}
 
-	public void addTable(final TableIdentifier newTableIdentifier)
-			throws TableAlreadyExistsException,
-			ColumnAlreadyExistsException {
-		if (tables.containsKey(newTableIdentifier.getTableName().toUpperCase())) {
+	public void addTable(final TableIdentifier newTableIdentifier,
+			final FileHandler fileHandler)
+					throws TableAlreadyExistsException,
+					ColumnAlreadyExistsException {
+		if (tables.contains(newTableIdentifier.getTableName().toUpperCase())) {
 			throw new TableAlreadyExistsException(
 					newTableIdentifier.getTableName());
 		}
-		tables.put(newTableIdentifier.getTableName().toUpperCase(),
-				new Table(newTableIdentifier));
+		tables.add(newTableIdentifier.getTableName().toUpperCase());
+		fileHandler.createTable(new Table(newTableIdentifier),
+				databaseName.toUpperCase());
 	}
 
-	public void addTable(final TableCreationParameters tableParameters)
-			throws ColumnAlreadyExistsException,
-			TableAlreadyExistsException {
-		if (tables.containsKey(tableParameters.getTableName().toUpperCase())) {
+	public void addTable(final TableCreationParameters tableParameters,
+			final FileHandler fileHandler)
+					throws ColumnAlreadyExistsException,
+					TableAlreadyExistsException {
+		if (tables.contains(tableParameters.getTableName().toUpperCase())) {
 			throw new TableAlreadyExistsException(
 					tableParameters.getTableName());
 		}
+		tables.add(tableParameters.getTableName().toUpperCase());
 		final Table newTable = new Table(tableParameters);
-		tables.put(tableParameters.getTableName().toUpperCase(),
-				newTable);
+		fileHandler.createTable(newTable, databaseName.toUpperCase());
 	}
-	public void addTable(final Table newTable)
+	public void addTableName(final String tableName)
 			throws TableAlreadyExistsException {
-		if (tables.containsKey(newTable.getName().toUpperCase())) {
+		if (tables.contains(tableName.toUpperCase())) {
 			throw new TableAlreadyExistsException(
-					newTable.getName());
+					tableName);
 		}
-		tables.put(newTable.getName().toUpperCase(), newTable);
+		tables.add(tableName.toUpperCase());
 	}
-	public void dropTable(final String tableName) throws TableNotFoundException {
-		if (!tables.containsKey(tableName.toUpperCase())) {
+	public void dropTable(final String tableName,
+			final FileHandler fileHandler)
+					throws TableNotFoundException,
+					FailedToDeleteTableException {
+		if (!tables.contains(tableName.toUpperCase())) {
 			throw new TableNotFoundException(tableName);
 		}
 		tables.remove(tableName.toUpperCase());
+		fileHandler.deleteTable(tableName, databaseName.toUpperCase());
 	}
 
-	public void deleteFromTable(final DeletionParameters deleteParameters)
-			throws ColumnNotFoundException,
-			TypeMismatchException, TableNotFoundException {
-		if (!tables.containsKey(deleteParameters.getTableName().toUpperCase())) {
+	public void deleteFromTable(final DeletionParameters deleteParameters,
+			final FileHandler fileHandler)
+					throws ColumnNotFoundException,
+					TypeMismatchException, TableNotFoundException,
+					ColumnAlreadyExistsException, RepeatedColumnException,
+					ColumnListTooLargeException, ValueListTooLargeException,
+					ValueListTooSmallException {
+		if (!tables.contains(deleteParameters.getTableName().toUpperCase())) {
 			throw new TableNotFoundException(
 					deleteParameters.getTableName());
 		}
-		tables.get(deleteParameters.getTableName().toUpperCase()).
-		deleteRows(deleteParameters.getCondition());
+		final Table activeTable = fileHandler.loadTable(databaseName.toUpperCase(),
+				deleteParameters.getTableName().toUpperCase());
+		activeTable.deleteRows(deleteParameters.getCondition());
+		fileHandler.createTable(activeTable, databaseName.toUpperCase());
 	}
-	public void insertInto (final InsertionParameters insertParameters)
-			throws RepeatedColumnException,
-			ColumnListTooLargeException, ColumnNotFoundException,
-			ValueListTooLargeException, ValueListTooSmallException,
-			TableNotFoundException, TypeMismatchException {
-		if (!tables.containsKey(insertParameters.getTableName().toUpperCase())) {
+	public void insertInto (final InsertionParameters insertParameters,
+			final FileHandler fileHandler)
+					throws RepeatedColumnException,
+					ColumnListTooLargeException, ColumnNotFoundException,
+					ValueListTooLargeException, ValueListTooSmallException,
+					TableNotFoundException, TypeMismatchException,
+					ColumnAlreadyExistsException {
+		if (!tables.contains(insertParameters.getTableName().toUpperCase())) {
 			throw new TableNotFoundException(
 					insertParameters.getTableName());
 		}
-		tables.get(insertParameters.getTableName().toUpperCase()).
-		insertRows(insertParameters);
+		final Table activeTable = fileHandler.loadTable(databaseName.toUpperCase(),
+				insertParameters.getTableName().toUpperCase());
+		activeTable.insertRows(insertParameters);
+		fileHandler.createTable(activeTable, databaseName.toUpperCase());
 	}
 	public SelectQueryOutput selectFrom(
-			final SelectionParameters selectParameters)
+			final SelectionParameters selectParameters,
+			final FileHandler fileHandler)
 					throws ColumnNotFoundException,
-					TypeMismatchException, TableNotFoundException {
-		if (!tables.containsKey(selectParameters.getTableName().toUpperCase())) {
+					TypeMismatchException, TableNotFoundException,
+					ColumnAlreadyExistsException, RepeatedColumnException,
+					ColumnListTooLargeException, ValueListTooLargeException,
+					ValueListTooSmallException {
+		if (!tables.contains(selectParameters.getTableName().toUpperCase())) {
 			throw new TableNotFoundException(
 					selectParameters.getTableName());
 		}
-		return tables.get(selectParameters.
-				getTableName().toUpperCase()).selectFromTable(selectParameters);
+		final Table activeTable = fileHandler.loadTable(databaseName.toUpperCase(),
+				selectParameters.getTableName().toUpperCase());
+		return activeTable.selectFromTable(selectParameters);
 	}
-	public void updateTable(final UpdatingParameters updateParameters)
-			throws ColumnNotFoundException, TypeMismatchException,
-			TableNotFoundException {
-		if (!tables.containsKey(updateParameters.getTableName().toUpperCase())) {
+	public void updateTable(final UpdatingParameters updateParameters,
+			final FileHandler fileHandler)
+					throws ColumnNotFoundException, TypeMismatchException,
+					TableNotFoundException, ColumnAlreadyExistsException,
+					RepeatedColumnException, ColumnListTooLargeException,
+					ValueListTooLargeException, ValueListTooSmallException {
+		if (!tables.contains(updateParameters.getTableName().toUpperCase())) {
 			throw new TableNotFoundException(
 					updateParameters.getTableName());
 		}
-		tables.get(updateParameters.getTableName().toUpperCase()).
-		updateTable(updateParameters);
+		final Table activeTable = fileHandler.loadTable(databaseName.toUpperCase(),
+				updateParameters.getTableName().toUpperCase());
+		activeTable.updateTable(updateParameters);
+		fileHandler.createTable(activeTable, databaseName.toUpperCase());
 	}
-	public void addTableColumn(final AddColumnParameters parameters)
-			throws ColumnAlreadyExistsException,
-			TableNotFoundException {
-		if (!tables.containsKey(parameters.
+	public void addTableColumn(final AddColumnParameters parameters,
+			final FileHandler fileHandler)
+					throws ColumnAlreadyExistsException,
+					TableNotFoundException, RepeatedColumnException,
+					ColumnListTooLargeException, ColumnNotFoundException,
+					ValueListTooLargeException, ValueListTooSmallException,
+					TypeMismatchException {
+		if (!tables.contains(parameters.
 				getTableName().toUpperCase())) {
 			throw new TableNotFoundException(parameters.getTableName());
 		}
-		tables.get(parameters.getTableName().toUpperCase()
-				).addTableColumn(parameters.getColumnIdentifier().getName(),
-						parameters.getColumnIdentifier().getType());
+		final Table activeTable = fileHandler.loadTable(databaseName.toUpperCase(),
+				parameters.getTableName().toUpperCase());
+		activeTable.addTableColumn(parameters.getColumnIdentifier().getName(),
+				parameters.getColumnIdentifier().getType());
+		fileHandler.createTable(activeTable, databaseName.toUpperCase());
 	}
 	public String getDatabaseName() {
 		return databaseName;
-	}
-	public Table getTable(final String tableName) {
-		return tables.get(tableName.toUpperCase());
 	}
 
 }
