@@ -41,5 +41,8 @@ public abstract class Constants {
 	public static final List<String> DATE_TIME_TYPES =
 			Collections.unmodifiableList(Arrays.asList(
 					"DATETIME"));
+	public static final List<String> SUPPORTED_DATA_TYPES
+	= Collections.unmodifiableList(Arrays.asList(
+			"TEXT", "VARCHAR", "INTEGER", "INT", "FLOAT", "REAL",
+			"DATE", "DATETIME"));
 }
-
