@@ -1,4 +1,4 @@
-package jdbms.sql.data.xml;
+package jdbms.sql.file.xml;
 
 import java.io.BufferedReader;
 import java.io.File;

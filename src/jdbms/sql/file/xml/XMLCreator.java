@@ -1,4 +1,4 @@
-package jdbms.sql.data.xml;
+package jdbms.sql.file.xml;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -24,8 +24,9 @@ import jdbms.sql.data.Table;
 import jdbms.sql.data.TableColumn;
 import jdbms.sql.data.TableIdentifier;
 import jdbms.sql.errors.ErrorHandler;
+import jdbms.sql.file.FileWriter;
 
-public class XMLCreator {
+public class XMLCreator implements FileWriter {
 	/**DTD Identifier to be inserted in the DTD file Name.*/
 	private static final String DTD_IDENTIFIER = "DTD";
 	/**DTD extension to be inserted in the DTD file.*/
@@ -41,7 +42,6 @@ public class XMLCreator {
 
 	public XMLCreator() {
 	}
-
 	/**
 	 * Creates an XMl File for the given table
 	 *  and stores it in the proper folder path.
@@ -49,6 +49,7 @@ public class XMLCreator {
 	 *  @param databaseName the name of the database to which the table belongs
 	 *  @param path the path to which the XML file will be stored
 	 */
+	@Override
 	public void create(final Table table, final String databaseName, final String path) {
 		try {
 			final TableIdentifier identifier = table.getTableIdentifier();

@@ -1,4 +1,4 @@
-package jdbms.sql.data.xml;
+package jdbms.sql.file.xml;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,10 +25,11 @@ import jdbms.sql.exceptions.RepeatedColumnException;
 import jdbms.sql.exceptions.TypeMismatchException;
 import jdbms.sql.exceptions.ValueListTooLargeException;
 import jdbms.sql.exceptions.ValueListTooSmallException;
+import jdbms.sql.file.FileReader;
 import jdbms.sql.parsing.properties.InsertionParameters;
 import jdbms.sql.parsing.properties.TableCreationParameters;
 
-public class XMLParser {
+public class XMLParser implements FileReader {
 	/**DTD Identifier to be inserted in the DTD file Name.*/
 	private static final String DTD_IDENTIFIER = "DTD";
 	/**DTD extension to be inserted in the DTD file.*/
@@ -62,6 +63,7 @@ public class XMLParser {
 	 * @param databaseName the name of the database
 	 * @return table constructed using the parsed XML file
 	 */
+	@Override
 	public Table parse(String tableName, final String databaseName,
 			final String path)
 					throws ColumnAlreadyExistsException, RepeatedColumnException,
