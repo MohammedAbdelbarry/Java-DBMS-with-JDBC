@@ -7,16 +7,16 @@ public class DBMSConnector {
 	public DBMSConnector(final String fileType) {
 
 	}
-	int executeUpdate(final String sql) {
+	public int executeUpdate(final String sql) {
 		return 0;
 	}
-	SelectQueryOutput executeQuery(final String sql) {
+	public SelectQueryOutput executeQuery(final String sql) {
 		return null;
 	}
-	boolean interpretUpdate(final String sql) {
+	public boolean interpretUpdate(final String sql) {
 		return false;
 	}
-	boolean interpretQuery(final String sql) {
+	public boolean interpretQuery(final String sql) {
 		return false;
 	}
 }
