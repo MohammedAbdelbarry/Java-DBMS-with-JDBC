@@ -22,8 +22,9 @@ public class HelperClass {
 			Class.forName("jdbms.sql.parsing.expressions.math.LessThanExpression");
 			Class.forName("jdbms.sql.datatypes.IntSQLType");
 			Class.forName("jdbms.sql.datatypes.VarcharSQLType");
+			Class.forName("jdbms.sql.datatypes.FloatSQLType");
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+
 		}
 	}
 }

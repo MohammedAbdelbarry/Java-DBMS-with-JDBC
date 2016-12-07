@@ -3,7 +3,6 @@ package jdbms.sql.testing.parsing;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,25 +11,18 @@ import jdbms.sql.data.ColumnIdentifier;
 import jdbms.sql.parsing.parser.StringNormalizer;
 import jdbms.sql.parsing.statements.CreateTableStatement;
 import jdbms.sql.parsing.statements.InitialStatement;
-import jdbms.sql.parsing.statements.Statement;
-import jdbms.sql.parsing.statements.util.InitialStatementFactory;
 import jdbms.sql.util.HelperClass;
 
 public class CreateTableStatementTesting {
 
 	private StringNormalizer normalizer;
-	private Collection<Statement> statements;
 	private InitialStatement createTable;
 
 	@Before
 	public void executedBeforeEach() {
 		normalizer = new StringNormalizer();
-		statements = new ArrayList<>();
 		createTable = new CreateTableStatement();
 		HelperClass.registerInitialStatements();
-		for (String key : InitialStatementFactory.getInstance().getRegisteredStatements()) {
-			statements.add(InitialStatementFactory.getInstance().createStatement(key));
-		}
 	}
 
 	@Test
@@ -47,7 +39,24 @@ public class CreateTableStatementTesting {
 		columnId.add(cd);
 		assertEquals(createTable.interpret(sqlCommand), true);
 		assertEquals(createTable.getParameters().getTableName(), name);
+		assertEquals(createTable.getParameters().getColumnDefinitions(), columnId);
+	}
 
+	@Test
+	public void tesFloatCreateTable() {
+		String sqlCommand = "CREATE TABLE NEWTABLE (ID floAt, AGE reAl, Coolness REAL) ;";
+		sqlCommand = normalizer.normalizeCommand(sqlCommand);
+		ArrayList<ColumnIdentifier> columnId = new ArrayList<>();
+		String name = "NEWTABLE";
+		ColumnIdentifier cd = new ColumnIdentifier("ID", "FLOAT");
+		columnId.add(cd);
+		cd = new ColumnIdentifier("AGE", "REAL");
+		columnId.add(cd);
+		cd = new ColumnIdentifier("Coolness", "REAL");
+		columnId.add(cd);
+		assertEquals(createTable.interpret(sqlCommand), true);
+		assertEquals(createTable.getParameters().getTableName(), name);
+		assertEquals(createTable.getParameters().getColumnDefinitions(), columnId);
 	}
 
 	@Test

@@ -3,7 +3,6 @@ package jdbms.sql.testing.parsing;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,25 +10,18 @@ import org.junit.Test;
 import jdbms.sql.parsing.parser.StringNormalizer;
 import jdbms.sql.parsing.statements.AlterTableDropStatement;
 import jdbms.sql.parsing.statements.InitialStatement;
-import jdbms.sql.parsing.statements.Statement;
-import jdbms.sql.parsing.statements.util.InitialStatementFactory;
 import jdbms.sql.util.HelperClass;
 
 public class AlterTableDropStatementTesting {
 
 	private StringNormalizer normalizer;
-	private Collection<Statement> statements;
 	private InitialStatement alterDrop;
 
 	@Before
 	public void executedBeforeEach() {
 		normalizer = new StringNormalizer();
-		statements = new ArrayList<>();
 		alterDrop = new AlterTableDropStatement();
 		HelperClass.registerInitialStatements();
-		for (String key : InitialStatementFactory.getInstance().getRegisteredStatements()) {
-			statements.add(InitialStatementFactory.getInstance().createStatement(key));
-		}
 	}
 	@Test
 	public void testAlterTableDropColumn() {

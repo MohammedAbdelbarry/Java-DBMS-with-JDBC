@@ -93,7 +93,8 @@ public abstract class BinaryExpression implements Expression {
 		if (exp.matches(Constants.INT_REGEX) 
 				|| exp.matches(Constants.COLUMN_REGEX)
 				|| exp.matches(Constants.STRING_REGEX)
-				|| exp.matches(Constants.DOUBLE_STRING_REGEX)) {
+				|| exp.matches(Constants.DOUBLE_STRING_REGEX)
+				|| exp.matches(Constants.FLOAT_REGEX)) {
 			return true;
 		}
 		return false;
@@ -140,7 +141,9 @@ public abstract class BinaryExpression implements Expression {
 				|| getLeftOperand().
 				matches(Constants.STRING_REGEX)
 				|| getLeftOperand().
-				matches(Constants.DOUBLE_STRING_REGEX);
+				matches(Constants.DOUBLE_STRING_REGEX)
+				|| getLeftOperand().
+				matches(Constants.FLOAT_REGEX);
 	}
 	
 	/**
@@ -152,7 +155,9 @@ public abstract class BinaryExpression implements Expression {
 				|| getRightOperand().
 				matches(Constants.STRING_REGEX)
 				|| getRightOperand().
-				matches(Constants.DOUBLE_STRING_REGEX);
+				matches(Constants.DOUBLE_STRING_REGEX)
+				|| getRightOperand().
+				matches(Constants.FLOAT_REGEX);
 	}
 	
 	/**
@@ -182,9 +187,10 @@ public abstract class BinaryExpression implements Expression {
 			return "VARCHAR";
 		} else if (getLeftOperand().matches(Constants.INT_REGEX)) {
 			return "INTEGER";
-		} else {
-			return null;
+		} else if (getLeftOperand().matches(Constants.FLOAT_REGEX)) {
+			return "FLOAT";
 		}
+		return null;
 	}
 	
 	/**
@@ -198,8 +204,9 @@ public abstract class BinaryExpression implements Expression {
 			return "VARCHAR";
 		} else if (getRightOperand().matches(Constants.INT_REGEX)) {
 			return "INTEGER";
-		} else {
-			return null;
+		} else if (getRightOperand().matches(Constants.FLOAT_REGEX)){
+			return "FLOAT";
 		}
+		return null;
 	}
 }

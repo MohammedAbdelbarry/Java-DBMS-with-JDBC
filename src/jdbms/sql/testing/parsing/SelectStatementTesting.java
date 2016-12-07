@@ -3,7 +3,6 @@ package jdbms.sql.testing.parsing;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,25 +10,18 @@ import org.junit.Test;
 import jdbms.sql.parsing.parser.StringNormalizer;
 import jdbms.sql.parsing.statements.InitialStatement;
 import jdbms.sql.parsing.statements.SelectStatement;
-import jdbms.sql.parsing.statements.Statement;
-import jdbms.sql.parsing.statements.util.InitialStatementFactory;
 import jdbms.sql.util.HelperClass;
 
 public class SelectStatementTesting {
 
 	private StringNormalizer normalizer;
-	private Collection<Statement> statements;
 	private InitialStatement select;
 
 	@Before
 	public void executedBeforeEach() {
 		normalizer = new StringNormalizer();
-		statements = new ArrayList<>();
 		select = new SelectStatement();
 		HelperClass.registerInitialStatements();
-		for (String key : InitialStatementFactory.getInstance().getRegisteredStatements()) {
-			statements.add(InitialStatementFactory.getInstance().createStatement(key));
-		}
 	}
 
 	@Test
@@ -57,6 +49,20 @@ public class SelectStatementTesting {
 		assertEquals(cols, select.getParameters().getColumns());
 		assertEquals("CustomerID", select.getParameters().getCondition().getLeftOperand());
 		assertEquals("1", select.getParameters().getCondition().getRightOperand());
+	}
+
+	@Test
+	public void testFloatSelectAllConditional() {
+		String sqlCommand = "SELECT * FROM Customers WHERE CustomerCoolness >= 1.512256;";
+		sqlCommand = normalizer.normalizeCommand(sqlCommand);
+		String name = "Customers";
+		ArrayList<String> cols = new ArrayList<>();
+		cols.add("*");
+		assertEquals(select.interpret(sqlCommand), true);
+		assertEquals(name, select.getParameters().getTableName());
+		assertEquals(cols, select.getParameters().getColumns());
+		assertEquals("CustomerCoolness", select.getParameters().getCondition().getLeftOperand());
+		assertEquals("1.512256", select.getParameters().getCondition().getRightOperand());
 	}
 
 	@Test

@@ -1,5 +1,7 @@
 package jdbms.sql.parsing.expressions.util;
 
+import jdbms.sql.parsing.util.Constants;
+
 /**
  * The Class Value Expression.
  */
@@ -21,9 +23,10 @@ public class ValueExpression {
 	 * @return true, if is valid expression name
 	 */
 	public boolean isValidExpressionName() {
-		return this.expression.matches("^-?\\d+") || 
-				this.expression.matches("^[\"].*?[\"]") ||
-				this.expression.matches("^['].*?[']");
+		return this.expression.matches(Constants.INT_REGEX)
+				|| this.expression.matches(Constants.STRING_REGEX)
+				|| this.expression.matches(Constants.DOUBLE_STRING_REGEX)
+				|| this.expression.matches(Constants.FLOAT_REGEX);
 	}
 	
 	/**

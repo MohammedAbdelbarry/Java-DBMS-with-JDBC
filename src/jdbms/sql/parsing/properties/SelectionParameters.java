@@ -9,12 +9,12 @@ public class SelectionParameters {
 	private String tableName;
 	private BooleanExpression condition;
 	private boolean isDistinct;
-	private Boolean isAscending;
+	private boolean isAscending;
 	private String sortingColumnName;
 
 	public SelectionParameters() {
 		this.isDistinct = false;
-		this.isAscending = null;
+		this.isAscending = true;
 		this.sortingColumnName = new String();
 	}
 

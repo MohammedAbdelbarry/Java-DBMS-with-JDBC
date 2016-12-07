@@ -15,12 +15,12 @@ public class InputParametersContainer {
 	private ArrayList<ColumnIdentifier> columnDefinitions;
 	private ArrayList<AssignmentExpression> assignmentList;
 	private boolean distinct;
-	private Boolean isAscending;
+	private boolean isAscending;
 	private String sortingColumnName;
 
 	public InputParametersContainer() {
 		this.distinct = false;
-		this.isAscending = null;
+		this.isAscending = true;
 	}
 
 	public String getDatabaseName() {

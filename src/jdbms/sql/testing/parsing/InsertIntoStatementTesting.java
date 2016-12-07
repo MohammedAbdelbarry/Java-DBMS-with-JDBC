@@ -3,7 +3,6 @@ package jdbms.sql.testing.parsing;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,25 +10,18 @@ import org.junit.Test;
 import jdbms.sql.parsing.parser.StringNormalizer;
 import jdbms.sql.parsing.statements.InitialStatement;
 import jdbms.sql.parsing.statements.InsertIntoStatement;
-import jdbms.sql.parsing.statements.Statement;
-import jdbms.sql.parsing.statements.util.InitialStatementFactory;
 import jdbms.sql.util.HelperClass;
 
 public class InsertIntoStatementTesting {
 
 	private StringNormalizer normalizer;
-	private Collection<Statement> statements;
 	private InitialStatement insertInto;
 
 	@Before
 	public void executedBeforeEach() {
 		normalizer = new StringNormalizer();
-		statements = new ArrayList<>();
 		insertInto = new InsertIntoStatement();
 		HelperClass.registerInitialStatements();
-		for (String key : InitialStatementFactory.getInstance().getRegisteredStatements()) {
-			statements.add(InitialStatementFactory.getInstance().createStatement(key));
-		}
 	}
 
 	@Test
@@ -92,6 +84,26 @@ public class InsertIntoStatementTesting {
 		temp.add("'Skagen 21'");
 		temp.add("'Stavanger'");
 		temp.add("4006");
+		temp.add("'Norway PLEB'");
+		vals.add(temp);
+		assertEquals(insertInto.interpret(SQLCommand), true);
+		assertEquals(insertInto.getParameters().getTableName(), name);
+		assertEquals(insertInto.getParameters().getValues(), vals);
+	}
+
+	@Test
+	public void testFloatInsertInto() {
+		String SQLCommand = "INSERT INTO Customers   VALuES   "
+				+ "(12345.9039 , 'Tom B. Erichsen',   'Skagen 21','Stavanger',4006.00025,   'Norway PLEB'   )   ;   ";
+		SQLCommand = normalizer.normalizeCommand(SQLCommand);
+		String name = "Customers";
+		ArrayList<ArrayList<String>> vals = new ArrayList<>();
+		ArrayList<String> temp = new ArrayList<>();
+		temp.add("12345.9039");
+		temp.add("'Tom B. Erichsen'");
+		temp.add("'Skagen 21'");
+		temp.add("'Stavanger'");
+		temp.add("4006.00025");
 		temp.add("'Norway PLEB'");
 		vals.add(temp);
 		assertEquals(insertInto.interpret(SQLCommand), true);
