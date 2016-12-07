@@ -6,7 +6,6 @@ import jdbms.sql.parsing.expressions.TerminalExpression;
 import jdbms.sql.parsing.operators.BinaryOperator;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 
-// TODO: Auto-generated Javadoc
 /**
  * The boolean expression class.
  */

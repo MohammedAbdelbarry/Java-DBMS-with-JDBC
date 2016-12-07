@@ -39,8 +39,14 @@ public abstract class TableNameExpression implements Expression {
 
 	@Override
 	public boolean interpret(String sqlExpression) {
-		String tableName = sqlExpression.substring(0, sqlExpression.indexOf(" ")).trim();
-		String restOfExpression = sqlExpression.substring(sqlExpression.indexOf(" ") + 1).trim();
+		String tableName, restOfExpression;
+		try {
+			tableName = sqlExpression.substring(0, sqlExpression.indexOf(" ")).trim();
+			restOfExpression = sqlExpression.substring(sqlExpression.indexOf(" ") + 1).trim();
+		} catch (Exception e) {
+			return false;
+		}
+
 		if (tableName.matches(Constants.COLUMN_REGEX)) {
 			if (Constants.RESERVED_KEYWORDS.contains(tableName.toUpperCase())) {
 				ErrorHandler.printReservedKeywordError(tableName);
