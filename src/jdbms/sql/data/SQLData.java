@@ -232,6 +232,6 @@ public class SQLData {
 			throws DatabaseAlreadyExistsException {
 		return fileHandler.createTemporaryDatabase(
 				DEFAULT_DATABASE.toUpperCase() +
-				new Random().nextLong());
+				Math.abs(new Random().nextLong()));
 	}
 }
