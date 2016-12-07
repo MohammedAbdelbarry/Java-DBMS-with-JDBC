@@ -1,6 +1,5 @@
 package jdbms.sql.parsing.statements;
 
-import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.parsing.expressions.OrderByTableNameExpression;
 import jdbms.sql.parsing.expressions.TableConditionalExpression;
 import jdbms.sql.parsing.expressions.TerminatingTableExpression;
@@ -32,7 +31,6 @@ public class FromStatement implements Statement {
 				return true;
 			}
 		}
-		ErrorHandler.printSyntaxErrorNear("From");
 		return false;
 	}
 }

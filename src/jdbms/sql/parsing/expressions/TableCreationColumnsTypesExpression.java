@@ -5,7 +5,6 @@ import java.util.List;
 
 import jdbms.sql.data.ColumnIdentifier;
 import jdbms.sql.datatypes.util.SQLTypeFactory;
-import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.parsing.expressions.util.ColumnExpression;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 
@@ -50,8 +49,7 @@ extends ColumnsDatatypesExpression {
 									indexOf(" ") + 1).
 							trim();
 				} catch(Exception e) {
-					ErrorHandler.
-					printSyntaxErrorNear("Columns Datatypes");
+					return false;
 				}
 				if (new ColumnExpression(colName).
 						isValidColumnName()
@@ -61,15 +59,12 @@ extends ColumnsDatatypesExpression {
 					add(new ColumnIdentifier(colName,
 							dataType));
 				} else {
-					ErrorHandler.
-					printSyntaxErrorNear("Columns Datatypes");
 					return false;
 				}
 			}
 			parameters.setColumnDefinitions(columnsDataTypes);
 			return super.interpret(parts[parts.length - 1].trim());
 		}
-		ErrorHandler.printSyntaxErrorNear("Opening Parenthesis");
 		return false;
 	}
 }

@@ -2,7 +2,6 @@ package jdbms.sql.parsing.expressions;
 
 import java.util.ArrayList;
 
-import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.parsing.expressions.math.AssignmentExpression;
 import jdbms.sql.parsing.expressions.util.StringModifier;
 import jdbms.sql.parsing.properties.InputParametersContainer;
@@ -58,7 +57,6 @@ public abstract class AssignmentListExpression implements Expression {
 					interpret(sqlExpression.substring(0,
 							modifiedExpression.
 							indexOf(",")).trim())) {
-				ErrorHandler.printSyntaxErrorNear("SET");
 				return false;
 			}
 			sqlExpression = sqlExpression.
@@ -78,7 +76,6 @@ public abstract class AssignmentListExpression implements Expression {
 				interpret(sqlExpression.
 						substring(0, seperatorIndex).
 						trim())) {
-			ErrorHandler.printSyntaxErrorNear("SET");
 			return false;
 		}
 		parameters.setAssignmentList(this.assignmentList);

@@ -1,6 +1,5 @@
 package jdbms.sql.parsing.statements;
 
-import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.parsing.expressions.OrderByColumnNameExpression;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 
@@ -26,7 +25,6 @@ public class OrderByStatement implements Statement {
 			String restOfExpression = sqlExpression.replaceFirst(STATEMENT_IDENTIFIER, "").trim();
 			return new OrderByColumnNameExpression(parameters).interpret(restOfExpression);
 		}
-		ErrorHandler.printSyntaxErrorNear("Order By");
 		return false;
 	}
 }

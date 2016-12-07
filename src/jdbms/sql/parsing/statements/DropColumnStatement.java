@@ -1,6 +1,5 @@
 package jdbms.sql.parsing.statements;
 
-import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.parsing.expressions.TerminatingColumnNameExpression;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 
@@ -29,7 +28,6 @@ public class DropColumnStatement implements Statement {
 			return new TerminatingColumnNameExpression(parameters).
 					interpret(restOfExpression);
 		}
-		ErrorHandler.printSyntaxErrorNear("Drop Column");
 		return false;
 	}
 }

@@ -1,6 +1,5 @@
 package jdbms.sql.parsing.statements;
 
-import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.parsing.expressions.InsertIntoValueListExpression;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 
@@ -26,7 +25,6 @@ public class ValueStatement implements Statement {
 			String restOfExpression = sqlExpression.replaceFirst(STATEMENT_IDENTIFIER, "").trim();
 			return new InsertIntoValueListExpression(parameters).interpret(restOfExpression);
 		}
-		ErrorHandler.printSyntaxErrorNear("Values");
 		return false;
 	}
 }

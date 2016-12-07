@@ -1,6 +1,5 @@
 package jdbms.sql.parsing.statements;
 
-import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.parsing.expressions.ColumnWildcardExpression;
 import jdbms.sql.parsing.expressions.SelectColumnListExpression;
 import jdbms.sql.parsing.properties.InputParametersContainer;
@@ -36,7 +35,6 @@ public class DistinctStatement implements Statement {
 				return true;
 			}
 		}
-		ErrorHandler.printSyntaxErrorNear("Distinct");
 		return false;
 	}
 }
