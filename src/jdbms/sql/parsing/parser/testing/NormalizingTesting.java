@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import jdbms.sql.parsing.parser.StringNormalizer;
 
-public class ParsingTests {
+public class NormalizingTesting {
 
     @Test
     public void testMultipleSpaces() {
