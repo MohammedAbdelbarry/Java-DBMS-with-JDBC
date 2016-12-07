@@ -1,5 +1,4 @@
 package jdbms.sql.datatypes;
-
 import jdbms.sql.datatypes.util.SQLTypeFactory;
 
 public class VarcharSQLType extends SQLType<String>{
@@ -21,5 +20,26 @@ public class VarcharSQLType extends SQLType<String>{
 			return "''";
 		}
 		return value.toString();
+	}
+	@Override
+	public int compareTo(final SQLType<String> other) {
+		if (value == null) {
+			if (other == null) {
+				return 0;
+			} else {
+				return -1;
+			}
+		}
+		return removeQuotes(value).compareTo(
+				removeQuotes(other.getValue()));
+	}
+	/**
+	 * removes the quotes from a string
+	 * value.
+	 * @param s the string
+	 * @return the quote-less string
+	 */
+	private String removeQuotes(final String s) {
+		return s.substring(1, s.length() - 1);
 	}
 }

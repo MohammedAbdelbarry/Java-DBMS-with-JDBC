@@ -2,6 +2,7 @@ package jdbms.sql.parsing.statements;
 
 import jdbms.sql.data.SQLData;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
+import jdbms.sql.exceptions.InvalidDateFormatException;
 import jdbms.sql.exceptions.TableAlreadyExistsException;
 import jdbms.sql.parsing.expressions.TableCreationTableNameExpression;
 import jdbms.sql.parsing.properties.TableCreationParameters;
@@ -46,7 +47,8 @@ public class CreateTableStatement extends InitialStatement {
 	@Override
 	public void act(final SQLData data)
 			throws ColumnAlreadyExistsException,
-			TableAlreadyExistsException {
+			TableAlreadyExistsException,
+			InvalidDateFormatException {
 		buildParameters();
 		data.createTable(createTableParameters);
 	}

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import jdbms.sql.datatypes.SQLType;
 import jdbms.sql.datatypes.util.DataTypesValidator;
 import jdbms.sql.datatypes.util.SQLTypeFactory;
+import jdbms.sql.exceptions.InvalidDateFormatException;
 import jdbms.sql.exceptions.TypeMismatchException;
 /** The class representing a sql column. **/
 public class TableColumn {
@@ -45,8 +46,10 @@ public class TableColumn {
 	 * end of the column.
 	 * @param value the value to be
 	 * added
+	 * @throws InvalidDateFormatException
 	 */
-	public void add(final String value) {
+	public void add(final String value)
+			throws InvalidDateFormatException {
 		values.add(SQLTypeFactory.getInstance().
 				getTypeObject(columnType, value));
 	}
@@ -67,9 +70,10 @@ public class TableColumn {
 	 * @param value the value to be
 	 * assigned.
 	 * @throws TypeMismatchException
+	 * @throws InvalidDateFormatException
 	 */
 	public void assignCell(final int cell, final String value)
-			throws TypeMismatchException {
+			throws TypeMismatchException, InvalidDateFormatException {
 		final DataTypesValidator dataTypesValidator =
 				new DataTypesValidator();
 		if (!dataTypesValidator.match(columnType, value)) {

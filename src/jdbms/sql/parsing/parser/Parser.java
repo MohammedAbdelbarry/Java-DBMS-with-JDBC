@@ -9,6 +9,7 @@ import jdbms.sql.exceptions.DatabaseAlreadyExistsException;
 import jdbms.sql.exceptions.DatabaseNotFoundException;
 import jdbms.sql.exceptions.FailedToDeleteDatabaseException;
 import jdbms.sql.exceptions.FailedToDeleteTableException;
+import jdbms.sql.exceptions.InvalidDateFormatException;
 import jdbms.sql.exceptions.RepeatedColumnException;
 import jdbms.sql.exceptions.TableAlreadyExistsException;
 import jdbms.sql.exceptions.TableNotFoundException;
@@ -80,6 +81,8 @@ public class Parser {
 				} catch (final FailedToDeleteTableException e) {
 					ErrorHandler.
 					printFailedToDeleteTable(e.getMessage());
+				} catch (final InvalidDateFormatException e) {
+					ErrorHandler.printInvalidDateError(e.getMessage());
 				}  catch (final Exception e) {
 					ErrorHandler.
 					printInternalError();

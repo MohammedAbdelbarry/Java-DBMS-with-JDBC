@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 import jdbms.sql.datatypes.SQLType;
 import jdbms.sql.errors.ErrorHandler;
+import jdbms.sql.exceptions.InvalidDateFormatException;
 
 public class SQLTypeFactory {
 	private static SQLTypeFactory factory
@@ -24,7 +25,7 @@ public class SQLTypeFactory {
 		registeredTypes.put(key, typeClass);
 	}
 	public SQLType<?> getTypeObject(final String key,
-			final String value) {
+			final String value) throws InvalidDateFormatException {
 		final Class<? extends SQLType<?>> typeClass
 				= registeredTypes.get(key);
 		try {

@@ -4,6 +4,7 @@ import jdbms.sql.data.Table;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
 import jdbms.sql.exceptions.ColumnNotFoundException;
+import jdbms.sql.exceptions.InvalidDateFormatException;
 import jdbms.sql.exceptions.RepeatedColumnException;
 import jdbms.sql.exceptions.TypeMismatchException;
 import jdbms.sql.exceptions.ValueListTooLargeException;
@@ -26,6 +27,7 @@ public interface FileReader {
 	 * @throws ColumnListTooLargeException
 	 * @throws RepeatedColumnException
 	 * @throws ColumnAlreadyExistsException
+	 * @throws InvalidDateFormatException
 	 */
 	public Table parse(String tableName, final String databaseName,
 			final String path)
@@ -35,5 +37,6 @@ public interface FileReader {
 					ColumnNotFoundException,
 					ValueListTooLargeException,
 					ValueListTooSmallException,
-					TypeMismatchException;
+					TypeMismatchException,
+					InvalidDateFormatException;
 }

@@ -4,6 +4,7 @@ import jdbms.sql.data.SQLData;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
 import jdbms.sql.exceptions.ColumnNotFoundException;
+import jdbms.sql.exceptions.InvalidDateFormatException;
 import jdbms.sql.exceptions.RepeatedColumnException;
 import jdbms.sql.exceptions.TableNotFoundException;
 import jdbms.sql.exceptions.TypeMismatchException;
@@ -56,7 +57,8 @@ public class UpdateStatement extends InitialStatement {
 			RepeatedColumnException,
 			ColumnListTooLargeException,
 			ValueListTooLargeException,
-			ValueListTooSmallException {
+			ValueListTooSmallException,
+			InvalidDateFormatException {
 		buildParameters();
 		data.updateTable(updateParameters);
 	}

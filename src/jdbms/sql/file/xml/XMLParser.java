@@ -21,6 +21,7 @@ import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
 import jdbms.sql.exceptions.ColumnNotFoundException;
+import jdbms.sql.exceptions.InvalidDateFormatException;
 import jdbms.sql.exceptions.RepeatedColumnException;
 import jdbms.sql.exceptions.TypeMismatchException;
 import jdbms.sql.exceptions.ValueListTooLargeException;
@@ -62,6 +63,7 @@ public class XMLParser implements FileReader {
 	 * @param tableName the name of the table
 	 * @param databaseName the name of the database
 	 * @return table constructed using the parsed XML file
+	 * @throws InvalidDateFormatException
 	 */
 	@Override
 	public Table parse(String tableName, final String databaseName,
@@ -69,7 +71,7 @@ public class XMLParser implements FileReader {
 					throws ColumnAlreadyExistsException, RepeatedColumnException,
 					ColumnListTooLargeException, ColumnNotFoundException,
 					ValueListTooLargeException, ValueListTooSmallException,
-					TypeMismatchException {
+					TypeMismatchException, InvalidDateFormatException {
 		final ArrayList<String> columnNames
 		= getColumnNames(tableName, databaseName, path);
 		final ArrayList<ColumnIdentifier> columns = new ArrayList<>();
@@ -112,6 +114,7 @@ public class XMLParser implements FileReader {
 	 * @param tableName name of the table to be created
 	 * @param columnNames array of the column names
 	 * @return table the new created table
+	 * @throws InvalidDateFormatException
 	 */
 	private Table createTable(final ArrayList<ColumnIdentifier> columns,
 			final ArrayList<ArrayList<String>> values, final String tableName,
@@ -122,7 +125,8 @@ public class XMLParser implements FileReader {
 					ColumnNotFoundException,
 					ValueListTooLargeException,
 					ValueListTooSmallException,
-					TypeMismatchException {
+					TypeMismatchException,
+					InvalidDateFormatException {
 		final TableCreationParameters parameters = new TableCreationParameters();
 		parameters.setColumnDefinitions(columns);
 		parameters.setTableName(tableName);

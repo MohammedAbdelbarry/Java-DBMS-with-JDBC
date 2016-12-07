@@ -6,6 +6,7 @@ import jdbms.sql.data.query.SelectQueryOutput;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
 import jdbms.sql.exceptions.ColumnNotFoundException;
+import jdbms.sql.exceptions.InvalidDateFormatException;
 import jdbms.sql.exceptions.RepeatedColumnException;
 import jdbms.sql.exceptions.TableNotFoundException;
 import jdbms.sql.exceptions.TypeMismatchException;
@@ -64,7 +65,8 @@ public class SelectStatement extends InitialStatement {
 			RepeatedColumnException,
 			ColumnListTooLargeException,
 			ValueListTooLargeException,
-			ValueListTooSmallException {
+			ValueListTooSmallException,
+			InvalidDateFormatException {
 		buildParameters();
 		final SelectQueryOutput output = data.selectFrom(selectParameters);
 		if (output == null) {

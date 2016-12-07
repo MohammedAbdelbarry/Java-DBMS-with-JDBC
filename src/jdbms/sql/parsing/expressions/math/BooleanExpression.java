@@ -1,5 +1,8 @@
 package jdbms.sql.parsing.expressions.math;
 
+import jdbms.sql.datatypes.DateSQLType;
+import jdbms.sql.datatypes.DateTimeSQLType;
+import jdbms.sql.datatypes.FloatSQLType;
 import jdbms.sql.datatypes.IntSQLType;
 import jdbms.sql.datatypes.VarcharSQLType;
 import jdbms.sql.parsing.expressions.TerminalExpression;
@@ -10,17 +13,17 @@ import jdbms.sql.parsing.properties.InputParametersContainer;
  * The boolean expression class.
  */
 public abstract class BooleanExpression extends BinaryExpression {
-	
+
 	/** The binary operator. */
-	private BinaryOperator operator;
-	
+	private final BinaryOperator operator;
+
 	/**
 	 * Instantiates a new boolean expression.
 	 * @param symbol the binary operator symbol
 	 * @param parameters the input parameters
 	 */
-	public BooleanExpression(String symbol,
-			InputParametersContainer parameters) {
+	public BooleanExpression(final String symbol,
+			final InputParametersContainer parameters) {
 		super(symbol, new TerminalExpression(parameters), parameters);
 		this.operator = new BinaryOperator(symbol);
 	}
@@ -42,11 +45,10 @@ public abstract class BooleanExpression extends BinaryExpression {
 				return false;
 			}
 		}
-		boolean isBinaryExpression = super.interpret(sqlExpression);
+		final boolean isBinaryExpression = super.interpret(sqlExpression);
 		parameters.setCondition(this);
 		return isBinaryExpression;
 	}
-	
 	/**
 	 * Evaluate boolean expression.
 	 * @param left the left operand of type varchar
@@ -55,18 +57,36 @@ public abstract class BooleanExpression extends BinaryExpression {
 	 */
 	public abstract boolean evaluate(VarcharSQLType left,
 			VarcharSQLType right);
-	
 	/**
 	 * Evaluate boolean expression.
-	 * @param left the left operand of type int
-	 * @param right the right operand of type int
+	 * @param left the left operand of type integer
+	 * @param right the right operand of type integer
 	 * @return true, if both operands are equivalent
 	 */
-	public abstract boolean evaluate(IntSQLType left, IntSQLType right);
-	
+	public abstract boolean evaluate(IntSQLType left,
+			IntSQLType right);
 	/**
-	 * Evaluate constant expression.
-	 * @return true, if expression was true
+	 * Evaluate boolean expression.
+	 * @param left the left operand of type float
+	 * @param right the right operand of type float
+	 * @return true, if both operands are equivalent
 	 */
-	public abstract boolean evaluateConstantExpression();
+	public abstract boolean evaluate(FloatSQLType left,
+			FloatSQLType right);
+	/**
+	 * Evaluate boolean expression.
+	 * @param left the left operand of type date
+	 * @param right the right operand of type date
+	 * @return true, if both operands are equivalent
+	 */
+	public abstract boolean evaluate(DateSQLType left,
+			DateSQLType right);
+	/**
+	 * Evaluate boolean expression.
+	 * @param left the left operand of type datetime
+	 * @param right the right operand of type datetime
+	 * @return true, if both operands are equivalent
+	 */
+	public abstract boolean evaluate(DateTimeSQLType left,
+			DateTimeSQLType right);
 }

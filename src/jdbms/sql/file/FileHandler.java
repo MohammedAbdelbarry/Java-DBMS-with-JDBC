@@ -15,6 +15,7 @@ import jdbms.sql.exceptions.DatabaseNotFoundException;
 import jdbms.sql.exceptions.FailedToDeleteDatabaseException;
 import jdbms.sql.exceptions.FailedToDeleteTableException;
 import jdbms.sql.exceptions.FileFormatNotSupportedException;
+import jdbms.sql.exceptions.InvalidDateFormatException;
 import jdbms.sql.exceptions.RepeatedColumnException;
 import jdbms.sql.exceptions.TableAlreadyExistsException;
 import jdbms.sql.exceptions.TableNotFoundException;
@@ -158,7 +159,7 @@ public class FileHandler {
 			throws ColumnAlreadyExistsException, RepeatedColumnException,
 			ColumnListTooLargeException, ColumnNotFoundException,
 			ValueListTooLargeException, ValueListTooSmallException,
-			TypeMismatchException {
+			TypeMismatchException, InvalidDateFormatException {
 		return reader.parse(tableName.toUpperCase(),
 				databaseName.toUpperCase(), path + File.separator);
 	}

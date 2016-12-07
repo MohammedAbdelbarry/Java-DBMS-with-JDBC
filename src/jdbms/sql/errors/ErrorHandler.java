@@ -60,6 +60,9 @@ public abstract class ErrorHandler {
 		System.err.println("Error: Couldn't Delete Table \""
 				+ handleNull(tableName) + "\"");
 	}
+	public static void printInvalidDateError(final String date) {
+		System.err.println("Error: Date \"" + date + "\" Is Invalid");
+	}
 	public static void printSyntaxErrorNear(final String name) {
 		System.err.println("Syntax Error Near \"" + name + "\"");
 	}

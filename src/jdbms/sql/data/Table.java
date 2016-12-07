@@ -8,12 +8,16 @@ import java.util.Map;
 import java.util.Set;
 
 import jdbms.sql.data.query.SelectQueryOutput;
+import jdbms.sql.datatypes.DateSQLType;
+import jdbms.sql.datatypes.DateTimeSQLType;
+import jdbms.sql.datatypes.FloatSQLType;
 import jdbms.sql.datatypes.IntSQLType;
 import jdbms.sql.datatypes.VarcharSQLType;
 import jdbms.sql.datatypes.util.DataTypesValidator;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
 import jdbms.sql.exceptions.ColumnNotFoundException;
+import jdbms.sql.exceptions.InvalidDateFormatException;
 import jdbms.sql.exceptions.RepeatedColumnException;
 import jdbms.sql.exceptions.TypeMismatchException;
 import jdbms.sql.exceptions.ValueListTooLargeException;
@@ -57,10 +61,12 @@ public class Table {
 	 * @param createTableParameters the table
 	 * creation parameters
 	 * @throws ColumnAlreadyExistsException
+	 * @throws InvalidDateFormatException
 	 */
 	public Table(final TableCreationParameters
 			createTableParameters)
-					throws ColumnAlreadyExistsException {
+					throws ColumnAlreadyExistsException,
+					InvalidDateFormatException {
 		this.tableName = createTableParameters.getTableName();
 		tableColumns = new HashMap<>();
 		tableColumnNames = new ArrayList<>();
@@ -77,9 +83,10 @@ public class Table {
 	 * @param tableIdentifier the table
 	 * identifier
 	 * @throws ColumnAlreadyExistsException
+	 * @throws InvalidDateFormatException
 	 */
 	public Table(final TableIdentifier tableIdentifier)
-			throws ColumnAlreadyExistsException {
+			throws ColumnAlreadyExistsException, InvalidDateFormatException {
 		this.tableName = tableIdentifier.getTableName();
 		final ArrayList<ColumnIdentifier> columnIdentifiers
 		= tableIdentifier.getColumnsIdentifiers();
@@ -98,9 +105,10 @@ public class Table {
 	 * @param columnDataType the data
 	 * type of the column
 	 * @throws ColumnAlreadyExistsException
+	 * @throws InvalidDateFormatException
 	 */
 	public void addTableColumn(final String columnName, final String columnDataType)
-			throws ColumnAlreadyExistsException {
+			throws ColumnAlreadyExistsException, InvalidDateFormatException {
 		if (tableColumns.containsKey(columnName.toUpperCase())) {
 			throw new ColumnAlreadyExistsException(columnName);
 		}
@@ -121,13 +129,14 @@ public class Table {
 	 * @throws ValueListTooLargeException
 	 * @throws ValueListTooSmallException
 	 * @throws TypeMismatchException
+	 * @throws InvalidDateFormatException
 	 */
 	public void insertRows(final InsertionParameters insertParameters)
 			throws RepeatedColumnException,
 			ColumnListTooLargeException,
 			ColumnNotFoundException,
 			ValueListTooLargeException, ValueListTooSmallException,
-			TypeMismatchException {
+			TypeMismatchException, InvalidDateFormatException {
 		if (insertParameters.getColumns() == null) {
 			for (final ArrayList<String> rowValue
 					: insertParameters.getValues()) {
@@ -184,10 +193,11 @@ public class Table {
 	 * @throws ValueListTooLargeException
 	 * @throws ValueListTooSmallException
 	 * @throws TypeMismatchException
+	 * @throws InvalidDateFormatException
 	 */
 	private void insertRow(final ArrayList<String> values)
 			throws ValueListTooLargeException, ValueListTooSmallException,
-			TypeMismatchException {
+			TypeMismatchException, InvalidDateFormatException {
 		final DataTypesValidator dataTypesValidator
 		= new DataTypesValidator();
 		int index = 0;
@@ -221,12 +231,13 @@ public class Table {
 	 * @throws ColumnNotFoundException
 	 * @throws ValueListTooLargeException
 	 * @throws TypeMismatchException
+	 * @throws InvalidDateFormatException
 	 */
 	private void insertRow(final ArrayList<String> columnNames,
 			final ArrayList<String> values, final Set<String> nullCells)
 					throws RepeatedColumnException, ColumnListTooLargeException,
 					ColumnNotFoundException, ValueListTooLargeException,
-					TypeMismatchException {
+					TypeMismatchException, InvalidDateFormatException {
 		final DataTypesValidator dataTypesValidator
 		= new DataTypesValidator();
 		for (int i = 0; i < columnNames.size(); i++) {
@@ -278,10 +289,11 @@ public class Table {
 	 * @return the select output
 	 * @throws ColumnNotFoundException
 	 * @throws TypeMismatchException
+	 * @throws InvalidDateFormatException
 	 */
 	public SelectQueryOutput selectFromTable(final SelectionParameters
 			selectParameters) throws ColumnNotFoundException,
-	TypeMismatchException {
+	TypeMismatchException, InvalidDateFormatException {
 		ArrayList<Integer> matches = null;
 		if (selectParameters.getCondition() == null) {
 			matches = getAllRows();
@@ -322,9 +334,11 @@ public class Table {
 	 * update statement parameters
 	 * @throws ColumnNotFoundException
 	 * @throws TypeMismatchException
+	 * @throws InvalidDateFormatException
 	 */
 	public void updateTable(final UpdatingParameters updateParameters)
-			throws ColumnNotFoundException, TypeMismatchException {
+			throws ColumnNotFoundException, TypeMismatchException,
+			InvalidDateFormatException {
 		final ArrayList<AssignmentExpression> assignments
 		= updateParameters.getAssignmentList();
 		ArrayList<Integer> matches;
@@ -344,14 +358,24 @@ public class Table {
 	 * @return a list of the matching rows
 	 * @throws ColumnNotFoundException
 	 * @throws TypeMismatchException
+	 * @throws InvalidDateFormatException
 	 */
 	private ArrayList<Integer> getAllMatches(
 			final BooleanExpression condition)
-					throws ColumnNotFoundException, TypeMismatchException {
+					throws ColumnNotFoundException,
+					TypeMismatchException, InvalidDateFormatException {
 		ArrayList<Integer> matches = new ArrayList<>();
+		final DataTypesValidator validator
+		= new DataTypesValidator();
 		if(condition.leftOperandIsConstant()
 				&& condition.rightOperandIsConstant()) {
-			if (condition.evaluateConstantExpression()) {
+			if (!validator.assertDataTypesEquals(condition.getLeftOperand(),
+					condition.getRightOperand())) {
+				throw new TypeMismatchException();
+			}
+			if (evaluateExpression(condition,
+					condition.getLeftOperand(),
+					condition.getRightOperand())) {
 				matches = getAllRows();
 			}
 		} else if (condition.leftOperandIsColumnName()
@@ -400,10 +424,11 @@ public class Table {
 	 * assignment
 	 * @throws ColumnNotFoundException
 	 * @throws TypeMismatchException
+	 * @throws InvalidDateFormatException
 	 */
 	private void AssignColumn(final AssignmentExpression assignment,
 			final ArrayList<Integer> matches) throws ColumnNotFoundException,
-	TypeMismatchException {
+	TypeMismatchException, InvalidDateFormatException {
 		if (!assignment.leftOperandIsColumnName() ||
 				!assignment.rightOperandIsConstant() ||
 				!tableColumns.containsKey(
@@ -445,224 +470,23 @@ public class Table {
 	 * @param condition the boolean condition.
 	 * @throws ColumnNotFoundException
 	 * @throws TypeMismatchException
+	 * @throws InvalidDateFormatException
 	 */
 	public void deleteRows(final BooleanExpression condition)
-			throws ColumnNotFoundException, TypeMismatchException {
+			throws ColumnNotFoundException, TypeMismatchException,
+			InvalidDateFormatException {
 		if (condition == null) {
 			clearTable();
 			return;
 		}
-		if(condition.leftOperandIsConstant()
-				&& condition.rightOperandIsConstant()) {
-			if (condition.evaluateConstantExpression()) {
-				clearTable();
-			} else {
-				return;
-			}
-		} else if (condition.leftOperandIsColumnName()
-				&& condition.rightOperandIsConstant()) {
-			final String columnName = condition.getLeftOperand();
-			deleteMatching(condition, columnName,
-					condition.getRightOperand(), true);
-		} else if (condition.rightOperandIsColumnName()
-				&& condition.leftOperandIsConstant()) {
-			final String columnName = condition.getRightOperand();
-			deleteMatching(condition, columnName,
-					condition.getLeftOperand(), false);
-		} else if (condition.rightOperandIsColumnName() &&
-				condition.leftOperandIsColumnName()) {
-			deleteMatching(condition, condition.getLeftOperand(),
-					condition.getRightOperand());
+		ArrayList<Integer> matches
+		= new ArrayList<>();
+		matches = getAllMatches(condition);
+		int numberOfDeletions = 0;
+		for (final int match : matches) {
+			deleteRow(match - numberOfDeletions);
+			numberOfDeletions++;
 		}
-	}
-	/**
-	 * Deletes all the rows matching a
-	 * boolean condition.
-	 * @param condition the boolean condition
-	 * @param columnName the name of the
-	 * column in the condition
-	 * @param other the value
-	 * compared to the column
-	 * @param leftIsTableColumn specifies
-	 * if the left hand side of the expression
-	 * is a column or a value
-	 * @throws ColumnNotFoundException
-	 * @throws TypeMismatchException
-	 */
-	private void deleteMatching(final BooleanExpression condition,
-			final String columnName, final String other,
-			final boolean leftIsTableColumn)
-					throws ColumnNotFoundException,
-					TypeMismatchException {
-		if (!tableColumns.containsKey(columnName.toUpperCase())) {
-			throw new ColumnNotFoundException(columnName);
-		}
-		final DataTypesValidator validator
-		= new DataTypesValidator();
-		if (!validator.match(tableColumns.get(
-				columnName.toUpperCase()).
-				getColumnDataType(), other)) {
-			throw new TypeMismatchException();
-		}
-		int firstMatch = getFirstMatch(condition,
-				tableColumns.get(columnName.toUpperCase()),
-				other, leftIsTableColumn);
-		while (firstMatch != -1) {
-			deleteRow(firstMatch);
-			firstMatch = getFirstMatch(condition,
-					tableColumns.get(columnName.toUpperCase()),
-					other, leftIsTableColumn);
-		}
-	}
-	/**
-	 * Deletes all the rows matching a
-	 * boolean condition.
-	 * @param condition the boolean condition
-	 * @param columnName the name of the
-	 * column in the condition
-	 * @param otherColumnName the value
-	 * of the other column
-	 * @throws ColumnNotFoundException
-	 * @throws TypeMismatchException
-	 */
-	private void deleteMatching(final BooleanExpression condition, final String
-			columnName, final String otherColumnName)
-					throws ColumnNotFoundException,
-					TypeMismatchException {
-		if (!tableColumns.
-				containsKey(
-						columnName.toUpperCase())) {
-			throw
-			new
-			ColumnNotFoundException(
-					columnName);
-		}
-		if (!tableColumns.
-				containsKey(
-						otherColumnName.toUpperCase())) {
-			throw new ColumnNotFoundException(otherColumnName);
-		}
-		final DataTypesValidator validator
-		= new DataTypesValidator();
-		if (!validator.checkDataTypes(
-				tableColumns.get(
-						columnName.toUpperCase()).
-				getColumnDataType(),
-				tableColumns.get(
-						otherColumnName.toUpperCase()).
-				getColumnDataType())) {
-			throw new TypeMismatchException();
-		}
-		int firstMatch = getFirstMatch(condition,
-				tableColumns.get(columnName.toUpperCase()),
-				tableColumns.get(otherColumnName.toUpperCase()));
-		while (firstMatch != -1) {
-			deleteRow(firstMatch);
-			firstMatch = getFirstMatch(condition,
-					tableColumns.get(columnName.toUpperCase()),
-					tableColumns.get(otherColumnName.toUpperCase()));
-		}
-	}
-	/**
-	 * gets the first match for
-	 * a boolean expression.
-	 * @param condition the boolean
-	 * condition
-	 * @param conditionColumn the column
-	 * of the condition
-	 * @param other the value
-	 * compared to the column
-	 * @param leftIsTableColumn specifies
-	 * if the left hand side of the expression
-	 * is a column or a value
-	 * @return the index of the first match
-	 */
-	private int getFirstMatch(final BooleanExpression condition,
-			final TableColumn conditionColumn, final String other,
-			final boolean leftIsTableColumn) {
-		if (Constants.STRING_TYPES.contains(
-				conditionColumn.getColumnDataType())) {
-			for (int i = 0; i < numberOfRows; i++) {
-				final String cellValue
-				= conditionColumn.get(i).getStringValue();
-				if (leftIsTableColumn) {
-					if (condition.evaluate(
-							new VarcharSQLType(removeQuotes
-									(cellValue)),
-							new VarcharSQLType(
-									removeQuotes(other)))) {
-						return i;
-					}
-				} else {
-					if (condition.evaluate(
-							new VarcharSQLType(
-									removeQuotes(other)),
-							new VarcharSQLType(
-									removeQuotes(cellValue)))) {
-						return i;
-					}
-				}
-			}
-		} else if (Constants.INTEGER_TYPES.contains(
-				conditionColumn.getColumnDataType())) {
-			for (int i = 0; i < numberOfRows; i++) {
-				if (leftIsTableColumn) {
-					if (condition.evaluate((IntSQLType)
-							conditionColumn.get(i),
-							new IntSQLType(other))) {
-						return i;
-					}
-				} else {
-					if (condition.evaluate(new IntSQLType(other),
-							(IntSQLType) conditionColumn.get(i))) {
-						return i;
-					}
-				}
-			}
-		}
-		return -1;
-	}
-	/**
-	 * gets the first match for
-	 * a boolean expression.
-	 * @param condition the boolean
-	 * condition
-	 * @param conditionColumn the column
-	 * of the condition
-	 * @param other the other column
-	 * @return the index of the first match
-	 */
-	private int getFirstMatch(final BooleanExpression condition,
-			final TableColumn conditionColumn,
-			final TableColumn other) {
-		if (Constants.STRING_TYPES.contains(
-				conditionColumn.getColumnDataType())) {
-			for (int i = 0; i < numberOfRows; i++) {
-				final String leftCellValue
-				= conditionColumn.get(i).getStringValue();
-				final String rightCellValue
-				= other.get(i).getStringValue();
-				if (condition.evaluate(
-						new VarcharSQLType(
-								leftCellValue.substring(1,
-										leftCellValue.length() - 1)),
-						new VarcharSQLType(
-								rightCellValue.substring(1,
-										rightCellValue.length() - 1)))) {
-					return i;
-				}
-			}
-		} else if (Constants.INTEGER_TYPES.contains(
-				conditionColumn.getColumnDataType())) {
-			for (int i = 0; i < numberOfRows; i++) {
-				if (condition.evaluate((
-						IntSQLType)conditionColumn.get(i),
-						(IntSQLType)other.get(i))) {
-					return i;
-				}
-			}
-		}
-		return -1;
 	}
 	/**
 	 * Gets all matches of a boolean expression.
@@ -675,47 +499,18 @@ public class Table {
 	 * if the left hand side of the expression
 	 * is a column or a value
 	 * @return
+	 * @throws InvalidDateFormatException
 	 */
 	private ArrayList<Integer> getAllMatches(final BooleanExpression condition,
 			final TableColumn conditionColumn, final String other,
-			final boolean leftIsTableColumn) {
+			final boolean leftIsTableColumn) throws InvalidDateFormatException {
 		final ArrayList<Integer> matches = new ArrayList<>();
-		if (Constants.STRING_TYPES.contains(
-				conditionColumn.getColumnDataType())) {
-			for (int i = 0; i < numberOfRows; i++) {
-				final String cellValue
-				= conditionColumn.get(i).getStringValue();
-				if (leftIsTableColumn) {
-					if (condition.evaluate(
-							new VarcharSQLType(cellValue.substring(1,
-									cellValue.length() - 1)),
-							new VarcharSQLType(removeQuotes(other)))) {
-						matches.add(i);
-					}
-				} else {
-					if (condition.evaluate(
-							new VarcharSQLType(removeQuotes(other)),
-							new VarcharSQLType(cellValue.substring(1,
-									cellValue.length() - 1)))) {
-						matches.add(i);
-					}
-				}
-			}
-		} else if (Constants.INTEGER_TYPES.contains(
-				conditionColumn.getColumnDataType())) {
-			for (int i = 0; i < numberOfRows; i++) {
-				if (leftIsTableColumn) {
-					if (condition.evaluate(
-							(IntSQLType) conditionColumn.get(i),
-							new IntSQLType(other))) {
-						matches.add(i);
-					}
-				} else {
-					if (condition.evaluate(new IntSQLType(other),
-							(IntSQLType) conditionColumn.get(i))) {
-						matches.add(i);
-					}
-				}
+		for (int i = 0; i < numberOfRows; i++) {
+			final String leftCellValue
+			= conditionColumn.get(i).getStringValue();
+			if (evaluateExpression(condition,
+					leftCellValue, other)) {
+				matches.add(i);
 			}
 		}
 		return matches;
@@ -729,12 +524,14 @@ public class Table {
 	 * of the condition
 	 * @param other the other column
 	 * @return a list of all matches
+	 * @throws InvalidDateFormatException
 	 */
 	private ArrayList<Integer> getAllMatches(
 			final BooleanExpression condition,
 			final TableColumn conditionColumn,
 			final TableColumn other)
-					throws TypeMismatchException {
+					throws TypeMismatchException,
+					InvalidDateFormatException {
 		final DataTypesValidator validator
 		= new DataTypesValidator();
 		if (!validator.checkDataTypes(
@@ -744,30 +541,14 @@ public class Table {
 		}
 		final ArrayList<Integer> matches
 		= new ArrayList<>();
-		if (Constants.STRING_TYPES.contains(
-				conditionColumn.getColumnDataType())) {
-			for (int i = 0; i < numberOfRows; i++) {
-				final String leftCellValue
-				= conditionColumn.get(i).getStringValue();
-				final String rightCellValue
-				= other.get(i).getStringValue();
-				if (condition.evaluate(
-						new VarcharSQLType(
-								leftCellValue.substring(1,
-										leftCellValue.length() - 1)),
-						new VarcharSQLType(rightCellValue.substring(1,
-								rightCellValue.length() - 1)))) {
-					matches.add(i);
-				}
-			}
-		} else if (Constants.INTEGER_TYPES.contains(
-				conditionColumn.getColumnDataType())) {
-			for (int i = 0; i < numberOfRows; i++) {
-				if (condition.evaluate(
-						(IntSQLType)conditionColumn.get(i),
-						(IntSQLType)other.get(i))) {
-					matches.add(i);
-				}
+		for (int i = 0; i < numberOfRows; i++) {
+			final String leftCellValue
+			= conditionColumn.get(i).getStringValue();
+			final String rightCellValue
+			= other.get(i).getStringValue();
+			if (evaluateExpression(condition,
+					leftCellValue, rightCellValue)) {
+				matches.add(i);
 			}
 		}
 		return matches;
@@ -805,13 +586,47 @@ public class Table {
 		}
 		return rows;
 	}
-	/**
-	 * removes the quotes from a string
-	 * value.
-	 * @param s the string
-	 * @return the quote-less string
-	 */
-	private String removeQuotes(final String s) {
-		return s.substring(1, s.length() - 1);
+	private boolean evaluateExpression(final BooleanExpression condition,
+			final String leftValue, final String rightValue)
+					throws InvalidDateFormatException {
+		final DataTypesValidator validator
+		= new DataTypesValidator();
+		if (Constants.STRING_TYPES.contains(
+				validator.getDataType(leftValue)) &&
+				Constants.STRING_TYPES.contains(
+						validator.getDataType(rightValue))) {
+			return condition.evaluate(
+					new VarcharSQLType(leftValue),
+					new VarcharSQLType(rightValue));
+		} else if (Constants.INTEGER_TYPES.contains(
+				validator.getDataType(leftValue)) &&
+				Constants.INTEGER_TYPES.contains(
+						validator.getDataType(rightValue))) {
+			return condition.evaluate(
+					new IntSQLType(leftValue),
+					new IntSQLType(rightValue));
+		} else if (Constants.FLOAT_TYPES.contains(
+				validator.getDataType(leftValue)) &&
+				Constants.FLOAT_TYPES.contains(
+						validator.getDataType(rightValue))) {
+			return condition.evaluate(
+					new FloatSQLType(leftValue),
+					new FloatSQLType(rightValue));
+		} else if (Constants.DATE_TYPES.contains(
+				validator.getDataType(leftValue)) &&
+				Constants.DATE_TYPES.contains(
+						validator.getDataType(rightValue))) {
+			return condition.evaluate(
+					new DateSQLType(leftValue),
+					new DateSQLType(rightValue));
+		} else if (Constants.DATE_TIME_TYPES.contains(
+				validator.getDataType(leftValue)) &&
+				Constants.DATE_TIME_TYPES.contains(
+						validator.getDataType(rightValue))) {
+			return condition.evaluate(
+					new DateTimeSQLType(leftValue),
+					new DateTimeSQLType(rightValue));
+		}
+		return false;
 	}
 }

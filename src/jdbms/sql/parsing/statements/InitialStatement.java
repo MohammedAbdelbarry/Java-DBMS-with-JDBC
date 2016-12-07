@@ -9,6 +9,7 @@ import jdbms.sql.exceptions.DatabaseAlreadyExistsException;
 import jdbms.sql.exceptions.DatabaseNotFoundException;
 import jdbms.sql.exceptions.FailedToDeleteDatabaseException;
 import jdbms.sql.exceptions.FailedToDeleteTableException;
+import jdbms.sql.exceptions.InvalidDateFormatException;
 import jdbms.sql.exceptions.RepeatedColumnException;
 import jdbms.sql.exceptions.TableAlreadyExistsException;
 import jdbms.sql.exceptions.TableNotFoundException;
@@ -48,6 +49,7 @@ implements Statement {
 	 * @throws DatabaseNotFoundException
 	 * @throws FailedToDeleteDatabaseException
 	 * @throws FailedToDeleteTableException
+	 * @throws InvalidDateFormatException
 	 */
 	public abstract void act(SQLData data)
 			throws ColumnNotFoundException,
@@ -62,7 +64,8 @@ implements Statement {
 			DatabaseAlreadyExistsException,
 			DatabaseNotFoundException,
 			FailedToDeleteDatabaseException,
-			FailedToDeleteTableException;
+			FailedToDeleteTableException,
+			InvalidDateFormatException;
 	/**
 	 * Gets the parameters.
 	 * @return the parameters

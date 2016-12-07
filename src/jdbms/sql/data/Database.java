@@ -8,6 +8,7 @@ import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
 import jdbms.sql.exceptions.ColumnNotFoundException;
 import jdbms.sql.exceptions.FailedToDeleteTableException;
+import jdbms.sql.exceptions.InvalidDateFormatException;
 import jdbms.sql.exceptions.RepeatedColumnException;
 import jdbms.sql.exceptions.TableAlreadyExistsException;
 import jdbms.sql.exceptions.TableNotFoundException;
@@ -38,7 +39,7 @@ public class Database {
 	public void addTable(final TableIdentifier newTableIdentifier,
 			final FileHandler fileHandler)
 					throws TableAlreadyExistsException,
-					ColumnAlreadyExistsException {
+					ColumnAlreadyExistsException, InvalidDateFormatException {
 		if (tables.contains(newTableIdentifier.getTableName().toUpperCase())) {
 			throw new TableAlreadyExistsException(
 					newTableIdentifier.getTableName());
@@ -51,7 +52,8 @@ public class Database {
 	public void addTable(final TableCreationParameters tableParameters,
 			final FileHandler fileHandler)
 					throws ColumnAlreadyExistsException,
-					TableAlreadyExistsException {
+					TableAlreadyExistsException,
+					InvalidDateFormatException {
 		if (tables.contains(tableParameters.getTableName().toUpperCase())) {
 			throw new TableAlreadyExistsException(
 					tableParameters.getTableName());
@@ -85,7 +87,7 @@ public class Database {
 					TypeMismatchException, TableNotFoundException,
 					ColumnAlreadyExistsException, RepeatedColumnException,
 					ColumnListTooLargeException, ValueListTooLargeException,
-					ValueListTooSmallException {
+					ValueListTooSmallException, InvalidDateFormatException {
 		if (!tables.contains(deleteParameters.getTableName().toUpperCase())) {
 			throw new TableNotFoundException(
 					deleteParameters.getTableName());
@@ -101,7 +103,8 @@ public class Database {
 					ColumnListTooLargeException, ColumnNotFoundException,
 					ValueListTooLargeException, ValueListTooSmallException,
 					TableNotFoundException, TypeMismatchException,
-					ColumnAlreadyExistsException {
+					ColumnAlreadyExistsException,
+					InvalidDateFormatException {
 		if (!tables.contains(insertParameters.getTableName().toUpperCase())) {
 			throw new TableNotFoundException(
 					insertParameters.getTableName());
@@ -118,7 +121,8 @@ public class Database {
 					TypeMismatchException, TableNotFoundException,
 					ColumnAlreadyExistsException, RepeatedColumnException,
 					ColumnListTooLargeException, ValueListTooLargeException,
-					ValueListTooSmallException {
+					ValueListTooSmallException,
+					InvalidDateFormatException {
 		if (!tables.contains(selectParameters.getTableName().toUpperCase())) {
 			throw new TableNotFoundException(
 					selectParameters.getTableName());
@@ -132,7 +136,8 @@ public class Database {
 					throws ColumnNotFoundException, TypeMismatchException,
 					TableNotFoundException, ColumnAlreadyExistsException,
 					RepeatedColumnException, ColumnListTooLargeException,
-					ValueListTooLargeException, ValueListTooSmallException {
+					ValueListTooLargeException, ValueListTooSmallException,
+					InvalidDateFormatException {
 		if (!tables.contains(updateParameters.getTableName().toUpperCase())) {
 			throw new TableNotFoundException(
 					updateParameters.getTableName());
@@ -148,7 +153,7 @@ public class Database {
 					TableNotFoundException, RepeatedColumnException,
 					ColumnListTooLargeException, ColumnNotFoundException,
 					ValueListTooLargeException, ValueListTooSmallException,
-					TypeMismatchException {
+					TypeMismatchException, InvalidDateFormatException {
 		if (!tables.contains(parameters.
 				getTableName().toUpperCase())) {
 			throw new TableNotFoundException(parameters.getTableName());
