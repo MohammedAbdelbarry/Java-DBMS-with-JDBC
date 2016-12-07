@@ -487,13 +487,22 @@ public class Table {
 	 * if the left hand side of the expression
 	 * is a column or a value
 	 * @throws ColumnNotFoundException
+	 * @throws TypeMismatchException
 	 */
 	private void deleteMatching(final BooleanExpression condition,
 			final String columnName, final String other,
 			final boolean leftIsTableColumn)
-					throws ColumnNotFoundException {
+					throws ColumnNotFoundException,
+					TypeMismatchException {
 		if (!tableColumns.containsKey(columnName.toUpperCase())) {
 			throw new ColumnNotFoundException(columnName);
+		}
+		final DataTypesValidator validator
+		= new DataTypesValidator();
+		if (!validator.match(tableColumns.get(
+				columnName.toUpperCase()).
+				getColumnDataType(), other)) {
+			throw new TypeMismatchException();
 		}
 		int firstMatch = getFirstMatch(condition,
 				tableColumns.get(columnName.toUpperCase()),
@@ -533,9 +542,20 @@ public class Table {
 						otherColumnName.toUpperCase())) {
 			throw new ColumnNotFoundException(otherColumnName);
 		}
+		final DataTypesValidator validator
+		= new DataTypesValidator();
+		if (!validator.checkDataTypes(
+				tableColumns.get(
+						columnName.toUpperCase()).
+				getColumnDataType(),
+				tableColumns.get(
+						otherColumnName.toUpperCase()).
+				getColumnDataType())) {
+			throw new TypeMismatchException();
+		}
 		int firstMatch = getFirstMatch(condition,
 				tableColumns.get(columnName.toUpperCase()),
-				tableColumns.get(otherColumnName));
+				tableColumns.get(otherColumnName.toUpperCase()));
 		while (firstMatch != -1) {
 			deleteRow(firstMatch);
 			firstMatch = getFirstMatch(condition,
@@ -613,15 +633,8 @@ public class Table {
 	 * @return the index of the first match
 	 */
 	private int getFirstMatch(final BooleanExpression condition,
-			final TableColumn conditionColumn, final TableColumn other)
-					throws TypeMismatchException {
-		final DataTypesValidator validator
-		= new DataTypesValidator();
-		if (!validator.checkDataTypes(
-				conditionColumn.getColumnDataType(),
-				other.getColumnDataType())) {
-			throw new TypeMismatchException();
-		}
+			final TableColumn conditionColumn,
+			final TableColumn other) {
 		if (Constants.STRING_TYPES.contains(
 				conditionColumn.getColumnDataType())) {
 			for (int i = 0; i < numberOfRows; i++) {
