@@ -3,19 +3,17 @@ package jdbms.sql.parsing.properties;
 import java.util.ArrayList;
 
 import jdbms.sql.parsing.expressions.math.BooleanExpression;
+import jdbms.sql.parsing.expressions.util.ColumnOrder;
 
 public class SelectionParameters {
 	private ArrayList<String> columns;
 	private String tableName;
 	private BooleanExpression condition;
 	private boolean isDistinct;
-	private boolean isAscending;
-	private String sortingColumnName;
+	private ArrayList<ColumnOrder> columnsOrder;
 
 	public SelectionParameters() {
 		this.isDistinct = false;
-		this.isAscending = true;
-		this.sortingColumnName = new String();
 	}
 
 	public ArrayList<String> getColumns() {
@@ -50,19 +48,11 @@ public class SelectionParameters {
 		return this.isDistinct;
 	}
 
-	public void setAscending(boolean ascending) {
-		this.isAscending = ascending;
+	public ArrayList<ColumnOrder> getColumnsOrder() {
+		return this.columnsOrder;
 	}
 
-	public boolean isAscending() {
-		return this.isAscending;
-	}
-
-	public void setSortingColumnName(String columnName) {
-		this.sortingColumnName = columnName;
-	}
-
-	public String getSortingColumnName() {
-		return this.sortingColumnName;
+	public void setColumnsOrder(ArrayList<ColumnOrder> columnsOrder) {
+		this.columnsOrder = columnsOrder;
 	}
 }

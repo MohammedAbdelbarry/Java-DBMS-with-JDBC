@@ -8,5 +8,4 @@ public class OrderByTableNameExpression extends TableNameExpression {
 	public OrderByTableNameExpression(InputParametersContainer parameters) {
 		super(new OrderByStatement(parameters), parameters);
 	}
-
 }

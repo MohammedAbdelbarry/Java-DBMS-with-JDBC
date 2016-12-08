@@ -28,7 +28,7 @@ public class UpdateStatementTesting {
 				+ " ContactName='Alfred Schmidt',City  = ' Ham\"bu\"rg' "
 				+ "WHERE CustomerName = 'Alfr\"eds Futter\"kiste';";
 		SQLCommand = normalizer.normalizeCommand(SQLCommand);
-		String name = "Customers";
+		final String name = "Customers";
 		assertEquals(update.interpret(SQLCommand), true);
 		assertEquals(name, update.getParameters().getTableName());
 		assertEquals("ContactName", update.getParameters().getAssignmentList().get(0).getLeftOperand());
@@ -43,7 +43,7 @@ public class UpdateStatementTesting {
 	public void testFloatUpdate() {
 		String SQLCommand = "UPDATE Customers set float1 = 5.4, float2 = 3.010 WHERE float1 = 2.01;";
 		SQLCommand = normalizer.normalizeCommand(SQLCommand);
-		String name = "Customers";
+		final String name = "Customers";
 		assertEquals(update.interpret(SQLCommand), true);
 		assertEquals(name, update.getParameters().getTableName());
 		assertEquals("float1", update.getParameters().getAssignmentList().get(0).getLeftOperand());
@@ -56,7 +56,7 @@ public class UpdateStatementTesting {
 
 	@Test
 	public void testInvalidFloatUpdate1() {
-		String SQLCommand = "UPDATE Customers set float1 = .4, float2 = 3.010 WHERE float1 = 2.01;";
+		String SQLCommand = "UPDATE Customers set float1 = .4, float2 = 3.0.10 WHERE float1 = 2.01;";
 		SQLCommand = normalizer.normalizeCommand(SQLCommand);
 		assertEquals(update.interpret(SQLCommand), false);
 	}
@@ -72,7 +72,7 @@ public class UpdateStatementTesting {
 	public void testUpdateAll() {
 		String SQLCommand = "UPDATE CUSTOMERS SET ADDRESS='Pune',SALARY=1000;";
 		SQLCommand = normalizer.normalizeCommand(SQLCommand);
-		String name = "CUSTOMERS";
+		final String name = "CUSTOMERS";
 		assertEquals(update.interpret(SQLCommand), true);
 		assertEquals(name, update.getParameters().getTableName());
 		assertEquals(null, update.getParameters().getCondition());

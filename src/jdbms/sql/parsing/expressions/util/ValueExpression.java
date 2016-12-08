@@ -1,6 +1,6 @@
 package jdbms.sql.parsing.expressions.util;
 
-import jdbms.sql.parsing.util.Constants;
+import jdbms.sql.datatypes.util.DataTypesValidator;
 
 /**
  * The Class Value Expression.
@@ -8,14 +8,16 @@ import jdbms.sql.parsing.util.Constants;
 public class ValueExpression {
 
 	/** The expression. */
-	private String expression;
-	
+	private final String expression;
+	private final DataTypesValidator validator;
+
 	/**
 	 * Instantiates a new value expression.
 	 * @param expression the value expression
 	 */
-	public ValueExpression(String expression) {
+	public ValueExpression(final String expression) {
 		this.expression = expression.trim();
+		this.validator = new DataTypesValidator();
 	}
 
 	/**
@@ -23,12 +25,9 @@ public class ValueExpression {
 	 * @return true, if is valid expression name
 	 */
 	public boolean isValidExpressionName() {
-		return this.expression.matches(Constants.INT_REGEX)
-				|| this.expression.matches(Constants.STRING_REGEX)
-				|| this.expression.matches(Constants.DOUBLE_STRING_REGEX)
-				|| this.expression.matches(Constants.FLOAT_REGEX);
+		return this.validator.isConstant(this.expression);
 	}
-	
+
 	/**
 	 * Gets the value expression.
 	 * @return the value expression
