@@ -70,4 +70,9 @@ public class DataTypesValidator {
 	public boolean isConstant(final String value) {
 		return getDataType(value) != null;
 	}
+
+	public boolean isSupportedDataType(final String dataType) {
+		return Constants.SUPPORTED_DATA_TYPES.
+				contains(dataType.trim().toUpperCase());
+	}
 }

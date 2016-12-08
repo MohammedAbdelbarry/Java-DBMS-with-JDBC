@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import jdbms.sql.data.ColumnIdentifier;
 import jdbms.sql.parsing.expressions.math.AssignmentExpression;
 import jdbms.sql.parsing.expressions.math.BooleanExpression;
+import jdbms.sql.parsing.expressions.util.ColumnOrder;
 
 public class InputParametersContainer {
 	private String databaseName;
@@ -15,12 +16,10 @@ public class InputParametersContainer {
 	private ArrayList<ColumnIdentifier> columnDefinitions;
 	private ArrayList<AssignmentExpression> assignmentList;
 	private boolean distinct;
-	private boolean isAscending;
-	private String sortingColumnName;
+	private ArrayList<ColumnOrder> columnsOrder;
 
 	public InputParametersContainer() {
 		this.distinct = false;
-		this.isAscending = true;
 	}
 
 	public String getDatabaseName() {
@@ -86,19 +85,11 @@ public class InputParametersContainer {
 		return this.distinct;
 	}
 
-	public void setAscending(boolean ascending) {
-		this.isAscending = ascending;
+	public ArrayList<ColumnOrder> getColumnsOrder() {
+		return this.columnsOrder;
 	}
 
-	public boolean isAscending() {
-		return this.isAscending;
-	}
-
-	public void setSortingColumnName(String columnName) {
-		this.sortingColumnName = columnName;
-	}
-
-	public String getSortingColumnName() {
-		return this.sortingColumnName;
+	public void setColumnsOrder(ArrayList<ColumnOrder> columnsOrder) {
+		this.columnsOrder = columnsOrder;
 	}
 }

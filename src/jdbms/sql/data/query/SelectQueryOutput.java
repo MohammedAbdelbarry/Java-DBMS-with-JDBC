@@ -7,6 +7,7 @@ import jdbms.sql.parsing.util.Constants;
 public class SelectQueryOutput {
 	private ArrayList<String> columns;
 	private ArrayList<ArrayList<String>> outputRows;
+	private String tableName;
 	private static final String NULL_PLACEHOLDER = "";
 	public SelectQueryOutput() {
 		outputRows = new ArrayList<>();
@@ -40,5 +41,11 @@ public class SelectQueryOutput {
 			index++;
 		}
 		return arr;
+	}
+	public String getTableName() {
+		return tableName;
+	}
+	public void setTableName(final String table) {
+		this.tableName = table;
 	}
 }

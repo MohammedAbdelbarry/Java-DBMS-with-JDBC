@@ -1,6 +1,6 @@
 package jdbms.sql.parsing.statements;
 
-import jdbms.sql.parsing.expressions.OrderByColumnNameExpression;
+import jdbms.sql.parsing.expressions.OrderByColumnListExpression;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 
 /**
@@ -23,7 +23,7 @@ public class OrderByStatement implements Statement {
 	public boolean interpret(String sqlExpression) {
 		if (sqlExpression.startsWith(STATEMENT_IDENTIFIER)) {
 			String restOfExpression = sqlExpression.replaceFirst(STATEMENT_IDENTIFIER, "").trim();
-			return new OrderByColumnNameExpression(parameters).interpret(restOfExpression);
+			return new OrderByColumnListExpression(parameters).interpret(restOfExpression);
 		}
 		return false;
 	}

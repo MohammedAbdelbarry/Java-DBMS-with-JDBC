@@ -53,8 +53,9 @@ public class Parser {
 					ErrorHandler.
 					printColumnNotFoundError(e.getMessage());
 				} catch (final TypeMismatchException e) {
-					ErrorHandler.
-					printTypeMismatchError();
+					//					ErrorHandler.
+					//					printTypeMismatchError();
+					e.printStackTrace();
 				} catch (final TableNotFoundException e) {
 					ErrorHandler.
 					printTableNotFoundError(e.getMessage());
@@ -91,8 +92,9 @@ public class Parser {
 				} catch (final InvalidDateFormatException e) {
 					ErrorHandler.printInvalidDateError(e.getMessage());
 				}  catch (final Exception e) {
-					ErrorHandler.
-					printInternalError();
+					//					ErrorHandler.
+					//					printInternalError();
+					e.printStackTrace();
 					break;
 				}
 			}

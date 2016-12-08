@@ -45,7 +45,7 @@ public class ParserMain {
 				ErrorHandler.printSyntaxError();
 				continue;
 			}
-			if (sql.trim().toUpperCase().equals(QUIT)) {
+			if (sql.trim().equalsIgnoreCase(QUIT)) {
 				in.close();
 				break;
 			}

@@ -18,6 +18,7 @@ import jdbms.sql.exceptions.ValueListTooSmallException;
 import jdbms.sql.file.FileHandler;
 import jdbms.sql.parsing.properties.AddColumnParameters;
 import jdbms.sql.parsing.properties.DeletionParameters;
+import jdbms.sql.parsing.properties.DropColumnParameters;
 import jdbms.sql.parsing.properties.InsertionParameters;
 import jdbms.sql.parsing.properties.SelectionParameters;
 import jdbms.sql.parsing.properties.TableCreationParameters;
@@ -174,6 +175,28 @@ public class Database {
 		= activeTable.addTableColumn(
 				parameters.getColumnIdentifier().getName(),
 				parameters.getColumnIdentifier().getType());
+		fileHandler.createTable(activeTable, databaseName.toUpperCase());
+		return returnValue;
+	}
+	public int dropTableColumn(final DropColumnParameters parameters,
+			final FileHandler fileHandler)
+					throws ColumnAlreadyExistsException,
+					RepeatedColumnException,
+					ColumnListTooLargeException,
+					ColumnNotFoundException,
+					ValueListTooLargeException,
+					ValueListTooSmallException,
+					TypeMismatchException,
+					InvalidDateFormatException,
+					TableNotFoundException {
+		if (!tables.contains(parameters.
+				getTableName().toUpperCase())) {
+			throw new TableNotFoundException(parameters.getTableName() );
+		}
+		final Table activeTable = fileHandler.loadTable(databaseName.toUpperCase(),
+				parameters.getTableName().toUpperCase());
+		final int returnValue
+		= activeTable.dropTableColumn(parameters);
 		fileHandler.createTable(activeTable, databaseName.toUpperCase());
 		return returnValue;
 	}

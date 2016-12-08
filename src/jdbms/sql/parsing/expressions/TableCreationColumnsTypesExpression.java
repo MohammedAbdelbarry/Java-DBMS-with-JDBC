@@ -1,10 +1,9 @@
 package jdbms.sql.parsing.expressions;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import jdbms.sql.data.ColumnIdentifier;
-import jdbms.sql.datatypes.util.SQLTypeFactory;
+import jdbms.sql.datatypes.util.DataTypesValidator;
 import jdbms.sql.parsing.expressions.util.ColumnExpression;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 
@@ -14,29 +13,27 @@ import jdbms.sql.parsing.properties.InputParametersContainer;
 public class TableCreationColumnsTypesExpression
 extends ColumnsDatatypesExpression {
 
-	private List<String> dataTypes;
 	private ArrayList<ColumnIdentifier> columnsDataTypes = null;
-	
+	private final DataTypesValidator validator;
+
 	/**
 	 * Instantiates a new table creation columns types expression.
 	 * @param parameters the parameters
 	 */
 	public TableCreationColumnsTypesExpression(
-			InputParametersContainer parameters) {
+			final InputParametersContainer parameters) {
 		super(new TerminalExpression(parameters), parameters);
 		columnsDataTypes = new ArrayList<>();
-		dataTypes = new ArrayList<>(
-				SQLTypeFactory.
-				getInstance().getRegisteredTypes());
+		validator = new DataTypesValidator();
 	}
 
 	@Override
-	public boolean interpret(String sqlExpression) {
-		String[] parts = sqlExpression.
+	public boolean interpret(final String sqlExpression) {
+		final String[] parts = sqlExpression.
 				trim().split("\\)");
 		if (parts[0].startsWith("(")) {
 			parts[0] = parts[0].replaceFirst("\\(", "");
-			String[] types = parts[0].split(",");
+			final String[] types = parts[0].split(",");
 			for (String colType : types) {
 				colType = colType.trim();
 				String colName = "", dataType = "";
@@ -48,13 +45,13 @@ extends ColumnsDatatypesExpression {
 							substring(colType.
 									indexOf(" ") + 1).
 							trim();
-				} catch(Exception e) {
+				} catch(final Exception e) {
 					return false;
 				}
 				if (new ColumnExpression(colName).
 						isValidColumnName()
-						&& dataTypes.
-						contains(dataType)) {
+						&& validator.
+						isSupportedDataType(dataType)) {
 					columnsDataTypes.
 					add(new ColumnIdentifier(colName,
 							dataType));

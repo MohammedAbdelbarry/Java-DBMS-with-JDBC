@@ -24,6 +24,7 @@ import jdbms.sql.exceptions.ValueListTooLargeException;
 import jdbms.sql.exceptions.ValueListTooSmallException;
 import jdbms.sql.parsing.expressions.math.AssignmentExpression;
 import jdbms.sql.parsing.expressions.math.BooleanExpression;
+import jdbms.sql.parsing.properties.DropColumnParameters;
 import jdbms.sql.parsing.properties.InsertionParameters;
 import jdbms.sql.parsing.properties.SelectionParameters;
 import jdbms.sql.parsing.properties.TableCreationParameters;
@@ -117,6 +118,31 @@ public class Table {
 		tableColumnNames.add(columnName);
 		for (int i = 0 ; i < numberOfRows ; i++) {
 			tableColumns.get(columnName.toUpperCase()).add(null);
+		}
+		return 0;
+	}
+	/**
+	 * Drops a table column.
+	 * @param parameters the {@link
+	 * DropColumnParameters} specifying the
+	 * columns to be dropped
+	 * @throws ColumnNotFoundException
+	 */
+	public int dropTableColumn(final DropColumnParameters
+			parameters) throws ColumnNotFoundException {
+		for (final String col : parameters.getColumnList()) {
+			if (!tableColumns.containsKey(col.toUpperCase())) {
+				throw new ColumnNotFoundException(col);
+			}
+		}
+		for (final String col : parameters.getColumnList()) {
+			tableColumns.remove(col.toUpperCase());
+			for (int i = 0 ; i < tableColumnNames.size() ; i++) {
+				if (tableColumnNames.get(i).equalsIgnoreCase(col)) {
+					tableColumnNames.remove(i);
+					break;
+				}
+			}
 		}
 		return 0;
 	}
@@ -328,6 +354,7 @@ public class Table {
 			index++;
 		}
 		output.setRows(rows);
+		output.setTableName(tableName);
 		return output;
 	}
 	/**

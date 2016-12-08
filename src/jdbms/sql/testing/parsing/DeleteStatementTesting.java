@@ -26,7 +26,7 @@ public class DeleteStatementTesting {
 	public void testDeleteAll() {
 		String sqlCommand = "DELETE FROM table_name;";
 		sqlCommand = normalizer.normalizeCommand(sqlCommand);
-		String name = "table_name";
+		final String name = "table_name";
 		assertEquals(delete.interpret(sqlCommand), true);
 		assertEquals(name, delete.getParameters().getTableName());
 		assertEquals(null, delete.getParameters().getCondition());
@@ -36,7 +36,7 @@ public class DeleteStatementTesting {
 	public void testDeleteConditional() {
 		String sqlCommand = "DELETE FROM Customers WHERE name='x y';";
 		sqlCommand = normalizer.normalizeCommand(sqlCommand);
-		String name = "Customers";
+		final String name = "Customers";
 		assertEquals(delete.interpret(sqlCommand), true);
 		assertEquals(name, delete.getParameters().getTableName());
 		assertEquals("name", delete.getParameters().getCondition().getLeftOperand());
@@ -47,7 +47,7 @@ public class DeleteStatementTesting {
 	public void testFloatDeleteConditional() {
 		String sqlCommand = "DELETE FROM Customers WHERE grade = 5.6584;";
 		sqlCommand = normalizer.normalizeCommand(sqlCommand);
-		String name = "Customers";
+		final String name = "Customers";
 		assertEquals(delete.interpret(sqlCommand), true);
 		assertEquals(name, delete.getParameters().getTableName());
 		assertEquals("grade", delete.getParameters().getCondition().getLeftOperand());
@@ -65,7 +65,7 @@ public class DeleteStatementTesting {
 	public void testInvalidFloatDelete() {
 		String sqlCommand = "DELETE FROM Customers WHERE grade = .84;";
 		sqlCommand = normalizer.normalizeCommand(sqlCommand);
-		assertEquals(delete.interpret(sqlCommand), false);
+		assertEquals(delete.interpret(sqlCommand), true);
 	}
 
 	@Test

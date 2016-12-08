@@ -48,12 +48,9 @@ public class CreateTableStatementTesting {
 		sqlCommand = normalizer.normalizeCommand(sqlCommand);
 		ArrayList<ColumnIdentifier> columnId = new ArrayList<>();
 		String name = "NEWTABLE";
-		ColumnIdentifier cd = new ColumnIdentifier("ID", "FLOAT");
-		columnId.add(cd);
-		cd = new ColumnIdentifier("AGE", "REAL");
-		columnId.add(cd);
-		cd = new ColumnIdentifier("Coolness", "REAL");
-		columnId.add(cd);
+		columnId.add(new ColumnIdentifier("ID", "FLOAT"));
+		columnId.add(new ColumnIdentifier("AGE", "REAL"));
+		columnId.add(new ColumnIdentifier("Coolness", "REAL"));
 		assertEquals(createTable.interpret(sqlCommand), true);
 		assertEquals(createTable.getParameters().getTableName(), name);
 		assertEquals(createTable.getParameters().getColumnDefinitions(), columnId);

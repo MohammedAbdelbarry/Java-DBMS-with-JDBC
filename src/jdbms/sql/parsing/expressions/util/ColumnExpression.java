@@ -1,6 +1,5 @@
 package jdbms.sql.parsing.expressions.util;
 
-import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.parsing.util.Constants;
 
 /**
@@ -24,7 +23,6 @@ public class ColumnExpression {
 	 */
 	public boolean isValidColumnName() {
 		if (Constants.RESERVED_KEYWORDS.contains(expression.toUpperCase())) {
-			ErrorHandler.printReservedKeywordError(expression);
 			return false;
 		}
 		return this.expression.matches(Constants.COLUMN_REGEX);
@@ -36,5 +34,30 @@ public class ColumnExpression {
 	 */
 	public String getExpression() {
 		return expression;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((expression == null) ? 0 : expression.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ColumnExpression other = (ColumnExpression) obj;
+		if (expression == null) {
+			if (other.expression != null)
+				return false;
+		} else if (!expression.equals(other.expression))
+			return false;
+		return true;
 	}
 }
