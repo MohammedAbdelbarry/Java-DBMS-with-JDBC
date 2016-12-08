@@ -22,6 +22,7 @@ import jdbms.sql.parsing.properties.AddColumnParameters;
 import jdbms.sql.parsing.properties.DatabaseCreationParameters;
 import jdbms.sql.parsing.properties.DatabaseDroppingParameters;
 import jdbms.sql.parsing.properties.DeletionParameters;
+import jdbms.sql.parsing.properties.DropColumnParameters;
 import jdbms.sql.parsing.properties.InsertionParameters;
 import jdbms.sql.parsing.properties.SelectionParameters;
 import jdbms.sql.parsing.properties.TableCreationParameters;
@@ -236,6 +237,32 @@ public class SQLData {
 					TypeMismatchException,
 					InvalidDateFormatException {
 		return activeDatabase.addTableColumn(parameters, fileHandler);
+	}
+	/**
+	 * Drops a table column.
+	 * @param parameters the {@link DropColumnParameters}
+	 * @throws TableNotFoundException
+	 * @throws InvalidDateFormatException
+	 * @throws TypeMismatchException
+	 * @throws ValueListTooSmallException
+	 * @throws ValueListTooLargeException
+	 * @throws ColumnNotFoundException
+	 * @throws ColumnListTooLargeException
+	 * @throws RepeatedColumnException
+	 * @throws ColumnAlreadyExistsException
+	 */
+	public int dropTableColumn(final
+			DropColumnParameters parameters)
+					throws ColumnAlreadyExistsException,
+					RepeatedColumnException,
+					ColumnListTooLargeException,
+					ColumnNotFoundException,
+					ValueListTooLargeException,
+					ValueListTooSmallException,
+					TypeMismatchException,
+					InvalidDateFormatException,
+					TableNotFoundException {
+		return activeDatabase.dropTableColumn(parameters, fileHandler);
 	}
 	/**
 	 * Creates a temporary database.

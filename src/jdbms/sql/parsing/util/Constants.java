@@ -11,7 +11,8 @@ public abstract class Constants {
 					"SET", "WHERE", "FROM", "CREATE", "DROP", "DATABASE",
 					"INTEGER", "VARCHAR", "TEXT", "INT", "USE", "DISTINCT",
 					"TRUE", "FALSE", "ALTER", "ADD", "ORDER", "BY",
-					"ASC", "DESC", "FLOAT", "REAL"));
+					"ASC", "DESC", "FLOAT", "REAL", "COLUMN", "DATE",
+					"DATETIME"));
 
 	public static final String COLUMN_REGEX = "^[a-zA-Z_][a-zA-Z0-9_\\$]*$";
 	public static final String STRING_REGEX = "^'.*?'$";
