@@ -23,13 +23,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
 
-public class ResultSetImplementation implements ResultSet {
+public class DataResultSet implements ResultSet {
 
 	private ArrayList<String> columns;
 	private ArrayList<ArrayList<String>> outputRows;
 	int cursor;
 
-	public ResultSetImplementation() {
+	public DataResultSet() {
 		// TODO Auto-generated constructor stub
 		cursor = 0;
 	}

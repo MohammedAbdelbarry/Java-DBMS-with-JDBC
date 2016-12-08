@@ -1,15 +1,16 @@
-package jdbc.sql.Statement;
+package jdbc.statement;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLWarning;
+import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.Queue;
 
 import jdbms.sql.DBMSConnector;
 
-public class Statement implements java.sql.Statement {
+public class StatementManger implements Statement {
 
 	Queue<String> commands = new LinkedList<String>();
 	DBMSConnector d;
