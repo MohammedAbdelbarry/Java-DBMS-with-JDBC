@@ -10,6 +10,8 @@ import jdbms.sql.exceptions.InvalidDateFormatException;
 public class DateTimeSQLType extends SQLType<Date> {
 	private static final String DATE_TIME_FORMAT
 	= "yyyy-MM-ddHH:mm:ss";
+	private static final String DATE_TIME_STRING_FORMAT
+	= "yyyy-MM-dd HH:mm:ss";
 	static {
 		SQLTypeFactory.getInstance().
 		registerType("DATETIME", DateTimeSQLType.class);
@@ -42,7 +44,7 @@ public class DateTimeSQLType extends SQLType<Date> {
 			return "";
 		}
 		final SimpleDateFormat formatter
-		= new SimpleDateFormat(DATE_TIME_FORMAT);
+		= new SimpleDateFormat(DATE_TIME_STRING_FORMAT);
 		return formatter.format(super.value);
 	}
 }

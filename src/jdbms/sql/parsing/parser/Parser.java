@@ -53,8 +53,9 @@ public class Parser {
 					ErrorHandler.
 					printColumnNotFoundError(e.getMessage());
 				} catch (final TypeMismatchException e) {
-					ErrorHandler.
-					printTypeMismatchError();
+					//					ErrorHandler.
+					//					printTypeMismatchError();
+					e.printStackTrace();
 				} catch (final TableNotFoundException e) {
 					ErrorHandler.
 					printTableNotFoundError(e.getMessage());
