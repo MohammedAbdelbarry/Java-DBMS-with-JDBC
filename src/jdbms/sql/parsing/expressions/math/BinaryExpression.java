@@ -23,33 +23,22 @@ public abstract class BinaryExpression implements Expression {
 	/**
 	 * Instantiates a new binary expression.
 	 * @param symbol the binary epxression symbol
-	 * @param nextExpression the next expression to bee interpreted
 	 * @param parameters the input parameters
 	 */
 	public BinaryExpression(final String symbol,
-			final Expression nextExpression,
 			final InputParametersContainer parameters) {
 		this.operator = new BinaryOperator(symbol);
-		this.nextExpression = nextExpression;
 		this.parameters = parameters;
 		this.modifier = new StringModifier();
 		this.validator = new DataTypesValidator();
 	}
 
-	/**
-	 * Instantiates a new binary expression.
-	 * @param symbol the binary epxression symbol
-	 * @param nextStatement the next statement to be interpreted
-	 * @param parameters the input parameters
-	 */
-	public BinaryExpression(final String symbol,
-			final Statement nextStatement,
-			final InputParametersContainer parameters) {
-		this.operator = new BinaryOperator(symbol);
+	public void setNextExpression(final Expression nextExpression) {
+		this.nextExpression = nextExpression;
+	}
+
+	public void setNextStatement(final Statement nextStatement) {
 		this.nextStatement = nextStatement;
-		this.parameters = parameters;
-		this.modifier = new StringModifier();
-		this.validator = new DataTypesValidator();
 	}
 
 	@Override

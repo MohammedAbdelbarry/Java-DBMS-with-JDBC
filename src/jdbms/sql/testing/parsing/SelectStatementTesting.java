@@ -67,6 +67,24 @@ public class SelectStatementTesting {
 	}
 
 	@Test
+	public void SelectAllOrderBy() {
+		String sqlCommand = "SELECT * FROM Customers WHERE CustomerCoolness != 1.512256 Order By col1, col2, col3 DESC;";
+		sqlCommand = normalizer.normalizeCommand(sqlCommand);
+		final String name = "Customers";
+		final ArrayList<String> cols = new ArrayList<>();
+		cols.add("*");
+		final ArrayList<ColumnOrder> list = new ArrayList<>();
+		list.add(new ColumnOrder("col1", "ASC"));
+		list.add(new ColumnOrder("col2", "ASC"));
+		list.add(new ColumnOrder("col3", "DESC"));
+		assertEquals(select.interpret(sqlCommand), true);
+		assertEquals(name, select.getParameters().getTableName());
+		assertEquals(cols, select.getParameters().getColumns());
+		assertEquals(list, select.getParameters().getColumnsOrder());
+		assertEquals("CustomerCoolness", select.getParameters().getCondition().getLeftOperand());
+		assertEquals("1.512256", select.getParameters().getCondition().getRightOperand());
+	}
+	@Test
 	public void testSelect() {
 		String sqlCommand = "SELECT CustomerID,CustomerName,  Grades FROM Customers;";
 		sqlCommand = normalizer.normalizeCommand(sqlCommand);
