@@ -91,8 +91,9 @@ public class Parser {
 				} catch (final InvalidDateFormatException e) {
 					ErrorHandler.printInvalidDateError(e.getMessage());
 				}  catch (final Exception e) {
-					ErrorHandler.
-					printInternalError();
+					//					ErrorHandler.
+					//					printInternalError();
+					e.printStackTrace();
 					break;
 				}
 			}

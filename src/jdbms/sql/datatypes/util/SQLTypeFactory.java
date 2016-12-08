@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import jdbms.sql.datatypes.SQLType;
-import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.exceptions.InvalidDateFormatException;
 
 public class SQLTypeFactory {
@@ -40,7 +39,6 @@ public class SQLTypeFactory {
 				| IllegalAccessException
 				| IllegalArgumentException
 				| InvocationTargetException ex) {
-			ErrorHandler.printDataTypeNotSupportedError(key);
 			return null;
 		}
 	}
