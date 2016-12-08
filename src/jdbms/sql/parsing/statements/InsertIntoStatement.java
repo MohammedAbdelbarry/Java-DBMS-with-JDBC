@@ -1,5 +1,7 @@
 package jdbms.sql.parsing.statements;
 
+import java.io.IOException;
+
 import jdbms.sql.data.SQLData;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
@@ -66,7 +68,8 @@ public class InsertIntoStatement extends InitialStatement {
 			ValueListTooSmallException,
 			TableNotFoundException,
 			TypeMismatchException,
-			InvalidDateFormatException {
+			InvalidDateFormatException,
+			IOException {
 		buildParameters();
 		numberOfUpdates = data.insertInto(insertParameters);
 	}

@@ -1,6 +1,7 @@
 package jdbms.sql.file;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.security.CodeSource;
 import java.util.ArrayList;
@@ -152,14 +153,16 @@ public class FileHandler {
 		database.deleteOnExit();
 		return new Database(tempName);
 	}
-	public void createTable(final Table table, final String databaseName) {
+	public void createTable(final Table table, final String databaseName)
+			throws IOException {
 		writer.create(table, databaseName, path + File.separator);
 	}
 	public Table loadTable(final String databaseName, final String tableName)
 			throws ColumnAlreadyExistsException, RepeatedColumnException,
 			ColumnListTooLargeException, ColumnNotFoundException,
 			ValueListTooLargeException, ValueListTooSmallException,
-			TypeMismatchException, InvalidDateFormatException {
+			TypeMismatchException, InvalidDateFormatException,
+			IOException {
 		return reader.parse(tableName.toUpperCase(),
 				databaseName.toUpperCase(), path + File.separator);
 	}

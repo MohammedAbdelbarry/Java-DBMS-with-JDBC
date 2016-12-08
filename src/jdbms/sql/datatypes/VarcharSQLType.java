@@ -17,7 +17,7 @@ public class VarcharSQLType extends SQLType<String>{
 	@Override
 	public String getStringValue() {
 		if (value == null) {
-			return "''";
+			return "";
 		}
 		return value.toString();
 	}

@@ -3,6 +3,9 @@ package jdbms.sql.datatypes;
 public abstract class SQLType<T extends Comparable<T>>
 implements Comparable<SQLType<T>> {
 	protected T value;
+	public SQLType() {
+		value = null;
+	}
 	public SQLType(final T value) {
 		this.value = value;
 	}

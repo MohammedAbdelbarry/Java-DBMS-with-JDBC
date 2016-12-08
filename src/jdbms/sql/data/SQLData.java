@@ -1,5 +1,6 @@
 package jdbms.sql.data;
 
+import java.io.IOException;
 import java.util.Random;
 
 import jdbms.sql.data.query.SelectQueryOutput;
@@ -118,13 +119,15 @@ public class SQLData {
 	 * @throws TypeMismatchException
 	 * @throws ColumnNotFoundException
 	 * @throws InvalidDateFormatException
+	 * @throws IOException
 	 */
 	public SelectQueryOutput selectFrom(final SelectionParameters
 			selectParameters) throws ColumnNotFoundException,
 	TypeMismatchException, TableNotFoundException,
 	ColumnAlreadyExistsException, RepeatedColumnException,
 	ColumnListTooLargeException, ValueListTooLargeException,
-	ValueListTooSmallException, InvalidDateFormatException {
+	ValueListTooSmallException, InvalidDateFormatException,
+	IOException {
 		return activeDatabase.selectFrom(selectParameters, fileHandler);
 	}
 	/**
@@ -134,10 +137,11 @@ public class SQLData {
 	 * @throws TableAlreadyExistsException
 	 * @throws ColumnAlreadyExistsException
 	 * @throws InvalidDateFormatException
+	 * @throws IOException
 	 */
 	public int createTable(final TableCreationParameters tableParamters)
 			throws ColumnAlreadyExistsException, TableAlreadyExistsException,
-			InvalidDateFormatException {
+			InvalidDateFormatException, IOException {
 		return activeDatabase.addTable(tableParamters, fileHandler);
 	}
 	/**
@@ -160,7 +164,7 @@ public class SQLData {
 			ColumnListTooLargeException, ColumnNotFoundException,
 			ValueListTooLargeException, ValueListTooSmallException,
 			TableNotFoundException, TypeMismatchException,
-			InvalidDateFormatException {
+			InvalidDateFormatException, IOException {
 		return activeDatabase.insertInto(parameters, fileHandler);
 	}
 	/**
@@ -176,13 +180,14 @@ public class SQLData {
 	 * @throws TypeMismatchException
 	 * @throws ColumnNotFoundException
 	 * @throws InvalidDateFormatException
+	 * @throws IOException
 	 */
 	public int deleteFrom(final DeletionParameters deleteParameters)
 			throws ColumnNotFoundException, TypeMismatchException,
 			TableNotFoundException, ColumnAlreadyExistsException,
 			RepeatedColumnException, ColumnListTooLargeException,
 			ValueListTooLargeException, ValueListTooSmallException,
-			InvalidDateFormatException {
+			InvalidDateFormatException, IOException {
 		return activeDatabase.deleteFromTable(deleteParameters, fileHandler);
 	}
 	/**
@@ -197,6 +202,7 @@ public class SQLData {
 	 * @throws TypeMismatchException
 	 * @throws ColumnNotFoundException
 	 * @throws InvalidDateFormatException
+	 * @throws IOException
 	 */
 	public int updateTable(final UpdatingParameters
 			updateParameters)
@@ -208,7 +214,8 @@ public class SQLData {
 					ColumnListTooLargeException,
 					ValueListTooLargeException,
 					ValueListTooSmallException,
-					InvalidDateFormatException {
+					InvalidDateFormatException,
+					IOException {
 		return activeDatabase.updateTable(updateParameters, fileHandler);
 	}
 	/**
@@ -224,6 +231,7 @@ public class SQLData {
 	 * @throws TableNotFoundException
 	 * @throws ColumnAlreadyExistsException
 	 * @throws InvalidDateFormatException
+	 * @throws IOException
 	 */
 	public int addTableColumn(final
 			AddColumnParameters parameters)
@@ -235,7 +243,8 @@ public class SQLData {
 					ValueListTooLargeException,
 					ValueListTooSmallException,
 					TypeMismatchException,
-					InvalidDateFormatException {
+					InvalidDateFormatException,
+					IOException {
 		return activeDatabase.addTableColumn(parameters, fileHandler);
 	}
 	/**
@@ -250,6 +259,7 @@ public class SQLData {
 	 * @throws ColumnListTooLargeException
 	 * @throws RepeatedColumnException
 	 * @throws ColumnAlreadyExistsException
+	 * @throws IOException
 	 */
 	public int dropTableColumn(final
 			DropColumnParameters parameters)
@@ -261,7 +271,8 @@ public class SQLData {
 					ValueListTooSmallException,
 					TypeMismatchException,
 					InvalidDateFormatException,
-					TableNotFoundException {
+					TableNotFoundException,
+					IOException {
 		return activeDatabase.dropTableColumn(parameters, fileHandler);
 	}
 	/**

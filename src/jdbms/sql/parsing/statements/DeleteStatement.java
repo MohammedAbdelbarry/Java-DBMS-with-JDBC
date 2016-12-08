@@ -1,5 +1,7 @@
 package jdbms.sql.parsing.statements;
 
+import java.io.IOException;
+
 import jdbms.sql.data.SQLData;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
@@ -56,7 +58,8 @@ public class DeleteStatement extends InitialStatement {
 			ColumnListTooLargeException,
 			ValueListTooLargeException,
 			ValueListTooSmallException,
-			InvalidDateFormatException {
+			InvalidDateFormatException,
+			IOException {
 		buildParameters();
 		numberOfUpdates = data.deleteFrom(deleteParameters);
 	}

@@ -1,5 +1,7 @@
 package jdbms.sql.file;
 
+import java.io.IOException;
+
 import jdbms.sql.data.Table;
 
 public interface FileWriter {
@@ -10,8 +12,9 @@ public interface FileWriter {
 	 * in which the table exists
 	 * @param path the path of the
 	 * directory
+	 * @throws IOException
 	 */
 	public void create(final Table table,
 			final String databaseName,
-			final String path);
+			final String path) throws IOException;
 }

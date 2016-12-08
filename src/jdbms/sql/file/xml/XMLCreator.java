@@ -113,7 +113,7 @@ public class XMLCreator implements FileWriter {
 				final TableColumn current = tableData.get(key.toUpperCase());
 				final String value = current.get(i).getStringValue();
 				final Element col = doc.createElement(key);
-				if (value == "") {
+				if (value.equals("")) {
 					col.appendChild(doc.createTextNode(NULL_INDICATOR));
 				} else {
 					col.appendChild(doc.createTextNode(value));

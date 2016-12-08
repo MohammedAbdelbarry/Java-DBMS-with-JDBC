@@ -1,5 +1,7 @@
 package jdbms.sql.parsing.statements;
 
+import java.io.IOException;
+
 import jdbms.sql.data.SQLData;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.InvalidDateFormatException;
@@ -49,7 +51,8 @@ public class CreateTableStatement extends InitialStatement {
 	public void act(final SQLData data)
 			throws ColumnAlreadyExistsException,
 			TableAlreadyExistsException,
-			InvalidDateFormatException {
+			InvalidDateFormatException,
+			IOException {
 		buildParameters();
 		numberOfUpdates = data.createTable(createTableParameters);
 	}
