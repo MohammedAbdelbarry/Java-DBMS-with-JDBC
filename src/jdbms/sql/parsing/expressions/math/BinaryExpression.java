@@ -17,39 +17,30 @@ public abstract class BinaryExpression implements Expression {
 	private Expression nextExpression;
 	private Statement nextStatement;
 	private final StringModifier modifier;
+	private final String TIMEREGEX = "^\\s*(?:[0-1][0-9]|[2][0-3])"
+		    + "\\s*:\\s*[0-5][0-9]\\s*:\\s*[0-5][0-9]\\s*$";
 	private final DataTypesValidator validator;
 	protected InputParametersContainer parameters;
 
 	/**
 	 * Instantiates a new binary expression.
 	 * @param symbol the binary epxression symbol
-	 * @param nextExpression the next expression to bee interpreted
 	 * @param parameters the input parameters
 	 */
 	public BinaryExpression(final String symbol,
-			final Expression nextExpression,
 			final InputParametersContainer parameters) {
 		this.operator = new BinaryOperator(symbol);
-		this.nextExpression = nextExpression;
 		this.parameters = parameters;
 		this.modifier = new StringModifier();
 		this.validator = new DataTypesValidator();
 	}
 
-	/**
-	 * Instantiates a new binary expression.
-	 * @param symbol the binary epxression symbol
-	 * @param nextStatement the next statement to be interpreted
-	 * @param parameters the input parameters
-	 */
-	public BinaryExpression(final String symbol,
-			final Statement nextStatement,
-			final InputParametersContainer parameters) {
-		this.operator = new BinaryOperator(symbol);
+	public void setNextExpression(final Expression nextExpression) {
+		this.nextExpression = nextExpression;
+	}
+
+	public void setNextStatement(final Statement nextStatement) {
 		this.nextStatement = nextStatement;
-		this.parameters = parameters;
-		this.modifier = new StringModifier();
-		this.validator = new DataTypesValidator();
 	}
 
 	@Override
@@ -70,13 +61,22 @@ public abstract class BinaryExpression implements Expression {
 		final int seperatorIndex = modifiedRightPart.indexOf(" ");
 		final String leftOperand = sqlExpression.
 				substring(0, operatorIndex).trim();
-		final String rightOperand = sqlExpRightPart.
+		String rightOperand = sqlExpRightPart.
 				substring(0, seperatorIndex).trim();
+		String restOfExpression = sqlExpRightPart.
+				substring(seperatorIndex).trim();
+		if (restOfExpression.indexOf(" ") != -1
+				&& validator.match("DATE", rightOperand)
+				&& restOfExpression.substring(0,
+						restOfExpression.indexOf(" ")).
+				matches(TIMEREGEX)) {
+			rightOperand = rightOperand + restOfExpression.substring(0,
+					restOfExpression.indexOf(" ")).trim();
+			restOfExpression = restOfExpression.substring(restOfExpression.indexOf(" ")).trim();
+		}
 		if (!validOperand(leftOperand) || !validOperand(rightOperand)) {
 			return false;
 		}
-		final String restOfExpression = sqlExpRightPart.
-				substring(seperatorIndex).trim();
 		operator.setLeftOperand(leftOperand);
 		operator.setRightOperand(rightOperand);
 		if (this.nextExpression != null) {

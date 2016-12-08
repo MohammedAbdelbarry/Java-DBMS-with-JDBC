@@ -25,7 +25,7 @@ public class ValueExpression {
 	 * @return true, if is valid expression name
 	 */
 	public boolean isValidExpressionName() {
-		return this.validator.isConstant(this.expression);
+		return this.validator.isConstant(this.expression.trim());
 	}
 
 	/**

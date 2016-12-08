@@ -55,17 +55,24 @@ public class DeleteStatementTesting {
 	}
 
 	@Test
+	public void testFloatDelete() {
+		String sqlCommand = "DELETE FROM Customers WHERE grade = .84;";
+		sqlCommand = normalizer.normalizeCommand(sqlCommand);
+		assertEquals(delete.interpret(sqlCommand), true);
+	}
+
+	@Test
+	public void testNotEqualsDelete() {
+		String sqlCommand = "delete from tb2 where col1 != col4;";
+		sqlCommand = normalizer.normalizeCommand(sqlCommand);
+		assertEquals(delete.interpret(sqlCommand), true);
+	}
+
+	@Test
 	public void testInvalidFloatDeleteConditional() {
 		String sqlCommand = "DELETE FROM Customers WHERE grade = 5.65.84;";
 		sqlCommand = normalizer.normalizeCommand(sqlCommand);
 		assertEquals(delete.interpret(sqlCommand), false);
-	}
-
-	@Test
-	public void testInvalidFloatDelete() {
-		String sqlCommand = "DELETE FROM Customers WHERE grade = .84;";
-		sqlCommand = normalizer.normalizeCommand(sqlCommand);
-		assertEquals(delete.interpret(sqlCommand), true);
 	}
 
 	@Test

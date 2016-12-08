@@ -7,20 +7,23 @@ public class ColumnOrder {
 	private ColumnExpression column;
 	private String order;
 
-	public ColumnOrder(String columnName, String order) {
+	public ColumnOrder() {
+
+	}
+	public ColumnOrder(final String columnName, final String order) {
 		this.column = new ColumnExpression(columnName.trim());
 		this.order = order.trim();
 	}
 
-	public void setColumn(String columnName) {
-		column = new ColumnExpression(columnName);
+	public void setColumn(final String columnName) {
+		this.column = new ColumnExpression(columnName);
 	}
 
 	public ColumnExpression getColumn() {
 		return this.column;
 	}
 
-	public void setOrder(String order) {
+	public void setOrder(final String order) {
 		this.order = order;
 	}
 
@@ -48,14 +51,14 @@ public class ColumnOrder {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ColumnOrder other = (ColumnOrder) obj;
+		final ColumnOrder other = (ColumnOrder) obj;
 		if (column == null) {
 			if (other.column != null)
 				return false;

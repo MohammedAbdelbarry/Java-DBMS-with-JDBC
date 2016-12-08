@@ -8,6 +8,7 @@ import jdbms.sql.datatypes.VarcharSQLType;
 import jdbms.sql.parsing.expressions.TerminalExpression;
 import jdbms.sql.parsing.operators.BinaryOperator;
 import jdbms.sql.parsing.properties.InputParametersContainer;
+import jdbms.sql.parsing.statements.OrderByStatement;
 
 /**
  * The boolean expression class.
@@ -16,6 +17,7 @@ public abstract class BooleanExpression extends BinaryExpression {
 
 	/** The binary operator. */
 	private final BinaryOperator operator;
+	private final InputParametersContainer parameters;
 
 	/**
 	 * Instantiates a new boolean expression.
@@ -24,8 +26,9 @@ public abstract class BooleanExpression extends BinaryExpression {
 	 */
 	public BooleanExpression(final String symbol,
 			final InputParametersContainer parameters) {
-		super(symbol, new TerminalExpression(parameters), parameters);
+		super(symbol, parameters);
 		this.operator = new BinaryOperator(symbol);
+		this.parameters = parameters;
 	}
 
 	@Override
@@ -45,7 +48,13 @@ public abstract class BooleanExpression extends BinaryExpression {
 				return false;
 			}
 		}
-		final boolean isBinaryExpression = super.interpret(sqlExpression);
+		super.setNextExpression(new TerminalExpression(this.parameters));
+		boolean isBinaryExpression = super.interpret(sqlExpression);
+		if (!isBinaryExpression) {
+			super.setNextExpression(null);
+			super.setNextStatement(new OrderByStatement(this.parameters));
+			isBinaryExpression = super.interpret(sqlExpression);
+		}
 		parameters.setCondition(this);
 		return isBinaryExpression;
 	}

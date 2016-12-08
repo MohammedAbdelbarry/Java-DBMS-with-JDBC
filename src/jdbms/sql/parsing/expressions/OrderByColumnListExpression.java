@@ -7,9 +7,9 @@ import jdbms.sql.parsing.properties.InputParametersContainer;
 
 public class OrderByColumnListExpression extends ColumnListExpression {
 
-	private ArrayList<ColumnOrder> columnsOrder;
+	private final ArrayList<ColumnOrder> columnsOrder;
 
-	public OrderByColumnListExpression(InputParametersContainer parameters) {
+	public OrderByColumnListExpression(final InputParametersContainer parameters) {
 		super(new TerminalExpression(parameters), parameters);
 		this.columnsOrder = new ArrayList<>();
 	}
@@ -17,37 +17,37 @@ public class OrderByColumnListExpression extends ColumnListExpression {
 	@Override
 	public boolean interpret(String sqlExpression) {
 		sqlExpression = sqlExpression.trim();
-		String[] parts = sqlExpression.split(",");
+		final String[] parts = sqlExpression.split(",");
 		for (int i = 0 ; i < parts.length - 1; i++) {
 			parts[i] = parts[i].trim();
+			final ColumnOrder currColOrder = new ColumnOrder();
 			if (parts[i].indexOf(" ") == -1) {
-				ColumnOrder currColOrder = new ColumnOrder(parts[i], "ASC");
-				if (!currColOrder.isValidColumnOrder()) {
-					return false;
-				}
-				columnsOrder.add(currColOrder);
+				currColOrder.setColumn(parts[i]);
+				currColOrder.setOrder("ASC");
 			} else {
-				ColumnOrder currColOrder = new ColumnOrder(parts[i].
-						substring(0, parts[i].indexOf(" ")),
-						parts[i].substring(parts[i].indexOf(" ")).trim()); 
-				if (!currColOrder.isValidColumnOrder()) {
-					return false;
-				}
-				columnsOrder.add(currColOrder);
+				currColOrder.setColumn(parts[i].
+						substring(0, parts[i].indexOf(" ")));
+				currColOrder.setOrder(parts[i].substring(parts[i].
+						indexOf(" ")).trim());
 			}
+			if (!currColOrder.isValidColumnOrder()) {
+				return false;
+			}
+			columnsOrder.add(currColOrder);
 		}
-		String lastColOrder = parts[parts.length - 1].substring(0,
+		parts[parts.length - 1] = parts[parts.length - 1].trim();
+		final String lastColOrder = parts[parts.length - 1].substring(0,
 				parts[parts.length - 1].indexOf(";")).trim();
 		if (lastColOrder.indexOf(" ") == -1) {
-			ColumnOrder last = new ColumnOrder(lastColOrder, "ASC");
+			final ColumnOrder last = new ColumnOrder(lastColOrder, "ASC");
 			if (!last.isValidColumnOrder()) {
 				return false;
 			}
 			columnsOrder.add(last);
 		} else {
-			ColumnOrder last = new ColumnOrder(lastColOrder.
+			final ColumnOrder last = new ColumnOrder(lastColOrder.
 					substring(0, lastColOrder.indexOf(" ")).trim(),
-					lastColOrder.substring(lastColOrder.indexOf(" ")).trim()); 
+					lastColOrder.substring(lastColOrder.indexOf(" ")).trim());
 			if (!last.isValidColumnOrder()) {
 				return false;
 			}

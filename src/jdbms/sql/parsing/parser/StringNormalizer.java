@@ -14,20 +14,20 @@ public class StringNormalizer {
 	/**
 	 * Required components of the SQL command.
 	 */
-	private ArrayList<String> components;
+	private final ArrayList<String> components;
 	/**
 	 * Regex for reducing multiple spaces except for strings of double quotes.
 	 */
-	private String spaceRegexD;
+	private final String spaceRegexD;
 	/**
 	 * Regex for reducing multiple spaces except for strings of single quotes.
 	 */
-	private String spaceRegexS;
+	private final String spaceRegexS;
 	/**
 	 * The final regex for reducing multiple spaces except for strings of single
 	 * or double quotes.
 	 */
-	private String spaceRegex;
+	private final String spaceRegex;
 
 	public StringNormalizer() {
 		components = new ArrayList<>();
@@ -41,7 +41,7 @@ public class StringNormalizer {
 	 * @return output : string containing the normalized form of the user's
 	 *         input
 	 */
-	public String normalizeCommand(String SQLCommand) {
+	public String normalizeCommand(final String SQLCommand) {
 		String output = SQLCommand;
 
 		// Replace multiple space with only one space EXCEPT for quoted strings
@@ -64,10 +64,10 @@ public class StringNormalizer {
 	 *            : user's command
 	 * @return output : The string after inserting the required spaces
 	 */
-	public String initialSpacing(String SQLCommand) {
-		String command = SQLCommand;
-		ArrayList<String> components = new ArrayList<>();
-		StringBuilder component = new StringBuilder();
+	public String initialSpacing(final String SQLCommand) {
+		final String command = SQLCommand;
+		final ArrayList<String> components = new ArrayList<>();
+		final StringBuilder component = new StringBuilder();
 
 		for (int i = 0; i < command.length(); i++) {
 			while ((i < command.length()) && !(command.charAt(i)
@@ -111,8 +111,8 @@ public class StringNormalizer {
 
 		}
 
-		StringBuilder output = new StringBuilder();
-		for (String x : components)
+		final StringBuilder output = new StringBuilder();
+		for (final String x : components)
 			output.append(x);
 
 		return output.toString();
@@ -124,10 +124,10 @@ public class StringNormalizer {
 	 * Splitting the user's command into several components to be processed.
 	 * @param SQLCommand user's command
 	 */
-	public void split(String SQLCommand) {
+	public void split(final String SQLCommand) {
 		// Splitting by spaces outside the quotes
-		Pattern regex = Pattern.compile("[^\\s\"']+|\"[^\"]*\"|'[^']*'");
-		Matcher regexMatcher = regex.matcher(SQLCommand);
+		final Pattern regex = Pattern.compile("[^\\s\"']+|\"[^\"]*\"|'[^']*'");
+		final Matcher regexMatcher = regex.matcher(SQLCommand);
 		while (regexMatcher.find()) {
 			components.add(regexMatcher.group().trim());
 		}
@@ -138,7 +138,7 @@ public class StringNormalizer {
 	 */
 	public void capitalize() {
 		for (int i = 0; i < components.size(); i++) {
-			String current = components.get(i).toUpperCase();
+			final String current = components.get(i).toUpperCase();
 			if (Constants.RESERVED_KEYWORDS.contains(current)) {
 				components.set(i, current.toUpperCase());
 			}
@@ -150,13 +150,12 @@ public class StringNormalizer {
 	 * @return normalizedString : string of the normalized form
 	 */
 	public String merge() {
-		StringBuilder output = new StringBuilder();
-		for (String component : components) {
+		final StringBuilder output = new StringBuilder();
+		for (final String component : components) {
 			output.append(component);
 			output.append(" ");
 		}
-		String normalizedString = output.toString();
+		final String normalizedString = output.toString();
 		return normalizedString;
 	}
-
 }
