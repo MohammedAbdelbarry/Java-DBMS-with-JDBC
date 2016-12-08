@@ -126,18 +126,44 @@ public class SelectStatementTesting {
 
 	@Test
 	public void testOrderBy() {
-		String sqlCommand = "SELECT col1, col2 FROM table_name orDer BY col1 ASC, col2 DESC;";
+		String sqlCommand = "SELECT coll2, col4, hi_man FROM table_name orDer BY col1 ASC, col2, col3 DESC, col4 ASC;";
+		sqlCommand = normalizer.normalizeCommand(sqlCommand);
+		final String name = "table_name";
+		final ArrayList <String> list = new ArrayList<>();
+		list.add("coll2");
+		list.add("col4");
+		list.add("hi_man");
+		final ArrayList<ColumnOrder> myOrderList = new ArrayList<>();
+		myOrderList.add(new ColumnOrder("col1", "ASC"));
+		myOrderList.add(new ColumnOrder("col2", "ASC"));
+		myOrderList.add(new ColumnOrder("col3", "DESC"));
+		myOrderList.add(new ColumnOrder("col4", "ASC"));
+		assertEquals(select.interpret(sqlCommand), true);
+		assertEquals(name, select.getParameters().getTableName());
+		assertEquals(list, select.getParameters().getColumns());
+		assertEquals(myOrderList, select.getParameters().getColumnsOrder());
+	}
+
+	@Test
+	public void testSelectColListOrderBy() {
+		String sqlCommand = "SELECT col1, col2, hi_man FROM table_name where col1 != \"FROM\" orDer BY col1 ASC, col2, col3 DESC, col4 ASC;";
 		sqlCommand = normalizer.normalizeCommand(sqlCommand);
 		final String name = "table_name";
 		final ArrayList <String> list = new ArrayList<>();
 		list.add("col1");
 		list.add("col2");
+		list.add("hi_man");
 		final ArrayList<ColumnOrder> myOrderList = new ArrayList<>();
-		myOrderList.add(new ColumnOrder("column_name", "DESC"));
+		myOrderList.add(new ColumnOrder("col1", "ASC"));
+		myOrderList.add(new ColumnOrder("col2", "ASC"));
+		myOrderList.add(new ColumnOrder("col3", "DESC"));
+		myOrderList.add(new ColumnOrder("col4", "ASC"));
 		assertEquals(select.interpret(sqlCommand), true);
 		assertEquals(name, select.getParameters().getTableName());
 		assertEquals(list, select.getParameters().getColumns());
 		assertEquals(myOrderList, select.getParameters().getColumnsOrder());
+		assertEquals("col1", select.getParameters().getCondition().getLeftOperand());
+		assertEquals("\"FROM\"", select.getParameters().getCondition().getRightOperand());
 	}
 
 	@Test
