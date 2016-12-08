@@ -20,7 +20,7 @@ public abstract class Constants {
 	public static final String INT_REGEX = "^[+-]?\\d+$";
 	public static final String FLOAT_REGEX = "^[+-]?\\d*[.]\\d+$";
 	public static final String DATE_REGEX
-	= "^[0-9]{4}\\s*-\\s*(?:[0][1-9]|[1][0-2])"//yyyy-MM
+	= "^[0-9]{3}[1-9]\\s*-\\s*(?:[0][1-9]|[1][0-2])"//yyyy-MM
 	+ "\\s*-\\s*(?:[0][1-9]|[1-2][0-9]|[3][0-1])$";//dd
 	public static final String DATE_TIME_REGEX
 	= "^[0-9]{4}\\s*-\\s*(?:[0][1-9]|[1][0-2])"//yyyy-MM

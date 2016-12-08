@@ -18,12 +18,14 @@ public class HelperClass {
 			Class.forName("jdbms.sql.parsing.expressions.math.EqualsExpression");
 			Class.forName("jdbms.sql.parsing.expressions.math.LargerThanEqualsExpression");
 			Class.forName("jdbms.sql.parsing.expressions.math.LessThanEqualsExpression");
-			Class.forName("jdbms.sql.parsing.expressions.math.LargerThanExpression");	
+			Class.forName("jdbms.sql.parsing.expressions.math.LargerThanExpression");
 			Class.forName("jdbms.sql.parsing.expressions.math.LessThanExpression");
 			Class.forName("jdbms.sql.datatypes.IntSQLType");
 			Class.forName("jdbms.sql.datatypes.VarcharSQLType");
 			Class.forName("jdbms.sql.datatypes.FloatSQLType");
-		} catch (ClassNotFoundException e) {
+			Class.forName("jdbms.sql.datatypes.DateSQLType");
+			Class.forName("jdbms.sql.datatypes.DateTimeSQLType");
+		} catch (final ClassNotFoundException e) {
 
 		}
 	}
