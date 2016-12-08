@@ -35,6 +35,7 @@ public class OrderByColumnListExpression extends ColumnListExpression {
 			}
 			columnsOrder.add(currColOrder);
 		}
+		parts[parts.length - 1] = parts[parts.length - 1].trim();
 		final String lastColOrder = parts[parts.length - 1].substring(0,
 				parts[parts.length - 1].indexOf(";")).trim();
 		if (lastColOrder.indexOf(" ") == -1) {

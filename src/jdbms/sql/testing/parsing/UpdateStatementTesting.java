@@ -71,7 +71,7 @@ public class UpdateStatementTesting {
 
 	@Test
 	public void testDateTimeConditionalUpdate() {
-		String sqlCommand = "update tt set d = 1010-10-10 where dt > 1111-11-10 02:02:01;";
+		String sqlCommand = "update tt set d = 1010-10-10 where dt > 1111-11-10 02:02:01 order by d, f, l;";
 		sqlCommand = normalizer.normalizeCommand(sqlCommand);
 		final String name = "tt";
 		assertEquals(update.interpret(sqlCommand), true);

@@ -141,6 +141,7 @@ public class InsertIntoStatementTesting {
 		assertEquals(insertInto.getParameters().getTableName(), name);
 		assertEquals(insertInto.getParameters().getValues(), vals);
 	}
+
 	@Test
 	public void testInvalidInsertInto() {
 		String sqlCommand = "INSERT my_TABLE(A_B,C_D) VALUES (\"x\",'y');";
