@@ -1,5 +1,6 @@
 package jdbms.sql.parsing.expressions.math;
 
+import jdbms.sql.datatypes.util.DataTypesValidator;
 import jdbms.sql.parsing.expressions.Expression;
 import jdbms.sql.parsing.expressions.util.StringModifier;
 import jdbms.sql.parsing.operators.BinaryOperator;
@@ -11,67 +12,69 @@ import jdbms.sql.parsing.util.Constants;
  * The Binary Expression Class.
  */
 public abstract class BinaryExpression implements Expression {
-	
-	private BinaryOperator operator;
+
+	private final BinaryOperator operator;
 	private Expression nextExpression;
 	private Statement nextStatement;
-	private StringModifier modifier;
+	private final StringModifier modifier;
+	private DataTypesValidator validator;
 	protected InputParametersContainer parameters;
-	
+
 	/**
 	 * Instantiates a new binary expression.
 	 * @param symbol the binary epxression symbol
 	 * @param nextExpression the next expression to bee interpreted
 	 * @param parameters the input parameters
 	 */
-	public BinaryExpression(String symbol,
-			Expression nextExpression,
-			InputParametersContainer parameters) {
+	public BinaryExpression(final String symbol,
+			final Expression nextExpression,
+			final InputParametersContainer parameters) {
 		this.operator = new BinaryOperator(symbol);
 		this.nextExpression = nextExpression;
 		this.parameters = parameters;
 		this.modifier = new StringModifier();
+		this.validator = new DataTypesValidator();
 	}
-	
+
 	/**
 	 * Instantiates a new binary expression.
 	 * @param symbol the binary epxression symbol
 	 * @param nextStatement the next statement to be interpreted
 	 * @param parameters the input parameters
-	 */ 
-	public BinaryExpression(String symbol,
-			Statement nextStatement,
-			InputParametersContainer parameters) {
+	 */
+	public BinaryExpression(final String symbol,
+			final Statement nextStatement,
+			final InputParametersContainer parameters) {
 		this.operator = new BinaryOperator(symbol);
 		this.nextStatement = nextStatement;
 		this.parameters = parameters;
 		this.modifier = new StringModifier();
 	}
-	
+
 	@Override
 	public boolean interpret(String sqlExpression) {
 		sqlExpression = sqlExpression.trim();
-		String modifiedExpression
+		final String modifiedExpression
 		= modifier.modifyString(sqlExpression).trim();
 		if (!modifiedExpression.contains(this.operator.getSymbol())) {
 			return false;
 		}
-		int operatorIndex
+		final int operatorIndex
 		= modifiedExpression.indexOf(this.operator.getSymbol());
-		String modifiedRightPart
+		final String modifiedRightPart
 		= modifiedExpression.substring(operatorIndex
 				+ this.operator.getSymbol().length()).trim();
-		String sqlExpRightPart = sqlExpression.substring(operatorIndex
+		final String sqlExpRightPart = sqlExpression.substring(operatorIndex
 				+ this.operator.getSymbol().length()).trim();
-		int seperatorIndex = modifiedRightPart.indexOf(" ");
-		String leftOperand = sqlExpression.
+		final int seperatorIndex = modifiedRightPart.indexOf(" ");
+		final String leftOperand = sqlExpression.
 				substring(0, operatorIndex).trim();
-		String rightOperand = sqlExpRightPart.
+		final String rightOperand = sqlExpRightPart.
 				substring(0, seperatorIndex).trim();
 		if (!validOperand(leftOperand) || !validOperand(rightOperand)) {
 			return false;
 		}
-		String restOfExpression = sqlExpRightPart.
+		final String restOfExpression = sqlExpRightPart.
 				substring(seperatorIndex).trim();
 		operator.setLeftOperand(leftOperand);
 		operator.setRightOperand(rightOperand);
@@ -83,23 +86,17 @@ public abstract class BinaryExpression implements Expression {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Validates the binary expression operands.
 	 * @param exp the operand to be checked
 	 * @return true, if operand is valid
 	 */
-	private boolean validOperand(String exp) {
-		if (exp.matches(Constants.INT_REGEX) 
-				|| exp.matches(Constants.COLUMN_REGEX)
-				|| exp.matches(Constants.STRING_REGEX)
-				|| exp.matches(Constants.DOUBLE_STRING_REGEX)
-				|| exp.matches(Constants.FLOAT_REGEX)) {
-			return true;
-		}
-		return false;
+	private boolean validOperand(final String exp) {
+		return exp.matches(Constants.COLUMN_REGEX)
+				|| validator.isConstant(exp);
 	}
-	
+
 	/**
 	 * Gets the left operand of the binary expression.
 	 * @return the left operand
@@ -107,7 +104,7 @@ public abstract class BinaryExpression implements Expression {
 	public final String getLeftOperand() {
 		return operator.getLeftOperand();
 	}
-	
+
 	/**
 	 * Gets the right operand of the binary expression.
 	 * @return the right operand
@@ -115,51 +112,39 @@ public abstract class BinaryExpression implements Expression {
 	public final String getRightOperand() {
 		return operator.getRightOperand();
 	}
-	
+
 	/**
 	 * Sets the left operand of the binary expression.
 	 * @param operand the new left operand
 	 */
-	public final void setLeftOperand(String operand) {
+	public final void setLeftOperand(final String operand) {
 		operator.setLeftOperand(operand);
 	}
-	
+
 	/**
 	 * Sets the right operand of the binary expression.
 	 * @param operand the new right operand
 	 */
-	public final void setRightOperand(String operand) {
+	public final void setRightOperand(final String operand) {
 		operator.setRightOperand(operand);
 	}
-	
+
 	/**
 	 * Validates the left operand.
 	 * @return true, if constant
 	 */
 	public final boolean leftOperandIsConstant() {
-		return getLeftOperand().matches(Constants.INT_REGEX) 
-				|| getLeftOperand().
-				matches(Constants.STRING_REGEX)
-				|| getLeftOperand().
-				matches(Constants.DOUBLE_STRING_REGEX)
-				|| getLeftOperand().
-				matches(Constants.FLOAT_REGEX);
+		return validator.isConstant(getLeftOperand());
 	}
-	
+
 	/**
 	 * Validates the right operand.
 	 * @return true, if constant
 	 */
 	public final boolean rightOperandIsConstant() {
-		return getRightOperand().matches(Constants.INT_REGEX)
-				|| getRightOperand().
-				matches(Constants.STRING_REGEX)
-				|| getRightOperand().
-				matches(Constants.DOUBLE_STRING_REGEX)
-				|| getRightOperand().
-				matches(Constants.FLOAT_REGEX);
+		return validator.isConstant(getRightOperand());
 	}
-	
+
 	/**
 	 * Validates left operand.
 	 * @return true, if it's a valid column name
@@ -167,7 +152,7 @@ public abstract class BinaryExpression implements Expression {
 	public final boolean leftOperandIsColumnName() {
 		return getLeftOperand().matches(Constants.COLUMN_REGEX);
 	}
-	
+
 	/**
 	 * Validates right operand.
 	 * @return true, if it's a valid column name
@@ -175,38 +160,20 @@ public abstract class BinaryExpression implements Expression {
 	public final boolean rightOperandIsColumnName() {
 		return getRightOperand().matches(Constants.COLUMN_REGEX);
 	}
-	
+
 	/**
 	 * Gets the left operand data type.
 	 * @return the left operand data type
 	 */
 	public final String getLeftOperandDataType() {
-		if (getLeftOperand().matches(Constants.STRING_REGEX)
-				|| getLeftOperand().matches(Constants.
-						DOUBLE_STRING_REGEX)) {
-			return "VARCHAR";
-		} else if (getLeftOperand().matches(Constants.INT_REGEX)) {
-			return "INTEGER";
-		} else if (getLeftOperand().matches(Constants.FLOAT_REGEX)) {
-			return "FLOAT";
-		}
-		return null;
+		return validator.getDataType(getLeftOperand());
 	}
-	
+
 	/**
 	 * Gets the right operand data type.
 	 * @return the right operand data type
 	 */
 	public final String getRightOperandDataType() {
-		if (getRightOperand().matches(Constants.STRING_REGEX)
-				|| getRightOperand().matches(Constants.
-						DOUBLE_STRING_REGEX)) {
-			return "VARCHAR";
-		} else if (getRightOperand().matches(Constants.INT_REGEX)) {
-			return "INTEGER";
-		} else if (getRightOperand().matches(Constants.FLOAT_REGEX)){
-			return "FLOAT";
-		}
-		return null;
+		return validator.getDataType(getRightOperand());
 	}
 }

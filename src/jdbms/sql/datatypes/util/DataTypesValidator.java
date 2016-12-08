@@ -67,4 +67,7 @@ public class DataTypesValidator {
 		return checkDataTypes(getDataType(firstValue),
 				getDataType(secondValue));
 	}
+	public boolean isConstant(final String value) {
+		return getDataType(value) != null;
+	}
 }
