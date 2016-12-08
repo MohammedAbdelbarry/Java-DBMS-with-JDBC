@@ -17,7 +17,7 @@ public abstract class BinaryExpression implements Expression {
 	private Expression nextExpression;
 	private Statement nextStatement;
 	private final StringModifier modifier;
-	private DataTypesValidator validator;
+	private final DataTypesValidator validator;
 	protected InputParametersContainer parameters;
 
 	/**
@@ -49,6 +49,7 @@ public abstract class BinaryExpression implements Expression {
 		this.nextStatement = nextStatement;
 		this.parameters = parameters;
 		this.modifier = new StringModifier();
+		this.validator = new DataTypesValidator();
 	}
 
 	@Override

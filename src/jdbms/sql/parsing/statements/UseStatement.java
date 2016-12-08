@@ -24,6 +24,7 @@ public class UseStatement extends InitialStatement{
 	 * Instantiates a new use statement.
 	 */
 	public UseStatement() {
+		super();
 		useParameters = new UseParameters();
 	}
 
@@ -44,7 +45,7 @@ public class UseStatement extends InitialStatement{
 			throws DatabaseNotFoundException,
 			TableAlreadyExistsException {
 		buildParameters();
-		data.setActiveDatabase(useParameters);
+		numberOfUpdates = data.setActiveDatabase(useParameters);
 	}
 
 	/**

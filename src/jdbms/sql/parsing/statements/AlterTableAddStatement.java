@@ -44,7 +44,7 @@ public class AlterTableAddStatement extends AlterTableStatement {
 			TypeMismatchException,
 			InvalidDateFormatException {
 		buildParameters();
-		data.addTableColumn(addColumnParameters);
+		numberOfUpdates = data.addTableColumn(addColumnParameters);
 	}
 
 	/**

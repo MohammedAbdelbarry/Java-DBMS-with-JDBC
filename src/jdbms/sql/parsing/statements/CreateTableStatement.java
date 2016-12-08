@@ -28,6 +28,7 @@ public class CreateTableStatement extends InitialStatement {
 	 * Instantiates a new creates the table statement.
 	 */
 	public CreateTableStatement() {
+		super();
 		createTableParameters
 		= new TableCreationParameters();
 	}
@@ -50,7 +51,7 @@ public class CreateTableStatement extends InitialStatement {
 			TableAlreadyExistsException,
 			InvalidDateFormatException {
 		buildParameters();
-		data.createTable(createTableParameters);
+		numberOfUpdates = data.createTable(createTableParameters);
 	}
 
 	/**

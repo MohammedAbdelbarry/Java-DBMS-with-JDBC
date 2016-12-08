@@ -107,7 +107,7 @@ public class Table {
 	 * @throws ColumnAlreadyExistsException
 	 * @throws InvalidDateFormatException
 	 */
-	public void addTableColumn(final String columnName, final String columnDataType)
+	public int addTableColumn(final String columnName, final String columnDataType)
 			throws ColumnAlreadyExistsException, InvalidDateFormatException {
 		if (tableColumns.containsKey(columnName.toUpperCase())) {
 			throw new ColumnAlreadyExistsException(columnName);
@@ -118,6 +118,7 @@ public class Table {
 		for (int i = 0 ; i < numberOfRows ; i++) {
 			tableColumns.get(columnName.toUpperCase()).add(null);
 		}
+		return 0;
 	}
 	/**
 	 * Inserts rows into the table.
@@ -131,7 +132,7 @@ public class Table {
 	 * @throws TypeMismatchException
 	 * @throws InvalidDateFormatException
 	 */
-	public void insertRows(final InsertionParameters insertParameters)
+	public int insertRows(final InsertionParameters insertParameters)
 			throws RepeatedColumnException,
 			ColumnListTooLargeException,
 			ColumnNotFoundException,
@@ -186,6 +187,7 @@ public class Table {
 						), rowValue, nullCells);
 			}
 		}
+		return insertParameters.getValues().size();
 	}
 	/**
 	 * Inserts a row.
@@ -336,7 +338,7 @@ public class Table {
 	 * @throws TypeMismatchException
 	 * @throws InvalidDateFormatException
 	 */
-	public void updateTable(final UpdatingParameters updateParameters)
+	public int updateTable(final UpdatingParameters updateParameters)
 			throws ColumnNotFoundException, TypeMismatchException,
 			InvalidDateFormatException {
 		final ArrayList<AssignmentExpression> assignments
@@ -350,6 +352,7 @@ public class Table {
 		for (final AssignmentExpression assignment : assignments) {
 			AssignColumn(assignment, matches);
 		}
+		return matches.size();
 	}
 	/**
 	 * Gets all the rows matching
@@ -472,21 +475,23 @@ public class Table {
 	 * @throws TypeMismatchException
 	 * @throws InvalidDateFormatException
 	 */
-	public void deleteRows(final BooleanExpression condition)
+	public int deleteRows(final BooleanExpression condition)
 			throws ColumnNotFoundException, TypeMismatchException,
 			InvalidDateFormatException {
+		int numberOfDeletions = 0;
 		if (condition == null) {
+			numberOfDeletions = numberOfRows;
 			clearTable();
-			return;
+			return numberOfDeletions;
 		}
 		ArrayList<Integer> matches
 		= new ArrayList<>();
 		matches = getAllMatches(condition);
-		int numberOfDeletions = 0;
 		for (final int match : matches) {
 			deleteRow(match - numberOfDeletions);
 			numberOfDeletions++;
 		}
+		return numberOfDeletions;
 	}
 	/**
 	 * Gets all matches of a boolean expression.

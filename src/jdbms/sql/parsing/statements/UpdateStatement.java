@@ -34,6 +34,7 @@ public class UpdateStatement extends InitialStatement {
 	 * Instantiates a new update statement.
 	 */
 	public UpdateStatement() {
+		super();
 		updateParameters = new UpdatingParameters();
 	}
 
@@ -60,7 +61,7 @@ public class UpdateStatement extends InitialStatement {
 			ValueListTooSmallException,
 			InvalidDateFormatException {
 		buildParameters();
-		data.updateTable(updateParameters);
+		numberOfUpdates = data.updateTable(updateParameters);
 	}
 
 	/**

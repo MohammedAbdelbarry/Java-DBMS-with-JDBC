@@ -2,6 +2,7 @@ package jdbms.sql.parsing.statements;
 
 
 import jdbms.sql.data.SQLData;
+import jdbms.sql.data.query.SelectQueryOutput;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
 import jdbms.sql.exceptions.ColumnNotFoundException;
@@ -23,14 +24,17 @@ import jdbms.sql.parsing.properties.InputParametersContainer;
  */
 public abstract class InitialStatement
 implements Statement {
-
-	protected InputParametersContainer parameters
-	= new InputParametersContainer();
+	protected int numberOfUpdates;
+	protected InputParametersContainer parameters;
+	protected SelectQueryOutput queryOutput;
 
 	/**
 	 * Instantiates a new initial statement.
 	 */
 	public InitialStatement() {
+		parameters = new InputParametersContainer();
+		numberOfUpdates = 0;
+		queryOutput = null;
 	}
 
 	/**
@@ -72,5 +76,23 @@ implements Statement {
 	 */
 	public InputParametersContainer getParameters() {
 		return parameters;
+	}
+	/**
+	 * Gets the number of updates.
+	 * @return number of updates
+	 * for delete, insert and update
+	 * statements, -1 for select statements
+	 * and 0 otherwise
+	 */
+	public int getNumberOfUpdates() {
+		return numberOfUpdates;
+	}
+	/**
+	 * Gets the output of a select query.
+	 * @return the output for select statements,
+	 * null otherwise
+	 */
+	public SelectQueryOutput getQueryOutput() {
+		return queryOutput;
 	}
 }

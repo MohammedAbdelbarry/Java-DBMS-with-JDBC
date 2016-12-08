@@ -30,6 +30,7 @@ public class DeleteStatement extends InitialStatement {
 	 * Instantiates a new delete statement.
 	 */
 	public DeleteStatement() {
+		super();
 		deleteParameters = new DeletionParameters();
 	}
 
@@ -57,7 +58,7 @@ public class DeleteStatement extends InitialStatement {
 			ValueListTooSmallException,
 			InvalidDateFormatException {
 		buildParameters();
-		data.deleteFrom(deleteParameters);
+		numberOfUpdates = data.deleteFrom(deleteParameters);
 	}
 
 	/**

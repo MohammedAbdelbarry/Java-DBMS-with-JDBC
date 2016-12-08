@@ -27,6 +27,7 @@ public class CreateDatabaseStatement extends InitialStatement {
 	 * Instantiates a new create database statement.
 	 */
 	public CreateDatabaseStatement() {
+		super();
 		createDBParameters = new DatabaseCreationParameters();
 	}
 
@@ -45,7 +46,7 @@ public class CreateDatabaseStatement extends InitialStatement {
 	public void act(final SQLData data)
 			throws DatabaseAlreadyExistsException {
 		buildParameters();
-		data.createDatabase(createDBParameters);
+		numberOfUpdates = data.createDatabase(createDBParameters);
 	}
 
 	/**

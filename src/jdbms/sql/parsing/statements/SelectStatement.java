@@ -2,7 +2,6 @@ package jdbms.sql.parsing.statements;
 
 
 import jdbms.sql.data.SQLData;
-import jdbms.sql.data.query.SelectQueryOutput;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
 import jdbms.sql.exceptions.ColumnNotFoundException;
@@ -37,7 +36,9 @@ public class SelectStatement extends InitialStatement {
 	 * Instantiates a new select statement.
 	 */
 	public SelectStatement() {
+		super();
 		selectParameters = new SelectionParameters();
+		numberOfUpdates = -1;
 	}
 
 	@Override
@@ -68,11 +69,7 @@ public class SelectStatement extends InitialStatement {
 			ValueListTooSmallException,
 			InvalidDateFormatException {
 		buildParameters();
-		final SelectQueryOutput output = data.selectFrom(selectParameters);
-		if (output == null) {
-			return;
-		}
-		output.printOutput();
+		queryOutput = data.selectFrom(selectParameters);
 	}
 
 	private void buildParameters() {

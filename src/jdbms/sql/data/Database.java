@@ -36,7 +36,7 @@ public class Database {
 		tables = new HashSet<>();
 	}
 
-	public void addTable(final TableIdentifier newTableIdentifier,
+	public int addTable(final TableIdentifier newTableIdentifier,
 			final FileHandler fileHandler)
 					throws TableAlreadyExistsException,
 					ColumnAlreadyExistsException, InvalidDateFormatException {
@@ -47,9 +47,10 @@ public class Database {
 		tables.add(newTableIdentifier.getTableName().toUpperCase());
 		fileHandler.createTable(new Table(newTableIdentifier),
 				databaseName.toUpperCase());
+		return 0;
 	}
 
-	public void addTable(final TableCreationParameters tableParameters,
+	public int addTable(final TableCreationParameters tableParameters,
 			final FileHandler fileHandler)
 					throws ColumnAlreadyExistsException,
 					TableAlreadyExistsException,
@@ -61,16 +62,18 @@ public class Database {
 		tables.add(tableParameters.getTableName().toUpperCase());
 		final Table newTable = new Table(tableParameters);
 		fileHandler.createTable(newTable, databaseName.toUpperCase());
+		return 0;
 	}
-	public void addTableName(final String tableName)
+	public int addTableName(final String tableName)
 			throws TableAlreadyExistsException {
 		if (tables.contains(tableName.toUpperCase())) {
 			throw new TableAlreadyExistsException(
 					tableName);
 		}
 		tables.add(tableName.toUpperCase());
+		return 0;
 	}
-	public void dropTable(final String tableName,
+	public int dropTable(final String tableName,
 			final FileHandler fileHandler)
 					throws TableNotFoundException,
 					FailedToDeleteTableException {
@@ -79,9 +82,10 @@ public class Database {
 		}
 		tables.remove(tableName.toUpperCase());
 		fileHandler.deleteTable(tableName, databaseName.toUpperCase());
+		return 0;
 	}
 
-	public void deleteFromTable(final DeletionParameters deleteParameters,
+	public int deleteFromTable(final DeletionParameters deleteParameters,
 			final FileHandler fileHandler)
 					throws ColumnNotFoundException,
 					TypeMismatchException, TableNotFoundException,
@@ -94,10 +98,12 @@ public class Database {
 		}
 		final Table activeTable = fileHandler.loadTable(databaseName.toUpperCase(),
 				deleteParameters.getTableName().toUpperCase());
-		activeTable.deleteRows(deleteParameters.getCondition());
+		final int numberOfDeletions
+		= activeTable.deleteRows(deleteParameters.getCondition());
 		fileHandler.createTable(activeTable, databaseName.toUpperCase());
+		return numberOfDeletions;
 	}
-	public void insertInto (final InsertionParameters insertParameters,
+	public int insertInto (final InsertionParameters insertParameters,
 			final FileHandler fileHandler)
 					throws RepeatedColumnException,
 					ColumnListTooLargeException, ColumnNotFoundException,
@@ -111,8 +117,10 @@ public class Database {
 		}
 		final Table activeTable = fileHandler.loadTable(databaseName.toUpperCase(),
 				insertParameters.getTableName().toUpperCase());
-		activeTable.insertRows(insertParameters);
+		final int numberOfInsertions
+		= activeTable.insertRows(insertParameters);
 		fileHandler.createTable(activeTable, databaseName.toUpperCase());
+		return numberOfInsertions;
 	}
 	public SelectQueryOutput selectFrom(
 			final SelectionParameters selectParameters,
@@ -131,7 +139,7 @@ public class Database {
 				selectParameters.getTableName().toUpperCase());
 		return activeTable.selectFromTable(selectParameters);
 	}
-	public void updateTable(final UpdatingParameters updateParameters,
+	public int updateTable(final UpdatingParameters updateParameters,
 			final FileHandler fileHandler)
 					throws ColumnNotFoundException, TypeMismatchException,
 					TableNotFoundException, ColumnAlreadyExistsException,
@@ -144,10 +152,12 @@ public class Database {
 		}
 		final Table activeTable = fileHandler.loadTable(databaseName.toUpperCase(),
 				updateParameters.getTableName().toUpperCase());
-		activeTable.updateTable(updateParameters);
+		final int numberOfUpdates
+		= activeTable.updateTable(updateParameters);
 		fileHandler.createTable(activeTable, databaseName.toUpperCase());
+		return numberOfUpdates;
 	}
-	public void addTableColumn(final AddColumnParameters parameters,
+	public int addTableColumn(final AddColumnParameters parameters,
 			final FileHandler fileHandler)
 					throws ColumnAlreadyExistsException,
 					TableNotFoundException, RepeatedColumnException,
@@ -160,9 +170,12 @@ public class Database {
 		}
 		final Table activeTable = fileHandler.loadTable(databaseName.toUpperCase(),
 				parameters.getTableName().toUpperCase());
-		activeTable.addTableColumn(parameters.getColumnIdentifier().getName(),
+		final int returnValue
+		= activeTable.addTableColumn(
+				parameters.getColumnIdentifier().getName(),
 				parameters.getColumnIdentifier().getType());
 		fileHandler.createTable(activeTable, databaseName.toUpperCase());
+		return returnValue;
 	}
 	public String getDatabaseName() {
 		return databaseName;

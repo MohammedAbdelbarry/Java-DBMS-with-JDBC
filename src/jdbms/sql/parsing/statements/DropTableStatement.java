@@ -28,6 +28,7 @@ public class DropTableStatement extends InitialStatement {
 	 * Instantiates a new drop table statement.
 	 */
 	public DropTableStatement() {
+		super();
 		dropTableParameters = new TableDroppingParameters();
 	}
 
@@ -45,7 +46,7 @@ public class DropTableStatement extends InitialStatement {
 			throws TableNotFoundException,
 			FailedToDeleteTableException {
 		buildParameters();
-		data.dropTable(dropTableParameters);
+		numberOfUpdates = data.dropTable(dropTableParameters);
 	}
 
 	/**

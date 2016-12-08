@@ -42,7 +42,7 @@ public class AlterTableDropStatement extends AlterTableStatement {
 			ValueListTooSmallException,
 			TypeMismatchException {
 		buildParameters();
-		//data.dropTableColumn(dropColumnParameters);
+		//numberOfUpdates = data.dropTableColumn(dropColumnParameters);
 	}
 
 	/**

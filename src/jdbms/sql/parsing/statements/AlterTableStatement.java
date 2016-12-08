@@ -12,23 +12,23 @@ public abstract class AlterTableStatement extends InitialStatement {
 
 	private Expression nextExpression;
 	private Statement nextStatement;
-	
+
 	/**
 	 * Instantiates a new alter table statement.
 	 */
 	public AlterTableStatement() {
-
+		super();
 	}
 	/**
 	 * Sets the next expression to interpret the sql command.
 	 */
-	public void setNextExpression(Expression nextExpression) {
+	public void setNextExpression(final Expression nextExpression) {
 		this.nextExpression = nextExpression;
 	}
 	/**
 	 * Sets the next statement to interpret the sql command.
 	 */
-	public void setNextStatement(Statement nextStatement) {
+	public void setNextStatement(final Statement nextStatement) {
 		this.nextStatement = nextStatement;
 	}
 
@@ -44,5 +44,5 @@ public abstract class AlterTableStatement extends InitialStatement {
 			}
 		}
 		return false;
-	}	
+	}
 }

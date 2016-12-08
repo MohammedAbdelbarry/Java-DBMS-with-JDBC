@@ -25,6 +25,7 @@ public class DropDatabaseStatement extends InitialStatement {
 	 * Instantiates a new drop database statement.
 	 */
 	public DropDatabaseStatement() {
+		super();
 		dropDBParameters
 		= new DatabaseDroppingParameters();
 	}
@@ -46,7 +47,7 @@ public class DropDatabaseStatement extends InitialStatement {
 			throws DatabaseNotFoundException,
 			FailedToDeleteDatabaseException {
 		buildParameters();
-		data.dropDatabase(dropDBParameters);
+		numberOfUpdates = data.dropDatabase(dropDBParameters);
 	}
 
 	/**

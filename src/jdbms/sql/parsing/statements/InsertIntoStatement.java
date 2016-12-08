@@ -35,6 +35,7 @@ public class InsertIntoStatement extends InitialStatement {
 	 * Instantiates a new insert into statement.
 	 */
 	public InsertIntoStatement() {
+		super();
 		insertParameters = new InsertionParameters();
 	}
 
@@ -67,7 +68,7 @@ public class InsertIntoStatement extends InitialStatement {
 			TypeMismatchException,
 			InvalidDateFormatException {
 		buildParameters();
-		data.insertInto(insertParameters);
+		numberOfUpdates = data.insertInto(insertParameters);
 	}
 
 	/**

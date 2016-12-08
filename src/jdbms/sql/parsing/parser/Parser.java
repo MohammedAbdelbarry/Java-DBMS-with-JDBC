@@ -42,6 +42,13 @@ public class Parser {
 			if (interpreted) {
 				try {
 					statement.act(data);
+					if (statement.getQueryOutput() != null) {
+						statement.getQueryOutput().printOutput();
+						System.out.println("Query Completed Successfully");
+					} else {
+						System.out.println("Update Completed Successfully");
+					}
+					System.out.println(statement.getNumberOfUpdates());
 				} catch (final ColumnNotFoundException e) {
 					ErrorHandler.
 					printColumnNotFoundError(e.getMessage());
