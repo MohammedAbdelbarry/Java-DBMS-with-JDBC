@@ -1,5 +1,7 @@
 package jdbms.sql.parsing.statements;
 
+import java.io.IOException;
+
 import jdbms.sql.data.SQLData;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
@@ -10,8 +12,8 @@ import jdbms.sql.exceptions.TableNotFoundException;
 import jdbms.sql.exceptions.TypeMismatchException;
 import jdbms.sql.exceptions.ValueListTooLargeException;
 import jdbms.sql.exceptions.ValueListTooSmallException;
-import jdbms.sql.parsing.expressions.TableNameColumnListExpression;
-import jdbms.sql.parsing.expressions.TableNameValueListExpression;
+import jdbms.sql.parsing.expressions.table.name.TableNameColumnListExpression;
+import jdbms.sql.parsing.expressions.table.name.TableNameValueListExpression;
 import jdbms.sql.parsing.properties.InsertionParameters;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
 
@@ -66,7 +68,8 @@ public class InsertIntoStatement extends InitialStatement {
 			ValueListTooSmallException,
 			TableNotFoundException,
 			TypeMismatchException,
-			InvalidDateFormatException {
+			InvalidDateFormatException,
+			IOException {
 		buildParameters();
 		numberOfUpdates = data.insertInto(insertParameters);
 	}

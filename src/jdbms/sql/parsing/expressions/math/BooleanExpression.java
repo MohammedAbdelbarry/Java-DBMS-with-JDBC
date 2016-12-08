@@ -5,7 +5,7 @@ import jdbms.sql.datatypes.DateTimeSQLType;
 import jdbms.sql.datatypes.FloatSQLType;
 import jdbms.sql.datatypes.IntSQLType;
 import jdbms.sql.datatypes.VarcharSQLType;
-import jdbms.sql.parsing.expressions.TerminalExpression;
+import jdbms.sql.parsing.expressions.terminal.TerminalExpression;
 import jdbms.sql.parsing.operators.BinaryOperator;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 import jdbms.sql.parsing.statements.OrderByStatement;

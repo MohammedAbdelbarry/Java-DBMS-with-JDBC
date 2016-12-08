@@ -2,7 +2,7 @@ package jdbms.sql.parsing.statements;
 
 import jdbms.sql.data.SQLData;
 import jdbms.sql.exceptions.DatabaseAlreadyExistsException;
-import jdbms.sql.parsing.expressions.DatabaseTerminatingExpression;
+import jdbms.sql.parsing.expressions.database.DatabaseTerminatingExpression;
 import jdbms.sql.parsing.properties.DatabaseCreationParameters;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
 

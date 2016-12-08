@@ -1,6 +1,8 @@
 package jdbms.sql.parsing.statements;
 
 
+import java.io.IOException;
+
 import jdbms.sql.data.SQLData;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
@@ -11,8 +13,8 @@ import jdbms.sql.exceptions.TableNotFoundException;
 import jdbms.sql.exceptions.TypeMismatchException;
 import jdbms.sql.exceptions.ValueListTooLargeException;
 import jdbms.sql.exceptions.ValueListTooSmallException;
-import jdbms.sql.parsing.expressions.ColumnWildcardExpression;
-import jdbms.sql.parsing.expressions.SelectColumnListExpression;
+import jdbms.sql.parsing.expressions.columns.names.ColumnWildcardExpression;
+import jdbms.sql.parsing.expressions.columns.names.SelectColumnListExpression;
 import jdbms.sql.parsing.properties.SelectionParameters;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
 
@@ -67,7 +69,8 @@ public class SelectStatement extends InitialStatement {
 			ColumnListTooLargeException,
 			ValueListTooLargeException,
 			ValueListTooSmallException,
-			InvalidDateFormatException {
+			InvalidDateFormatException,
+			IOException {
 		buildParameters();
 		queryOutput = data.selectFrom(selectParameters);
 	}

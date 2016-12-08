@@ -1,4 +1,4 @@
-package jdbms.sql.parsing.expressions;
+package jdbms.sql.parsing.expressions.columns.names;
 
 import java.util.ArrayList;
 

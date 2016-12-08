@@ -1,6 +1,6 @@
 package jdbms.sql.parsing.statements;
 
-import jdbms.sql.parsing.expressions.OrderByColumnListExpression;
+import jdbms.sql.parsing.expressions.columns.names.OrderByColumnListExpression;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 
 /**

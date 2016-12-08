@@ -1,8 +1,8 @@
 package jdbms.sql.parsing.statements;
 
-import jdbms.sql.parsing.expressions.OrderByTableNameExpression;
-import jdbms.sql.parsing.expressions.TableConditionalExpression;
-import jdbms.sql.parsing.expressions.TerminatingTableExpression;
+import jdbms.sql.parsing.expressions.table.name.OrderByTableNameExpression;
+import jdbms.sql.parsing.expressions.table.name.TableConditionalExpression;
+import jdbms.sql.parsing.expressions.table.name.TerminatingTableExpression;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 
 /**

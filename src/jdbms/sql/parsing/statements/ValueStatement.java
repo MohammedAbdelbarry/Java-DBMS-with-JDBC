@@ -1,6 +1,6 @@
 package jdbms.sql.parsing.statements;
 
-import jdbms.sql.parsing.expressions.InsertIntoValueListExpression;
+import jdbms.sql.parsing.expressions.values.InsertIntoValueListExpression;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 
 /**

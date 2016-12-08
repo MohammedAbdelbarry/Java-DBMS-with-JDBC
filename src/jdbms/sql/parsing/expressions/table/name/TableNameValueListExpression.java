@@ -1,4 +1,4 @@
-package jdbms.sql.parsing.expressions;
+package jdbms.sql.parsing.expressions.table.name;
 
 import jdbms.sql.parsing.properties.InputParametersContainer;
 import jdbms.sql.parsing.statements.ValueStatement;

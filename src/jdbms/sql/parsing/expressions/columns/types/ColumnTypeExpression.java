@@ -1,16 +1,17 @@
-package jdbms.sql.parsing.expressions;
+package jdbms.sql.parsing.expressions.columns.types;
 
 import java.util.ArrayList;
 
 import jdbms.sql.data.ColumnIdentifier;
 import jdbms.sql.datatypes.util.DataTypesValidator;
+import jdbms.sql.parsing.expressions.terminal.TerminalExpression;
 import jdbms.sql.parsing.expressions.util.ColumnExpression;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 
 /**
  * The Class DefineColumnExpression.
  */
-public class DefineColumnExpression extends ColumnsDatatypesExpression {
+public class ColumnTypeExpression extends ColumnsDatatypesExpression {
 
 	private ArrayList<ColumnIdentifier> columnsDataTypes = null;
 	private final DataTypesValidator validator;
@@ -19,7 +20,7 @@ public class DefineColumnExpression extends ColumnsDatatypesExpression {
 	 * Instantiates a new define column expression.
 	 * @param parameters the input parameters
 	 */
-	public DefineColumnExpression(final InputParametersContainer parameters) {
+	public ColumnTypeExpression(final InputParametersContainer parameters) {
 		super(new TerminalExpression(parameters), parameters);
 		this.columnsDataTypes = new ArrayList<>();
 		this.validator = new DataTypesValidator();

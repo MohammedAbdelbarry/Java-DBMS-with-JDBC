@@ -1,6 +1,6 @@
-package jdbms.sql.parsing.expressions;
+package jdbms.sql.parsing.expressions.database;
 
-import jdbms.sql.errors.ErrorHandler;
+import jdbms.sql.parsing.expressions.terminal.TerminalExpression;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 import jdbms.sql.parsing.util.Constants;
 
@@ -14,22 +14,20 @@ public class DatabaseTerminatingExpression extends DatabaseExpression {
 	 * @param parameters the input parameters
 	 */
 	public DatabaseTerminatingExpression(
-			InputParametersContainer parameters) {
+			final InputParametersContainer parameters) {
 		super(new TerminalExpression(parameters), parameters);
 	}
 
 	@Override
-	public boolean interpret(String sqlExpression) {
-		String databaseName = sqlExpression.
+	public boolean interpret(final String sqlExpression) {
+		final String databaseName = sqlExpression.
 				substring(0, sqlExpression.indexOf(" "));
-		String restOfExpression
+		final String restOfExpression
 		= sqlExpression.substring(sqlExpression.
 				indexOf(" ") + 1);
-		if (databaseName.matches("^[a-zA-Z_][a-zA-Z0-9_\\$]*$")) {
+		if (databaseName.matches(Constants.COLUMN_REGEX)) {
 			if (Constants.RESERVED_KEYWORDS.
 					contains(databaseName.toUpperCase())) {
-				ErrorHandler.
-				printReservedKeywordError(databaseName);
 				return false;
 			}
 			parameters.setDatabaseName(databaseName);

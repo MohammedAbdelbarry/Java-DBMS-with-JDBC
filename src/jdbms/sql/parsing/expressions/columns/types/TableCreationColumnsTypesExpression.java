@@ -1,9 +1,10 @@
-package jdbms.sql.parsing.expressions;
+package jdbms.sql.parsing.expressions.columns.types;
 
 import java.util.ArrayList;
 
 import jdbms.sql.data.ColumnIdentifier;
 import jdbms.sql.datatypes.util.DataTypesValidator;
+import jdbms.sql.parsing.expressions.terminal.TerminalExpression;
 import jdbms.sql.parsing.expressions.util.ColumnExpression;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 

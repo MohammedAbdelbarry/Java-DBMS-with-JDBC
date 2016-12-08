@@ -1,6 +1,6 @@
 package jdbms.sql.parsing.statements;
 
-import jdbms.sql.parsing.expressions.TerminatingColumnNameExpression;
+import jdbms.sql.parsing.expressions.columns.names.TerminatingColumnNameExpression;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 
 /**

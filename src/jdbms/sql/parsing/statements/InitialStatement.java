@@ -1,6 +1,8 @@
 package jdbms.sql.parsing.statements;
 
 
+import java.io.IOException;
+
 import jdbms.sql.data.SQLData;
 import jdbms.sql.data.query.SelectQueryOutput;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
@@ -54,6 +56,7 @@ implements Statement {
 	 * @throws FailedToDeleteDatabaseException
 	 * @throws FailedToDeleteTableException
 	 * @throws InvalidDateFormatException
+	 * @throws IOException
 	 */
 	public abstract void act(SQLData data)
 			throws ColumnNotFoundException,
@@ -69,7 +72,8 @@ implements Statement {
 			DatabaseNotFoundException,
 			FailedToDeleteDatabaseException,
 			FailedToDeleteTableException,
-			InvalidDateFormatException;
+			InvalidDateFormatException,
+			IOException;
 	/**
 	 * Gets the parameters.
 	 * @return the parameters

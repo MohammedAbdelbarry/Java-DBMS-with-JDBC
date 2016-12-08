@@ -1,7 +1,8 @@
-package jdbms.sql.parsing.expressions;
+package jdbms.sql.parsing.expressions.values;
 
 import java.util.ArrayList;
 
+import jdbms.sql.parsing.expressions.terminal.TerminalExpression;
 import jdbms.sql.parsing.expressions.util.StringModifier;
 import jdbms.sql.parsing.expressions.util.ValueExpression;
 import jdbms.sql.parsing.properties.InputParametersContainer;

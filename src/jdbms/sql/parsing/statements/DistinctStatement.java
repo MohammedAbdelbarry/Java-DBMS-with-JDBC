@@ -1,7 +1,7 @@
 package jdbms.sql.parsing.statements;
 
-import jdbms.sql.parsing.expressions.ColumnWildcardExpression;
-import jdbms.sql.parsing.expressions.SelectColumnListExpression;
+import jdbms.sql.parsing.expressions.columns.names.ColumnWildcardExpression;
+import jdbms.sql.parsing.expressions.columns.names.SelectColumnListExpression;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 
 /**

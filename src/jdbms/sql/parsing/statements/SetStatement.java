@@ -1,7 +1,7 @@
 package jdbms.sql.parsing.statements;
 
-import jdbms.sql.parsing.expressions.ConditionalAssignmentListExpression;
-import jdbms.sql.parsing.expressions.TerminalAssignmentExpression;
+import jdbms.sql.parsing.expressions.assignments.ConditionalAssignmentListExpression;
+import jdbms.sql.parsing.expressions.assignments.TerminalAssignmentExpression;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 /**
  * The Class Set Statement.

@@ -3,7 +3,7 @@ package jdbms.sql.parsing.statements;
 import jdbms.sql.data.SQLData;
 import jdbms.sql.exceptions.FailedToDeleteTableException;
 import jdbms.sql.exceptions.TableNotFoundException;
-import jdbms.sql.parsing.expressions.TerminatingTableExpression;
+import jdbms.sql.parsing.expressions.table.name.TerminatingTableExpression;
 import jdbms.sql.parsing.properties.TableDroppingParameters;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
 

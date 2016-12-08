@@ -1,5 +1,7 @@
 package jdbms.sql.parsing.statements;
 
+import java.io.IOException;
+
 import jdbms.sql.data.SQLData;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
@@ -10,7 +12,7 @@ import jdbms.sql.exceptions.TableNotFoundException;
 import jdbms.sql.exceptions.TypeMismatchException;
 import jdbms.sql.exceptions.ValueListTooLargeException;
 import jdbms.sql.exceptions.ValueListTooSmallException;
-import jdbms.sql.parsing.expressions.AddColumnTableNameExpression;
+import jdbms.sql.parsing.expressions.table.name.AddColumnTableNameExpression;
 import jdbms.sql.parsing.properties.AddColumnParameters;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
 
@@ -42,7 +44,8 @@ public class AlterTableAddStatement extends AlterTableStatement {
 			ValueListTooLargeException,
 			ValueListTooSmallException,
 			TypeMismatchException,
-			InvalidDateFormatException {
+			InvalidDateFormatException,
+			IOException {
 		buildParameters();
 		numberOfUpdates = data.addTableColumn(addColumnParameters);
 	}

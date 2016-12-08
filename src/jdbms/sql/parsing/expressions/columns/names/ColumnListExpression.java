@@ -1,5 +1,6 @@
-package jdbms.sql.parsing.expressions;
+package jdbms.sql.parsing.expressions.columns.names;
 
+import jdbms.sql.parsing.expressions.Expression;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 import jdbms.sql.parsing.statements.Statement;
 
