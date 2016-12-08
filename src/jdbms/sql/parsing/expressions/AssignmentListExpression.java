@@ -14,8 +14,8 @@ public abstract class AssignmentListExpression implements Expression {
 
 	private Expression nextExpression;
 	private Statement nextStatement;
-	private StringModifier modifier;
-	private ArrayList<AssignmentExpression> assignmentList;
+	private final StringModifier modifier;
+	private final ArrayList<AssignmentExpression> assignmentList;
 	protected InputParametersContainer parameters;
 
 	/**
@@ -23,8 +23,8 @@ public abstract class AssignmentListExpression implements Expression {
 	 * @param nextExpression the next expression
 	 * @param parameters the parameters
 	 */
-	public AssignmentListExpression(Expression nextExpression,
-			InputParametersContainer parameters) {
+	public AssignmentListExpression(final Expression nextExpression,
+			final InputParametersContainer parameters) {
 		this.nextExpression = nextExpression;
 		this.parameters = parameters;
 		this.assignmentList = new ArrayList<>();
@@ -36,8 +36,8 @@ public abstract class AssignmentListExpression implements Expression {
 	 * @param nextStatement the next statement
 	 * @param parameters the parameters
 	 */
-	public AssignmentListExpression(Statement nextStatement,
-			InputParametersContainer parameters) {
+	public AssignmentListExpression(final Statement nextStatement,
+			final InputParametersContainer parameters) {
 		this.nextStatement = nextStatement;
 		this.parameters = parameters;
 		this.assignmentList = new ArrayList<>();
@@ -72,6 +72,7 @@ public abstract class AssignmentListExpression implements Expression {
 			seperatorIndex = modifiedExpression.indexOf(";");
 		}
 		assignmentList.add(new AssignmentExpression(parameters));
+		sqlExpression.trim();
 		if (!assignmentList.get(assignmentList.size() - 1).
 				interpret(sqlExpression.
 						substring(0, seperatorIndex).

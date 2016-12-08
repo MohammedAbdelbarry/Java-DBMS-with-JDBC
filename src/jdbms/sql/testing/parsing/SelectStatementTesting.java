@@ -84,6 +84,7 @@ public class SelectStatementTesting {
 		assertEquals("CustomerCoolness", select.getParameters().getCondition().getLeftOperand());
 		assertEquals("1.512256", select.getParameters().getCondition().getRightOperand());
 	}
+
 	@Test
 	public void testSelect() {
 		String sqlCommand = "SELECT CustomerID,CustomerName,  Grades FROM Customers;";

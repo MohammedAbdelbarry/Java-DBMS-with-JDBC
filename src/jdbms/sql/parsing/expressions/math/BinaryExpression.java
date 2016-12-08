@@ -17,6 +17,8 @@ public abstract class BinaryExpression implements Expression {
 	private Expression nextExpression;
 	private Statement nextStatement;
 	private final StringModifier modifier;
+	private final String TIMEREGEX = "^\\s*(?:[0-1][0-9]|[2][0-3])"
+		    + "\\s*:\\s*[0-5][0-9]\\s*:\\s*[0-5][0-9]\\s*$";
 	private final DataTypesValidator validator;
 	protected InputParametersContainer parameters;
 
@@ -59,13 +61,22 @@ public abstract class BinaryExpression implements Expression {
 		final int seperatorIndex = modifiedRightPart.indexOf(" ");
 		final String leftOperand = sqlExpression.
 				substring(0, operatorIndex).trim();
-		final String rightOperand = sqlExpRightPart.
+		String rightOperand = sqlExpRightPart.
 				substring(0, seperatorIndex).trim();
+		String restOfExpression = sqlExpRightPart.
+				substring(seperatorIndex).trim();
+		if (restOfExpression.indexOf(" ") != -1
+				&& validator.match("DATE", rightOperand)
+				&& restOfExpression.substring(0,
+						restOfExpression.indexOf(" ")).
+				matches(TIMEREGEX)) {
+			rightOperand = rightOperand + restOfExpression.substring(0,
+					restOfExpression.indexOf(" ")).trim();
+			restOfExpression = restOfExpression.substring(restOfExpression.indexOf(" ")).trim();
+		}
 		if (!validOperand(leftOperand) || !validOperand(rightOperand)) {
 			return false;
 		}
-		final String restOfExpression = sqlExpRightPart.
-				substring(seperatorIndex).trim();
 		operator.setLeftOperand(leftOperand);
 		operator.setRightOperand(rightOperand);
 		if (this.nextExpression != null) {
