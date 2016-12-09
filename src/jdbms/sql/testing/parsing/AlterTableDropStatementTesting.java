@@ -25,11 +25,13 @@ public class AlterTableDropStatementTesting {
 	}
 	@Test
 	public void testAlterTableDropColumn() {
-		String SQLCommand = "ALTER TABLE table_name DROP COLUMN column_name;";
+		String SQLCommand = "ALTER TABLE table_name DROP COLUMN col1, col2, col3;";
 		SQLCommand = normalizer.normalizeCommand(SQLCommand);
-		String name = "table_name";
-		ArrayList <String> list = new ArrayList<>();
-		list.add("column_name");
+		final String name = "table_name";
+		final ArrayList <String> list = new ArrayList<>();
+		list.add("col1");
+		list.add("col2");
+		list.add("col3");
 		assertEquals(alterDrop.interpret(SQLCommand), true);
 		assertEquals(name, alterDrop.getParameters().getTableName());
 		assertEquals(list, alterDrop.getParameters().getColumns());

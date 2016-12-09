@@ -1,6 +1,6 @@
 package jdbms.sql.parsing.statements;
 
-import jdbms.sql.parsing.expressions.columns.names.TerminatingColumnNameExpression;
+import jdbms.sql.parsing.expressions.columns.names.TerminatingColumnListExpression;
 import jdbms.sql.parsing.properties.InputParametersContainer;
 
 /**
@@ -25,7 +25,7 @@ public class DropColumnStatement implements Statement {
 		if (sqlExpression.startsWith(STATEMENT_IDENTIFIER)) {
 			String restOfExpression = sqlExpression.
 					replaceFirst(STATEMENT_IDENTIFIER, "").trim();
-			return new TerminatingColumnNameExpression(parameters).
+			return new TerminatingColumnListExpression(parameters).
 					interpret(restOfExpression);
 		}
 		return false;

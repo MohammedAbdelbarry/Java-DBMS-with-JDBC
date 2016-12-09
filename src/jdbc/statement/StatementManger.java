@@ -16,19 +16,19 @@ public class StatementManger implements Statement {
 	DBMSConnector d;
 
 	@Override
-	public boolean isWrapperFor(Class<?> arg0) throws SQLException {
+	public boolean isWrapperFor(final Class<?> arg0) throws SQLException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public <T> T unwrap(Class<T> arg0) throws SQLException {
+	public <T> T unwrap(final Class<T> arg0) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void addBatch(String arg0) throws SQLException {
+	public void addBatch(final String arg0) throws SQLException {
 		// TODO Auto-generated method stub
 		commands.add(arg0);
 	}
@@ -64,7 +64,7 @@ public class StatementManger implements Statement {
 	}
 
 	@Override
-	public boolean execute(String arg0) throws SQLException {
+	public boolean execute(final String arg0) throws SQLException {
 		// TODO Auto-generated method stub
 		d = new DBMSConnector(arg0);
 		if (d.interpretQuery(arg0)) {
@@ -80,19 +80,19 @@ public class StatementManger implements Statement {
 	}
 
 	@Override
-	public boolean execute(String arg0, int arg1) throws SQLException {
+	public boolean execute(final String arg0, final int arg1) throws SQLException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean execute(String arg0, int[] arg1) throws SQLException {
+	public boolean execute(final String arg0, final int[] arg1) throws SQLException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean execute(String arg0, String[] arg1) throws SQLException {
+	public boolean execute(final String arg0, final String[] arg1) throws SQLException {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -100,8 +100,8 @@ public class StatementManger implements Statement {
 	@Override
 	public int[] executeBatch() throws SQLException {
 		// TODO Auto-generated method stub
-		int[] updateCounts;
-		int size = commands.size();
+		final int[] updateCounts;
+		final int size = commands.size();
 		for (int i = 0; i < size; i++) {
 			d = new DBMSConnector(commands.poll());
 
@@ -111,7 +111,7 @@ public class StatementManger implements Statement {
 	}
 
 	@Override
-	public ResultSet executeQuery(String arg0) throws SQLException {
+	public ResultSet executeQuery(final String arg0) throws SQLException {
 		// TODO Auto-generated method stub
 		d = new DBMSConnector(arg0);
 		if (!d.interpretQuery(arg0)) {
@@ -123,7 +123,7 @@ public class StatementManger implements Statement {
 	}
 
 	@Override
-	public int executeUpdate(String arg0) throws SQLException {
+	public int executeUpdate(final String arg0) throws SQLException {
 		// TODO Auto-generated method stub
 		d = new DBMSConnector(arg0);
 		if (!d.interpretUpdate(arg0)) {
@@ -134,19 +134,19 @@ public class StatementManger implements Statement {
 	}
 
 	@Override
-	public int executeUpdate(String arg0, int arg1) throws SQLException {
+	public int executeUpdate(final String arg0, final int arg1) throws SQLException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int executeUpdate(String arg0, int[] arg1) throws SQLException {
+	public int executeUpdate(final String arg0, final int[] arg1) throws SQLException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int executeUpdate(String arg0, String[] arg1) throws SQLException {
+	public int executeUpdate(final String arg0, final String[] arg1) throws SQLException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -194,7 +194,7 @@ public class StatementManger implements Statement {
 	}
 
 	@Override
-	public boolean getMoreResults(int arg0) throws SQLException {
+	public boolean getMoreResults(final int arg0) throws SQLException {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -260,49 +260,49 @@ public class StatementManger implements Statement {
 	}
 
 	@Override
-	public void setCursorName(String arg0) throws SQLException {
+	public void setCursorName(final String arg0) throws SQLException {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void setEscapeProcessing(boolean arg0) throws SQLException {
+	public void setEscapeProcessing(final boolean arg0) throws SQLException {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void setFetchDirection(int arg0) throws SQLException {
+	public void setFetchDirection(final int arg0) throws SQLException {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void setFetchSize(int arg0) throws SQLException {
+	public void setFetchSize(final int arg0) throws SQLException {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void setMaxFieldSize(int arg0) throws SQLException {
+	public void setMaxFieldSize(final int arg0) throws SQLException {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void setMaxRows(int arg0) throws SQLException {
+	public void setMaxRows(final int arg0) throws SQLException {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void setPoolable(boolean arg0) throws SQLException {
+	public void setPoolable(final boolean arg0) throws SQLException {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void setQueryTimeout(int arg0) throws SQLException {
+	public void setQueryTimeout(final int arg0) throws SQLException {
 		// TODO Auto-generated method stub
 
 	}

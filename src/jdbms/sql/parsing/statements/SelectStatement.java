@@ -80,5 +80,6 @@ public class SelectStatement extends InitialStatement {
 		selectParameters.setTableName(parameters.getTableName());
 		selectParameters.setCondition(parameters.getCondition());
 		selectParameters.setDistinct(parameters.isDistinct());
+		selectParameters.setColumnsOrder(parameters.getColumnsOrder());
 	}
 }

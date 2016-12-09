@@ -52,7 +52,6 @@ public class ParserMain {
 			String normalizedOutput;
 			try {
 				normalizedOutput = normalizer.normalizeCommand(sql);
-				System.out.println(normalizedOutput);
 			} catch (final IndexOutOfBoundsException e) {
 				ErrorHandler.printSyntaxError();
 				continue;
