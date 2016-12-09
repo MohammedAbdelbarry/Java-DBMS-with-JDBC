@@ -141,6 +141,7 @@ public class SelectStatementTesting {
 		assertEquals(select.interpret(sqlCommand), true);
 		assertEquals(name, select.getParameters().getTableName());
 		assertEquals(list, select.getParameters().getColumns());
+		assertEquals(select.getParameters().isDistinct(), true);
 	}
 
 	@Test

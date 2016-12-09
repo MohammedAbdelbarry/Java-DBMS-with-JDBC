@@ -342,7 +342,7 @@ public class Table {
 		}
 		final SelectQueryOutput output = new SelectQueryOutput();
 		output.setColumns(columnNames);
-		final ArrayList<ArrayList<String>> rows = new ArrayList<>();
+		ArrayList<ArrayList<String>> rows = new ArrayList<>();
 		int index = 0;
 		for (final int i : matches) {
 			rows.add(new ArrayList<>());
@@ -352,6 +352,10 @@ public class Table {
 						get(i).getStringValue());
 			}
 			index++;
+		}
+		if (selectParameters.isDistinct()) {
+			final Set< ArrayList<String> > uniqueRows = new LinkedHashSet<>(rows);
+			rows = new ArrayList<ArrayList<String>>(uniqueRows);
 		}
 		output.setRows(rows);
 		output.setTableName(tableName);
