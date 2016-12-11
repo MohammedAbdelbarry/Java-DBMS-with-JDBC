@@ -36,13 +36,18 @@ public class JSONWriter implements FileWriter {
 	}
 
 	@Override
-	public void create(final Table table, final String databaseName, final String path)
-			throws IOException {
-		final Gson gson = new GsonBuilder().registerTypeAdapter(SQLType.class, new SQLTypeSerializer()).setPrettyPrinting().create();
+	public void create(final Table table,
+			final String databaseName, final String path)
+					throws IOException {
+		final Gson gson = new GsonBuilder()
+				.registerTypeAdapter(SQLType.class,
+						new SQLTypeSerializer())
+				.setPrettyPrinting().create();
 		final String json = gson.toJson(table);
 		final File jsonFile = new File(path
 				+ databaseName + File.separator
-				+ table.getName().toUpperCase() + JSON_EXTENSION);
+				+ table.getName().toUpperCase()
+				+ JSON_EXTENSION);
 		if (!jsonFile.exists()) {
 			jsonFile.createNewFile();
 		}
@@ -51,13 +56,16 @@ public class JSONWriter implements FileWriter {
 		outputStream.write(json.getBytes());
 		outputStream.close();
 	}
-	private class SQLTypeSerializer implements JsonSerializer<SQLType<?>> {
+	private class SQLTypeSerializer
+	implements JsonSerializer<SQLType<?>> {
 
 		@Override
 		public JsonElement serialize(final SQLType<?> sqlValue,
 				final Type type,
 				final JsonSerializationContext jsonSerializationContext) {
-			final JsonElement element = jsonSerializationContext.serialize(sqlValue, sqlValue.getClass());
+			final JsonElement element
+			= jsonSerializationContext.serialize(
+					sqlValue, sqlValue.getClass());
 			String value = sqlValue.getStringValue();
 			if (value.equals("")) {
 				value = "null";

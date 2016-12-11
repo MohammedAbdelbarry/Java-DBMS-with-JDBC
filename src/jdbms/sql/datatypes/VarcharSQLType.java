@@ -15,13 +15,6 @@ public class VarcharSQLType extends SQLType<String>{
 		return "VARCHAR";
 	}
 	@Override
-	public String getStringValue() {
-		if (value == null) {
-			return "";
-		}
-		return value.toString();
-	}
-	@Override
 	public int compareTo(final SQLType<String> other) {
 		if (value == null) {
 			if (other == null) {

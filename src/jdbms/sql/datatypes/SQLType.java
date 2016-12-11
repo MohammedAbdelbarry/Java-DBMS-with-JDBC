@@ -3,9 +3,6 @@ package jdbms.sql.datatypes;
 public abstract class SQLType<T extends Comparable<T>>
 implements Comparable<SQLType<T>> {
 	protected T value;
-	public SQLType() {
-		value = null;
-	}
 	public SQLType(final T value) {
 		this.value = value;
 	}
@@ -13,6 +10,9 @@ implements Comparable<SQLType<T>> {
 		return value;
 	}
 	public String getStringValue() {
+		if (value == null) {
+			return "";
+		}
 		return value.toString();
 	}
 	public abstract String getType();
