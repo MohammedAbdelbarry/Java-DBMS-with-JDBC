@@ -18,7 +18,7 @@ public class SelectOutputConverter {
 		final ArrayList<String> columnNames = getColumnNames(output.getColumns());
 		resultSet.setColumns(columnNames);
 		resultSet.setOutputRows(output.getData());
-		//resultSet.set**Map(getTypesMap(columnNames, getColumnTypes(output.getColumns());
+		resultSet.setColumnTypes(getTypesMap(columnNames, getColumnTypes(output.getColumns())));
 		return resultSet;
 	}
 
