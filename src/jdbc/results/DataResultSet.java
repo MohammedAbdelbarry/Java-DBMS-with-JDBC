@@ -40,8 +40,8 @@ public class DataResultSet implements ResultSet {
 		this.DBStatement = DBStatement;
 		columns = new ArrayList<>();
 		outputRows = new ArrayList<>();
-		cursor = 0;
 		isClosed = false;
+		cursor = 0;
 		metaData = new MetaData();
 	}
 
