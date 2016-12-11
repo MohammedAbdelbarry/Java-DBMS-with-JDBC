@@ -1,5 +1,6 @@
 package jdbc.statement;
 
+import java.sql.BatchUpdateException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,31 +12,36 @@ import java.util.Queue;
 import jdbms.sql.DBMSConnector;
 
 public class DBStatement implements Statement {
-	private boolean isClosed = false;
-	private final Queue<String> commands = new LinkedList<>();
+
 	private final DBMSConnector dbmsConnector;
+	private final Queue<String> commands;
+	private boolean isClosed;
+	private int currentResult;
 
 	public DBStatement(final DBMSConnector connector) {
 		this.dbmsConnector = connector;
+		commands = new LinkedList<>();
+		isClosed = false;
+		currentResult = -1;
 	}
 
 	@Override
 	public void addBatch(final String sql) throws SQLException {
-		
+
 		if (isClosed) {
 			throw new SQLException();
 		}
-		
+
 		commands.add(sql);
 	}
 
 	@Override
 	public void clearBatch() throws SQLException {
-		
+
 		if (isClosed) {
 			throw new SQLException();
 		}
-		
+
 		commands.clear();
 	}
 
@@ -46,16 +52,17 @@ public class DBStatement implements Statement {
 
 	@Override
 	public boolean execute(final String sql) throws SQLException {
-		
+
 		if (isClosed) {
 			throw new SQLException();
 		}
-		
+
 		if (dbmsConnector.interpretQuery(sql)) {
 			dbmsConnector.executeQuery(sql);
+			currentResult = -1;
 			return true;
 		} else if (dbmsConnector.interpretUpdate(sql)) {
-			dbmsConnector.executeUpdate(sql);
+			currentResult = dbmsConnector.executeUpdate(sql);
 			return false;
 		} else {
 			throw new SQLException();
@@ -64,30 +71,52 @@ public class DBStatement implements Statement {
 
 	@Override
 	public int[] executeBatch() throws SQLException {
-		final int[] updateCounts;
-		final int size = commands.size();
-		for (int i = 0; i < size; i++) {
 
+		if (isClosed) {
+			throw new SQLException();
 		}
-		return null;
+
+		final int size = commands.size();
+		final int[] updateCounts = new int[size];
+		for (int i = 0; i < size; i++) {
+			if (dbmsConnector.interpretUpdate(commands.peek())) {
+				updateCounts[i] = dbmsConnector.executeUpdate(commands.poll());
+				currentResult = updateCounts[i];
+			} else {
+				throw new BatchUpdateException();
+			}
+		}
+		return updateCounts;
 	}
 
 	@Override
 	public ResultSet executeQuery(final String arg0) throws SQLException {
+
+		if (isClosed) {
+			throw new SQLException();
+		}
+
 		if (!dbmsConnector.interpretQuery(arg0)) {
 			throw new SQLException();
 		} else {
-			// RETURN RESULT SET
+			currentResult = -1;
+			// return ResultSet HERE
 			return null;
 		}
 	}
 
 	@Override
 	public int executeUpdate(final String sql) throws SQLException {
+
+		if (isClosed) {
+			throw new SQLException();
+		}
+
 		if (!dbmsConnector.interpretUpdate(sql)) {
 			throw new SQLException();
 		} else {
-			return dbmsConnector.executeUpdate(sql);
+			currentResult = dbmsConnector.executeUpdate(sql);
+			return currentResult;
 		}
 	}
 
@@ -103,7 +132,12 @@ public class DBStatement implements Statement {
 
 	@Override
 	public int getUpdateCount() throws SQLException {
-		return 0;
+
+		if (isClosed) {
+			throw new SQLException();
+		}
+
+		return currentResult;
 	}
 
 	@Override

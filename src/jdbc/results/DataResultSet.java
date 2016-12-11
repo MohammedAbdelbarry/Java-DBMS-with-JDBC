@@ -25,13 +25,24 @@ import java.util.Map;
 
 public class DataResultSet implements ResultSet {
 
-	private boolean isClosed = false;
 	private ArrayList<String> columns;
 	private ArrayList<ArrayList<String>> outputRows;
 	private int cursor;
+	private boolean isClosed;
 
 	public DataResultSet() {
+		columns = new ArrayList<>();
+		outputRows = new ArrayList<>();
 		cursor = 0;
+		isClosed = false;
+	}
+
+	public void setColumns(final ArrayList<String> columns) {
+		this.columns = columns;
+	}
+
+	public void setOutputRows(final ArrayList<ArrayList<String>> outputRows) {
+		this.outputRows = outputRows;
 	}
 
 	@Override
@@ -347,20 +358,39 @@ public class DataResultSet implements ResultSet {
 
 	@Override
 	public Object getObject(final int columnIndex) throws SQLException {
-		// Check Range
+
+		// Check the Connection
+		if (isClosed) {
+			throw new SQLException();
+		}
+
+		// Check the Range
 		if (columnIndex < 1 || columnIndex > columns.size()) {
 			throw new SQLException();
 		}
-		return outputRows.get(cursor).get(columnIndex); // check if null...
+
+		// Check if the value is null
+		if (outputRows.get(cursor).get(columnIndex).equals("null")) {
+			return null;
+		}
+
+		return outputRows.get(cursor).get(columnIndex);
 	}
 
 	@Override
 	public ResultSetMetaData getMetaData() throws SQLException {
+		// Check the Connection
+		if (isClosed) {
+			throw new SQLException();
+		}
 		return null;
 	}
 
 	@Override
 	public Statement getStatement() throws SQLException {
+		if (isClosed) {
+			throw new SQLException();
+		}
 		return null;
 	}
 
