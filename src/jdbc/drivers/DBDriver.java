@@ -2,6 +2,7 @@ package jdbc.drivers;
 
 import java.sql.Connection;
 import java.sql.Driver;
+import java.sql.DriverManager;
 import java.sql.DriverPropertyInfo;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
@@ -14,12 +15,17 @@ import jdbc.drivers.util.ProtocolConstants;
 
 public class DBDriver implements Driver {
 
-	private ArrayList<DBConnection> connections;
-	private DBConnection connection;
-	private Properties connectionProperties;
+	private final ArrayList<DBConnection> connections;
 
+	static {
+		try {
+			DriverManager.registerDriver(new DBDriver());
+		} catch (final SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	public DBDriver() {
-		connections = new ArrayList<>();	
+		connections = new ArrayList<>();
 	}
 	@Override
 	public boolean acceptsURL(final String url) throws SQLException {
@@ -31,9 +37,8 @@ public class DBDriver implements Driver {
 		if (!isValidURL(url)) {
 			return null;
 		}
-		DBConnection connection = new DBConnection(url);
+		final DBConnection connection = new DBConnection(url);
 		connections.add(connection);
-		connectionProperties = info;
 		return connection;
 	}
 
