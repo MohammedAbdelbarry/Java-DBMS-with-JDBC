@@ -9,7 +9,6 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import jdbc.results.DataResultSet;
 import jdbms.sql.DBMSConnector;
 
 public class DBStatement implements Statement {
@@ -18,14 +17,12 @@ public class DBStatement implements Statement {
 	private final Queue<String> commands;
 	private boolean isClosed;
 	private int currentResult;
-	private DataResultSet resultSet;
 
 	public DBStatement(final DBMSConnector connector) {
 		this.dbmsConnector = connector;
 		commands = new LinkedList<>();
 		isClosed = false;
 		currentResult = -1;
-
 	}
 
 	@Override
@@ -103,8 +100,8 @@ public class DBStatement implements Statement {
 			throw new SQLException();
 		} else {
 			currentResult = -1;
-			resultSet = new DataResultSet(this);
-			return resultSet;
+			// return ResultSet HERE
+			return null;
 		}
 	}
 
@@ -125,23 +122,12 @@ public class DBStatement implements Statement {
 
 	@Override
 	public Connection getConnection() throws SQLException {
-
-		if (isClosed) {
-			throw new SQLException();
-		}
-
 		return null;
 	}
 
 	@Override
 	public ResultSet getResultSet() throws SQLException {
-
-		if (isClosed) {
-			throw new SQLException();
-		}
-
-		resultSet = new DataResultSet(this);
-		return resultSet;
+		return null;
 	}
 
 	@Override
