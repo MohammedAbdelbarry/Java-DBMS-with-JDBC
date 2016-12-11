@@ -21,8 +21,8 @@ public class DBStatement implements Statement {
 	public DBStatement(final DBMSConnector connector) {
 		this.dbmsConnector = connector;
 		commands = new LinkedList<>();
-		isClosed = false;
 		currentResult = -1;
+		isClosed = false;
 	}
 
 	@Override
