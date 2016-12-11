@@ -6,6 +6,7 @@ import java.util.Date;
 
 import jdbms.sql.datatypes.util.SQLTypeFactory;
 import jdbms.sql.exceptions.InvalidDateFormatException;
+import jdbms.sql.parsing.util.Constants;
 
 public class DateSQLType extends SQLType<Date> {
 	private static final String DATE_FORMAT
@@ -17,7 +18,8 @@ public class DateSQLType extends SQLType<Date> {
 	public DateSQLType(final String value)
 			throws InvalidDateFormatException {
 		super(new Date());
-		if (value == null) {
+		if (value == null
+				|| value.equals(Constants.NULL_INDICATOR)) {
 			super.value = null;
 		} else {
 			final SimpleDateFormat dateFormat

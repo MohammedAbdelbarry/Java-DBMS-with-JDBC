@@ -5,14 +5,16 @@ import java.util.Collections;
 import java.util.List;
 
 public abstract class Constants {
+	/** indicates a null value. **/
+	public static final String NULL_INDICATOR = "null";
 	public static final List<String> RESERVED_KEYWORDS =
 			Collections.unmodifiableList(Arrays.asList("SELECT",
 					"TABLE", "DELETE", "UPDATE", "INSERT", "INTO", "VALUES",
 					"SET", "WHERE", "FROM", "CREATE", "DROP", "DATABASE",
 					"INTEGER", "VARCHAR", "TEXT", "INT", "USE", "DISTINCT",
 					"TRUE", "FALSE", "ALTER", "ADD", "ORDER", "BY",
-					"ASC", "DESC", "FLOAT", "REAL", "COLUMN", "DATE",
-					"DATETIME"));
+					"ASC", "DESC", "FLOAT", "REAL", "DOUBLE", "COLUMN", "DATE",
+					"DATETIME", "BIGINT"));
 
 	public static final String COLUMN_REGEX = "^[a-zA-Z_][a-zA-Z0-9_\\$]*$";
 	public static final String STRING_REGEX = "^'.*?'$";

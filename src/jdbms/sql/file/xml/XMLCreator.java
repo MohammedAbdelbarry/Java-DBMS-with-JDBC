@@ -25,6 +25,7 @@ import jdbms.sql.data.TableColumn;
 import jdbms.sql.data.TableIdentifier;
 import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.file.FileWriter;
+import jdbms.sql.parsing.util.Constants;
 
 public class XMLCreator implements FileWriter {
 	/**DTD Identifier to be inserted in the DTD file Name.*/
@@ -37,8 +38,6 @@ public class XMLCreator implements FileWriter {
 	private static final String INDENTATION = "{http://xml.apache.org/xslt}indent-amount";
 	/**Number of indentation tabs in XML files as a String.*/
 	private static final String INDENT_NUMBER = "4";
-	/** indicates a null value. **/
-	private static final String NULL_INDICATOR = "null";
 
 	public XMLCreator() {
 	}
@@ -114,7 +113,7 @@ public class XMLCreator implements FileWriter {
 				final String value = current.get(i).getStringValue();
 				final Element col = doc.createElement(key);
 				if (value.equals("")) {
-					col.appendChild(doc.createTextNode(NULL_INDICATOR));
+					col.appendChild(doc.createTextNode(Constants.NULL_INDICATOR));
 				} else {
 					col.appendChild(doc.createTextNode(value));
 				}
