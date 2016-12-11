@@ -1,6 +1,8 @@
 package jdbms.sql.data;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -8,10 +10,15 @@ import java.util.Map;
 import java.util.Set;
 
 import jdbms.sql.data.query.SelectQueryOutput;
+import jdbms.sql.data.util.ComparatorChain;
+import jdbms.sql.data.util.SQLComparator;
 import jdbms.sql.datatypes.BigIntSQLType;
 import jdbms.sql.datatypes.DateSQLType;
 import jdbms.sql.datatypes.DateTimeSQLType;
 import jdbms.sql.datatypes.DoubleSQLType;
+import jdbms.sql.datatypes.FloatSQLType;
+import jdbms.sql.datatypes.IntSQLType;
+import jdbms.sql.datatypes.SQLType;
 import jdbms.sql.datatypes.VarcharSQLType;
 import jdbms.sql.datatypes.util.DataTypesValidator;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
@@ -24,6 +31,7 @@ import jdbms.sql.exceptions.ValueListTooLargeException;
 import jdbms.sql.exceptions.ValueListTooSmallException;
 import jdbms.sql.parsing.expressions.math.AssignmentExpression;
 import jdbms.sql.parsing.expressions.math.BooleanExpression;
+import jdbms.sql.parsing.expressions.util.ColumnOrder;
 import jdbms.sql.parsing.properties.DropColumnParameters;
 import jdbms.sql.parsing.properties.InsertionParameters;
 import jdbms.sql.parsing.properties.SelectionParameters;
@@ -347,22 +355,41 @@ public class Table {
 							col.toUpperCase()
 							).getColumnDataType()));
 		}
-		output.setColumns(columnIdentifiers);
-		ArrayList<ArrayList<String>> rows = new ArrayList<>();
-		int index = 0;
-		for (final int i : matches) {
-			rows.add(new ArrayList<>());
-			for (int j = 0 ; j < columnNames.size() ; j++) {
-				rows.get(index).add(tableColumns.get(
-						columnNames.get(j).toUpperCase()).
-						get(i).getStringValue());
+		final ArrayList<ArrayList<SQLType<?>>> tableRows = getTableRows(matches);
+		final ArrayList<ColumnOrder> order
+		= selectParameters.getColumnsOrder();
+		final HashMap<String, Integer> indices = getColumnIndices();
+		if (order != null) {
+			for (final ColumnOrder columnOrder : order) {
+				if (!tableColumns.containsKey(
+						columnOrder.getColumnName(
+								).toUpperCase())) {
+					throw new ColumnNotFoundException(
+							columnOrder.getColumnName());
+				}
 			}
-			index++;
+			final ComparatorChain<ArrayList<SQLType<?>>> comparatorChain
+			= new ComparatorChain<>();
+			addComparators(order, comparatorChain, indices);
+			tableRows.sort(comparatorChain);
+		}
+		ArrayList<ArrayList<String>> rows = new ArrayList<>();
+		for (int i = 0 ; i < tableRows.size() ; i++) {
+			final ArrayList<String> row = new ArrayList<>();
+			for (int j = 0 ; j < columnNames.size() ; j++) {
+				row.add(tableRows.get(i).get(
+						indices.get(columnNames.
+								get(j).toUpperCase())).
+						getStringValue());
+			}
+			rows.add(row);
 		}
 		if (selectParameters.isDistinct()) {
-			final Set<ArrayList<String>> uniqueRows = new LinkedHashSet<>(rows);
+			final Set<ArrayList<String>> uniqueRows
+			= new LinkedHashSet<>(rows);
 			rows = new ArrayList<>(uniqueRows);
 		}
+		output.setColumns(columnIdentifiers);
 		output.setRows(rows);
 		output.setTableName(tableName);
 		return output;
@@ -684,5 +711,63 @@ public class Table {
 					new DateTimeSQLType(rightValue));
 		}
 		return false;
+	}
+	private void addComparators(final ArrayList<ColumnOrder>
+	order,
+	final ComparatorChain<ArrayList<SQLType<?>>>
+	comparatorChain, final HashMap<String, Integer> columnIndices) {
+		for (final ColumnOrder columnOrder : order) {
+			comparatorChain.addComparator(getComparator(columnOrder,
+					columnIndices),
+					!columnOrder.isAscending());
+		}
+	}
+	private Comparator<ArrayList<SQLType<?>>>
+	getComparator(final ColumnOrder order,
+			final HashMap<String, Integer> columnIndices) {
+		final String type = tableColumns.get(
+				order.getColumnName().
+				toUpperCase()).getColumnDataType();
+		final int index = columnIndices.get(order.
+				getColumnName().toUpperCase());
+		if (Constants.STRING_TYPES.contains(type)) {
+			return new SQLComparator<String, VarcharSQLType>(index);
+		} else if (Constants.BIG_INTEGER_TYPES.contains(type)) {
+			return new SQLComparator<Long, BigIntSQLType>(index);
+		} else if (Constants.DOUBLE_TYPES.contains(type)) {
+			return new SQLComparator<Double, DoubleSQLType>(index);
+		} else if (Constants.INTEGER_TYPES.contains(type)) {
+			return new SQLComparator<Integer, IntSQLType>(index);
+		} else if (Constants.FLOAT_TYPES.contains(type)) {
+			return new SQLComparator<Float, FloatSQLType>(index);
+		} else if (Constants.DATE_TYPES.contains(type)) {
+			return new SQLComparator<Date, DateSQLType>(index);
+		} else if (Constants.DATE_TIME_TYPES.contains(type)) {
+			return new SQLComparator<Date, DateTimeSQLType>(index);
+		}
+		return null;
+	}
+	private ArrayList<ArrayList<SQLType<?>>> getTableRows(final ArrayList<Integer> matches) {
+		final ArrayList<ArrayList<SQLType<?>>> rows
+		= new ArrayList<>();
+		for (final int match : matches) {
+			final ArrayList<SQLType<?>> row = new ArrayList<>();
+			for (final String column : tableColumnNames) {
+				row.add(tableColumns.get(
+						column.toUpperCase()).get(match));
+			}
+			rows.add(row);
+		}
+		return rows;
+	}
+	private HashMap<String, Integer> getColumnIndices() {
+		final HashMap<String, Integer> columnIndices
+		= new HashMap<>();
+		int index = 0;
+		for (final String column : tableColumnNames) {
+			columnIndices.put(column.toUpperCase(), index);
+			index++;
+		}
+		return columnIndices;
 	}
 }

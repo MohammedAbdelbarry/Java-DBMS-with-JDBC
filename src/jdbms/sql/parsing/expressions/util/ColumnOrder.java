@@ -16,11 +16,11 @@ public class ColumnOrder {
 	}
 
 	public void setColumn(final String columnName) {
-		this.column = new ColumnExpression(columnName);
+		this.column = new ColumnExpression(columnName.trim());
 	}
 
-	public ColumnExpression getColumn() {
-		return this.column;
+	public String getColumnName() {
+		return this.column.getExpression();
 	}
 
 	public void setOrder(final String order) {
@@ -34,7 +34,7 @@ public class ColumnOrder {
 	public boolean isValidColumnOrder() {
 		return this.column.isValidColumnName()
 				&& (this.order.equals(ASCENDING)
-				|| this.order.equals(DESCENDING));
+						|| this.order.equals(DESCENDING));
 	}
 
 	public boolean isAscending() {

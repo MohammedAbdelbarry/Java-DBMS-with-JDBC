@@ -23,6 +23,9 @@ public class VarcharSQLType extends SQLType<String>{
 				return -1;
 			}
 		}
+		if (other == null) {
+			return 1;
+		}
 		return removeQuotes(value).compareTo(
 				removeQuotes(other.getValue()));
 	}
