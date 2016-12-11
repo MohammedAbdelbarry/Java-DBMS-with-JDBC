@@ -9,16 +9,19 @@ public class DataTypesValidator {
 	}
 	public boolean match(final String dataType, final String value) {
 		if (Constants.STRING_TYPES.contains(dataType)) {
-			return value.matches(Constants.STRING_REGEX)
-					|| value.matches(Constants.DOUBLE_STRING_REGEX);
+			return isString(value);
 		} else if (Constants.INTEGER_TYPES.contains(dataType)) {
-			return value.matches(Constants.INT_REGEX);
+			return isInteger(value);
 		} else if (Constants.FLOAT_TYPES.contains(dataType)) {
-			return value.matches(Constants.FLOAT_REGEX);
+			return isFloat(value);
 		} else if (Constants.DATE_TYPES.contains(dataType)) {
 			return value.matches(Constants.DATE_REGEX);
 		} else if (Constants.DATE_TIME_TYPES.contains(dataType)) {
 			return value.matches(Constants.DATE_TIME_REGEX);
+		} else if (Constants.BIG_INTEGER_TYPES.contains(dataType)) {
+			return isLong(value);
+		} else if (Constants.DOUBLE_TYPES.contains(dataType)) {
+			return isDouble(value);
 		} else {
 			return false;
 		}
@@ -44,15 +47,26 @@ public class DataTypesValidator {
 				&& Constants.DATE_TIME_TYPES.contains(second)) {
 			return true;
 		}
+		if (Constants.BIG_INTEGER_TYPES.contains(first)
+				&& Constants.BIG_INTEGER_TYPES.contains(second)) {
+			return true;
+		}
+		if (Constants.DOUBLE_TYPES.contains(first)
+				&& Constants.DOUBLE_TYPES.contains(second)) {
+			return true;
+		}
 		return false;
 	}
 	public String getDataType(final String value) {
-		if (value.matches(Constants.STRING_REGEX)
-				|| value.matches(Constants.DOUBLE_STRING_REGEX))  {
+		if (isString(value))  {
 			return "VARCHAR";
-		} else if (value.matches(Constants.INT_REGEX)) {
+		} else if (isLong(value)) {
+			return "BIGINT";
+		} else if (isDouble(value)) {
+			return "DOUBLE";
+		} else if (isInteger(value)) {
 			return "INTEGER";
-		} else if (value.matches(Constants.FLOAT_REGEX)){
+		} else if (isFloat(value)){
 			return "FLOAT";
 		} else if (value.matches(Constants.DATE_REGEX)) {
 			return "DATE";
@@ -74,5 +88,41 @@ public class DataTypesValidator {
 	public boolean isSupportedDataType(final String dataType) {
 		return Constants.SUPPORTED_DATA_TYPES.
 				contains(dataType.trim().toUpperCase());
+	}
+	private boolean isFloat(final String value) {
+		try {
+			Float.parseFloat(value);
+			return true;
+		} catch (final NumberFormatException ex) {
+			return false;
+		}
+	}
+	private boolean isDouble(final String value) {
+		try {
+			Double.parseDouble(value);
+			return true;
+		} catch (final NumberFormatException ex) {
+			return false;
+		}
+	}
+	private boolean isInteger(final String value) {
+		try {
+			Integer.parseInt(value);
+			return true;
+		} catch (final NumberFormatException ex) {
+			return false;
+		}
+	}
+	private boolean isLong(final String value) {
+		try {
+			Long.parseLong(value);
+			return true;
+		} catch (final NumberFormatException ex) {
+			return false;
+		}
+	}
+	private boolean isString(final String value) {
+		return value.matches(Constants.STRING_REGEX)
+				|| value.matches(Constants.DOUBLE_STRING_REGEX);
 	}
 }

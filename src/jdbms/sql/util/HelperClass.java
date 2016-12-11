@@ -26,6 +26,8 @@ public class HelperClass {
 			Class.forName("jdbms.sql.datatypes.FloatSQLType");
 			Class.forName("jdbms.sql.datatypes.DateSQLType");
 			Class.forName("jdbms.sql.datatypes.DateTimeSQLType");
+			Class.forName("jdbms.sql.datatypes.DoubleSQLType");
+			Class.forName("jdbms.sql.datatypes.BigIntSQLType");
 		} catch (final ClassNotFoundException e) {
 
 		}

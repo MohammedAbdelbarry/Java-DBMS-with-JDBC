@@ -2,7 +2,7 @@ package jdbms.sql.datatypes;
 
 import jdbms.sql.datatypes.util.SQLTypeFactory;
 
-public class IntSQLType extends SQLType<Long> {
+public class IntSQLType extends SQLType<Integer> {
 	static {
 		SQLTypeFactory.getInstance().
 		registerType("INTEGER", IntSQLType.class);
@@ -10,17 +10,10 @@ public class IntSQLType extends SQLType<Long> {
 		registerType("INT", IntSQLType.class);
 	}
 	public IntSQLType(final String value) {
-		super(value == null ? null : Long.parseLong(value));
+		super(value == null ? null : Integer.parseInt(value));
 	}
 	@Override
 	public String getType() {
 		return "INTEGER";
-	}
-	@Override
-	public String getStringValue() {
-		if (value == null) {
-			return "";
-		}
-		return value.toString();
 	}
 }

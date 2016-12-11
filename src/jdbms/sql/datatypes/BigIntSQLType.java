@@ -2,18 +2,17 @@ package jdbms.sql.datatypes;
 
 import jdbms.sql.datatypes.util.SQLTypeFactory;
 
-public class FloatSQLType extends SQLType<Float> {
+public class BigIntSQLType extends SQLType<Long> {
 	static {
 		SQLTypeFactory.getInstance().
-		registerType("FLOAT", FloatSQLType.class);
+		registerType("BIGINT", BigIntSQLType.class);
 	}
-	public FloatSQLType(final String value) {
+	public BigIntSQLType(final String value) {
 		super(value == null ? null
-				: Float.parseFloat(value));
+				: Long.parseLong(value));
 	}
-
 	@Override
 	public String getType() {
-		return "FLOAT";
+		return "BIGINT";
 	}
 }

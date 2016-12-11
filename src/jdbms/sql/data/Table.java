@@ -8,10 +8,10 @@ import java.util.Map;
 import java.util.Set;
 
 import jdbms.sql.data.query.SelectQueryOutput;
+import jdbms.sql.datatypes.BigIntSQLType;
 import jdbms.sql.datatypes.DateSQLType;
 import jdbms.sql.datatypes.DateTimeSQLType;
-import jdbms.sql.datatypes.FloatSQLType;
-import jdbms.sql.datatypes.IntSQLType;
+import jdbms.sql.datatypes.DoubleSQLType;
 import jdbms.sql.datatypes.VarcharSQLType;
 import jdbms.sql.datatypes.util.DataTypesValidator;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
@@ -354,8 +354,8 @@ public class Table {
 			index++;
 		}
 		if (selectParameters.isDistinct()) {
-			final Set< ArrayList<String> > uniqueRows = new LinkedHashSet<>(rows);
-			rows = new ArrayList<ArrayList<String>>(uniqueRows);
+			final Set<ArrayList<String>> uniqueRows = new LinkedHashSet<>(rows);
+			rows = new ArrayList<>(uniqueRows);
 		}
 		output.setRows(rows);
 		output.setTableName(tableName);
@@ -634,20 +634,34 @@ public class Table {
 			return condition.evaluate(
 					new VarcharSQLType(leftValue),
 					new VarcharSQLType(rightValue));
+		} else if (Constants.BIG_INTEGER_TYPES.contains(
+				validator.getDataType(leftValue)) &&
+				Constants.BIG_INTEGER_TYPES.contains(
+						validator.getDataType(rightValue))) {
+			return condition.evaluate(
+					new BigIntSQLType(leftValue),
+					new BigIntSQLType(rightValue));
+		} else if (Constants.DOUBLE_TYPES.contains(
+				validator.getDataType(leftValue)) &&
+				Constants.DOUBLE_TYPES.contains(
+						validator.getDataType(rightValue))) {
+			return condition.evaluate(
+					new DoubleSQLType(leftValue),
+					new DoubleSQLType(rightValue));
 		} else if (Constants.INTEGER_TYPES.contains(
 				validator.getDataType(leftValue)) &&
 				Constants.INTEGER_TYPES.contains(
 						validator.getDataType(rightValue))) {
 			return condition.evaluate(
-					new IntSQLType(leftValue),
-					new IntSQLType(rightValue));
+					new BigIntSQLType(leftValue),
+					new BigIntSQLType(rightValue));
 		} else if (Constants.FLOAT_TYPES.contains(
 				validator.getDataType(leftValue)) &&
 				Constants.FLOAT_TYPES.contains(
 						validator.getDataType(rightValue))) {
 			return condition.evaluate(
-					new FloatSQLType(leftValue),
-					new FloatSQLType(rightValue));
+					new DoubleSQLType(leftValue),
+					new DoubleSQLType(rightValue));
 		} else if (Constants.DATE_TYPES.contains(
 				validator.getDataType(leftValue)) &&
 				Constants.DATE_TYPES.contains(

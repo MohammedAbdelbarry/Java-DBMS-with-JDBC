@@ -1,9 +1,9 @@
 package jdbms.sql.parsing.expressions.math;
 
+import jdbms.sql.datatypes.BigIntSQLType;
 import jdbms.sql.datatypes.DateSQLType;
 import jdbms.sql.datatypes.DateTimeSQLType;
-import jdbms.sql.datatypes.FloatSQLType;
-import jdbms.sql.datatypes.IntSQLType;
+import jdbms.sql.datatypes.DoubleSQLType;
 import jdbms.sql.datatypes.VarcharSQLType;
 import jdbms.sql.parsing.expressions.terminal.TerminalExpression;
 import jdbms.sql.parsing.operators.BinaryOperator;
@@ -72,16 +72,16 @@ public abstract class BooleanExpression extends BinaryExpression {
 	 * @param right the right operand of type integer
 	 * @return true, if both operands are equivalent
 	 */
-	public abstract boolean evaluate(IntSQLType left,
-			IntSQLType right);
+	public abstract boolean evaluate(BigIntSQLType left,
+			BigIntSQLType right);
 	/**
 	 * Evaluate boolean expression.
 	 * @param left the left operand of type float
 	 * @param right the right operand of type float
 	 * @return true, if both operands are equivalent
 	 */
-	public abstract boolean evaluate(FloatSQLType left,
-			FloatSQLType right);
+	public abstract boolean evaluate(DoubleSQLType left,
+			DoubleSQLType right);
 	/**
 	 * Evaluate boolean expression.
 	 * @param left the left operand of type date
