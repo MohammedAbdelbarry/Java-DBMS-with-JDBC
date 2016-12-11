@@ -21,28 +21,54 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Map;
+
+import jdbc.statement.DBStatement;
 
 public class DataResultSet implements ResultSet {
 
+	private String tableName;
 	private ArrayList<String> columns;
 	private ArrayList<ArrayList<String>> outputRows;
+	private Map<String, Integer> columnTypes;
 	private int cursor;
 	private boolean isClosed;
+	private MetaData metaData;
+	DBStatement DBStatement;
 
-	public DataResultSet() {
+	public DataResultSet(final DBStatement DBStatement) {
+		this.DBStatement = DBStatement;
 		columns = new ArrayList<>();
 		outputRows = new ArrayList<>();
-		cursor = 0;
 		isClosed = false;
+		cursor = 0;
+		columnTypes = new HashMap<>();
+		metaData = new MetaData();
+	}
+
+	public void setTableName(final String tableName) {
+		this.tableName = tableName;
+		metaData.setTableName(tableName);
 	}
 
 	public void setColumns(final ArrayList<String> columns) {
 		this.columns = columns;
+		metaData.setColumnNames(columns);
 	}
 
 	public void setOutputRows(final ArrayList<ArrayList<String>> outputRows) {
 		this.outputRows = outputRows;
+	}
+
+	public void setColumnTypes(final Map<String, Integer> columnTypes) {
+		this.columnTypes = columnTypes;
+	}
+
+	public int getColumnType(final int column) throws SQLException {
+		final String columnName = columns.get(column);
+		return columnTypes.get(columnName);
+
 	}
 
 	@Override
@@ -383,7 +409,7 @@ public class DataResultSet implements ResultSet {
 		if (isClosed) {
 			throw new SQLException();
 		}
-		return null;
+		return metaData;
 	}
 
 	@Override
@@ -391,7 +417,7 @@ public class DataResultSet implements ResultSet {
 		if (isClosed) {
 			throw new SQLException();
 		}
-		return null;
+		return DBStatement;
 	}
 
 	@Override
