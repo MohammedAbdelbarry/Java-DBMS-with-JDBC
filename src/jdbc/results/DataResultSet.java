@@ -21,16 +21,17 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Map;
 
 import jdbc.statement.DBStatement;
-import jdbms.sql.DBMSConnector;
 
 public class DataResultSet implements ResultSet {
 
 	private String tableName;
 	private ArrayList<String> columns;
 	private ArrayList<ArrayList<String>> outputRows;
+	private Map<String, Integer> columnTypes;
 	private int cursor;
 	private boolean isClosed;
 	private MetaData metaData;
@@ -42,6 +43,7 @@ public class DataResultSet implements ResultSet {
 		outputRows = new ArrayList<>();
 		isClosed = false;
 		cursor = 0;
+		columnTypes = new HashMap<>();
 		metaData = new MetaData();
 	}
 
@@ -57,6 +59,16 @@ public class DataResultSet implements ResultSet {
 
 	public void setOutputRows(final ArrayList<ArrayList<String>> outputRows) {
 		this.outputRows = outputRows;
+	}
+
+	public void setColumnTypes(final Map<String, Integer> columnTypes) {
+		this.columnTypes = columnTypes;
+	}
+
+	public int getColumnType(final int column) throws SQLException {
+		final String columnName = columns.get(column);
+		return columnTypes.get(columnName);
+
 	}
 
 	@Override
