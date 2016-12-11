@@ -23,22 +23,36 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
 
+import jdbc.statement.DBStatement;
+import jdbms.sql.DBMSConnector;
+
 public class DataResultSet implements ResultSet {
 
+	private String tableName;
 	private ArrayList<String> columns;
 	private ArrayList<ArrayList<String>> outputRows;
 	private int cursor;
 	private boolean isClosed;
+	private MetaData metaData;
+	DBStatement DBStatement;
 
-	public DataResultSet() {
+	public DataResultSet(final DBStatement DBStatement) {
+		this.DBStatement = DBStatement;
 		columns = new ArrayList<>();
 		outputRows = new ArrayList<>();
 		cursor = 0;
 		isClosed = false;
+		metaData = new MetaData();
+	}
+
+	public void setTableName(final String tableName) {
+		this.tableName = tableName;
+		metaData.setTableName(tableName);
 	}
 
 	public void setColumns(final ArrayList<String> columns) {
 		this.columns = columns;
+		metaData.setColumnNames(columns);
 	}
 
 	public void setOutputRows(final ArrayList<ArrayList<String>> outputRows) {
@@ -383,7 +397,7 @@ public class DataResultSet implements ResultSet {
 		if (isClosed) {
 			throw new SQLException();
 		}
-		return null;
+		return metaData;
 	}
 
 	@Override
@@ -391,7 +405,7 @@ public class DataResultSet implements ResultSet {
 		if (isClosed) {
 			throw new SQLException();
 		}
-		return null;
+		return DBStatement;
 	}
 
 	@Override
