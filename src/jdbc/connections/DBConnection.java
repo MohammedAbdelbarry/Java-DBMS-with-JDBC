@@ -20,21 +20,17 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
-import javax.swing.text.StyledEditorKit.StyledTextAction;
-
 import jdbc.drivers.util.ProtocolConstants;
 import jdbc.statement.DBStatement;
 import jdbms.sql.DBMSConnector;
 
 public class DBConnection implements Connection{
 
-	private final String url;
-	private DBMSConnector connector;
-	private ArrayList<DBStatement> statements;
+	private final DBMSConnector connector;
+	private final ArrayList<DBStatement> statements;
 	private boolean isClosed;
 
 	public DBConnection(final String url) {
-		this.url = url;
 		connector = new DBMSConnector(getProtocolName(url));
 		statements = new ArrayList<>();
 		isClosed = false;
@@ -51,7 +47,7 @@ public class DBConnection implements Connection{
 		if (isClosed()) {
 			throw new SQLException();
 		}
-		DBStatement newStatement = new DBStatement(connector);
+		final DBStatement newStatement = new DBStatement(connector);
 		statements.add(newStatement);
 		return newStatement;
 	}

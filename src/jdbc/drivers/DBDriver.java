@@ -14,12 +14,10 @@ import jdbc.drivers.util.ProtocolConstants;
 
 public class DBDriver implements Driver {
 
-	private ArrayList<DBConnection> connections;
-	private DBConnection connection;
-	private Properties connectionProperties;
+	private final ArrayList<DBConnection> connections;
 
 	public DBDriver() {
-		connections = new ArrayList<>();	
+		connections = new ArrayList<>();
 	}
 	@Override
 	public boolean acceptsURL(final String url) throws SQLException {
@@ -31,9 +29,8 @@ public class DBDriver implements Driver {
 		if (!isValidURL(url)) {
 			return null;
 		}
-		DBConnection connection = new DBConnection(url);
+		final DBConnection connection = new DBConnection(url);
 		connections.add(connection);
-		connectionProperties = info;
 		return connection;
 	}
 
