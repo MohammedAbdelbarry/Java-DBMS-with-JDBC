@@ -26,6 +26,7 @@ import jdbms.sql.exceptions.ValueListTooSmallException;
 import jdbms.sql.file.FileWriter;
 import jdbms.sql.parsing.properties.InsertionParameters;
 import jdbms.sql.parsing.properties.TableCreationParameters;
+import jdbms.sql.parsing.util.Constants;
 import jdbms.sql.util.HelperClass;
 
 public class JSONWriter implements FileWriter {
@@ -68,7 +69,7 @@ public class JSONWriter implements FileWriter {
 					sqlValue, sqlValue.getClass());
 			String value = sqlValue.getStringValue();
 			if (value.equals("")) {
-				value = "null";
+				value = Constants.NULL_INDICATOR;
 			}
 			element.getAsJsonObject().addProperty("value", value);
 			return element;
