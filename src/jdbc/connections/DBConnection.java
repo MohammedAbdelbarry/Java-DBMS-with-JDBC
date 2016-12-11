@@ -47,7 +47,8 @@ public class DBConnection implements Connection{
 		if (isClosed()) {
 			throw new SQLException();
 		}
-		final DBStatement newStatement = new DBStatement(connector);
+		final DBStatement newStatement = new DBStatement(connector, this);
+
 		statements.add(newStatement);
 		return newStatement;
 	}
@@ -55,8 +56,8 @@ public class DBConnection implements Connection{
 	@Override
 	public void close() throws SQLException {
 		isClosed = true;
-		for (DBStatement statement : statements) {
-			statement = null;
+		for (int i = 0; i < statements.size(); i++) {
+			statements.get(i).close();
 		}
 		statements.clear();
 	}

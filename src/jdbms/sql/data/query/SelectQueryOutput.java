@@ -10,6 +10,7 @@ public class SelectQueryOutput {
 	private ArrayList<ArrayList<String>> outputRows;
 	private String tableName;
 	private static final String NULL_PLACEHOLDER = "";
+	private static final String NULL_VALUE = "";
 	public SelectQueryOutput() {
 		outputRows = new ArrayList<>();
 		columns = new ArrayList<>();
@@ -22,7 +23,7 @@ public class SelectQueryOutput {
 		for (final ArrayList<String> row : outputRows) {
 			for (int i = 0  ; i < row.size() ; i++) {
 				final String cell = row.get(i);
-				if (cell.equals("")) {
+				if (cell.equals(NULL_VALUE)) {
 					row.set(i, null);
 				}
 				if (cell.matches(Constants.DOUBLE_STRING_REGEX) ||
@@ -59,5 +60,8 @@ public class SelectQueryOutput {
 	}
 	public ArrayList<ArrayList<String>> getData() {
 		return outputRows;
+	}
+	public boolean isEmpty() {
+		return outputRows.isEmpty();
 	}
 }

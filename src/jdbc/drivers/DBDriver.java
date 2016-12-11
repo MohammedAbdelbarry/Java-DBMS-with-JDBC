@@ -2,6 +2,7 @@ package jdbc.drivers;
 
 import java.sql.Connection;
 import java.sql.Driver;
+import java.sql.DriverManager;
 import java.sql.DriverPropertyInfo;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
@@ -16,6 +17,13 @@ public class DBDriver implements Driver {
 
 	private final ArrayList<DBConnection> connections;
 
+	static {
+		try {
+			DriverManager.registerDriver(new DBDriver());
+		} catch (final SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	public DBDriver() {
 		connections = new ArrayList<>();
 	}

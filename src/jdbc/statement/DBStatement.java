@@ -9,6 +9,9 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import jdbc.connections.DBConnection;
+import jdbc.results.DataResultSet;
+import jdbc.results.util.SelectOutputConverter;
 import jdbms.sql.DBMSConnector;
 
 public class DBStatement implements Statement {
@@ -17,12 +20,16 @@ public class DBStatement implements Statement {
 	private final Queue<String> commands;
 	private boolean isClosed;
 	private int currentResult;
+	private DBConnection connection;
+	private DataResultSet resultSet;
 
-	public DBStatement(final DBMSConnector connector) {
+	public DBStatement(final DBMSConnector connector, DBConnection connection) {
 		this.dbmsConnector = connector;
+		this.connection = connection;
 		commands = new LinkedList<>();
 		isClosed = false;
 		currentResult = -1;
+		resultSet = new DataResultSet(this);
 	}
 
 	@Override
@@ -90,18 +97,20 @@ public class DBStatement implements Statement {
 	}
 
 	@Override
-	public ResultSet executeQuery(final String arg0) throws SQLException {
+	public ResultSet executeQuery(final String sql) throws SQLException {
 
 		if (isClosed) {
 			throw new SQLException();
 		}
 
-		if (!dbmsConnector.interpretQuery(arg0)) {
+		if (!dbmsConnector.interpretQuery(sql)) {
 			throw new SQLException();
 		} else {
 			currentResult = -1;
-			// return ResultSet HERE
-			return null;
+			resultSet = new DataResultSet(this);
+			SelectOutputConverter converter = new SelectOutputConverter();
+			resultSet = converter.convert(resultSet, dbmsConnector.executeQuery(sql));
+			return resultSet;
 		}
 	}
 
@@ -122,12 +131,22 @@ public class DBStatement implements Statement {
 
 	@Override
 	public Connection getConnection() throws SQLException {
-		return null;
+
+		if (isClosed) {
+			throw new SQLException();
+		}
+
+		return connection;
 	}
 
 	@Override
 	public ResultSet getResultSet() throws SQLException {
-		return null;
+
+		if (isClosed) {
+			throw new SQLException();
+		}
+
+		return resultSet;
 	}
 
 	@Override
