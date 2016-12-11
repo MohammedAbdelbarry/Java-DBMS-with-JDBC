@@ -17,16 +17,6 @@ public class MetaData implements ResultSetMetaData {
 	private String tableName;
 	private int columnCount;
 
-	public static void main(String[] args) {
-		int c = 0;
-		for (int i = 0; i < 10; i++) {
-			for (int j = i + 1; j < 10; j++) {
-				System.out.println(i + " " + j);
-				c++;
-			}
-		}
-		System.out.println(c);
-	}
 	public MetaData() {
 		columnNames = new ArrayList<>();
 		columnTypes = new HashMap<>();
