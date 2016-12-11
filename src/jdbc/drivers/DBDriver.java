@@ -28,7 +28,7 @@ public class DBDriver implements Driver {
 
 	@Override
 	public Connection connect(final String url, final Properties info) throws SQLException {
-		if (!acceptsURL(url)) {
+		if (!isValidURL(url)) {
 			return null;
 		}
 		DBConnection connection = new DBConnection(url);

@@ -23,15 +23,14 @@ import java.util.concurrent.Executor;
 import javax.swing.text.StyledEditorKit.StyledTextAction;
 
 import jdbc.drivers.util.ProtocolConstants;
-import jdbc.statement.StatementManger;
+import jdbc.statement.DBStatement;
 import jdbms.sql.DBMSConnector;
 
 public class DBConnection implements Connection{
 
 	private final String url;
 	private DBMSConnector connector;
-	private ArrayList<StatementManger> statements;
-	private StatementManger statementManager;
+	private ArrayList<DBStatement> statements;
 	private boolean isClosed;
 
 	public DBConnection(final String url) {
@@ -52,16 +51,16 @@ public class DBConnection implements Connection{
 		if (isClosed()) {
 			throw new SQLException();
 		}
-		//statementManager= new StatementManager(connector);
-		//statement.add(statementManager);
-		return null;
+		DBStatement newStatement = new DBStatement(connector);
+		statements.add(newStatement);
+		return newStatement;
 	}
 
 	@Override
 	public void close() throws SQLException {
 		isClosed = true;
-		for (StatementManger statementManager : statements) {
-			statementManager = null;
+		for (DBStatement statement : statements) {
+			statement = null;
 		}
 		statements.clear();
 	}
