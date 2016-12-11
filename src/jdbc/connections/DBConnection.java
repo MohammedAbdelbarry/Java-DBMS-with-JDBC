@@ -15,23 +15,30 @@ import java.sql.SQLXML;
 import java.sql.Savepoint;
 import java.sql.Statement;
 import java.sql.Struct;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
-import jdbc.drivers.util.ProtocolConstants;
+import javax.swing.text.StyledEditorKit.StyledTextAction;
 
-public class ConnectionHub implements Connection{
+import jdbc.drivers.util.ProtocolConstants;
+import jdbc.statement.StatementManger;
+import jdbms.sql.DBMSConnector;
+
+public class DBConnection implements Connection{
 
 	private final String url;
+	private DBMSConnector connector;
+	private ArrayList<StatementManger> statements;
+	private StatementManger statementManager;
+	private boolean isClosed;
 
-	public ConnectionHub(final String url) {
+	public DBConnection(final String url) {
 		this.url = url;
-	}
-
-	@Override
-	public void close() throws SQLException {
-
+		connector = new DBMSConnector(getProtocolName(url));
+		statements = new ArrayList<>();
+		isClosed = false;
 	}
 
 	private String getProtocolName(final String url) {
@@ -42,7 +49,26 @@ public class ConnectionHub implements Connection{
 
 	@Override
 	public Statement createStatement() throws SQLException {
+		if (isClosed()) {
+			throw new SQLException();
+		}
+		//statementManager= new StatementManager(connector);
+		//statement.add(statementManager);
 		return null;
+	}
+
+	@Override
+	public void close() throws SQLException {
+		isClosed = true;
+		for (StatementManger statementManager : statements) {
+			statementManager = null;
+		}
+		statements.clear();
+	}
+
+	@Override
+	public boolean isClosed() throws SQLException {
+		return isClosed;
 	}
 
 	@Override
@@ -187,11 +213,6 @@ public class ConnectionHub implements Connection{
 
 	}
 
-	@Override
-	public boolean isClosed() throws SQLException {
-		throw new UnsupportedOperationException();
-
-	}
 
 	@Override
 	public boolean isReadOnly() throws SQLException {
