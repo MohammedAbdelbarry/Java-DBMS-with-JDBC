@@ -5,19 +5,21 @@ import java.sql.Driver;
 import java.sql.DriverPropertyInfo;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
+import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Logger;
 
-import jdbc.connections.ConnectionHub;
+import jdbc.connections.DBConnection;
 import jdbc.drivers.util.ProtocolConstants;
 
-public class DriverManager implements Driver {
+public class DBDriver implements Driver {
 
-	private ConnectionHub connection;
+	private ArrayList<DBConnection> connections;
+	private DBConnection connection;
 	private Properties connectionProperties;
 
-	public DriverManager() {
-
+	public DBDriver() {
+		connections = new ArrayList<>();	
 	}
 	@Override
 	public boolean acceptsURL(final String url) throws SQLException {
@@ -26,7 +28,11 @@ public class DriverManager implements Driver {
 
 	@Override
 	public Connection connect(final String url, final Properties info) throws SQLException {
-		connection = new ConnectionHub(url);
+		if (!isValidURL(url)) {
+			return null;
+		}
+		DBConnection connection = new DBConnection(url);
+		connections.add(connection);
 		connectionProperties = info;
 		return connection;
 	}

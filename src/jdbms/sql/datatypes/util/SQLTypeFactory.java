@@ -25,10 +25,6 @@ public class SQLTypeFactory {
 	}
 	public SQLType<?> getTypeObject(final String key,
 			final String value) throws InvalidDateFormatException {
-		if (!registeredTypes.containsKey(key)) {
-			System.out.println(key);
-			return null;
-		}
 		final Class<? extends SQLType<?>> typeClass
 				= registeredTypes.get(key);
 		try {

@@ -27,5 +27,4 @@ implements Comparable<SQLType<T>> {
 		}
 		return value.compareTo(other.getValue());
 	}
-
 }
