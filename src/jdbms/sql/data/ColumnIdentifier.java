@@ -1,5 +1,9 @@
 package jdbms.sql.data;
 
+import java.sql.Types;
+
+import jdbms.sql.parsing.util.Constants;
+
 public class ColumnIdentifier {
 	private final String name;
 	private final String type;
@@ -8,6 +12,25 @@ public class ColumnIdentifier {
 	}
 	public String getType() {
 		return type;
+	}
+	public int getTypeNumber() {
+		if (Constants.STRING_TYPES.contains(type)) {
+			return Types.VARCHAR;
+		} else if (Constants.INTEGER_TYPES.contains(type)) {
+			return Types.INTEGER;
+		} else if (Constants.FLOAT_TYPES.contains(type)) {
+			return Types.FLOAT;
+		} else if (Constants.DATE_TYPES.contains(type)) {
+			return Types.DATE;
+		} else if (Constants.DATE_TIME_TYPES.contains(type)) {
+			return Types.TIMESTAMP;
+		} else if (Constants.BIG_INTEGER_TYPES.contains(type)) {
+			return Types.BIGINT;
+		} else if (Constants.DOUBLE_TYPES.contains(type)) {
+			return Types.DOUBLE;
+		} else {
+			return Types.OTHER;
+		}
 	}
 	public ColumnIdentifier(final String name, final String type) {
 		this.name = name;

@@ -54,8 +54,6 @@ public class Table {
 	 * The number of rows in the table.
 	 */
 	private int numberOfRows;
-	/** indicates a null value. **/
-	private static final String NULL_INDICATOR = "null";
 	/**
 	 * Creates a table given its
 	 * {@link TableCreationParameters}
@@ -230,7 +228,7 @@ public class Table {
 		= new DataTypesValidator();
 		int index = 0;
 		for (final String column : tableColumnNames) {
-			if (values.get(index).equals(NULL_INDICATOR)) {
+			if (values.get(index).equals(Constants.NULL_INDICATOR)) {
 				tableColumns.get(
 						column.toUpperCase()).add(null);
 			} else if (!dataTypesValidator.
@@ -269,7 +267,7 @@ public class Table {
 		final DataTypesValidator dataTypesValidator
 		= new DataTypesValidator();
 		for (int i = 0; i < columnNames.size(); i++) {
-			if (values.get(i).equals(NULL_INDICATOR)) {
+			if (values.get(i).equals(Constants.NULL_INDICATOR)) {
 				tableColumns.get(
 						columnNames.get(i).toUpperCase()).add(null);
 			} else if (!dataTypesValidator.match(tableColumns.get(
@@ -341,7 +339,15 @@ public class Table {
 			}
 		}
 		final SelectQueryOutput output = new SelectQueryOutput();
-		output.setColumns(columnNames);
+		final ArrayList<ColumnIdentifier> columnIdentifiers
+		= new ArrayList<>();
+		for (final String col : columnNames) {
+			columnIdentifiers.add(new ColumnIdentifier(
+					col, tableColumns.get(
+							col.toUpperCase()
+							).getColumnDataType()));
+		}
+		output.setColumns(columnIdentifiers);
 		ArrayList<ArrayList<String>> rows = new ArrayList<>();
 		int index = 0;
 		for (final int i : matches) {
