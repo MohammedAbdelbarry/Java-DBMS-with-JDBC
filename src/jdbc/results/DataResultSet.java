@@ -20,6 +20,8 @@ import java.sql.Statement;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -28,7 +30,10 @@ import java.util.Map;
 import jdbc.statement.DBStatement;
 
 public class DataResultSet implements ResultSet {
-
+	private static final String DATE_FORMAT
+	= "yyyy-MM-dd";
+	private static final String DATE_TIME_FORMAT
+	= "yyyy-MM-ddHH:mm:ss";
 	private String tableName;
 	private ArrayList<String> columnNames;
 	private ArrayList<ArrayList<String>> outputRows;
@@ -37,6 +42,7 @@ public class DataResultSet implements ResultSet {
 	private boolean isClosed;
 	private MetaData metaData;
 	private final DBStatement DBStatement;
+
 
 	public DataResultSet(final DBStatement DBStatement) {
 		this.DBStatement = DBStatement;
@@ -191,9 +197,15 @@ public class DataResultSet implements ResultSet {
 		}
 
 		try {
-			// Parse the date
-			return null;
-		} catch (final Exception e) {
+			final String value = outputRows.get(cursor).get(columnIndex);
+			final SimpleDateFormat dateFormat
+			= new SimpleDateFormat(DATE_FORMAT);
+			dateFormat.setLenient(false);
+			final java.util.Date date = dateFormat.parse(
+					value.replaceAll("\\s", "")
+					.replaceAll("['\"]", ""));
+			return new Date(date.getTime());
+		} catch (final ParseException e) {
 			throw new SQLException();
 		}
 	}
@@ -218,22 +230,84 @@ public class DataResultSet implements ResultSet {
 		}
 
 		try {
-			// Parse the date
-			return null;
-		} catch (final Exception e) {
+			final String value = outputRows.get(cursor).get(columnIndex);
+			final SimpleDateFormat dateFormat
+			= new SimpleDateFormat(DATE_FORMAT);
+			dateFormat.setLenient(false);
+			final java.util.Date date = dateFormat.parse(
+					value.replaceAll("\\s", "")
+					.replaceAll("['\"]", ""));
+			return new Date(date.getTime());
+		} catch (final ParseException e) {
 			throw new SQLException();
 		}
 	}
 
 	@Override
-	public Timestamp getTimestamp(final int arg0, final Calendar arg1) throws SQLException {
-		throw new UnsupportedOperationException();
+	public Timestamp getTimestamp(final int columnIndex) throws SQLException {
+
+		// Check the Connection
+		if (isClosed) {
+			throw new SQLException();
+		}
+
+		// Check the Range
+		if (columnIndex < 1 || columnIndex > columnNames.size()) {
+			throw new SQLException();
+		}
+
+		// Check if the value is null
+		if (outputRows.get(cursor).get(columnIndex).equals("null")) {
+			return null;
+		}
+
+		try {
+			final String value = outputRows.get(cursor).get(columnIndex);
+			final SimpleDateFormat dateFormat
+			= new SimpleDateFormat(DATE_TIME_FORMAT);
+			dateFormat.setLenient(false);
+			final java.util.Date date = dateFormat.parse(
+					value.replaceAll("\\s", "")
+					.replaceAll("['\"]", ""));
+			return new Timestamp(date.getTime());
+		} catch (final ParseException e) {
+			throw new SQLException();
+		}
 	}
 
 	@Override
-	public Timestamp getTimestamp(final String arg0, final Calendar arg1) throws SQLException {
-		throw new UnsupportedOperationException();
+	public Timestamp getTimestamp(final String columnLabel) throws SQLException {
+
+		// Check the Connection
+		if (isClosed) {
+			throw new SQLException();
+		}
+
+		// Check the Range
+		final int columnIndex = findColumn(columnLabel);
+		if (columnIndex < 1 || columnIndex > columnNames.size()) {
+			throw new SQLException();
+		}
+
+		// Check if the value is null
+		if (outputRows.get(cursor).get(columnIndex).equals("null")) {
+			return null;
+		}
+
+		try {
+			final String value = outputRows.get(cursor).get(columnIndex);
+			final SimpleDateFormat dateFormat
+			= new SimpleDateFormat(DATE_TIME_FORMAT);
+			dateFormat.setLenient(false);
+			final java.util.Date date = dateFormat.parse(
+					value.replaceAll("\\s", "")
+					.replaceAll("['\"]", ""));
+			return new Timestamp(date.getTime());
+		} catch (final ParseException e) {
+			throw new SQLException();
+		}
 	}
+
 
 	@Override
 	public float getFloat(int columnIndex) throws SQLException {
@@ -1325,12 +1399,13 @@ public class DataResultSet implements ResultSet {
 	}
 
 	@Override
-	public Timestamp getTimestamp(final int columnIndex) throws SQLException {
+	public Timestamp getTimestamp(final int arg0, final Calendar arg1) throws SQLException {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Timestamp getTimestamp(final String columnLabel) throws SQLException {
+	public Timestamp getTimestamp(final String arg0, final Calendar arg1) throws SQLException {
 		throw new UnsupportedOperationException();
 	}
+
 }
