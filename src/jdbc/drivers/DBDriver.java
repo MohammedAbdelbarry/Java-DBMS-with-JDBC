@@ -1,5 +1,6 @@
 package jdbc.drivers;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
@@ -37,8 +38,10 @@ public class DBDriver implements Driver {
 		if (!isValidURL(url)) {
 			return null;
 		}
+		final File directory = (File) info.get("path");
+		final String directoryPath = directory.getAbsolutePath();
 		final DBConnection connection = new DBConnection(url,
-				info.getProperty("path"));
+				directoryPath);
 		connections.add(connection);
 		return connection;
 	}
