@@ -243,6 +243,9 @@ public class Table {
 					match(tableColumns.get(
 							column.toUpperCase()).getColumnDataType(
 									), values.get(index))) {
+				System.out.println(tableColumns.get(
+						column.toUpperCase()).getColumnDataType(
+								) + values.get(index));
 				throw new TypeMismatchException();
 			} else {
 				tableColumns.get(column.toUpperCase()).add(

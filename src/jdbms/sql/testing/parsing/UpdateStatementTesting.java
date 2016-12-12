@@ -56,7 +56,10 @@ public class UpdateStatementTesting {
 
 	@Test
 	public void testDateTimeUpdate() {
-		String sqlCommand = "update mytable set col3 = 46.466446, col1 = 1011-11-11 01:01:01 where col2 = 1011-11-11 01:01:01;";
+		String sqlCommand = "update mytable set "
+				+ "col3 = 46.466446, col1 = "
+				+ "'1011-11-11 01:01:01' where col2 = "
+				+ "'1011-11-11 01:01:01';";
 		sqlCommand = normalizer.normalizeCommand(sqlCommand);
 		final String name = "mytable";
 		assertEquals(update.interpret(sqlCommand), true);
@@ -64,22 +67,22 @@ public class UpdateStatementTesting {
 		assertEquals("col3", update.getParameters().getAssignmentList().get(0).getLeftOperand());
 		assertEquals("46.466446", update.getParameters().getAssignmentList().get(0).getRightOperand());
 		assertEquals("col1", update.getParameters().getAssignmentList().get(1).getLeftOperand());
-		assertEquals("1011-11-11 01:01:01", update.getParameters().getAssignmentList().get(1).getRightOperand());
+		assertEquals("'1011-11-11 01:01:01'", update.getParameters().getAssignmentList().get(1).getRightOperand());
 		assertEquals("col2", update.getParameters().getCondition().getLeftOperand());
-		assertEquals("1011-11-1101:01:01", update.getParameters().getCondition().getRightOperand());
+		assertEquals("'1011-11-11 01:01:01'", update.getParameters().getCondition().getRightOperand());
 	}
 
 	@Test
 	public void testDateTimeConditionalUpdate() {
-		String sqlCommand = "update tt set d = 1010-10-10 where dt > 1111-11-10 02:02:01 order by d, f, l;";
+		String sqlCommand = "update tt set d = '1010-10-10' where dt > '1111-11-10 02:02:01' order by d, f, l;";
 		sqlCommand = normalizer.normalizeCommand(sqlCommand);
 		final String name = "tt";
 		assertEquals(update.interpret(sqlCommand), true);
 		assertEquals(name, update.getParameters().getTableName());
 		assertEquals("d", update.getParameters().getAssignmentList().get(0).getLeftOperand());
-		assertEquals("1010-10-10", update.getParameters().getAssignmentList().get(0).getRightOperand());
+		assertEquals("'1010-10-10'", update.getParameters().getAssignmentList().get(0).getRightOperand());
 		assertEquals("dt", update.getParameters().getCondition().getLeftOperand());
-		assertEquals("1111-11-1002:02:01", update.getParameters().getCondition().getRightOperand());
+		assertEquals("'1111-11-10 02:02:01'", update.getParameters().getCondition().getRightOperand());
 	}
 
 	@Test

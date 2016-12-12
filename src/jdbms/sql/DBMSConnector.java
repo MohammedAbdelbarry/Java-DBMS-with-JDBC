@@ -34,35 +34,27 @@ public class DBMSConnector {
 		try {
 			data = new SQLData(fileType, filePath);
 		} catch (final FileFormatNotSupportedException e) {
-			//throw new SQLException(e.getMessage());
+			throw new SQLException(e.getMessage());
 		}
 	}
 	public int executeUpdate(final String sql)
 			throws SQLException {
-		try {
-			final InitialStatement statement = parse(sql);
-			if (statement.getNumberOfUpdates() == -1) {
-				//			throw new SQLException();
-				return -1;
-			}
-			act(statement);
-			return statement.getNumberOfUpdates();
-		} catch (final Exception e) {
+		final InitialStatement statement = parse(sql);
+		if (statement.getNumberOfUpdates() == -1) {
+			//			throw new SQLException();
 			return -1;
 		}
+		act(statement);
+		return statement.getNumberOfUpdates();
 	}
-	public SelectQueryOutput executeQuery(final String sql) {
-		try {
-			final InitialStatement statement = parse(sql);
-			if (statement.getNumberOfUpdates() != -1) {
-				return null;
-				//throw new SQLException();
-			}
-			act(statement);
-			return statement.getQueryOutput();
-		} catch (final Exception e) {
-			return null;
+	public SelectQueryOutput executeQuery(final String sql)
+			throws SQLException {
+		final InitialStatement statement = parse(sql);
+		if (statement.getNumberOfUpdates() != -1) {
+			throw new SQLException();
 		}
+		act(statement);
+		return statement.getQueryOutput();
 	}
 	public boolean interpretUpdate(final String sql) {
 		try {
@@ -88,14 +80,13 @@ public class DBMSConnector {
 	}
 
 	private InitialStatement parse(String sql)
-	{
+			throws SQLException {
 		if (!sql.trim().endsWith(";")) {
 			sql = sql.trim() + ";";
 		}
 		final String normalizedInput = normalizeInput(sql);
 		if (normalizedInput == null) {
-			return null;
-			//			throw new SQLException();//SYNTAX_ERROR
+			throw new SQLException();//SYNTAX_ERROR
 		}
 		for (final String key : InitialStatementFactory.
 				getInstance().getRegisteredStatements()) {
@@ -112,17 +103,17 @@ public class DBMSConnector {
 				return statement;
 			}
 		}
-		return null;
-		//throw new SQLException();
+		throw new SQLException();
 	}
-	private String normalizeInput(final String sql) {
+	private String normalizeInput(final String sql)
+			throws SQLException {
 		final StringNormalizer normalizer = new StringNormalizer();
 		String normalizedOutput;
 		try {
 			normalizedOutput = normalizer.normalizeCommand(sql);
 			return normalizedOutput;
 		} catch (final Exception e) {
-			return null;
+			throw new SQLException();
 		}
 	}
 	private void act(final InitialStatement statement)

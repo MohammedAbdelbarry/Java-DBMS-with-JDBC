@@ -27,7 +27,8 @@ public class DateTimeSQLType extends SQLType<Date> {
 			dateFormat.setLenient(false);
 			try {
 				super.value = dateFormat.parse(
-						value.replaceAll("\\s", ""));
+						value.replaceAll("\\s", "")
+						.replaceAll("['\"]", ""));
 			} catch (final ParseException e) {
 				throw new InvalidDateFormatException(value);
 			}
@@ -45,6 +46,6 @@ public class DateTimeSQLType extends SQLType<Date> {
 		}
 		final SimpleDateFormat formatter
 		= new SimpleDateFormat(DATE_TIME_STRING_FORMAT);
-		return formatter.format(super.value);
+		return "'" + formatter.format(super.value) + "'";
 	}
 }
