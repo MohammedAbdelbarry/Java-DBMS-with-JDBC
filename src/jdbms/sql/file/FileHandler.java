@@ -60,9 +60,7 @@ public class FileHandler {
 	}
 	public FileHandler(final String fileType, final String filePath)
 			throws FileFormatNotSupportedException {
-		System.out.println(filePath);
 		path = filePath + File.separator + DATA_DIRECTORY;
-		System.out.println(path);
 		if (fileType.equalsIgnoreCase(XML_PROTOCOL)) {
 			reader = new XMLParser();
 			writer = new XMLCreator();

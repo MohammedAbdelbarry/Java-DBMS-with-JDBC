@@ -16,6 +16,7 @@ public class SelectOutputConverter {
 
 	public DataResultSet convert(final DataResultSet resultSet, final SelectQueryOutput output) {
 		final ArrayList<String> columnNames = getColumnNames(output.getColumns());
+		resultSet.setTableName(output.getTableName());
 		resultSet.setColumns(columnNames);
 		resultSet.setOutputRows(output.getData());
 		resultSet.setColumnTypes(getTypesMap(columnNames, getColumnTypes(output.getColumns())));

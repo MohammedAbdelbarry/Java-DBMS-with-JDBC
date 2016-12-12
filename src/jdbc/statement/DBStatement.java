@@ -13,6 +13,7 @@ import jdbc.connections.DBConnection;
 import jdbc.results.DataResultSet;
 import jdbc.results.util.SelectOutputConverter;
 import jdbms.sql.DBMSConnector;
+import jdbms.sql.data.query.SelectQueryOutput;
 
 public class DBStatement implements Statement {
 
@@ -67,8 +68,12 @@ public class DBStatement implements Statement {
 		if (dbmsConnector.interpretQuery(sql)) {
 			resultSet = new DataResultSet(this);
 			final SelectOutputConverter converter = new SelectOutputConverter();
-			converter.convert(resultSet, dbmsConnector.executeQuery(sql));
+			final SelectQueryOutput output = dbmsConnector.executeQuery(sql);
+			converter.convert(resultSet, output);
 			currentResult = -1;
+			if (output.getData().isEmpty()) {
+				return false;
+			}
 			return true;
 		} else if (dbmsConnector.interpretUpdate(sql)) {
 			currentResult = dbmsConnector.executeUpdate(sql);

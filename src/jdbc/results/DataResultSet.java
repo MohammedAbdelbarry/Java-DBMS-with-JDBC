@@ -34,7 +34,6 @@ public class DataResultSet implements ResultSet {
 	= "yyyy-MM-dd";
 	private static final String DATE_TIME_FORMAT
 	= "yyyy-MM-ddHH:mm:ss";
-	private String tableName;
 	private ArrayList<String> columnNames;
 	private ArrayList<ArrayList<String>> outputRows;
 	private Map<String, Integer> columnTypes;
@@ -55,7 +54,6 @@ public class DataResultSet implements ResultSet {
 	}
 
 	public void setTableName(final String tableName) {
-		this.tableName = tableName;
 		metaData.setTableName(tableName);
 	}
 
@@ -76,6 +74,10 @@ public class DataResultSet implements ResultSet {
 		final String columnName = columnNames.get(column);
 		return columnTypes.get(columnName);
 
+	}
+
+	private boolean checkCursor() {
+		return this.cursor >= 0 && this.cursor < outputRows.size();
 	}
 
 	@Override
@@ -135,7 +137,6 @@ public class DataResultSet implements ResultSet {
 	@Override
 	public void close() throws SQLException {
 		this.isClosed = true;
-		this.tableName = null;
 		this.columnNames = null;
 		this.outputRows = null;
 		this.columnTypes = null;
@@ -179,23 +180,25 @@ public class DataResultSet implements ResultSet {
 	}
 
 	@Override
-	public Date getDate(final int columnIndex) throws SQLException {
+	public Date getDate(int columnIndex) throws SQLException {
 
-		// Check the Connection
 		if (isClosed) {
 			throw new SQLException();
 		}
 
-		// Check the Range
-		if (columnIndex < 1 || columnIndex > columnNames.size()) {
+		if (columnIndex < 1 || columnIndex > columnNames.size()
+				|| !checkCursor()) {
 			throw new SQLException();
 		}
 
-		// Check if the value is null
-		if (outputRows.get(cursor).get(columnIndex).equals("null")) {
+		columnIndex--;
+		if (outputRows.get(cursor).get(columnIndex) == null) {
 			return null;
 		}
-
+		final String columnLabel = columnNames.get(columnIndex);
+		if (columnTypes.get(columnLabel) != Types.DATE) {
+			throw new SQLException();
+		}
 		try {
 			final String value = outputRows.get(cursor).get(columnIndex);
 			final SimpleDateFormat dateFormat
@@ -213,22 +216,22 @@ public class DataResultSet implements ResultSet {
 	@Override
 	public Date getDate(final String columnLabel) throws SQLException {
 
-		// Check the Connection
 		if (isClosed) {
 			throw new SQLException();
 		}
 
-		// Check the Range
-		final int columnIndex = findColumn(columnLabel);
-		if (columnIndex < 1 || columnIndex > columnNames.size()) {
+		int columnIndex = findColumn(columnLabel);
+		if (columnIndex < 1 || columnIndex > columnNames.size()
+				|| !checkCursor()) {
 			throw new SQLException();
 		}
-
-		// Check if the value is null
-		if (outputRows.get(cursor).get(columnIndex).equals("null")) {
+		columnIndex--;
+		if (outputRows.get(cursor).get(columnIndex) == null) {
 			return null;
 		}
-
+		if (columnTypes.get(columnLabel) != Types.DATE) {
+			throw new SQLException();
+		}
 		try {
 			final String value = outputRows.get(cursor).get(columnIndex);
 			final SimpleDateFormat dateFormat
@@ -244,21 +247,23 @@ public class DataResultSet implements ResultSet {
 	}
 
 	@Override
-	public Timestamp getTimestamp(final int columnIndex) throws SQLException {
+	public Timestamp getTimestamp(int columnIndex) throws SQLException {
 
-		// Check the Connection
 		if (isClosed) {
 			throw new SQLException();
 		}
 
-		// Check the Range
-		if (columnIndex < 1 || columnIndex > columnNames.size()) {
+		if (columnIndex < 1 || columnIndex > columnNames.size()
+				|| !checkCursor()) {
 			throw new SQLException();
 		}
-
-		// Check if the value is null
-		if (outputRows.get(cursor).get(columnIndex).equals("null")) {
+		columnIndex--;
+		if (outputRows.get(cursor).get(columnIndex) == null) {
 			return null;
+		}
+		final String columnLabel = columnNames.get(columnIndex);
+		if (columnTypes.get(columnLabel) != Types.TIMESTAMP) {
+			throw new SQLException();
 		}
 
 		try {
@@ -278,22 +283,22 @@ public class DataResultSet implements ResultSet {
 	@Override
 	public Timestamp getTimestamp(final String columnLabel) throws SQLException {
 
-		// Check the Connection
 		if (isClosed) {
 			throw new SQLException();
 		}
 
-		// Check the Range
-		final int columnIndex = findColumn(columnLabel);
-		if (columnIndex < 1 || columnIndex > columnNames.size()) {
+		int columnIndex = findColumn(columnLabel);
+		if (columnIndex < 1 || columnIndex > columnNames.size()
+				|| !checkCursor()) {
 			throw new SQLException();
 		}
-
-		// Check if the value is null
-		if (outputRows.get(cursor).get(columnIndex).equals("null")) {
+		columnIndex--;
+		if (outputRows.get(cursor).get(columnIndex) == null) {
 			return null;
 		}
-
+		if (columnTypes.get(columnLabel) != Types.TIMESTAMP) {
+			throw new SQLException();
+		}
 		try {
 			final String value = outputRows.get(cursor).get(columnIndex);
 			final SimpleDateFormat dateFormat
@@ -316,11 +321,12 @@ public class DataResultSet implements ResultSet {
 			throw new SQLException();
 		}
 
-		if (columnIndex < 1 || columnIndex > columnNames.size()) {
+		if (columnIndex < 1 || columnIndex > columnNames.size()
+				|| !checkCursor()) {
 			throw new SQLException();
 		}
 		columnIndex--;
-		if (outputRows.get(this.cursor).get(columnIndex).equals("null")) {
+		if (outputRows.get(cursor).get(columnIndex) == null) {
 			return 0;
 		}
 
@@ -344,11 +350,12 @@ public class DataResultSet implements ResultSet {
 		}
 
 		int columnIndex = findColumn(columnLabel);
-		if (columnIndex < 1 || columnIndex > columnNames.size()) {
+		if (columnIndex < 1 || columnIndex > columnNames.size()
+				|| !checkCursor()) {
 			throw new SQLException();
 		}
 		columnIndex--;
-		if (outputRows.get(cursor).get(columnIndex).equals("null")) {
+		if (outputRows.get(cursor).get(columnIndex) == null) {
 			return 0;
 		}
 
@@ -365,17 +372,16 @@ public class DataResultSet implements ResultSet {
 
 	@Override
 	public int getInt(int columnIndex) throws SQLException {
-
 		if (isClosed) {
 			throw new SQLException();
 		}
 
-		if (columnIndex < 1 || columnIndex > columnNames.size()) {
+		if (columnIndex < 1 || columnIndex > columnNames.size()
+				|| !checkCursor()) {
 			throw new SQLException();
 		}
-
 		columnIndex--;
-		if (outputRows.get(cursor).get(columnIndex).equals("null")) {
+		if (outputRows.get(cursor).get(columnIndex) == null) {
 			return 0;
 		}
 		final String columnName = columnNames.get(columnIndex);
@@ -388,22 +394,21 @@ public class DataResultSet implements ResultSet {
 		} catch (final Exception e) {
 			throw new SQLException();
 		}
-
 	}
 
 	@Override
 	public int getInt(final String columnLabel) throws SQLException {
-
 		if (isClosed) {
 			throw new SQLException();
 		}
 
 		int columnIndex = findColumn(columnLabel);
-		if (columnIndex < 1 || columnIndex > columnNames.size()) {
+		if (columnIndex < 1 || columnIndex > columnNames.size()
+				|| !checkCursor()) {
 			throw new SQLException();
 		}
 		columnIndex--;
-		if (outputRows.get(cursor).get(columnIndex).equals("null")) {
+		if (outputRows.get(cursor).get(columnIndex) == null) {
 			return 0;
 		}
 
@@ -424,12 +429,12 @@ public class DataResultSet implements ResultSet {
 			throw new SQLException();
 		}
 
-		if (columnIndex < 1 || columnIndex > columnNames.size()) {
+		if (columnIndex < 1 || columnIndex > columnNames.size()
+				|| !checkCursor()) {
 			throw new SQLException();
 		}
-
 		columnIndex--;
-		if (outputRows.get(cursor).get(columnIndex).equals("null")) {
+		if (outputRows.get(cursor).get(columnIndex) == null) {
 			return null;
 		}
 		final String columnName = columnNames.get(columnIndex);
@@ -447,12 +452,12 @@ public class DataResultSet implements ResultSet {
 
 
 		int columnIndex = findColumn(columnLabel);
-		if (columnIndex < 1 || columnIndex > columnNames.size()) {
+		if (columnIndex < 1 || columnIndex > columnNames.size()
+				|| !checkCursor()) {
 			throw new SQLException();
 		}
-
 		columnIndex--;
-		if (outputRows.get(cursor).get(columnIndex).equals("null")) {
+		if (outputRows.get(cursor).get(columnIndex) == null) {
 			return null;
 		}
 		if (columnTypes.get(columnLabel) != Types.VARCHAR) {
@@ -467,12 +472,12 @@ public class DataResultSet implements ResultSet {
 			throw new SQLException();
 		}
 
-		if (columnIndex < 1 || columnIndex > columnNames.size()) {
+		if (columnIndex < 1 || columnIndex > columnNames.size()
+				|| !checkCursor()) {
 			throw new SQLException();
 		}
-
 		columnIndex--;
-		if (outputRows.get(cursor).get(columnIndex).equals("null")) {
+		if (outputRows.get(cursor).get(columnIndex) == null) {
 			return null;
 		}
 
@@ -481,7 +486,6 @@ public class DataResultSet implements ResultSet {
 
 	@Override
 	public ResultSetMetaData getMetaData() throws SQLException {
-		// Check the Connection
 		if (isClosed) {
 			throw new SQLException();
 		}
@@ -581,7 +585,7 @@ public class DataResultSet implements ResultSet {
 			return false;
 		}
 
-		if (isFirst()) {
+		if (isBeforeFirst()) {
 			return false;
 		}
 		cursor--;
@@ -589,23 +593,109 @@ public class DataResultSet implements ResultSet {
 	}
 
 	@Override
-	public long getLong(final int columnIndex) throws SQLException {
-		throw new UnsupportedOperationException();
+	public long getLong(int columnIndex) throws SQLException {
+		if (isClosed) {
+			throw new SQLException();
+		}
+
+		if (columnIndex < 1 || columnIndex > columnNames.size()
+				|| !checkCursor()) {
+			throw new SQLException();
+		}
+		columnIndex--;
+		if (outputRows.get(cursor).get(columnIndex) == null) {
+			return 0;
+		}
+		final String columnName = columnNames.get(columnIndex);
+		if (columnTypes.get(columnName) != Types.BIGINT) {
+			throw new SQLException();
+		}
+		try {
+			final long output = Long.parseLong(outputRows.get(cursor).get(columnIndex));
+			return output;
+		} catch (final Exception e) {
+			throw new SQLException();
+		}
 	}
 
 	@Override
 	public long getLong(final String columnLabel) throws SQLException {
-		throw new UnsupportedOperationException();
+		if (isClosed) {
+			throw new SQLException();
+		}
+
+		int columnIndex = findColumn(columnLabel);
+		if (columnIndex < 1 || columnIndex > columnNames.size()
+				|| !checkCursor()) {
+			throw new SQLException();
+		}
+		columnIndex--;
+		if (outputRows.get(cursor).get(columnIndex) == null) {
+			return 0;
+		}
+
+		if (columnTypes.get(columnLabel) != Types.BIGINT) {
+			throw new SQLException();
+		}
+		try {
+			final long output = Long.parseLong(outputRows.get(cursor).get(columnIndex));
+			return output;
+		} catch (final Exception e) {
+			throw new SQLException();
+		}
 	}
 
 	@Override
-	public double getDouble(final int columnIndex) throws SQLException {
-		throw new UnsupportedOperationException();
+	public double getDouble(int columnIndex) throws SQLException {
+		if (isClosed) {
+			throw new SQLException();
+		}
+
+		if (columnIndex < 1 || columnIndex > columnNames.size()
+				|| !checkCursor()) {
+			throw new SQLException();
+		}
+		columnIndex--;
+		if (outputRows.get(cursor).get(columnIndex) == null) {
+			return 0;
+		}
+		final String columnName = columnNames.get(columnIndex);
+		if (columnTypes.get(columnName) != Types.DOUBLE) {
+			throw new SQLException();
+		}
+		try {
+			final double output = Double.parseDouble(outputRows.get(cursor).get(columnIndex));
+			return output;
+		} catch (final Exception e) {
+			throw new SQLException();
+		}
 	}
 
 	@Override
 	public double getDouble(final String columnLabel) throws SQLException {
-		throw new UnsupportedOperationException();
+		if (isClosed) {
+			throw new SQLException();
+		}
+
+		int columnIndex = findColumn(columnLabel);
+		if (columnIndex < 1 || columnIndex > columnNames.size()
+				|| !checkCursor()) {
+			throw new SQLException();
+		}
+		columnIndex--;
+		if (outputRows.get(cursor).get(columnIndex) == null) {
+			return 0;
+		}
+
+		if (columnTypes.get(columnLabel) != Types.DOUBLE) {
+			throw new SQLException();
+		}
+		try {
+			final double output = Double.parseDouble(outputRows.get(cursor).get(columnIndex));
+			return output;
+		} catch (final Exception e) {
+			throw new SQLException();
+		}
 	}
 
 	@Override
