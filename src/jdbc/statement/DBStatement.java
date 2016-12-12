@@ -20,10 +20,10 @@ public class DBStatement implements Statement {
 	private final Queue<String> commands;
 	private boolean isClosed;
 	private int currentResult;
-	private DBConnection connection;
+	private final DBConnection connection;
 	private DataResultSet resultSet;
 
-	public DBStatement(final DBMSConnector connector, DBConnection connection) {
+	public DBStatement(final DBMSConnector connector, final DBConnection connection) {
 		this.dbmsConnector = connector;
 		this.connection = connection;
 		commands = new LinkedList<>();
@@ -108,7 +108,7 @@ public class DBStatement implements Statement {
 		} else {
 			currentResult = -1;
 			resultSet = new DataResultSet(this);
-			SelectOutputConverter converter = new SelectOutputConverter();
+			final SelectOutputConverter converter = new SelectOutputConverter();
 			resultSet = converter.convert(resultSet, dbmsConnector.executeQuery(sql));
 			return resultSet;
 		}

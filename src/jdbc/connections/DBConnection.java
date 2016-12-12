@@ -30,7 +30,8 @@ public class DBConnection implements Connection{
 	private final ArrayList<DBStatement> statements;
 	private boolean isClosed;
 
-	public DBConnection(final String url) {
+	public DBConnection(final String url, final String path) {
+		// modify Connector's constructor
 		connector = new DBMSConnector(getProtocolName(url));
 		statements = new ArrayList<>();
 		isClosed = false;
