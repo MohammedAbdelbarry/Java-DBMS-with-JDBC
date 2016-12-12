@@ -52,4 +52,24 @@ public class InvalidQueriesTesting {
 		assertEquals(interpretedCount, 1);
 		assertEquals(caughtException, true);
 	}
+
+	@Test
+	public void testColumn() {
+		String sqlCommand = "insert into t (a, b) values (1, 2, 3);";
+		sqlCommand = normalizer.normalizeCommand(sqlCommand);
+		int interpretedCount = 0;
+		boolean caughtException = false;
+		for (final InitialStatement statement : statements) {
+			if (statement.interpret(sqlCommand)) {
+				interpretedCount++;
+				try {
+					statement.act(data);
+				} catch (final Exception e) {
+					caughtException = true;
+				}
+			}
+		}
+		assertEquals(interpretedCount, 1);
+		assertEquals(caughtException, true);
+	}
 }
