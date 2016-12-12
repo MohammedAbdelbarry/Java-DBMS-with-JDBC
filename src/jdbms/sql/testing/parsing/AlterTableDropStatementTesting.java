@@ -25,22 +25,22 @@ public class AlterTableDropStatementTesting {
 	}
 	@Test
 	public void testAlterTableDropColumn() {
-		String SQLCommand = "ALTER TABLE table_name DROP COLUMN col1, col2, col3;";
-		SQLCommand = normalizer.normalizeCommand(SQLCommand);
+		String sqlCommand = "ALTER TABLE table_name DROP COLUMN col1, col2, col3;";
+		sqlCommand = normalizer.normalizeCommand(sqlCommand);
 		final String name = "table_name";
 		final ArrayList <String> list = new ArrayList<>();
 		list.add("col1");
 		list.add("col2");
 		list.add("col3");
-		assertEquals(alterDrop.interpret(SQLCommand), true);
+		assertEquals(alterDrop.interpret(sqlCommand), true);
 		assertEquals(name, alterDrop.getParameters().getTableName());
 		assertEquals(list, alterDrop.getParameters().getColumns());
 	}
 
 	@Test
 	public void testAlterTableAddColumn() {
-		String SQLCommand = "ALTER TABLE table_name ADD column_name INT;";
-		SQLCommand = normalizer.normalizeCommand(SQLCommand);
-		assertEquals(alterDrop.interpret(SQLCommand), false);
+		String sqlCommand = "ALTER TABLE table_name ADD column_name INT;";
+		sqlCommand = normalizer.normalizeCommand(sqlCommand);
+		assertEquals(alterDrop.interpret(sqlCommand), false);
 	}
 }
