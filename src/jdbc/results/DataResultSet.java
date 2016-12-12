@@ -426,8 +426,7 @@ public class DataResultSet implements ResultSet {
 		if (isClosed) {
 			throw new SQLException();
 		}
-
-		return (outputRows.size() > 0) && (cursor == outputRows.size());
+		return (outputRows.size() > 0) && (cursor >= outputRows.size());
 	}
 
 	@Override
@@ -451,7 +450,6 @@ public class DataResultSet implements ResultSet {
 		if (isClosed) {
 			throw new SQLException();
 		}
-
 		return (outputRows.size() > 0) && (cursor == 1);
 	}
 
@@ -496,7 +494,7 @@ public class DataResultSet implements ResultSet {
 			return false;
 		}
 		cursor++;
-		return !isAfterLast();
+		return true;
 	}
 
 	@Override

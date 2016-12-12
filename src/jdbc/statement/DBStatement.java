@@ -65,7 +65,9 @@ public class DBStatement implements Statement {
 		}
 
 		if (dbmsConnector.interpretQuery(sql)) {
-			dbmsConnector.executeQuery(sql);
+			resultSet = new DataResultSet(this);
+			final SelectOutputConverter converter = new SelectOutputConverter();
+			converter.convert(resultSet, dbmsConnector.executeQuery(sql));
 			currentResult = -1;
 			return true;
 		} else if (dbmsConnector.interpretUpdate(sql)) {
@@ -135,7 +137,6 @@ public class DBStatement implements Statement {
 		if (isClosed) {
 			throw new SQLException();
 		}
-
 		return connection;
 	}
 
@@ -145,8 +146,7 @@ public class DBStatement implements Statement {
 		if (isClosed) {
 			throw new SQLException();
 		}
-
-		return resultSet;
+		return this.resultSet;
 	}
 
 	@Override
@@ -155,7 +155,6 @@ public class DBStatement implements Statement {
 		if (isClosed) {
 			throw new SQLException();
 		}
-
 		return currentResult;
 	}
 
