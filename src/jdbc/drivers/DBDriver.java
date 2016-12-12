@@ -37,7 +37,8 @@ public class DBDriver implements Driver {
 		if (!isValidURL(url)) {
 			return null;
 		}
-		final DBConnection connection = new DBConnection(url);
+		final DBConnection connection = new DBConnection(url,
+				info.getProperty("path"));
 		connections.add(connection);
 		return connection;
 	}
