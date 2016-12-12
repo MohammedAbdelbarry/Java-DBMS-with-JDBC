@@ -24,15 +24,15 @@ import jdbc.drivers.util.ProtocolConstants;
 import jdbc.statement.DBStatement;
 import jdbms.sql.DBMSConnector;
 
-public class DBConnection implements Connection{
+public class DBConnection implements Connection {
 
 	private final DBMSConnector connector;
 	private final ArrayList<DBStatement> statements;
 	private boolean isClosed;
 
-	public DBConnection(final String url, final String path) {
-		// modify Connector's constructor
-		connector = new DBMSConnector(getProtocolName(url));
+	public DBConnection(final String url, final String path)
+			throws SQLException {
+		connector = new DBMSConnector(getProtocolName(url), path);
 		statements = new ArrayList<>();
 		isClosed = false;
 	}

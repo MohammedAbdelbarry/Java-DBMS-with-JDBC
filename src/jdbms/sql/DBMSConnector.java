@@ -22,8 +22,12 @@ import jdbms.sql.exceptions.ValueListTooSmallException;
 import jdbms.sql.parsing.parser.StringNormalizer;
 import jdbms.sql.parsing.statements.InitialStatement;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
+import jdbms.sql.util.HelperClass;
 
 public class DBMSConnector {
+	static {
+		HelperClass.registerInitialStatements();
+	}
 	private SQLData data;
 	public DBMSConnector(final String fileType, final String filePath)
 			throws SQLException {
@@ -36,23 +40,25 @@ public class DBMSConnector {
 	public int executeUpdate(final String sql)
 			throws SQLException {
 		final InitialStatement statement = parse(sql);
-		if (statement.getQueryOutput() != null) {
+		if (statement.getNumberOfUpdates() == -1) {
 			throw new SQLException();
 		}
+		act(statement);
 		return statement.getNumberOfUpdates();
 	}
 	public SelectQueryOutput executeQuery(final String sql)
 			throws SQLException {
 		final InitialStatement statement = parse(sql);
-		if (statement.getQueryOutput() == null) {
+		if (statement.getNumberOfUpdates() != -1) {
 			throw new SQLException();
 		}
+		act(statement);
 		return statement.getQueryOutput();
 	}
 	public boolean interpretUpdate(final String sql) {
 		try {
 			final InitialStatement statement = parse(sql);
-			if (statement.getQueryOutput() != null) {
+			if (statement.getNumberOfUpdates() == -1) {
 				return false;
 			}
 		} catch (final SQLException e) {
@@ -63,16 +69,21 @@ public class DBMSConnector {
 	public boolean interpretQuery(final String sql) {
 		try {
 			final InitialStatement statement = parse(sql);
-			if (statement.getQueryOutput() == null) {
+			if (statement.getNumberOfUpdates() != -1) {
 				return false;
 			}
 		} catch (final SQLException e) {
+			e.printStackTrace();
 			return false;
 		}
-		return true;	}
+		return true;
+	}
 
-	private InitialStatement parse(final String sql)
+	private InitialStatement parse(String sql)
 			throws SQLException {
+		if (!sql.trim().endsWith(";")) {
+			sql = sql.trim() + ";";
+		}
 		final String normalizedInput = normalizeInput(sql);
 		if (normalizedInput == null) {
 			throw new SQLException();//SYNTAX_ERROR
@@ -89,40 +100,7 @@ public class DBMSConnector {
 				continue;
 			}
 			if (interpreted) {
-				try {
-					statement.act(data);
-					return statement;
-				} catch (final ColumnNotFoundException e) {
-					throw new SQLException();
-				} catch (final TypeMismatchException e) {
-					throw new SQLException();
-				} catch (final TableNotFoundException e) {
-					throw new SQLException();
-				} catch (final ColumnAlreadyExistsException e) {
-					throw new SQLException();
-				} catch (final RepeatedColumnException e) {
-					throw new SQLException();
-				} catch (final ColumnListTooLargeException e) {
-					throw new SQLException();
-				} catch (final ValueListTooLargeException e) {
-					throw new SQLException();
-				} catch (final ValueListTooSmallException e) {
-					throw new SQLException();
-				} catch (final TableAlreadyExistsException e) {
-					throw new SQLException();
-				} catch (final DatabaseAlreadyExistsException e) {
-					throw new SQLException();
-				} catch (final DatabaseNotFoundException e) {
-					throw new SQLException();
-				} catch (final FailedToDeleteDatabaseException e) {
-					throw new SQLException();
-				} catch (final FailedToDeleteTableException e) {
-					throw new SQLException();
-				} catch (final InvalidDateFormatException e) {
-					throw new SQLException();
-				}  catch (final Exception e) {
-					throw new SQLException();
-				}
+				return statement;
 			}
 		}
 		throw new SQLException();
@@ -135,6 +113,42 @@ public class DBMSConnector {
 			return normalizedOutput;
 		} catch (final Exception e) {
 			return null;
+		}
+	}
+	private void act(final InitialStatement statement)
+			throws SQLException {
+		try {
+			statement.act(data);
+		} catch (final ColumnNotFoundException e) {
+			//throw new SQLException();
+		} catch (final TypeMismatchException e) {
+			//			throw new SQLException();
+		} catch (final TableNotFoundException e) {
+			//			throw new SQLException();
+		} catch (final ColumnAlreadyExistsException e) {
+			//			throw new SQLException();
+		} catch (final RepeatedColumnException e) {
+			//			throw new SQLException();
+		} catch (final ColumnListTooLargeException e) {
+			//			throw new SQLException();
+		} catch (final ValueListTooLargeException e) {
+			//			throw new SQLException();
+		} catch (final ValueListTooSmallException e) {
+			//			throw new SQLException();
+		} catch (final TableAlreadyExistsException e) {
+			//			throw new SQLException();
+		} catch (final DatabaseAlreadyExistsException e) {
+			//			throw new SQLException();
+		} catch (final DatabaseNotFoundException e) {
+			//			throw new SQLException();
+		} catch (final FailedToDeleteDatabaseException e) {
+			//			throw new SQLException();
+		} catch (final FailedToDeleteTableException e) {
+			//			throw new SQLException();
+		} catch (final InvalidDateFormatException e) {
+			//			throw new SQLException();
+		}  catch (final Exception e) {
+			throw new SQLException();
 		}
 	}
 }
