@@ -136,13 +136,15 @@ public class InsertIntoStatementTesting {
 
 	@Test
 	public void testDateTimeInsertion() {
-		String sqlCommand = "insert into mytable (col1, col2) values(0001-01-01 11:10:10, 0001-01-01 11:11:11);";
+		String sqlCommand = "insert into mytable (col1, col2)"
+				+ " values(\"0001-01-01 11:10:10\","
+				+ " \"0001-01-01 11:11:11\");";
 		sqlCommand = normalizer.normalizeCommand(sqlCommand);
 		final String tableName = "mytable";
 		final ArrayList<ArrayList<String>> vals = new ArrayList<>();
 		final ArrayList<String> temp = new ArrayList<>();
-		temp.add("0001-01-01 11:10:10");
-		temp.add("0001-01-01 11:11:11");
+		temp.add("\"0001-01-01 11:10:10\"");
+		temp.add("\"0001-01-01 11:11:11\"");
 		vals.add(temp);
 		assertEquals(insertInto.interpret(sqlCommand), true);
 		assertEquals(insertInto.getParameters().getTableName(), tableName);
@@ -151,13 +153,13 @@ public class InsertIntoStatementTesting {
 
 	@Test
 	public void testDateFloatDateTimeInsertion() {
-		String sqlCommand = "insert into mytAble values (1111-11-11, 1110-10-10 11:11:11, 45.66);";
+		String sqlCommand = "insert into mytAble values ('1111-11-11', '1110-10-10 11:11:11', 45.66);";
 		sqlCommand = normalizer.normalizeCommand(sqlCommand);
 		final String tableName = "mytAble";
 		final ArrayList<ArrayList<String>> vals = new ArrayList<>();
 		final ArrayList<String> temp = new ArrayList<>();
-		temp.add("1111-11-11");
-		temp.add("1110-10-10 11:11:11");
+		temp.add("'1111-11-11'");
+		temp.add("'1110-10-10 11:11:11'");
 		temp.add("45.66");
 		vals.add(temp);
 		assertEquals(insertInto.interpret(sqlCommand), true);

@@ -115,8 +115,8 @@ public class GeneralValidQueriesTesting {
 	public void testInsertInto() {
 		String sqlCommand = "Insert into myT (_a, _d_, _e_) "
 				+ "values (0001.01, ',values; insert into myt (table)',"
-				+ " 0001-01-01 00:00:00),"
-				+ " (-9.200, \"\", 0001-01-10 00:00:00);";
+				+ " '0001-01-01 00:00:00'),"
+				+ " (-9.200, \"\",\"0001-01-10 00:00:00\");";
 		sqlCommand = normalizer.normalizeCommand(sqlCommand);
 		final String tableName = "myT";
 		final ArrayList<String> columnNames = new ArrayList<>();
@@ -127,11 +127,11 @@ public class GeneralValidQueriesTesting {
 		newRows.add(new ArrayList<>());
 		newRows.get(0).add("0001.01");
 		newRows.get(0).add("',values; insert into myt (table)'");
-		newRows.get(0).add("0001-01-01 00:00:00");
+		newRows.get(0).add("'0001-01-01 00:00:00'");
 		newRows.add(new ArrayList<>());
 		newRows.get(1).add("-9.200");
 		newRows.get(1).add("\"\"");
-		newRows.get(1).add("0001-01-10 00:00:00");
+		newRows.get(1).add("\"0001-01-10 00:00:00\"");
 		int interpretedCount = 0;
 		for (final InitialStatement statement : statements) {
 			if (statement.interpret(sqlCommand)) {
@@ -179,7 +179,7 @@ public class GeneralValidQueriesTesting {
 	public void testUpdate() {
 		String sqlCommand = "update hamada set "
 				+ "col1 = \"set where; 'set where' hello\" ,"
-				+ " col2 = 3425-12-22 14:01:22, col3 = 0.0000000000000000001 "
+				+ " col2 = '3425-12-22 14:01:22', col3 = 0.0000000000000000001 "
 				+ " where col1 != ';; ;;; ;; ;; ' ;";
 		sqlCommand = normalizer.normalizeCommand(sqlCommand);
 		final String tableName = "hamada";
@@ -198,7 +198,7 @@ public class GeneralValidQueriesTesting {
 						getAssignmentList().get(1).getLeftOperand(), "col2");
 				assertEquals(statement.getParameters().
 						getAssignmentList().get(1).getRightOperand(),
-						"3425-12-22 14:01:22");
+						"'3425-12-22 14:01:22'");
 				assertEquals(statement.getParameters().
 						getAssignmentList().get(2).getLeftOperand(),
 						"col3");

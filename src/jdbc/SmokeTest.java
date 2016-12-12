@@ -49,7 +49,11 @@ public class SmokeTest {
 		// statement object
 		// to execute next
 		// statements.
-		statement.execute("DROP DATABASE " + databaseName); // delete
+		try {
+			statement.execute("DROP DATABASE " + databaseName); // delete
+		} catch (final SQLException e) {
+
+		}
 		// "databaseName" it
 		// if it exists.
 		statement.execute("CREATE DATABASE " + databaseName); // you should now
@@ -77,7 +81,11 @@ public class SmokeTest {
 
 		{
 			final Statement statement = connection.createStatement();
-			statement.execute("DROP DATABASE SaMpLe");
+			try {
+				statement.execute("DROP DATABASE SaMpLe");
+			} catch (final SQLException e) {
+
+			}
 			statement.execute("CREATE DATABASE SaMpLe");
 			statement.execute("USE SaMpLe");
 			final String files[] = dbDir.list();
@@ -94,7 +102,11 @@ public class SmokeTest {
 
 		{
 			final Statement statement = connection.createStatement();
-			statement.execute("CREATE DATABASE sAmPlE");
+			try {
+				statement.execute("CREATE DATABASE sAmPlE");
+			} catch (final SQLException e) {
+
+			}
 			statement.execute("USE SaMpLe");
 			final String files[] = dbDir.list();
 			Assert.assertTrue("Database directory is empty after opening!", files.length > 0);
@@ -485,7 +497,7 @@ public class SmokeTest {
 					"INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value5', 'value6', 6)");
 			Assert.assertNotEquals("Insert returned zero rows", 0, count4);
 
-			final boolean result2 = statement.execute("ALTER TABLE table_name13 ADD COLUMN column_name4 date");
+			final boolean result2 = statement.execute("ALTER TABLE table_name13 ADD column_name4 date");
 			Assert.assertFalse("Wrong return for ALTER TABLE", result2);
 
 			final boolean result3 = statement.execute("SELECT column_name4 FROM table_name13 WHERE coluMN_NAME2 = 5");
@@ -504,6 +516,7 @@ public class SmokeTest {
 
 			statement.close();
 		} catch (final Throwable e) {
+			e.printStackTrace();
 			TestRunner.fail("Failed to test ALTER TABLE from table", e);
 		}
 		connection.close();

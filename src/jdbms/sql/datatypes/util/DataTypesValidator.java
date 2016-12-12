@@ -58,8 +58,10 @@ public class DataTypesValidator {
 		return false;
 	}
 	public String getDataType(final String value) {
-		if (isString(value))  {
-			return "VARCHAR";
+		if (value.matches(Constants.DATE_TIME_REGEX))  {
+			return "DATETIME";
+		} else if (value.matches(Constants.DATE_REGEX)) {
+			return "DATE";
 		} else if (isLong(value)) {
 			return "BIGINT";
 		} else if (isDouble(value)) {
@@ -68,10 +70,8 @@ public class DataTypesValidator {
 			return "INTEGER";
 		} else if (isFloat(value)){
 			return "FLOAT";
-		} else if (value.matches(Constants.DATE_REGEX)) {
-			return "DATE";
-		} else if (value.matches(Constants.DATE_TIME_REGEX)) {
-			return "DATETIME";
+		} else if (isString(value)) {
+			return "VARCHAR";
 		} else {
 			return null;
 		}
