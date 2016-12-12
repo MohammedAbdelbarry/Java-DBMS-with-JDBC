@@ -34,8 +34,8 @@ public class DataResultSet implements ResultSet {
 	private Map<String, Integer> columnTypes;
 	private int cursor;
 	private boolean isClosed;
-	private MetaData metaData;
-	DBStatement DBStatement;
+	private final MetaData metaData;
+	private final DBStatement DBStatement;
 
 	public DataResultSet(final DBStatement DBStatement) {
 		this.DBStatement = DBStatement;
@@ -181,7 +181,7 @@ public class DataResultSet implements ResultSet {
 		try {
 			// Parse the date
 			return null;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new SQLException();
 		}
 	}
@@ -208,7 +208,7 @@ public class DataResultSet implements ResultSet {
 		try {
 			// Parse the date
 			return null;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new SQLException();
 		}
 	}
@@ -244,7 +244,7 @@ public class DataResultSet implements ResultSet {
 		try {
 			final float output = Float.parseFloat(outputRows.get(cursor).get(columnIndex));
 			return output;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new SQLException();
 		}
 
@@ -272,7 +272,7 @@ public class DataResultSet implements ResultSet {
 		try {
 			final float output = Float.parseFloat(outputRows.get(cursor).get(columnIndex));
 			return output;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new SQLException();
 		}
 	}
@@ -298,7 +298,7 @@ public class DataResultSet implements ResultSet {
 		try {
 			final int output = Integer.parseInt(outputRows.get(cursor).get(columnIndex));
 			return output;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new SQLException();
 		}
 
@@ -326,7 +326,7 @@ public class DataResultSet implements ResultSet {
 		try {
 			final int output = Integer.parseInt(outputRows.get(cursor).get(columnIndex));
 			return output;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new SQLException();
 		}
 	}
