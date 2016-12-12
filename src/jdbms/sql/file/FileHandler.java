@@ -40,6 +40,8 @@ public class FileHandler {
 	private static final String DTD_EXTENSION = ".dtd";
 	private static final String JSON_EXTENSION = ".json";
 	private static final String DATA_DIRECTORY = "Data";
+	private static final String XML_PROTOCOL = "xmldb";
+	private static final String JSON_PROTOCOL = "altdb";
 	public FileHandler() {
 		try {
 			final CodeSource codeSource = ParserMain.class.
@@ -56,24 +58,15 @@ public class FileHandler {
 		schemaExtension = DTD_IDENTIFIER + DTD_EXTENSION;
 		fileExtension = XML_EXTENSION;
 	}
-	public FileHandler(final String fileType)
+	public FileHandler(final String fileType, final String filePath)
 			throws FileFormatNotSupportedException {
-		try {
-			final CodeSource codeSource = ParserMain.class.
-					getProtectionDomain().getCodeSource();
-			final File jarFile = new File(
-					codeSource.getLocation().toURI().getPath());
-			path = jarFile.getParentFile().getPath()
-					+ File.separator + DATA_DIRECTORY;
-		} catch (final URISyntaxException e) {
-			throw new RuntimeException();
-		}
-		if (fileType.equalsIgnoreCase("xmlDataType(REPLACEME)")) {
+		path = filePath + File.separator + DATA_DIRECTORY;
+		if (fileType.equalsIgnoreCase(XML_PROTOCOL)) {
 			reader = new XMLParser();
 			writer = new XMLCreator();
 			schemaExtension = DTD_IDENTIFIER + DTD_EXTENSION;
 			fileExtension = XML_EXTENSION;
-		} else if (fileType.equalsIgnoreCase("jsonDataType(REPLACEME)")) {
+		} else if (fileType.equalsIgnoreCase(JSON_PROTOCOL)) {
 			reader = new JSONReader();
 			writer = new JSONWriter();
 			schemaExtension = null;

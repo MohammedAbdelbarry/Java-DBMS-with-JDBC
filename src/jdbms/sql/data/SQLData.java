@@ -11,6 +11,7 @@ import jdbms.sql.exceptions.DatabaseAlreadyExistsException;
 import jdbms.sql.exceptions.DatabaseNotFoundException;
 import jdbms.sql.exceptions.FailedToDeleteDatabaseException;
 import jdbms.sql.exceptions.FailedToDeleteTableException;
+import jdbms.sql.exceptions.FileFormatNotSupportedException;
 import jdbms.sql.exceptions.InvalidDateFormatException;
 import jdbms.sql.exceptions.RepeatedColumnException;
 import jdbms.sql.exceptions.TableAlreadyExistsException;
@@ -51,7 +52,17 @@ public class SQLData {
 			}
 		}
 	}
+	public SQLData(final String fileType, final String filePath)
+			throws FileFormatNotSupportedException {
+		fileHandler = new FileHandler(fileType, filePath);
+		while (activeDatabase == null) {
+			try {
+				activeDatabase = createTemporaryDatabase();
+			} catch (final DatabaseAlreadyExistsException e) {
 
+			}
+		}
+	}
 	/**
 	 * Sets the given {@link Database} as active.
 	 * @param useParameters The parameters of the sql use
