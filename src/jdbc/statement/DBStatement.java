@@ -109,7 +109,7 @@ public class DBStatement implements Statement {
 			currentResult = -1;
 			resultSet = new DataResultSet(this);
 			final SelectOutputConverter converter = new SelectOutputConverter();
-			resultSet = converter.convert(resultSet, dbmsConnector.executeQuery(sql));
+			converter.convert(resultSet, dbmsConnector.executeQuery(sql));
 			return resultSet;
 		}
 	}

@@ -427,7 +427,7 @@ public class DataResultSet implements ResultSet {
 			throw new SQLException();
 		}
 
-		return (outputRows.size() > 0) && (cursor == outputRows.size() + 1);
+		return (outputRows.size() > 0) && (cursor == outputRows.size());
 	}
 
 	@Override
