@@ -96,6 +96,12 @@ public class DBStatement implements Statement {
 			if (dbmsConnector.interpretUpdate(commands.peek())) {
 				updateCounts[i] = dbmsConnector.executeUpdate(commands.poll());
 				currentResult = updateCounts[i];
+			} else if (dbmsConnector.interpretUpdate(commands.peek())) {
+				resultSet = new DataResultSet(this);
+				final SelectOutputConverter converter = new SelectOutputConverter();
+				converter.convert(resultSet, dbmsConnector.executeQuery(commands.peek()));
+				updateCounts[i] = SUCCESS_NO_INFO;
+				currentResult = -1;
 			} else {
 				throw new BatchUpdateException();
 			}
