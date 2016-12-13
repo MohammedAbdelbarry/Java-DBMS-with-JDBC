@@ -41,8 +41,7 @@ public class DBMSConnector {
 			throws SQLException {
 		final InitialStatement statement = parse(sql);
 		if (statement.getNumberOfUpdates() == -1) {
-			//			throw new SQLException();
-			return -1;
+			throw new SQLException();
 		}
 		act(statement);
 		return statement.getNumberOfUpdates();
