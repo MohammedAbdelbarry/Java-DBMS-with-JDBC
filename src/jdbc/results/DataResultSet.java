@@ -563,11 +563,12 @@ public class DataResultSet implements ResultSet {
 			throw new SQLException();
 		}
 
-		if (outputRows.size() == 0) {
+		if (outputRows.size() == 0 || isAfterLast()) {
 			return false;
 		}
 
 		if (isLast()) {
+			cursor++;
 			return false;
 		}
 		cursor++;
@@ -581,11 +582,11 @@ public class DataResultSet implements ResultSet {
 			throw new SQLException();
 		}
 
-		if (outputRows.size() == 0) {
+		if (outputRows.size() == 0 || isBeforeFirst()) {
 			return false;
 		}
-
-		if (isBeforeFirst()) {
+		if (isFirst()) {
+			cursor--;
 			return false;
 		}
 		cursor--;
