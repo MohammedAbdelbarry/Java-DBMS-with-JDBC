@@ -47,7 +47,7 @@ public class JSONWriter implements FileWriter {
 		final String json = gson.toJson(table);
 		final File jsonFile = new File(path
 				+ databaseName + File.separator
-				+ table.getName().toLowerCase().toUpperCase()
+				+ table.getName().toLowerCase()
 				+ JSON_EXTENSION);
 		if (!jsonFile.exists()) {
 			jsonFile.createNewFile();
@@ -93,7 +93,7 @@ public class JSONWriter implements FileWriter {
 		rowValues.add("null");
 		rowValues.add("3.5");
 		rowValues.add("3");
-		rowValues.add("1996-12-12");
+		rowValues.add("'1996-12-12'");
 		final ArrayList<ArrayList<String>> values = new ArrayList<>();
 		values.add(rowValues);
 		insertParameters.setValues(values);
