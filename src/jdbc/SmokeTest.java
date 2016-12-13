@@ -24,7 +24,7 @@ import org.junit.Test;
  **/
 public class SmokeTest {
 
-	private final String protocol = "xmldb";
+	private final String protocol = "altdb";
 	private final String tmp = System.getProperty("java.io.tmpdir");
 
 	public static Class<?> getSpecifications() {
