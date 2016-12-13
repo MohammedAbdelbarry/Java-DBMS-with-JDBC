@@ -39,6 +39,9 @@ public class DBDriver implements Driver {
 			return null;
 		}
 		final File directory = (File) info.get("path");
+		if (directory == null) {
+			throw new SQLException();
+		}
 		final String directoryPath = directory.getAbsolutePath();
 		final DBConnection connection = new DBConnection(url,
 				directoryPath);
