@@ -47,7 +47,7 @@ public class JSONWriter implements FileWriter {
 		final String json = gson.toJson(table);
 		final File jsonFile = new File(path
 				+ databaseName + File.separator
-				+ table.getName().toUpperCase()
+				+ table.getName().toLowerCase().toUpperCase()
 				+ JSON_EXTENSION);
 		if (!jsonFile.exists()) {
 			jsonFile.createNewFile();

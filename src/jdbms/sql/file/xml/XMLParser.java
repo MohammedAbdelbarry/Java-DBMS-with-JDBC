@@ -102,7 +102,7 @@ public class XMLParser implements FileReader {
 			return createTable(columns, values, tableName, columnNames);
 		} catch (IOException | SAXException
 				| ParserConfigurationException e) {
-			ErrorHandler.printInternalError();
+			e.printStackTrace();
 		}
 		return null;
 	}

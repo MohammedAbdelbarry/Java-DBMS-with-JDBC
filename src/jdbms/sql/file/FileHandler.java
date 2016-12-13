@@ -78,7 +78,8 @@ public class FileHandler {
 	}
 	public void deleteDatabase(final String databaseName)
 			throws DatabaseNotFoundException, FailedToDeleteDatabaseException {
-		final File database = new File(path + File.separator + databaseName.toUpperCase());
+		final File database = new File(path + File.separator
+				+ databaseName.toLowerCase());
 		if (!database.exists()) {
 			throw new DatabaseNotFoundException(databaseName);
 		}
@@ -90,8 +91,8 @@ public class FileHandler {
 	public void deleteTable(final String tableName, final String databaseName)
 			throws TableNotFoundException, FailedToDeleteTableException {
 		final File tableXML = new File(path + File.separator
-				+ databaseName.toUpperCase() + File.separator
-				+ tableName.toUpperCase() + fileExtension);
+				+ databaseName.toLowerCase() + File.separator
+				+ tableName.toLowerCase() + fileExtension);
 
 		if (!tableXML.exists()) {
 			throw new TableNotFoundException(tableName);
@@ -102,8 +103,8 @@ public class FileHandler {
 		}
 		if (schemaExtension != null) {
 			final File tableSchema = new File(path + File.separator
-					+ databaseName.toUpperCase()
-					+ File.separator + tableName.toUpperCase() +
+					+ databaseName.toLowerCase()
+					+ File.separator + tableName.toLowerCase() +
 					schemaExtension);
 			tableSchema.setWritable(true);
 			if (!tableSchema.delete()) {
@@ -113,11 +114,11 @@ public class FileHandler {
 	}
 	public Database loadDatabase(final String databaseName)
 			throws DatabaseNotFoundException, TableAlreadyExistsException {
-		final File database = new File(path + File.separator + databaseName);
+		final File database = new File(path + File.separator + databaseName.toLowerCase());
 		if (!database.exists()) {
 			throw new DatabaseNotFoundException(databaseName);
 		}
-		final ArrayList<String> tables = findTables(databaseName);
+		final ArrayList<String> tables = findTables(databaseName.toLowerCase());
 		final Database newDatabase = new Database(databaseName);
 		for (final String table : tables) {
 			newDatabase.addTableName(table);
@@ -126,7 +127,8 @@ public class FileHandler {
 	}
 	public void createDatabase(final String databaseName)
 			throws DatabaseAlreadyExistsException {
-		final File database = new File(path + File.separator + databaseName);
+		final File database = new File(path + File.separator
+				+ databaseName.toLowerCase());
 		if (database.exists()) {
 			throw new DatabaseAlreadyExistsException(databaseName);
 		}
@@ -148,7 +150,7 @@ public class FileHandler {
 	}
 	public void createTable(final Table table, final String databaseName)
 			throws IOException {
-		writer.create(table, databaseName, path + File.separator);
+		writer.create(table, databaseName.toLowerCase(), path + File.separator);
 	}
 	public Table loadTable(final String databaseName, final String tableName)
 			throws ColumnAlreadyExistsException, RepeatedColumnException,
@@ -156,8 +158,8 @@ public class FileHandler {
 			ValueListTooLargeException, ValueListTooSmallException,
 			TypeMismatchException, InvalidDateFormatException,
 			IOException {
-		return reader.parse(tableName.toUpperCase(),
-				databaseName.toUpperCase(), path + File.separator);
+		return reader.parse(tableName.toLowerCase(),
+				databaseName.toLowerCase(), path + File.separator);
 	}
 	private ArrayList<String> findTables(final String databaseName) {
 		final File database = new File(path + File.separator + databaseName);

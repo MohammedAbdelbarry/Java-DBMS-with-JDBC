@@ -71,7 +71,7 @@ public class DTDCreator {
 	public void createFile(final String database, final String tableName
 			, final String dtd, final String path) {
 		final File dtdFile = new File(path + database
-				+ "/" + tableName + DTD_IDENTIFIER + DTD_EXTENSION);
+				+ "/" + tableName.toLowerCase() + DTD_IDENTIFIER + DTD_EXTENSION);
 		try {
 			final FileWriter writer = new FileWriter(dtdFile);
 			writer.write(dtd);

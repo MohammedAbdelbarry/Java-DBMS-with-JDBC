@@ -70,12 +70,12 @@ public class XMLCreator implements FileWriter {
 			final DOMSource source = new DOMSource(doc);
 			final File xmlFile = new File(path
 					+ databaseName + File.separator
-					+ table.getName().toUpperCase() + XML_EXTENSION);
+					+ table.getName().toLowerCase() + XML_EXTENSION);
 			final StreamResult fileResult =
 					new StreamResult(xmlFile);
 			applyTransform(source, fileResult, doc, table.getName());
 		} catch (final ParserConfigurationException e) {
-			ErrorHandler.printInternalError();
+			e.printStackTrace();
 		}
 		createDTD(table.getColumnNames(), table, databaseName, path);
 	}
@@ -142,14 +142,14 @@ public class XMLCreator implements FileWriter {
 			final DOMImplementation domImpl = document.getImplementation();
 			final DocumentType doctype = domImpl.createDocumentType("doctype",
 					"Table",
-					tableName + DTD_IDENTIFIER + DTD_EXTENSION);
+					tableName.toLowerCase() + DTD_IDENTIFIER + DTD_EXTENSION);
 			transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC,
 					doctype.getPublicId());
 			transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM,
 					doctype.getSystemId());
 			transformer.transform(source, fileResult);
 		} catch (final TransformerException e) {
-			ErrorHandler.printInternalError();
+			e.printStackTrace();
 		}
 	}
 }
