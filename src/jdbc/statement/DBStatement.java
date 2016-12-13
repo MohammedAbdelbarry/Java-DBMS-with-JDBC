@@ -39,7 +39,6 @@ public class DBStatement implements Statement {
 		if (isClosed) {
 			throw new SQLException();
 		}
-
 		commands.add(sql);
 	}
 
@@ -49,7 +48,6 @@ public class DBStatement implements Statement {
 		if (isClosed) {
 			throw new SQLException();
 		}
-
 		commands.clear();
 	}
 
