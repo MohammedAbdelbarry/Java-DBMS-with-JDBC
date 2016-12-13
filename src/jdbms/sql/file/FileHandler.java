@@ -77,28 +77,36 @@ public class FileHandler {
 		}
 	}
 	public void deleteDatabase(final String databaseName)
-			throws DatabaseNotFoundException, FailedToDeleteDatabaseException {
+			throws DatabaseNotFoundException,
+			FailedToDeleteDatabaseException,
+			TableNotFoundException, FailedToDeleteTableException {
 		final File database = new File(path + File.separator
 				+ databaseName.toLowerCase());
 		if (!database.exists()) {
 			throw new DatabaseNotFoundException(databaseName);
+		}
+		for (final String table
+				: findTables(databaseName.toLowerCase())) {
+			deleteTable(table, databaseName);
 		}
 		database.setWritable(true);
 		if (!database.delete()) {
 			throw new FailedToDeleteDatabaseException(databaseName);
 		}
 	}
-	public void deleteTable(final String tableName, final String databaseName)
-			throws TableNotFoundException, FailedToDeleteTableException {
-		final File tableXML = new File(path + File.separator
+	public void deleteTable(final String tableName,
+			final String databaseName)
+			throws TableNotFoundException,
+			FailedToDeleteTableException {
+		final File tableFile = new File(path + File.separator
 				+ databaseName.toLowerCase() + File.separator
 				+ tableName.toLowerCase() + fileExtension);
 
-		if (!tableXML.exists()) {
+		if (!tableFile.exists()) {
 			throw new TableNotFoundException(tableName);
 		}
-		tableXML.setWritable(true);
-		if (!tableXML.delete()) {
+		tableFile.setWritable(true);
+		if (!tableFile.delete()) {
 			throw new FailedToDeleteTableException(tableName);
 		}
 		if (schemaExtension != null) {

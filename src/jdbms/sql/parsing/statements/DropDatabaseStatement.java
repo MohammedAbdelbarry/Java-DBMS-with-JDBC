@@ -3,6 +3,8 @@ package jdbms.sql.parsing.statements;
 import jdbms.sql.data.SQLData;
 import jdbms.sql.exceptions.DatabaseNotFoundException;
 import jdbms.sql.exceptions.FailedToDeleteDatabaseException;
+import jdbms.sql.exceptions.FailedToDeleteTableException;
+import jdbms.sql.exceptions.TableNotFoundException;
 import jdbms.sql.parsing.expressions.database.DatabaseTerminatingExpression;
 import jdbms.sql.parsing.properties.DatabaseDroppingParameters;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
@@ -45,7 +47,9 @@ public class DropDatabaseStatement extends InitialStatement {
 	@Override
 	public void act(final SQLData data)
 			throws DatabaseNotFoundException,
-			FailedToDeleteDatabaseException {
+			FailedToDeleteDatabaseException,
+			TableNotFoundException,
+			FailedToDeleteTableException {
 		buildParameters();
 		numberOfUpdates = data.dropDatabase(dropDBParameters);
 	}
