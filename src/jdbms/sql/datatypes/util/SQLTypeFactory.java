@@ -37,9 +37,10 @@ public class SQLTypeFactory {
 				| SecurityException
 				| InstantiationException
 				| IllegalAccessException
-				| IllegalArgumentException
-				| InvocationTargetException ex) {
+				| IllegalArgumentException e) {
 			return null;
+		} catch (final InvocationTargetException e) {
+			throw new InvalidDateFormatException(e.getCause().getMessage());
 		}
 	}
 
