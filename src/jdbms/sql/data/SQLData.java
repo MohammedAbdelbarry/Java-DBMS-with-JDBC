@@ -97,9 +97,14 @@ public class SQLData {
 	 * Drops the database with the provided name.
 	 * @throws DatabaseNotFoundException
 	 * @throws FailedToDeleteDatabaseException
+	 * @throws FailedToDeleteTableException 
+	 * @throws TableNotFoundException 
 	 */
 	public int dropDatabase(final DatabaseDroppingParameters dropDBParameters)
-			throws DatabaseNotFoundException, FailedToDeleteDatabaseException {
+			throws DatabaseNotFoundException,
+			FailedToDeleteDatabaseException,
+			TableNotFoundException,
+			FailedToDeleteTableException {
 		fileHandler.deleteDatabase(
 				dropDBParameters.getDatabaseName().toUpperCase());
 		if (dropDBParameters.getDatabaseName().toUpperCase().equals(
