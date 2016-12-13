@@ -49,7 +49,6 @@ public class DBConnection implements Connection {
 			throw new SQLException();
 		}
 		final DBStatement newStatement = new DBStatement(connector, this);
-
 		statements.add(newStatement);
 		return newStatement;
 	}
