@@ -39,6 +39,9 @@ public class DBConnection implements Connection {
 
 	private String getProtocolName(final String url) {
 		final int start = url.indexOf(ProtocolConstants.SEPARATOR);
+		if (start == -1) {
+			return "";
+		}
 		final String subURL = url.substring(start + 1, url.length());
 		return subURL.substring(0, subURL.indexOf(ProtocolConstants.SEPARATOR));
 	}
