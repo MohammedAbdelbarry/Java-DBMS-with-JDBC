@@ -5,9 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -100,7 +98,7 @@ public class ResultSetTesting {
 	}
 
 	@Test
-	public void testGettingData() throws SQLException, ParseException {
+	public void testGettingDataByIndex() throws SQLException, ParseException {
 
 		DataResultSet resultSet = new DataResultSet(DBStatement);
 
@@ -114,14 +112,39 @@ public class ResultSetTesting {
 		String customer = resultSet.getString(2);
 		assertEquals(customer, "Ahmed Mohamed");
 
-		//Date accountDate = resultSet.getDate(3);
-		//Convert to actual date
-		//Date actualDate = new Date();
-		//assertEquals(accountDate, actualDate);
+		// Date accountDate = resultSet.getDate(3);
+		// Convert to actual date
+		// Date actualDate = new Date();
+		// assertEquals(accountDate, actualDate);
 
 		double balance = resultSet.getDouble(4);
 		double actualBalance = 9999.99999;
-		assertEquals(balance, actualBalance,0);
+		assertEquals(balance, actualBalance, 0);
+	}
+
+	@Test
+	public void testGettingDataByName() throws SQLException, ParseException {
+
+		DataResultSet resultSet = new DataResultSet(DBStatement);
+
+		constructFourRowedTable(resultSet);
+
+		resultSet.next();
+
+		int id = resultSet.getInt("ID");
+		assertEquals(id, 1);
+
+		String customer = resultSet.getString("Customer");
+		assertEquals(customer, "Ahmed Mohamed");
+
+		// Date accountDate = resultSet.getDate("AccountDate");
+		// Convert to actual date
+		// Date actualDate = new Date();
+		// assertEquals(accountDate, actualDate);
+
+		double balance = resultSet.getDouble("Balance");
+		double actualBalance = 9999.99999;
+		assertEquals(balance, actualBalance, 0);
 	}
 
 	private void constructFourRowedTable(DataResultSet resultSet) {
