@@ -1,9 +1,11 @@
 package jdbms.sql;
 
 import java.sql.SQLException;
+import java.util.Formatter;
 
 import jdbms.sql.data.SQLData;
 import jdbms.sql.data.query.SelectQueryOutput;
+import jdbms.sql.errors.util.ErrorMessages;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
 import jdbms.sql.exceptions.ColumnNotFoundException;
@@ -41,7 +43,8 @@ public class DBMSConnector {
 			throws SQLException {
 		final InitialStatement statement = parse(sql);
 		if (statement.getNumberOfUpdates() == -1) {
-			throw new SQLException();
+			throw new SQLException(String.format(ErrorMessages.
+					STATEMENT_IS_NOT, sql, "a Query"));
 		}
 		act(statement);
 		return statement.getNumberOfUpdates();
@@ -50,7 +53,8 @@ public class DBMSConnector {
 			throws SQLException {
 		final InitialStatement statement = parse(sql);
 		if (statement.getNumberOfUpdates() != -1) {
-			throw new SQLException();
+			throw new SQLException(String.format(ErrorMessages.
+					STATEMENT_IS_NOT, sql, "an Update"));
 		}
 		act(statement);
 		return statement.getQueryOutput();
@@ -85,7 +89,8 @@ public class DBMSConnector {
 		}
 		final String normalizedInput = normalizeInput(sql);
 		if (normalizedInput == null) {
-			throw new SQLException();//SYNTAX_ERROR
+			throw new SQLException(ErrorMessages
+					.SYNTAX_ERROR);
 		}
 		for (final String key : InitialStatementFactory.
 				getInstance().getRegisteredStatements()) {
@@ -112,7 +117,8 @@ public class DBMSConnector {
 			normalizedOutput = normalizer.normalizeCommand(sql);
 			return normalizedOutput;
 		} catch (final Exception e) {
-			throw new SQLException();
+			throw new SQLException(
+					ErrorMessages.SYNTAX_ERROR);
 		}
 	}
 	private void act(final InitialStatement statement)
@@ -120,35 +126,58 @@ public class DBMSConnector {
 		try {
 			statement.act(data);
 		} catch (final ColumnNotFoundException e) {
-			throw new SQLException();
+			throw new SQLException(
+					String.format(ErrorMessages.NOT_FOUND,
+					"Column", e.getMessage()), e.getCause());
 		} catch (final TypeMismatchException e) {
-			throw new SQLException();
+			throw new SQLException(ErrorMessages.TYPE_MISMATCH, e);
 		} catch (final TableNotFoundException e) {
-			throw new SQLException();
+			throw new SQLException(String.format(
+					ErrorMessages.NOT_FOUND,
+					"Table", e.getMessage()), e);
 		} catch (final ColumnAlreadyExistsException e) {
-			throw new SQLException();
+			throw new SQLException(String.format(ErrorMessages.
+					ALREADY_EXISTS,
+					"Column", e.getMessage()), e);
 		} catch (final RepeatedColumnException e) {
-			throw new SQLException();
+			throw new SQLException(ErrorMessages.REPEATED_COLUMNS, e);
 		} catch (final ColumnListTooLargeException e) {
-			throw new SQLException();
+			throw new SQLException(String.format(ErrorMessages.
+					COLUMN_LIST,
+					ErrorMessages.TOO_LARGE),
+					e);
 		} catch (final ValueListTooLargeException e) {
-			throw new SQLException();
+			throw new SQLException(String.format(ErrorMessages.
+					VALUE_LIST, ErrorMessages.TOO_SMALL), e);
 		} catch (final ValueListTooSmallException e) {
-			throw new SQLException();
+			throw new SQLException(String.format(ErrorMessages.
+					VALUE_LIST, ErrorMessages.TOO_LARGE), e);
 		} catch (final TableAlreadyExistsException e) {
-			throw new SQLException();
+			throw new SQLException(String.format(ErrorMessages.
+					ALREADY_EXISTS,
+					"Talbe", e.getMessage()), e);
 		} catch (final DatabaseAlreadyExistsException e) {
-			throw new SQLException();
+			throw new SQLException(String.format(ErrorMessages.
+					ALREADY_EXISTS,
+					"Database", e.getMessage()), e);
 		} catch (final DatabaseNotFoundException e) {
-			throw new SQLException();
+			throw new SQLException(String.format(
+					ErrorMessages.NOT_FOUND,
+					"Database", e.getMessage()), e);
 		} catch (final FailedToDeleteDatabaseException e) {
-			throw new SQLException();
+			throw new SQLException(String.format(ErrorMessages.
+					FAILED_TO_DELETE, "Database",
+					e.getMessage()), e);
 		} catch (final FailedToDeleteTableException e) {
-			throw new SQLException();
+			throw new SQLException(String.format(ErrorMessages.
+					FAILED_TO_DELETE, "Table",
+					e.getMessage()), e);
 		} catch (final InvalidDateFormatException e) {
-			throw new SQLException();
+			throw new SQLException(String.format(ErrorMessages.
+					INVALID_DATE,
+					e.getMessage()), e);
 		}  catch (final Exception e) {
-			throw new SQLException();
+			throw new SQLException(ErrorMessages.INTERNAL_ERROR);
 		}
 	}
 }

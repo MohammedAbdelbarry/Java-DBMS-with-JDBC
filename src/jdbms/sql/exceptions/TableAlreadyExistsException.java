@@ -8,7 +8,7 @@ public class TableAlreadyExistsException extends Exception {
 	private static final long serialVersionUID = -4957650035529989120L;
 
 	public TableAlreadyExistsException() {
-		super();
+		super("");
 	}
 
 	public TableAlreadyExistsException(final String message) {

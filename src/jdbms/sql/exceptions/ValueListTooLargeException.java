@@ -8,7 +8,7 @@ public class ValueListTooLargeException extends Exception {
 	private static final long serialVersionUID = -7254388599116130458L;
 
 	public ValueListTooLargeException() {
-		super();
+		super("");
 	}
 
 	public ValueListTooLargeException(String message) {

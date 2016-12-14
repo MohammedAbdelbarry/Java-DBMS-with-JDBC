@@ -8,7 +8,7 @@ public class TypeMismatchException extends Exception {
 	private static final long serialVersionUID = -4193778200259411821L;
 
 	public TypeMismatchException() {
-		super();
+		super("");
 	}
 
 	public TypeMismatchException(final String message) {

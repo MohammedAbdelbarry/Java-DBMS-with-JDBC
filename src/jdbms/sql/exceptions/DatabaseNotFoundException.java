@@ -8,7 +8,7 @@ public class DatabaseNotFoundException extends Exception {
 	private static final long serialVersionUID = -2989703287484064941L;
 
 	public DatabaseNotFoundException() {
-		super();
+		super("");
 	}
 
 	public DatabaseNotFoundException(final String message) {

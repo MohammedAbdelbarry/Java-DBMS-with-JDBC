@@ -8,7 +8,7 @@ public class RepeatedColumnException extends Exception {
 	private static final long serialVersionUID = -8110775092161663477L;
 
 	public RepeatedColumnException() {
-		super();
+		super("");
 	}
 
 	public RepeatedColumnException(final String message) {

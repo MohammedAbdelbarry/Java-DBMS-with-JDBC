@@ -8,7 +8,7 @@ public class FailedToDeleteTableException extends Exception {
 	private static final long serialVersionUID = 2186147084710321471L;
 
 	public FailedToDeleteTableException() {
-		super();
+		super("");
 	}
 
 	public FailedToDeleteTableException(final String message) {

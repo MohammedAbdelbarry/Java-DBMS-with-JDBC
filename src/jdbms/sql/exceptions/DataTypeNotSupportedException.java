@@ -8,7 +8,7 @@ public class DataTypeNotSupportedException extends Exception {
 	private static final long serialVersionUID = -5110339303916450057L;
 
 	public DataTypeNotSupportedException() {
-		super();
+		super("");
 	}
 
 	public DataTypeNotSupportedException(final String message) {

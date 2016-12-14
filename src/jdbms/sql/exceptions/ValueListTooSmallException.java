@@ -8,7 +8,7 @@ public class ValueListTooSmallException extends Exception {
 	private static final long serialVersionUID = -5707348571705640359L;
 
 	public ValueListTooSmallException() {
-		super();
+		super("");
 	}
 
 	public ValueListTooSmallException(String message) {
@@ -23,7 +23,8 @@ public class ValueListTooSmallException extends Exception {
 		super(message, cause);
 	}
 
-	public ValueListTooSmallException(String message, Throwable cause, boolean enableSuppression,
+	public ValueListTooSmallException(String message,
+			Throwable cause, boolean enableSuppression,
 			boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}

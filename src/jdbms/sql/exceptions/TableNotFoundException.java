@@ -8,7 +8,7 @@ public class TableNotFoundException extends Exception {
 	private static final long serialVersionUID = 1496203178582421938L;
 
 	public TableNotFoundException() {
-		super();
+		super("");
 	}
 
 	public TableNotFoundException(final String message) {

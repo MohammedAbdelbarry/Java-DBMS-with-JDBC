@@ -8,7 +8,7 @@ public class ColumnListTooLargeException extends Exception {
 	private static final long serialVersionUID = -3724054449498404016L;
 
 	public ColumnListTooLargeException() {
-		super();
+		super("");
 	}
 
 	public ColumnListTooLargeException(final String message) {
