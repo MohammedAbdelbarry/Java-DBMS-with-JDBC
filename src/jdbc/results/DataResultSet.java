@@ -231,8 +231,13 @@ public class DataResultSet implements ResultSet {
 		if (outputRows.get(cursor).get(columnIndex) == null) {
 			return null;
 		}
-		if (columnTypes.get(columnLabel) != Types.DATE) {
-			throw new SQLException();
+		for (final String key : columnTypes.keySet()) {
+			if (key.equalsIgnoreCase(columnLabel)) {
+				if (columnTypes.get(key) != Types.DATE) {
+					throw new SQLException();
+				}
+				break;
+			}
 		}
 		try {
 			final String value = outputRows.get(cursor).get(columnIndex);
@@ -298,8 +303,13 @@ public class DataResultSet implements ResultSet {
 		if (outputRows.get(cursor).get(columnIndex) == null) {
 			return null;
 		}
-		if (columnTypes.get(columnLabel) != Types.TIMESTAMP) {
-			throw new SQLException();
+		for (final String key : columnTypes.keySet()) {
+			if (key.equalsIgnoreCase(columnLabel)) {
+				if (columnTypes.get(key) != Types.TIMESTAMP) {
+					throw new SQLException();
+				}
+				break;
+			}
 		}
 		try {
 			final String value = outputRows.get(cursor).get(columnIndex);
@@ -361,8 +371,13 @@ public class DataResultSet implements ResultSet {
 			return 0;
 		}
 
-		if (columnTypes.get(columnLabel) != Types.FLOAT) {
-			throw new SQLException();
+		for (final String key : columnTypes.keySet()) {
+			if (key.equalsIgnoreCase(columnLabel)) {
+				if (columnTypes.get(key) != Types.FLOAT) {
+					throw new SQLException();
+				}
+				break;
+			}
 		}
 		try {
 			final float output = Float.parseFloat(outputRows.get(cursor).get(columnIndex));
@@ -414,8 +429,13 @@ public class DataResultSet implements ResultSet {
 			return 0;
 		}
 
-		if (columnTypes.get(columnLabel) != Types.INTEGER) {
-			throw new SQLException();
+		for (final String key : columnTypes.keySet()) {
+			if (key.equalsIgnoreCase(columnLabel)) {
+				if (columnTypes.get(key) != Types.INTEGER) {
+					throw new SQLException();
+				}
+				break;
+			}
 		}
 		try {
 			final int output = Integer.parseInt(outputRows.get(cursor).get(columnIndex));
@@ -462,8 +482,13 @@ public class DataResultSet implements ResultSet {
 		if (outputRows.get(cursor).get(columnIndex) == null) {
 			return null;
 		}
-		if (columnTypes.get(columnLabel) != Types.VARCHAR) {
-			throw new SQLException();
+		for (final String key : columnTypes.keySet()) {
+			if (key.equalsIgnoreCase(columnLabel)) {
+				if (columnTypes.get(key) != Types.VARCHAR) {
+					throw new SQLException();
+				}
+				break;
+			}
 		}
 		return outputRows.get(cursor).get(columnIndex);
 	}
@@ -637,8 +662,13 @@ public class DataResultSet implements ResultSet {
 			return 0;
 		}
 
-		if (columnTypes.get(columnLabel) != Types.BIGINT) {
-			throw new SQLException();
+		for (final String key : columnTypes.keySet()) {
+			if (key.equalsIgnoreCase(columnLabel)) {
+				if (columnTypes.get(key) != Types.BIGINT) {
+					throw new SQLException();
+				}
+				break;
+			}
 		}
 		try {
 			final long output = Long.parseLong(outputRows.get(cursor).get(columnIndex));
@@ -690,8 +720,13 @@ public class DataResultSet implements ResultSet {
 			return 0;
 		}
 
-		if (columnTypes.get(columnLabel) != Types.DOUBLE) {
-			throw new SQLException();
+		for (final String key : columnTypes.keySet()) {
+			if (key.equalsIgnoreCase(columnLabel)) {
+				if (columnTypes.get(key) != Types.DOUBLE) {
+					throw new SQLException();
+				}
+				break;
+			}
 		}
 		try {
 			final double output = Double.parseDouble(outputRows.get(cursor).get(columnIndex));
