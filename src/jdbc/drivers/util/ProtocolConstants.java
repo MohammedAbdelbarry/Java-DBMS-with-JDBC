@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class ProtocolConstants {
+public abstract class ProtocolConstants {
 
 	public static final List<String> SUPPORTED_PROTOCOLS =
 			Collections.unmodifiableList(
@@ -12,10 +12,10 @@ public class ProtocolConstants {
 							ProtocolConstantsHelper
 							.getString("ProtocolConstants."
 									+ "XMLProtocol"),
-					ProtocolConstantsHelper.
-					getString(
-							"ProtocolConstants."
-							+ "AlternativeProtocols")));
+							ProtocolConstantsHelper.
+							getString(
+									"ProtocolConstants."
+											+ "AlternativeProtocols")));
 	public static final String URL_PREFIX =
 			ProtocolConstantsHelper.getString(
 					"ProtocolConstants.ProtocolPrefix");

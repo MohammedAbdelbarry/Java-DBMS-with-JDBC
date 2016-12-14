@@ -96,8 +96,8 @@ public class FileHandler {
 	}
 	public void deleteTable(final String tableName,
 			final String databaseName)
-			throws TableNotFoundException,
-			FailedToDeleteTableException {
+					throws TableNotFoundException,
+					FailedToDeleteTableException {
 		final File tableFile = new File(path + File.separator
 				+ databaseName.toLowerCase() + File.separator
 				+ tableName.toLowerCase() + fileExtension);
@@ -146,7 +146,8 @@ public class FileHandler {
 	}
 	public Database createTemporaryDatabase(final String tempName)
 			throws DatabaseAlreadyExistsException {
-		final File database = new File(path + File.separator + tempName);
+		final File database = new File(path + File.separator
+				+ tempName.toLowerCase());
 		if (database.exists()) {
 			throw new DatabaseAlreadyExistsException(tempName);
 		}
