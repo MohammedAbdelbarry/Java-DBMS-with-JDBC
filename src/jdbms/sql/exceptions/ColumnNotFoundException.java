@@ -8,7 +8,7 @@ public class ColumnNotFoundException extends Exception {
 	private static final long serialVersionUID = -8235368526021223343L;
 
 	public ColumnNotFoundException() {
-		super();
+		super("");
 	}
 
 	public ColumnNotFoundException(final String message) {

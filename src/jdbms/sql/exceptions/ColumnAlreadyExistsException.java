@@ -8,7 +8,7 @@ public class ColumnAlreadyExistsException extends Exception {
 	private static final long serialVersionUID = 7031139545495825589L;
 
 	public ColumnAlreadyExistsException() {
-		super();
+		super("");
 	}
 
 	public ColumnAlreadyExistsException(final String message) {

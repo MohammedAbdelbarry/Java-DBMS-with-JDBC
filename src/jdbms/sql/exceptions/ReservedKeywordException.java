@@ -7,7 +7,7 @@ public class ReservedKeywordException extends Exception {
 	private static final long serialVersionUID = -1737842687623416520L;
 
 	public ReservedKeywordException() {
-		super();
+		super("");
 	}
 
 	public ReservedKeywordException(final String message) {

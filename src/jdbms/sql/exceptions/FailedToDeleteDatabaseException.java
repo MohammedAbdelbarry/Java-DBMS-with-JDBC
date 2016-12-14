@@ -8,7 +8,7 @@ public class FailedToDeleteDatabaseException extends Exception {
 	private static final long serialVersionUID = -6982584183963601001L;
 
 	public FailedToDeleteDatabaseException() {
-		super();
+		super("");
 	}
 
 	public FailedToDeleteDatabaseException(final String message) {

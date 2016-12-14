@@ -8,7 +8,7 @@ public class InvalidDateFormatException extends Exception {
 	private static final long serialVersionUID = -5766821558845693100L;
 
 	public InvalidDateFormatException() {
-		super();
+		super("");
 	}
 
 	public InvalidDateFormatException(final String message) {
