@@ -17,7 +17,7 @@ import jdbc.drivers.DBDriver;
 import jdbc.results.DataResultSet;
 
 public class JDBCTests {
-	private final String protocol = "altdb";
+	private final String protocol = "xmldb";
 	private final String tmp = System.getProperty("java.io.tmpdir");
 
 	public static Class<?> getSpecifications() {
@@ -117,7 +117,7 @@ public class JDBCTests {
 	}
 
 	@Test
-	public void testDataType() throws SQLException {
+	public void testMetaData() throws SQLException {
 		final Connection connection = createUseDatabase("sqlDatabase");
 		try {
 			final Statement statement = connection.createStatement();
@@ -144,6 +144,45 @@ public class JDBCTests {
 					getMetaData().getColumnType(resultSet.findColumn("gRAdE")));
 			Assert.assertEquals(Types.INTEGER, resultSet.
 					getMetaData().getColumnType(resultSet.findColumn("iD")));
+			Assert.assertEquals(3, resultSet.getMetaData().getColumnCount());
+			Assert.assertTrue(resultSet.getMetaData().getTableName(1).equalsIgnoreCase("Tb"));
+			Assert.assertTrue(resultSet.getMetaData().
+					getColumnLabel(1).equalsIgnoreCase("birth"));
+		} catch (final SQLException e) {
+			TestRunner.fail("Failed to select from table, testing date time", e);
+		}
+		connection.close();
+	}
+
+	@Test
+	public void testResultSetGettersOrderBy() throws SQLException {
+		final Connection connection = createUseDatabase("sqlDatabase");
+		try {
+			final Statement statement = connection.createStatement();
+			statement.execute("Create table tb (CurrentTime dateTime,"
+					+ " Name varchar, GradE float, Birth date)");
+			int count = statement.executeUpdate("INSERT INTO tb (Name,"
+					+ " GrAde, birth, currentTime)"
+					+ " VALUES ('hello', -.366, '2001-10-10', '2000-09-03 11:02:09')");
+			Assert.assertEquals("Table Insertion did not return 1", 1, count);
+			count  = statement.executeUpdate("INSERT INTO tb"
+					+ " VALUES ('2001-09-03 11:02:09','A spaced string', 101.00002, '0001-01-01')");
+			Assert.assertEquals("Table Insertion did not return 1", 1, count);
+			count  = statement.executeUpdate("INSERT INTO tb"
+					+ " VALUES ('2001-09-03 11:02:09','a float is .003', .003, '8488-11-30')");
+			Assert.assertEquals("Table Insertion did not return 1", 1, count);
+			final ResultSet resultSet = statement.executeQuery("select biRth, gRAde, cuRRentTiMe, naMe from tb where "
+					+ "currenttime > '0001-01-01 01:01:01' order by currenttime, grade desc");
+			resultSet.first();
+			Assert.assertEquals(resultSet.getString(4), "hello");
+			Assert.assertEquals(resultSet.getFloat(2), -0.366, 0.001);
+			resultSet.next();
+			Assert.assertEquals(resultSet.getString("name"), "A spaced string");
+			Assert.assertEquals(resultSet.getFloat("grade"), 101.00002, 0.001);
+			try {
+				Assert.assertEquals(resultSet.getFloat("name"), 101.00002, 0.001);
+			} catch (final SQLException e) {
+			}
 
 		} catch (final SQLException e) {
 			TestRunner.fail("Failed to select from table, testing date time", e);
