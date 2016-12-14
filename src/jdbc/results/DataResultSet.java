@@ -152,16 +152,17 @@ public class DataResultSet implements ResultSet {
 			throw new SQLException();
 		}
 
-		if (!columnNames.contains(columnLabel)) {
-			throw new SQLException();
-		}
-
+		boolean foundColumn = false;
 		int columnNumber = 0;
 		for (int i = 0; i < columnNames.size(); i++) {
-			if (columnNames.get(i).equals(columnLabel)) {
+			if (columnNames.get(i).equalsIgnoreCase(columnLabel)) {
 				columnNumber = i + 1;
+				foundColumn = true;
 				break;
 			}
+		}
+		if (!foundColumn) {
+			throw new SQLException();
 		}
 		return columnNumber;
 	}

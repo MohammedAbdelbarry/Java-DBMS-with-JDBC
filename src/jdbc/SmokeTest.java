@@ -6,6 +6,7 @@ import java.sql.Driver;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.Properties;
 
 import org.junit.Assert;
@@ -497,6 +498,40 @@ public class SmokeTest {
 			statement.close();
 		} catch (final Throwable e) {
 			TestRunner.fail("Failed to test SELECT from table UNION", e);
+		}
+		connection.close();
+	}
+
+	@Test //
+	public void testwasa5a() throws SQLException {
+		final Connection connection = createUseDatabase("TestDB_Create");
+		try {
+			final Statement statement = connection.createStatement();
+			statement
+					.execute("CREATE TABLE table_name1(column_name1 varchar, column_name2 int, column_name3 varchar, column_name4 DATE)");
+			final int count1 = statement.executeUpdate(
+					"INSERT INTO table_name1(column_NAME1, COLUMN_name3, column_name2, column_name4) VALUES ('value1', 'value3', 4, '2011-01-25')");
+			Assert.assertEquals("Insert returned a number != 1", 1, count1);
+			final boolean result1 = statement.execute(
+					"INSERT INTO table_name1(column_NAME1, COLUMN_name3, column_name2, column_name4) VALUES ('value1', 'value3', 5, '2012-01-25')");
+			Assert.assertFalse("Wrong return for insert record", result1);
+			final int count3 = statement.executeUpdate(
+					" INSERT INTO table_name1(column_name1, COLUMN_NAME3, column_NAME2, column_name4) VALUES ('value2', 'value4', 6, '2013-01-25')");
+			Assert.assertEquals("Insert returned a number != 1", 1, count3);
+			final int count4 = statement.executeUpdate(
+					"INSERT INTO table_name1(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value5', 'value6', 6)");
+			Assert.assertEquals("Insert returned a number != 1", 1, count4);
+			final int deleteCount = statement.executeUpdate("DELETE From table_name1 WHERE coLUmn_NAME2=4");
+			Assert.assertEquals("Delete returned wrong number", 1, deleteCount);
+			final boolean result3 = statement.execute(
+					"SELECT * FROM table_name1 WHERE coluMN_NAME2 < 6");
+			Assert.assertTrue("Wrong return for select UNION existing records", result3);
+			final ResultSet res2 = statement.getResultSet();
+			Assert.assertEquals("This should be 'Integer', but found 'String'!",
+					Types.INTEGER, res2.getMetaData().getColumnType(res2.findColumn("column_name2")));
+			statement.close();
+		} catch (final Throwable e) {
+			TestRunner.fail("Failed to test SELECT from table 5ara", e);
 		}
 		connection.close();
 	}
