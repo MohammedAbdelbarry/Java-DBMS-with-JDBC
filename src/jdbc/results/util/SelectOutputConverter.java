@@ -27,7 +27,7 @@ public class SelectOutputConverter {
 			final ArrayList<Integer> types) {
 		final Map<String, Integer> columnTypes = new HashMap<>();
 		for (int i = 0; i < names.size(); i++) {
-			columnTypes.put(names.get(i), types.get(i));
+			columnTypes.put(names.get(i).toUpperCase(), types.get(i));
 		}
 		return columnTypes;
 	}

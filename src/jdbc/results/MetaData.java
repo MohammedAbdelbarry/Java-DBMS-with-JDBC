@@ -74,7 +74,7 @@ public class MetaData implements ResultSetMetaData {
 
 	@Override
 	public int getColumnType(int column) throws SQLException {
-		final String columnName = columnNames.get(--column);
+		final String columnName = columnNames.get(--column).toUpperCase();
 		return columnTypes.get(columnName);
 
 	}

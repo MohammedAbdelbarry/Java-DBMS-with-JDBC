@@ -74,8 +74,8 @@ public class DataResultSet implements ResultSet {
 	public int getColumnType(final int column) throws SQLException {
 		final String columnName = columnNames.get(column);
 		return columnTypes.get(columnName);
-
 	}
+
 
 	private boolean checkCursor() {
 		return this.cursor >= 0 && this.cursor < outputRows.size();
@@ -194,12 +194,12 @@ public class DataResultSet implements ResultSet {
 		}
 
 		columnIndex--;
-		if (outputRows.get(cursor).get(columnIndex) == null) {
-			return null;
-		}
-		final String columnLabel = columnNames.get(columnIndex);
+		final String columnLabel = columnNames.get(columnIndex).toUpperCase();
 		if (columnTypes.get(columnLabel) != Types.DATE) {
 			throw new SQLException();
+		}
+		if (outputRows.get(cursor).get(columnIndex) == null) {
+			return null;
 		}
 		try {
 			final String value = outputRows.get(cursor).get(columnIndex);
@@ -228,11 +228,11 @@ public class DataResultSet implements ResultSet {
 			throw new SQLException();
 		}
 		columnIndex--;
+		if (columnTypes.get(columnLabel.toUpperCase()) != Types.DATE) {
+			throw new SQLException();
+		}
 		if (outputRows.get(cursor).get(columnIndex) == null) {
 			return null;
-		}
-		if (columnTypes.get(columnLabel) != Types.DATE) {
-			throw new SQLException();
 		}
 		try {
 			final String value = outputRows.get(cursor).get(columnIndex);
@@ -260,12 +260,12 @@ public class DataResultSet implements ResultSet {
 			throw new SQLException();
 		}
 		columnIndex--;
-		if (outputRows.get(cursor).get(columnIndex) == null) {
-			return null;
-		}
-		final String columnLabel = columnNames.get(columnIndex);
+		final String columnLabel = columnNames.get(columnIndex).toUpperCase();
 		if (columnTypes.get(columnLabel) != Types.TIMESTAMP) {
 			throw new SQLException();
+		}
+		if (outputRows.get(cursor).get(columnIndex) == null) {
+			return null;
 		}
 
 		try {
@@ -295,11 +295,11 @@ public class DataResultSet implements ResultSet {
 			throw new SQLException();
 		}
 		columnIndex--;
+		if (columnTypes.get(columnLabel.toUpperCase()) != Types.TIMESTAMP) {
+			throw new SQLException();
+		}
 		if (outputRows.get(cursor).get(columnIndex) == null) {
 			return null;
-		}
-		if (columnTypes.get(columnLabel) != Types.TIMESTAMP) {
-			throw new SQLException();
 		}
 		try {
 			final String value = outputRows.get(cursor).get(columnIndex);
@@ -328,14 +328,14 @@ public class DataResultSet implements ResultSet {
 			throw new SQLException();
 		}
 		columnIndex--;
+		final String columnName = columnNames.get(columnIndex).toUpperCase();
+		if (columnTypes.get(columnName) != Types.FLOAT) {
+			throw new SQLException();
+		}
 		if (outputRows.get(cursor).get(columnIndex) == null) {
 			return 0;
 		}
 
-		final String columnName = columnNames.get(columnIndex);
-		if (columnTypes.get(columnName) != Types.FLOAT) {
-			throw new SQLException();
-		}
 		try {
 			final float output = Float.parseFloat(outputRows.get(cursor).get(columnIndex));
 			return output;
@@ -357,12 +357,11 @@ public class DataResultSet implements ResultSet {
 			throw new SQLException();
 		}
 		columnIndex--;
+		if (columnTypes.get(columnLabel.toUpperCase()) != Types.FLOAT) {
+			throw new SQLException();
+		}
 		if (outputRows.get(cursor).get(columnIndex) == null) {
 			return 0;
-		}
-
-		if (columnTypes.get(columnLabel) != Types.FLOAT) {
-			throw new SQLException();
 		}
 		try {
 			final float output = Float.parseFloat(outputRows.get(cursor).get(columnIndex));
@@ -383,12 +382,12 @@ public class DataResultSet implements ResultSet {
 			throw new SQLException();
 		}
 		columnIndex--;
-		if (outputRows.get(cursor).get(columnIndex) == null) {
-			return 0;
-		}
-		final String columnName = columnNames.get(columnIndex);
+		final String columnName = columnNames.get(columnIndex).toUpperCase();
 		if (columnTypes.get(columnName) != Types.INTEGER) {
 			throw new SQLException();
+		}
+		if (outputRows.get(cursor).get(columnIndex) == null) {
+			return 0;
 		}
 		try {
 			final int output = Integer.parseInt(outputRows.get(cursor).get(columnIndex));
@@ -410,12 +409,11 @@ public class DataResultSet implements ResultSet {
 			throw new SQLException();
 		}
 		columnIndex--;
+		if (columnTypes.get(columnLabel.toUpperCase()) != Types.INTEGER) {
+			throw new SQLException();
+		}
 		if (outputRows.get(cursor).get(columnIndex) == null) {
 			return 0;
-		}
-
-		if (columnTypes.get(columnLabel) != Types.INTEGER) {
-			throw new SQLException();
 		}
 		try {
 			final int output = Integer.parseInt(outputRows.get(cursor).get(columnIndex));
@@ -436,12 +434,12 @@ public class DataResultSet implements ResultSet {
 			throw new SQLException();
 		}
 		columnIndex--;
-		if (outputRows.get(cursor).get(columnIndex) == null) {
-			return null;
-		}
-		final String columnName = columnNames.get(columnIndex);
+		final String columnName = columnNames.get(columnIndex).toUpperCase();
 		if (columnTypes.get(columnName) != Types.VARCHAR) {
 			throw new SQLException();
+		}
+		if (outputRows.get(cursor).get(columnIndex) == null) {
+			return null;
 		}
 		return outputRows.get(cursor).get(columnIndex);
 	}
@@ -459,17 +457,17 @@ public class DataResultSet implements ResultSet {
 			throw new SQLException();
 		}
 		columnIndex--;
+		if (columnTypes.get(columnLabel.toUpperCase()) != Types.VARCHAR) {
+			throw new SQLException();
+		}
 		if (outputRows.get(cursor).get(columnIndex) == null) {
 			return null;
-		}
-		if (columnTypes.get(columnLabel) != Types.VARCHAR) {
-			throw new SQLException();
 		}
 		return outputRows.get(cursor).get(columnIndex);
 	}
 
 	@Override
-	public Object getObject(int columnIndex) throws SQLException {
+	public Object getObject(final int columnIndex) throws SQLException {
 		if (isClosed) {
 			throw new SQLException();
 		}
@@ -478,12 +476,28 @@ public class DataResultSet implements ResultSet {
 				|| !checkCursor()) {
 			throw new SQLException();
 		}
-		columnIndex--;
-		if (outputRows.get(cursor).get(columnIndex) == null) {
+		if (outputRows.get(cursor).get(columnIndex - 1) == null) {
 			return null;
 		}
-
-		return outputRows.get(cursor).get(columnIndex);
+		final int type = metaData.getColumnType(columnIndex);
+		switch (type) {
+		case Types.VARCHAR:
+			return getString(columnIndex);
+		case Types.INTEGER:
+			return getInt(columnIndex);
+		case Types.FLOAT:
+			return getFloat(columnIndex);
+		case Types.DOUBLE:
+			return getDouble(columnIndex);
+		case Types.BIGINT:
+			return getLong(columnIndex);
+		case Types.DATE:
+			return getDate(columnIndex);
+		case Types.TIMESTAMP:
+			return getTimestamp(columnIndex);
+		default:
+			throw new SQLException();
+		}
 	}
 
 	@Override
@@ -606,12 +620,12 @@ public class DataResultSet implements ResultSet {
 			throw new SQLException();
 		}
 		columnIndex--;
-		if (outputRows.get(cursor).get(columnIndex) == null) {
-			return 0;
-		}
-		final String columnName = columnNames.get(columnIndex);
+		final String columnName = columnNames.get(columnIndex).toUpperCase();
 		if (columnTypes.get(columnName) != Types.BIGINT) {
 			throw new SQLException();
+		}
+		if (outputRows.get(cursor).get(columnIndex) == null) {
+			return 0;
 		}
 		try {
 			final long output = Long.parseLong(outputRows.get(cursor).get(columnIndex));
@@ -633,12 +647,11 @@ public class DataResultSet implements ResultSet {
 			throw new SQLException();
 		}
 		columnIndex--;
+		if (columnTypes.get(columnLabel.toUpperCase()) != Types.BIGINT) {
+			throw new SQLException();
+		}
 		if (outputRows.get(cursor).get(columnIndex) == null) {
 			return 0;
-		}
-
-		if (columnTypes.get(columnLabel) != Types.BIGINT) {
-			throw new SQLException();
 		}
 		try {
 			final long output = Long.parseLong(outputRows.get(cursor).get(columnIndex));
@@ -659,12 +672,12 @@ public class DataResultSet implements ResultSet {
 			throw new SQLException();
 		}
 		columnIndex--;
-		if (outputRows.get(cursor).get(columnIndex) == null) {
-			return 0;
-		}
-		final String columnName = columnNames.get(columnIndex);
+		final String columnName = columnNames.get(columnIndex).toUpperCase();
 		if (columnTypes.get(columnName) != Types.DOUBLE) {
 			throw new SQLException();
+		}
+		if (outputRows.get(cursor).get(columnIndex) == null) {
+			return 0;
 		}
 		try {
 			final double output = Double.parseDouble(outputRows.get(cursor).get(columnIndex));
@@ -686,12 +699,11 @@ public class DataResultSet implements ResultSet {
 			throw new SQLException();
 		}
 		columnIndex--;
+		if (columnTypes.get(columnLabel.toUpperCase()) != Types.DOUBLE) {
+			throw new SQLException();
+		}
 		if (outputRows.get(cursor).get(columnIndex) == null) {
 			return 0;
-		}
-
-		if (columnTypes.get(columnLabel) != Types.DOUBLE) {
-			throw new SQLException();
 		}
 		try {
 			final double output = Double.parseDouble(outputRows.get(cursor).get(columnIndex));
