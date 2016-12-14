@@ -1,6 +1,6 @@
 package jdbms.sql.errors.util;
 
-public class ErrorMessages {
+public abstract class ErrorMessages {
 	public static final String NOT_FOUND
 	= ErrorMessagesHelper.getString("ErrorMessages.not.found");
 	public static final String ALREADY_EXISTS

@@ -97,8 +97,8 @@ public class SQLData {
 	 * Drops the database with the provided name.
 	 * @throws DatabaseNotFoundException
 	 * @throws FailedToDeleteDatabaseException
-	 * @throws FailedToDeleteTableException 
-	 * @throws TableNotFoundException 
+	 * @throws FailedToDeleteTableException
+	 * @throws TableNotFoundException
 	 */
 	public int dropDatabase(final DatabaseDroppingParameters dropDBParameters)
 			throws DatabaseNotFoundException,
@@ -299,7 +299,7 @@ public class SQLData {
 	private Database createTemporaryDatabase()
 			throws DatabaseAlreadyExistsException {
 		return fileHandler.createTemporaryDatabase(
-				DEFAULT_DATABASE.toUpperCase() +
+				DEFAULT_DATABASE.toLowerCase() +
 				Math.abs(new Random().nextLong()));
 	}
 }
