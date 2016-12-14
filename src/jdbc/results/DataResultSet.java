@@ -68,6 +68,7 @@ public class DataResultSet implements ResultSet {
 
 	public void setColumnTypes(final Map<String, Integer> columnTypes) {
 		this.columnTypes = columnTypes;
+		metaData.setColumnTypes(columnTypes);
 	}
 
 	public int getColumnType(final int column) throws SQLException {

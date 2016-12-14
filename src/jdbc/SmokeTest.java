@@ -24,7 +24,7 @@ import org.junit.Test;
  **/
 public class SmokeTest {
 
-	private final String protocol = "altdb";
+	private final String protocol = "xmldb";
 	private final String tmp = System.getProperty("java.io.tmpdir");
 
 	public static Class<?> getSpecifications() {
@@ -441,7 +441,7 @@ public class SmokeTest {
 					"INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value5', 'value6', 6)");
 			Assert.assertEquals("Insert returned a number != 1", 1, count4);
 
-			final boolean result2 = statement.execute("ALTER TABLE table_name13 ADD COLUMN column_name4 date");
+			final boolean result2 = statement.execute("ALTER TABLE table_name13 ADD column_name4 date");
 			Assert.assertFalse("Wrong return for ALTER TABLE", result2);
 
 			final boolean result3 = statement.execute("SELECT column_name4 FROM table_name13 WHERE coluMN_NAME2 = 5");
