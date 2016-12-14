@@ -12,7 +12,8 @@ import jdbc.connections.DBConnection;
 
 public class ConnectionTests {
 
-	DBConnection connection;
+	private DBConnection connection;
+
 	@Before
 	public void setUp() throws Exception {
 		connection = new DBConnection("jdbc:altdb://localhost", "");
@@ -51,5 +52,4 @@ public class ConnectionTests {
 			Assert.fail();
 		}
 	}
-
 }

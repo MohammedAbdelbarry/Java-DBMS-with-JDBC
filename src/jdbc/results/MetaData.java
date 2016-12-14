@@ -52,16 +52,16 @@ public class MetaData implements ResultSetMetaData {
 	 * @see jdbc.sql.ResultSetMetaData.ResultSetMetaData#getColumnLabel(int)
 	 */
 	@Override
-	public String getColumnLabel(final int column) {
-		return columnNames.get(column);
+	public String getColumnLabel(int column) {
+		return columnNames.get(--column);
 	}
 
 	/**
 	 * @see jdbc.sql.ResultSetMetaData.ResultSetMetaData#getColumnName(int)
 	 */
 	@Override
-	public String getColumnName(final int column) {
-		return columnNames.get(column);
+	public String getColumnName(int column) {
+		return columnNames.get(--column);
 	}
 
 	/**
@@ -73,8 +73,8 @@ public class MetaData implements ResultSetMetaData {
 	}
 
 	@Override
-	public int getColumnType(final int column) throws SQLException {
-		final String columnName = columnNames.get(column);
+	public int getColumnType(int column) throws SQLException {
+		final String columnName = columnNames.get(--column);
 		return columnTypes.get(columnName);
 
 	}
