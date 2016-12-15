@@ -13,7 +13,6 @@ import java.util.Properties;
 import java.util.Scanner;
 
 import jdbms.sql.data.query.PrettyPrinter;
-import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.parsing.expressions.util.StringModifier;
 import jdbms.sql.parsing.parser.ParserMain;
 import jdbms.sql.util.HelperClass;
@@ -22,6 +21,8 @@ public class JDBCMain {
 	private static final String DATA_DIRECTORY
 	= "Data";
 	private static final String AS_NULL = "";
+	private static final String SYNTAX_ERROR
+	= "Syntax Error";
 	static {
 		try {
 			Class.forName("jdbc.drivers.DBDriver");
@@ -68,13 +69,13 @@ public class JDBCMain {
 		try {
 			connection = driver.connect(url, info);
 		} catch (final SQLException e) {
-			//print failed to connect
+			printError("Failed to Connect to Database");
 		}
 		Statement statement = null;
 		try {
 			statement = connection.createStatement();
 		} catch (final SQLException e1) {
-			//print internal error
+			printError("Failed to Create Statement");
 		}
 		while (true) {
 			System.out.printf("sql> ");
@@ -108,7 +109,7 @@ public class JDBCMain {
 				}
 			}
 			if (invalid) {
-				ErrorHandler.printSyntaxError();
+				printError(SYNTAX_ERROR);
 				continue;
 			}
 			try {
