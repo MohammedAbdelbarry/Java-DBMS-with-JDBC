@@ -42,10 +42,10 @@ import jdbms.sql.util.HelperClass;
 public class DatabaseTests {
 
 	private SQLData data;
-	private String protocol;
+	//private String protocol;
 	@Before
 	public void setUp() throws Exception {
-		protocol = "xmldb";
+		//protocol = "xmldb";
 		data = new SQLData();
 		HelperClass.registerInitialStatements();
 	}
@@ -141,7 +141,7 @@ public class DatabaseTests {
 			expected.add(values2);
 			Assert.assertEquals(cols, output.getColumns());
 			Assert.assertEquals(expected, actual);
- 		} catch (ColumnNotFoundException | TypeMismatchException | TableNotFoundException | ColumnAlreadyExistsException
+		} catch (ColumnNotFoundException | TypeMismatchException | TableNotFoundException | ColumnAlreadyExistsException
 				| RepeatedColumnException | ColumnListTooLargeException | ValueListTooLargeException
 				| ValueListTooSmallException | InvalidDateFormatException | IOException e) {
 			Assert.fail("False output");
@@ -219,21 +219,21 @@ public class DatabaseTests {
 	}
 	@Test
 	public void test9F_DeleteFrom() {
-//		try {
-//			setActiveDatabase("college");
-//			DeletionParameters deleteParameters = new DeletionParameters();
-//			deleteParameters.setTableName("Students");
-//			InputParametersContainer parameter = new InputParametersContainer();
-//			parameter.setTableName("Students");
-//			BooleanExpression condition = new EqualsExpression(parameter);
-//			deleteParameters.setCondition(condition);
-//			data.deleteFrom(deleteParameters);
-//		} catch (ColumnNotFoundException | TypeMismatchException | TableNotFoundException | ColumnAlreadyExistsException
-//				| RepeatedColumnException | ColumnListTooLargeException | ValueListTooLargeException
-//				| ValueListTooSmallException | InvalidDateFormatException | IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		//		try {
+		//			setActiveDatabase("college");
+		//			DeletionParameters deleteParameters = new DeletionParameters();
+		//			deleteParameters.setTableName("Students");
+		//			InputParametersContainer parameter = new InputParametersContainer();
+		//			parameter.setTableName("Students");
+		//			BooleanExpression condition = new EqualsExpression(parameter);
+		//			deleteParameters.setCondition(condition);
+		//			data.deleteFrom(deleteParameters);
+		//		} catch (ColumnNotFoundException | TypeMismatchException | TableNotFoundException | ColumnAlreadyExistsException
+		//				| RepeatedColumnException | ColumnListTooLargeException | ValueListTooLargeException
+		//				| ValueListTooSmallException | InvalidDateFormatException | IOException e) {
+		//			// TODO Auto-generated catch block
+		//			e.printStackTrace();
+		//		}
 	}
 
 	@Test
@@ -294,7 +294,7 @@ public class DatabaseTests {
 		final ArrayList<ColumnIdentifier> columns = new ArrayList<>();
 		columns.add(new ColumnIdentifier("ID", "INTEGER"));
 		columns.add(new ColumnIdentifier("Name", "VARCHAR"));
- 		return columns;
+		return columns;
 	}
 
 	private void setActiveDatabase(final String databaseName) {
