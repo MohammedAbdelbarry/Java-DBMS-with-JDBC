@@ -46,8 +46,8 @@ public class JSONReader implements FileReader {
 		final Gson gson = new GsonBuilder().registerTypeAdapter(TableColumn.class,
 				new TableColumnDeserializier()).create();
 		final File jsonFile = new File(path
-				+ databaseName + File.separator
-				+ tableName + JSON_EXTENSION);
+				+ databaseName.toLowerCase() + File.separator
+				+ tableName.toLowerCase() + JSON_EXTENSION);
 		final BufferedReader reader = new BufferedReader(new java.io.FileReader(jsonFile));
 		final StringBuilder json = new StringBuilder();
 		String line = "";

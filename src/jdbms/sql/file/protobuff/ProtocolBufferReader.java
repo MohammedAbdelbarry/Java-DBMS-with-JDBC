@@ -38,8 +38,8 @@ public class ProtocolBufferReader implements FileReader{
 			ValueListTooSmallException, TypeMismatchException,
 			InvalidDateFormatException, IOException {
 		final File protoBuffFile = new File(path
-				+ databaseName + File.separator
-				+ tableName + PROTOCOL_BUFFER_EXTENSION);
+				+ databaseName.toLowerCase() + File.separator
+				+ tableName.toLowerCase() + PROTOCOL_BUFFER_EXTENSION);
 		final DBTable protoTable = DBTable.
 				parseFrom(new FileInputStream(protoBuffFile));
 		return createTableObject(protoTable);

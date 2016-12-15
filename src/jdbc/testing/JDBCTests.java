@@ -1,7 +1,5 @@
 package jdbc.testing;
 
-import static org.junit.Assert.fail;
-
 import java.io.File;
 import java.sql.Connection;
 import java.sql.Driver;
@@ -14,7 +12,6 @@ import java.util.Properties;
 import org.junit.Assert;
 import org.junit.Test;
 
-import jdbc.TestRunner;
 import jdbc.drivers.DBDriver;
 import jdbc.results.DataResultSet;
 
@@ -27,7 +24,7 @@ public class JDBCTests {
 	}
 
 	private Connection createUseDatabase(final String databaseName) throws SQLException {
-		final Driver driver = (DBDriver) TestRunner.getImplementationInstance();
+		final Driver driver = new DBDriver();
 		final Properties info = new Properties();
 		final File dbDir = new File(tmp + "/jdbc/" + Math.round((((float) Math.random()) * 100000)));
 		info.put("path", dbDir.getAbsoluteFile());
@@ -56,7 +53,7 @@ public class JDBCTests {
 			Assert.assertEquals("Failed to get Correct Float Value",
 					90.5, resultSet.getFloat("Grade"), 0.0001);
 		} catch (final SQLException e) {
-			TestRunner.fail("Failed to select all from table", e);
+			e.printStackTrace();
 		}
 		connection.close();
 	}
@@ -85,7 +82,7 @@ public class JDBCTests {
 			}
 			Assert.assertEquals("Invalid Result Set Size", 3, numberOfMatches);
 		} catch (final SQLException e) {
-			TestRunner.fail("Failed to select conditional from table", e);
+			e.printStackTrace();
 		}
 		connection.close();
 	}
@@ -113,7 +110,7 @@ public class JDBCTests {
 			}
 			Assert.assertEquals("Invalid Result Set Size", 3, rows);
 		} catch (final SQLException e) {
-			TestRunner.fail("Failed to select from table, testing date time", e);
+			e.printStackTrace();
 		}
 		connection.close();
 	}
@@ -151,7 +148,7 @@ public class JDBCTests {
 			Assert.assertTrue(resultSet.getMetaData().
 					getColumnLabel(1).equalsIgnoreCase("birth"));
 		} catch (final SQLException e) {
-			TestRunner.fail("Failed to select from table, testing date time", e);
+			e.printStackTrace();
 		}
 		connection.close();
 	}
@@ -187,7 +184,7 @@ public class JDBCTests {
 			}
 
 		} catch (final SQLException e) {
-			TestRunner.fail("Failed to select from table, testing date time", e);
+			e.printStackTrace();
 		}
 		connection.close();
 	}
@@ -200,7 +197,7 @@ public class JDBCTests {
 			statement.execute("CREATE TABLE table_name1(column_name1 varchar, column_name2 int, column_name3 date)");
 			statement.close();
 		} catch (final Throwable e) {
-			TestRunner.fail("Failed to create table", e);
+			e.printStackTrace();
 		}
 		try {
 			final Statement statement = connection.createStatement();
@@ -209,7 +206,7 @@ public class JDBCTests {
 		} catch (final SQLException e) {
 
 		} catch (final Throwable e) {
-			TestRunner.fail("Invalid Exception thrown", e);
+			e.printStackTrace();
 		}
 
 		try {
@@ -218,8 +215,7 @@ public class JDBCTests {
 			Assert.fail("Create invalid table succeed");
 		} catch (final SQLException e) {
 		} catch (final Throwable e) {
-			TestRunner.fail("Invalid Exception thrown", e);
-			fail("kkg");
+			e.printStackTrace();
 		}
 		connection.close();
 	}
@@ -234,7 +230,7 @@ public class JDBCTests {
 			Assert.assertEquals("Insert returned a number != 1", 1, count);
 			statement.close();
 		} catch (final Throwable e) {
-			TestRunner.fail("Failed to insert into table", e);
+			e.printStackTrace();
 		}
 		connection.close();
 	}
@@ -250,7 +246,7 @@ public class JDBCTests {
 			Assert.assertEquals("Insert returned a number != 1", 1, count);
 			statement.close();
 		} catch (final Throwable e) {
-			TestRunner.fail("Failed to insert into table", e);
+			e.printStackTrace();
 		}
 		connection.close();
 	}
@@ -267,7 +263,7 @@ public class JDBCTests {
 			statement.close();
 		} catch (final SQLException e) {
 		} catch (final Throwable e) {
-			TestRunner.fail("Invalid Exception thrown", e);
+			e.printStackTrace();
 		}
 		connection.close();
 	}
@@ -292,7 +288,7 @@ public class JDBCTests {
 			Assert.assertEquals("Updated returned wrong number", count1 + count2 + count3, count4);
 			statement.close();
 		} catch (final Throwable e) {
-			TestRunner.fail("Failed to update table", e);
+			e.printStackTrace();
 		}
 		connection.close();
 	}
@@ -323,7 +319,7 @@ public class JDBCTests {
 
 			statement.close();
 		} catch (final Throwable e) {
-			TestRunner.fail("Failed to update table", e);
+			e.printStackTrace();
 		}
 		connection.close();
 	}
@@ -339,7 +335,7 @@ public class JDBCTests {
 			Assert.assertEquals("Updated empty table retruned non-zero count!", 0, count);
 			statement.close();
 		} catch (final Throwable e) {
-			TestRunner.fail("Failed to update table", e);
+			e.printStackTrace();
 		}
 
 		try {
@@ -350,7 +346,7 @@ public class JDBCTests {
 			statement.close();
 		} catch (final SQLException e) {
 		} catch (final Throwable e) {
-			TestRunner.fail("Invalid exception was thrown", e);
+			e.printStackTrace();
 		}
 		connection.close();
 	}
@@ -374,7 +370,7 @@ public class JDBCTests {
 			Assert.assertEquals("Delete returned wrong number", 3, count4);
 			statement.close();
 		} catch (final Throwable e) {
-			TestRunner.fail("Failed to delete from table", e);
+			e.printStackTrace();
 		}
 		connection.close();
 	}
@@ -398,7 +394,7 @@ public class JDBCTests {
 			Assert.assertEquals("Delete returned wrong number", 2, count4);
 			statement.close();
 		} catch (final Throwable e) {
-			TestRunner.fail("Failed to delete from table", e);
+			e.printStackTrace();
 		}
 		connection.close();
 	}
@@ -431,7 +427,7 @@ public class JDBCTests {
 			Assert.assertEquals("Wrong number of columns", 3, result.getMetaData().getColumnCount());
 			statement.close();
 		} catch (final Throwable e) {
-			TestRunner.fail("Failed to select from table", e);
+			e.printStackTrace();
 		}
 		connection.close();
 	}
@@ -464,7 +460,7 @@ public class JDBCTests {
 			Assert.assertEquals("Wrong number of columns", 1, result.getMetaData().getColumnCount());
 			statement.close();
 		} catch (final Throwable e) {
-			TestRunner.fail("Failed to select from table", e);
+			e.printStackTrace();
 		}
 		connection.close();
 	}
@@ -497,7 +493,7 @@ public class JDBCTests {
 
 			statement.close();
 		} catch (final Throwable e) {
-			TestRunner.fail("Failed to select from table", e);
+			e.printStackTrace();
 		}
 		connection.close();
 	}
@@ -543,7 +539,7 @@ public class JDBCTests {
 
 			statement.close();
 		} catch (final Throwable e) {
-			TestRunner.fail("Failed to select distinct from table", e);
+			e.printStackTrace();
 		}
 		connection.close();
 	}
@@ -587,7 +583,7 @@ public class JDBCTests {
 
 			statement.close();
 		} catch (final Throwable e) {
-			TestRunner.fail("Failed to test ALTER TABLE from table", e);
+			e.printStackTrace();
 		}
 		connection.close();
 	}
@@ -637,7 +633,7 @@ public class JDBCTests {
 
 			statement.close();
 		} catch (final Throwable e) {
-			TestRunner.fail("Failed to test ORDER By", e);
+			e.printStackTrace();
 		}
 		connection.close();
 	}
