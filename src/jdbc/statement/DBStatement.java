@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLWarning;
 import java.sql.Statement;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -164,7 +165,7 @@ public class DBStatement implements Statement {
 				throw new BatchUpdateException("Syntax Error", updateCounts);
 			}
 		}
-		logger.debug("Batch Executed Successfully", updateCounts);
+		logger.debug("Batch Executed Successfully: " + Arrays.toString(updateCounts));
 		return updateCounts;
 	}
 
