@@ -3,15 +3,18 @@ package jdbc.drivers.util;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-public abstract class ProtocolConstantsHelper {
-	private static final String BUNDLE_NAME
+public class ProtocolConstantsHelper {
+	private final String bundleName
 	= "jdbc.drivers.util.protocol-constants";
-	private static final ResourceBundle RESOURCE_BUNDLE
-	= ResourceBundle.getBundle(BUNDLE_NAME);
+	private final ResourceBundle resourceBundle;
+	protected ProtocolConstantsHelper() {
+		resourceBundle
+		= ResourceBundle.getBundle(bundleName);
+	}
 
-	public static String getString(final String key) {
+	protected String getString(final String key) {
 		try {
-			return RESOURCE_BUNDLE.getString(key);
+			return resourceBundle.getString(key);
 		} catch (final MissingResourceException e) {
 			return '!' + key + '!';
 		}

@@ -1,3 +1,4 @@
+package jdbms.sql.file.xml.testing;
 //package jdbms.sql.data.xml.testing;
 //
 //import static org.junit.Assert.*;

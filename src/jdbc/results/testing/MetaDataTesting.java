@@ -15,7 +15,7 @@ public class MetaDataTesting {
 
 	@Test
 	public void testColumnCount() {
-		MetaData metaData = new MetaData();
+		final MetaData metaData = new MetaData();
 
 		constructTable(metaData);
 
@@ -24,31 +24,31 @@ public class MetaDataTesting {
 
 	@Test
 	public void testColumnLabels() {
-		MetaData metaData = new MetaData();
+		final MetaData metaData = new MetaData();
 
 		constructTable(metaData);
 
 		assertEquals(metaData.getColumnLabel(1), "ID");
 		assertEquals(metaData.getColumnLabel(2), "Names");
 		assertEquals(metaData.getColumnLabel(3), "Grades");
-		assertEquals(metaData.getColumnLabel(4), "ExamDatee");
+		assertEquals(metaData.getColumnLabel(4), "ExamDate");
 	}
 
 	@Test
 	public void testColumnNames() {
-		MetaData metaData = new MetaData();
+		final MetaData metaData = new MetaData();
 
 		constructTable(metaData);
 
 		assertEquals(metaData.getColumnName(1), "ID");
 		assertEquals(metaData.getColumnName(2), "Names");
 		assertEquals(metaData.getColumnName(3), "Grades");
-		assertEquals(metaData.getColumnName(4), "ExamDatee");
+		assertEquals(metaData.getColumnName(4), "ExamDate");
 	}
 
 	@Test
 	public void testTableName() {
-		MetaData metaData = new MetaData();
+		final MetaData metaData = new MetaData();
 
 		constructTable(metaData);
 
@@ -60,17 +60,17 @@ public class MetaDataTesting {
 
 	}
 
-	private void constructTable(MetaData metaData) {
+	private void constructTable(final MetaData metaData) {
 
-		String tableName = "Students";
+		final String tableName = "Students";
 
-		ArrayList<String> columns = new ArrayList<>();
+		final ArrayList<String> columns = new ArrayList<>();
 		columns.add("ID");
 		columns.add("Names");
 		columns.add("Grades");
 		columns.add("ExamDate");
 
-		Map<String, Integer> columnTypes = new HashMap<>();
+		final Map<String, Integer> columnTypes = new HashMap<>();
 		columnTypes.put(columns.get(0), Types.INTEGER);
 		columnTypes.put(columns.get(1), Types.VARCHAR);
 		columnTypes.put(columns.get(2), Types.VARCHAR);

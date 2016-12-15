@@ -4,23 +4,43 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class ProtocolConstants {
+public class ProtocolConstants {
 
-	public static final List<String> SUPPORTED_PROTOCOLS =
-			Collections.unmodifiableList(
-					Arrays.asList(
-							ProtocolConstantsHelper
-							.getString("ProtocolConstants."
-									+ "XMLProtocol"),
-							ProtocolConstantsHelper.
-							getString(
-									"ProtocolConstants."
-											+ "AlternativeProtocols")));
-	public static final String URL_PREFIX =
-			ProtocolConstantsHelper.getString(
-					"ProtocolConstants.ProtocolPrefix");
-	public static final String URL_SUFFIX =
-			ProtocolConstantsHelper.getString(
-					"ProtocolConstants.LocalHost");
-	public static final char SEPARATOR = ':';
+	private List<String> supportedProtocols;
+	private String urlPrefix;
+	private String urlSuffix;
+	private char separator = ':';
+	public ProtocolConstants() {
+		ProtocolConstantsHelper helper
+				= new ProtocolConstantsHelper();
+		supportedProtocols =
+				Collections.unmodifiableList(Arrays.asList(
+								helper.getString(
+										"ProtocolConstants."
+												+ "XMLProtocol"),
+								helper.getString(
+										"ProtocolConstants."
+												+ "AlternativeProtocols")));
+		urlSuffix =
+				helper.getString(
+						"ProtocolConstants.LocalHost");
+		urlPrefix =
+				helper.getString(
+						"ProtocolConstants.ProtocolPrefix");
+	}
+	public List<String> getSupportedProtocols() {
+		return supportedProtocols;
+	}
+
+	public String getUrlPrefix() {
+		return urlPrefix;
+	}
+
+	public String getUrlSuffix() {
+		return urlSuffix;
+	}
+
+	public char getSeparator() {
+		return separator;
+	}
 }

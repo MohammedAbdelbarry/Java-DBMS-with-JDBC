@@ -1,7 +1,6 @@
 package jdbms.sql;
 
 import java.sql.SQLException;
-import java.util.Formatter;
 
 import jdbms.sql.data.SQLData;
 import jdbms.sql.data.query.SelectQueryOutput;
@@ -27,24 +26,24 @@ import jdbms.sql.parsing.statements.util.InitialStatementFactory;
 import jdbms.sql.util.HelperClass;
 
 public class DBMSConnector {
-	static {
-		HelperClass.registerInitialStatements();
-	}
+	private final ErrorMessages errorMessages;
 	private SQLData data;
 	public DBMSConnector(final String fileType, final String filePath)
 			throws SQLException {
+		HelperClass.registerInitialStatements();
 		try {
 			data = new SQLData(fileType, filePath);
 		} catch (final FileFormatNotSupportedException e) {
 			throw new SQLException(e.getMessage());
 		}
+		errorMessages = new ErrorMessages();
 	}
 	public int executeUpdate(final String sql)
 			throws SQLException {
 		final InitialStatement statement = parse(sql);
 		if (statement.getNumberOfUpdates() == -1) {
-			throw new SQLException(String.format(ErrorMessages.
-					STATEMENT_IS_NOT, sql, "a Query"));
+			throw new SQLException(String.format(errorMessages.
+					getStatementIsNot(), sql, "a Query"));
 		}
 		act(statement);
 		return statement.getNumberOfUpdates();
@@ -53,8 +52,8 @@ public class DBMSConnector {
 			throws SQLException {
 		final InitialStatement statement = parse(sql);
 		if (statement.getNumberOfUpdates() != -1) {
-			throw new SQLException(String.format(ErrorMessages.
-					STATEMENT_IS_NOT, sql, "an Update"));
+			throw new SQLException(String.format(errorMessages.
+					getStatementIsNot(), sql, "an Update"));
 		}
 		act(statement);
 		return statement.getQueryOutput();
@@ -89,15 +88,15 @@ public class DBMSConnector {
 		}
 		final String normalizedInput = normalizeInput(sql);
 		if (normalizedInput == null) {
-			throw new SQLException(ErrorMessages
-					.SYNTAX_ERROR);
+			throw new SQLException(errorMessages
+					.getSyntaxError());
 		}
 		for (final String key : InitialStatementFactory.
 				getInstance().getRegisteredStatements()) {
 			final InitialStatement statement =
 					InitialStatementFactory.
 					getInstance().createStatement(key);
-			boolean interpreted = false;
+			boolean interpreted;
 			try {
 				interpreted = statement.interpret(normalizedInput);
 			} catch (final Exception e) {
@@ -118,7 +117,7 @@ public class DBMSConnector {
 			return normalizedOutput;
 		} catch (final Exception e) {
 			throw new SQLException(
-					ErrorMessages.SYNTAX_ERROR);
+					errorMessages.getSyntaxError());
 		}
 	}
 	private void act(final InitialStatement statement)
@@ -127,57 +126,57 @@ public class DBMSConnector {
 			statement.act(data);
 		} catch (final ColumnNotFoundException e) {
 			throw new SQLException(
-					String.format(ErrorMessages.NOT_FOUND,
-					"Column", e.getMessage()), e.getCause());
+					String.format(errorMessages.getNotFound(),
+							"Column", e.getMessage()), e.getCause());
 		} catch (final TypeMismatchException e) {
-			throw new SQLException(ErrorMessages.TYPE_MISMATCH, e);
+			throw new SQLException(errorMessages.getTypeMismatch(), e);
 		} catch (final TableNotFoundException e) {
 			throw new SQLException(String.format(
-					ErrorMessages.NOT_FOUND,
+					errorMessages.getNotFound(),
 					"Table", e.getMessage()), e);
 		} catch (final ColumnAlreadyExistsException e) {
-			throw new SQLException(String.format(ErrorMessages.
-					ALREADY_EXISTS,
+			throw new SQLException(String.format(errorMessages.
+					getAlreadyExists(),
 					"Column", e.getMessage()), e);
 		} catch (final RepeatedColumnException e) {
-			throw new SQLException(ErrorMessages.REPEATED_COLUMNS, e);
+			throw new SQLException(errorMessages.getRepeatedColumns(), e);
 		} catch (final ColumnListTooLargeException e) {
-			throw new SQLException(String.format(ErrorMessages.
-					COLUMN_LIST,
-					ErrorMessages.TOO_LARGE),
+			throw new SQLException(String.format(errorMessages.
+					getColumnList(),
+					errorMessages.getTooLarge()),
 					e);
 		} catch (final ValueListTooLargeException e) {
-			throw new SQLException(String.format(ErrorMessages.
-					VALUE_LIST, ErrorMessages.TOO_SMALL), e);
+			throw new SQLException(String.format(errorMessages.
+					getValueList(), errorMessages.getTooSmall()), e);
 		} catch (final ValueListTooSmallException e) {
-			throw new SQLException(String.format(ErrorMessages.
-					VALUE_LIST, ErrorMessages.TOO_LARGE), e);
+			throw new SQLException(String.format(errorMessages.
+					getValueList(), errorMessages.getTooLarge()), e);
 		} catch (final TableAlreadyExistsException e) {
-			throw new SQLException(String.format(ErrorMessages.
-					ALREADY_EXISTS,
-					"Talbe", e.getMessage()), e);
+			throw new SQLException(String.format(errorMessages.
+					getAlreadyExists(),
+					"Table", e.getMessage()), e);
 		} catch (final DatabaseAlreadyExistsException e) {
-			throw new SQLException(String.format(ErrorMessages.
-					ALREADY_EXISTS,
+			throw new SQLException(String.format(errorMessages.
+					getAlreadyExists(),
 					"Database", e.getMessage()), e);
 		} catch (final DatabaseNotFoundException e) {
 			throw new SQLException(String.format(
-					ErrorMessages.NOT_FOUND,
+					errorMessages.getNotFound(),
 					"Database", e.getMessage()), e);
 		} catch (final FailedToDeleteDatabaseException e) {
-			throw new SQLException(String.format(ErrorMessages.
-					FAILED_TO_DELETE, "Database",
+			throw new SQLException(String.format(errorMessages.
+					getFailedToDelete(), "Database",
 					e.getMessage()), e);
 		} catch (final FailedToDeleteTableException e) {
-			throw new SQLException(String.format(ErrorMessages.
-					FAILED_TO_DELETE, "Table",
+			throw new SQLException(String.format(errorMessages.
+					getFailedToDelete(), "Table",
 					e.getMessage()), e);
 		} catch (final InvalidDateFormatException e) {
-			throw new SQLException(String.format(ErrorMessages.
-					INVALID_DATE,
+			throw new SQLException(String.format(errorMessages.
+					getInvalidDate(),
 					e.getMessage()), e);
 		}  catch (final Exception e) {
-			throw new SQLException(ErrorMessages.INTERNAL_ERROR);
+			throw new SQLException(errorMessages.getInternalError());
 		}
 	}
 }

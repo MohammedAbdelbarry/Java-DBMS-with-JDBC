@@ -29,21 +29,22 @@ public class DBConnection implements Connection {
 	private final DBMSConnector connector;
 	private final ArrayList<DBStatement> statements;
 	private boolean isClosed;
-
+	private final ProtocolConstants constants;
 	public DBConnection(final String url, final String path)
 			throws SQLException {
+		constants = new ProtocolConstants();
 		connector = new DBMSConnector(getProtocolName(url), path);
 		statements = new ArrayList<>();
 		isClosed = false;
 	}
 
 	private String getProtocolName(final String url) {
-		final int start = url.indexOf(ProtocolConstants.SEPARATOR);
+		final int start = url.indexOf(constants.getSeparator());
 		if (start == -1) {
 			return "";
 		}
 		final String subURL = url.substring(start + 1, url.length());
-		return subURL.substring(0, subURL.indexOf(ProtocolConstants.SEPARATOR));
+		return subURL.substring(0, subURL.indexOf(constants.getSeparator()));
 	}
 
 	@Override
@@ -59,8 +60,8 @@ public class DBConnection implements Connection {
 	@Override
 	public void close() throws SQLException {
 		isClosed = true;
-		for (int i = 0; i < statements.size(); i++) {
-			statements.get(i).close();
+		for (final DBStatement statement : statements) {
+			statement.close();
 		}
 		statements.clear();
 	}

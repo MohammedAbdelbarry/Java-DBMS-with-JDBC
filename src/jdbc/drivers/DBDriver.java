@@ -17,7 +17,7 @@ import jdbc.drivers.util.ProtocolConstants;
 public class DBDriver implements Driver {
 
 	private final ArrayList<DBConnection> connections;
-
+	private final ProtocolConstants constants;
 	static {
 		try {
 			DriverManager.registerDriver(new DBDriver());
@@ -27,6 +27,7 @@ public class DBDriver implements Driver {
 	}
 	public DBDriver() {
 		connections = new ArrayList<>();
+		constants = new ProtocolConstants();
 	}
 	@Override
 	public boolean acceptsURL(final String url) throws SQLException {
@@ -50,19 +51,19 @@ public class DBDriver implements Driver {
 	}
 
 	private boolean isValidURL(final String url) {
-		if (!url.startsWith(ProtocolConstants.URL_PREFIX)
-				|| !url.endsWith(ProtocolConstants.URL_SUFFIX)) {
+		if (!url.startsWith(constants.getUrlPrefix())
+				|| !url.endsWith(constants.getUrlSuffix())) {
 			return false;
 		} else {
 			final String protocol = url.substring(
-					url.indexOf(ProtocolConstants.SEPARATOR) + 1,
-					url.lastIndexOf(ProtocolConstants.SEPARATOR));
+					url.indexOf(constants.getSeparator()) + 1,
+					url.lastIndexOf(constants.getSeparator()));
 			return isValidProtocol(protocol);
 		}
 	}
 
 	private boolean isValidProtocol(final String protocol) {
-		final boolean exists = ProtocolConstants.SUPPORTED_PROTOCOLS.contains(protocol);
+		final boolean exists = constants.getSupportedProtocols().contains(protocol);
 		return exists;
 	}
 

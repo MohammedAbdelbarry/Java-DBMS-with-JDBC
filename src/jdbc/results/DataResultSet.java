@@ -221,7 +221,9 @@ public class DataResultSet implements ResultSet {
 		if (isClosed) {
 			throw new SQLException();
 		}
-
+		if (columnLabel == null) {
+			throw new SQLException();
+		}
 		int columnIndex = findColumn(columnLabel);
 		if (columnIndex < 1 || columnIndex > columnNames.size()
 				|| !checkCursor()) {
@@ -288,7 +290,9 @@ public class DataResultSet implements ResultSet {
 		if (isClosed) {
 			throw new SQLException();
 		}
-
+		if (columnLabel == null) {
+			throw new SQLException();
+		}
 		int columnIndex = findColumn(columnLabel);
 		if (columnIndex < 1 || columnIndex > columnNames.size()
 				|| !checkCursor()) {
@@ -350,7 +354,9 @@ public class DataResultSet implements ResultSet {
 		if (isClosed) {
 			throw new SQLException();
 		}
-
+		if (columnLabel == null) {
+			throw new SQLException();
+		}
 		int columnIndex = findColumn(columnLabel);
 		if (columnIndex < 1 || columnIndex > columnNames.size()
 				|| !checkCursor()) {
@@ -402,7 +408,9 @@ public class DataResultSet implements ResultSet {
 		if (isClosed) {
 			throw new SQLException();
 		}
-
+		if (columnLabel == null) {
+			throw new SQLException();
+		}
 		int columnIndex = findColumn(columnLabel);
 		if (columnIndex < 1 || columnIndex > columnNames.size()
 				|| !checkCursor()) {
@@ -449,8 +457,9 @@ public class DataResultSet implements ResultSet {
 		if (isClosed) {
 			throw new SQLException();
 		}
-
-
+		if (columnLabel == null) {
+			throw new SQLException();
+		}
 		int columnIndex = findColumn(columnLabel);
 		if (columnIndex < 1 || columnIndex > columnNames.size()
 				|| !checkCursor()) {
@@ -640,7 +649,9 @@ public class DataResultSet implements ResultSet {
 		if (isClosed) {
 			throw new SQLException();
 		}
-
+		if (columnLabel == null) {
+			throw new SQLException();
+		}
 		int columnIndex = findColumn(columnLabel);
 		if (columnIndex < 1 || columnIndex > columnNames.size()
 				|| !checkCursor()) {
@@ -692,7 +703,9 @@ public class DataResultSet implements ResultSet {
 		if (isClosed) {
 			throw new SQLException();
 		}
-
+		if (columnLabel == null) {
+			throw new SQLException();
+		}
 		int columnIndex = findColumn(columnLabel);
 		if (columnIndex < 1 || columnIndex > columnNames.size()
 				|| !checkCursor()) {
