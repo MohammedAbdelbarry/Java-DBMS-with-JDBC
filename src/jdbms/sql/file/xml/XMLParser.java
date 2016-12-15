@@ -17,7 +17,6 @@ import org.xml.sax.SAXException;
 
 import jdbms.sql.data.ColumnIdentifier;
 import jdbms.sql.data.Table;
-import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
 import jdbms.sql.exceptions.ColumnNotFoundException;

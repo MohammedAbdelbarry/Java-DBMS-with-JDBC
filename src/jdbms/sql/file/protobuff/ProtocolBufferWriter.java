@@ -1,20 +1,14 @@
-package jdbms.sql.file.json;
+package jdbms.sql.file.protobuff;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
+import java.util.Map;
 
 import jdbms.sql.data.ColumnIdentifier;
 import jdbms.sql.data.Table;
-import jdbms.sql.datatypes.SQLType;
+import jdbms.sql.data.TableColumn;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
 import jdbms.sql.exceptions.ColumnNotFoundException;
@@ -24,15 +18,17 @@ import jdbms.sql.exceptions.TypeMismatchException;
 import jdbms.sql.exceptions.ValueListTooLargeException;
 import jdbms.sql.exceptions.ValueListTooSmallException;
 import jdbms.sql.file.FileWriter;
+import jdbms.sql.file.protobuff.util.TableProtos.DBTable;
 import jdbms.sql.parsing.properties.InsertionParameters;
 import jdbms.sql.parsing.properties.TableCreationParameters;
 import jdbms.sql.parsing.util.Constants;
 import jdbms.sql.util.HelperClass;
 
-public class JSONWriter implements FileWriter {
-	private static final String JSON_EXTENSION
-	= ".json";
-	public JSONWriter() {
+public class ProtocolBufferWriter implements FileWriter {
+	private static final String PROTOCOL_BUFFER_EXTENSION
+	= ".proto";
+
+	public ProtocolBufferWriter() {
 
 	}
 
@@ -40,46 +36,43 @@ public class JSONWriter implements FileWriter {
 	public void create(final Table table,
 			final String databaseName, final String path)
 					throws IOException {
-		final Gson gson = new GsonBuilder()
-				.registerTypeAdapter(SQLType.class,
-						new SQLTypeSerializer())
-				.setPrettyPrinting().create();
-		final String json = gson.toJson(table);
-		final File jsonFile = new File(path
+		final DBTable protoTable = createProtoTable(table);
+		final File protoBuffFile = new File(path
 				+ databaseName + File.separator
 				+ table.getName().toLowerCase()
-				+ JSON_EXTENSION);
-		if (!jsonFile.exists()) {
-			jsonFile.createNewFile();
+				+ PROTOCOL_BUFFER_EXTENSION);
+		if (!protoBuffFile.exists()) {
+			protoBuffFile.createNewFile();
 		}
 		final FileOutputStream outputStream
-		= new FileOutputStream(jsonFile);
-		outputStream.write(json.getBytes());
+		= new FileOutputStream(protoBuffFile);
+		protoTable.writeTo(outputStream);
 		outputStream.close();
 	}
-	private class SQLTypeSerializer
-	implements JsonSerializer<SQLType<?>> {
 
-		@Override
-		public JsonElement serialize(final SQLType<?> sqlValue,
-				final Type type,
-				final JsonSerializationContext jsonSerializationContext) {
-			final JsonElement element
-			= jsonSerializationContext.serialize(
-					sqlValue, sqlValue.getClass());
-			String value = sqlValue.getStringValue();
-			if (value.equals("")) {
-				value = Constants.NULL_INDICATOR;
+	private DBTable createProtoTable(final Table table) {
+		final DBTable.Builder protoTableBuilder = DBTable.newBuilder();
+		protoTableBuilder.setNumberOfRows(table.getNumberOfRows());
+		protoTableBuilder.setTableName(table.getName());
+		final Map<String, TableColumn> tableColumns = table.getColumns();
+		for (final String columnName : tableColumns.keySet()) {
+			final DBTable.TableColumn.
+			Builder protoColumn = DBTable.TableColumn.newBuilder();
+			final TableColumn currColumn = tableColumns.get(columnName);
+			protoColumn.setColumnName(currColumn.getColumnName());
+			protoColumn.setColumnType(currColumn.getColumnDataType());
+			for (String currValue : currColumn.getValues()) {
+				if (currValue.equals("")) {
+					currValue = Constants.NULL_INDICATOR;
+				}
+				protoColumn.addValues(currValue);
 			}
-			element.getAsJsonObject().addProperty("value", value);
-			return element;
+			protoTableBuilder.addTableColumns(protoColumn);
 		}
+		return protoTableBuilder.build();
 	}
-	public static void main(final String[] args) throws ColumnAlreadyExistsException,
-	InvalidDateFormatException, RepeatedColumnException,
-	ColumnListTooLargeException, ColumnNotFoundException,
-	ValueListTooLargeException, ValueListTooSmallException,
-	TypeMismatchException, IOException {
+
+	public static void main(final String[] args) throws IOException, ColumnAlreadyExistsException, InvalidDateFormatException, RepeatedColumnException, ColumnListTooLargeException, ColumnNotFoundException, ValueListTooLargeException, ValueListTooSmallException, TypeMismatchException {
 		final TableCreationParameters createTableParameters = new TableCreationParameters();
 		HelperClass.registerInitialStatements();
 		createTableParameters.setTableName("horbIES");
@@ -93,7 +86,7 @@ public class JSONWriter implements FileWriter {
 		final InsertionParameters insertParameters = new InsertionParameters();
 		insertParameters.setTableName("horbIES");
 		final ArrayList<String> rowValues = new ArrayList<>();
-		rowValues.add("\"gss\"");
+		rowValues.add("null");
 		rowValues.add("3.5");
 		rowValues.add("3");
 		rowValues.add("'1996-12-12'");
@@ -101,11 +94,11 @@ public class JSONWriter implements FileWriter {
 		values.add(rowValues);
 		insertParameters.setValues(values);
 		table.insertRows(insertParameters);
-		final JSONWriter obj = new JSONWriter();
-		obj.create(table, ".","");
-		final JSONReader reader = new JSONReader();
+		final ProtocolBufferWriter writer = new ProtocolBufferWriter();
+		writer.create(table, ".","");
+		final ProtocolBufferReader reader = new ProtocolBufferReader();
 		final Table newTable = reader.parse(table.getName(), ".", "");
 		System.out.println(newTable.getName());
 		System.out.println(newTable.getColumns().get("F").get(0).getStringValue());
-	}
+    }
 }

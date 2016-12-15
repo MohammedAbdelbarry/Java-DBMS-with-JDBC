@@ -1,0 +1,16 @@
+package jdbms;
+
+option java_package = "jdbms.sql.file.protobuff.util";
+option java_outer_classname = "TableProtos";
+
+message DBTable {
+	optional string tableName = 1;
+	optional int32 numberOfRows = 2;
+	
+	message TableColumn {
+		optional string columnName = 1;
+		optional string columnType = 2;
+		repeated string values = 3;
+	}
+	repeated TableColumn tableColumns = 3;
+}

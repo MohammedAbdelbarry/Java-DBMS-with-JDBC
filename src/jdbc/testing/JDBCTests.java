@@ -1,5 +1,7 @@
 package jdbc.testing;
 
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.sql.Connection;
 import java.sql.Driver;
@@ -217,6 +219,7 @@ public class JDBCTests {
 		} catch (final SQLException e) {
 		} catch (final Throwable e) {
 			TestRunner.fail("Invalid Exception thrown", e);
+			fail("kkg");
 		}
 		connection.close();
 	}

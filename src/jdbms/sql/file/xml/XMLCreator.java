@@ -23,7 +23,6 @@ import jdbms.sql.data.ColumnIdentifier;
 import jdbms.sql.data.Table;
 import jdbms.sql.data.TableColumn;
 import jdbms.sql.data.TableIdentifier;
-import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.file.FileWriter;
 import jdbms.sql.parsing.util.Constants;
 
