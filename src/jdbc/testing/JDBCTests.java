@@ -16,7 +16,7 @@ import jdbc.drivers.DBDriver;
 import jdbc.results.DataResultSet;
 
 public class JDBCTests {
-	private final String protocol = "altdb";
+	private final String protocol = "pbdb";
 	private final String tmp = System.getProperty("java.io.tmpdir");
 
 	public static Class<?> getSpecifications() {
@@ -405,7 +405,7 @@ public class JDBCTests {
 		try {
 			final Statement statement = connection.createStatement();
 			statement
-					.execute("CREATE TABLE table_name12(column_name1 varchar, column_name2 int, column_name3 varchar)");
+			.execute("CREATE TABLE table_name12(column_name1 varchar, column_name2 int, column_name3 varchar)");
 			final int count1 = statement.executeUpdate(
 					"INSERT INTO table_name12(column_NAME1, COLUMN_name3, column_name2) VALUES ('value1', 'value3', 4)");
 			Assert.assertEquals("Insert returned a number != 1", 1, count1);
@@ -420,8 +420,9 @@ public class JDBCTests {
 			Assert.assertEquals("Insert returned a number != 1", 1, count4);
 			final ResultSet result = statement.executeQuery("SELECT * From table_name12");
 			int rows = 0;
-			while (result.next())
+			while (result.next()) {
 				rows++;
+			}
 			Assert.assertNotNull("Null result retruned", result);
 			Assert.assertEquals("Wrong number of rows", 4, rows);
 			Assert.assertEquals("Wrong number of columns", 3, result.getMetaData().getColumnCount());
@@ -438,7 +439,7 @@ public class JDBCTests {
 		try {
 			final Statement statement = connection.createStatement();
 			statement
-					.execute("CREATE TABLE table_name13(column_name1 varchar, column_name2 int, column_name3 varchar)");
+			.execute("CREATE TABLE table_name13(column_name1 varchar, column_name2 int, column_name3 varchar)");
 			final int count1 = statement.executeUpdate(
 					"INSERT INTO table_name13(column_NAME1, COLUMN_name3, column_name2) VALUES ('value1', 'value3', 4)");
 			Assert.assertEquals("Insert returned a number != 1", 1, count1);
@@ -453,8 +454,9 @@ public class JDBCTests {
 			Assert.assertEquals("Insert returned a number != 1", 1, count4);
 			final ResultSet result = statement.executeQuery("SELECT column_name1 FROM table_name13 WHERE coluMN_NAME2 < 5");
 			int rows = 0;
-			while (result.next())
+			while (result.next()) {
 				rows++;
+			}
 			Assert.assertNotNull("Null result retruned", result);
 			Assert.assertEquals("Wrong number of rows", 2, rows);
 			Assert.assertEquals("Wrong number of columns", 1, result.getMetaData().getColumnCount());
@@ -471,7 +473,7 @@ public class JDBCTests {
 		try {
 			final Statement statement = connection.createStatement();
 			statement
-					.execute("CREATE TABLE table_name13(column_name1 varchar, column_name2 int, column_name3 varchar)");
+			.execute("CREATE TABLE table_name13(column_name1 varchar, column_name2 int, column_name3 varchar)");
 			final int count1 = statement.executeUpdate(
 					"INSERT INTO table_name13(column_NAME1, COLUMN_name3, column_name2) VALUES ('value1', 'value3', 4)");
 			Assert.assertEquals("Insert returned a number != 1", 1, count1);
@@ -504,7 +506,7 @@ public class JDBCTests {
 		try {
 			final Statement statement = connection.createStatement();
 			statement
-					.execute("CREATE TABLE table_name13(column_name1 varchar, column_name2 int, column_name3 varchar)");
+			.execute("CREATE TABLE table_name13(column_name1 varchar, column_name2 int, column_name3 varchar)");
 			final int count1 = statement.executeUpdate(
 					"INSERT INTO table_name13(column_NAME1, COLUMN_name3, column_name2) VALUES ('value1', 'value3', 4)");
 			Assert.assertEquals("Insert returned a number != 1", 1, count1);
@@ -523,8 +525,9 @@ public class JDBCTests {
 			final ResultSet res1 = statement.getResultSet();
 
 			int rows = 0;
-			while (res1.next())
+			while (res1.next()) {
 				rows++;
+			}
 			Assert.assertEquals("Wrong number of rows", 3, rows);
 
 			final boolean result3 = statement
@@ -533,8 +536,9 @@ public class JDBCTests {
 			final ResultSet res2 = statement.getResultSet();
 
 			int rows2 = 0;
-			while (res2.next())
+			while (res2.next()) {
 				rows2++;
+			}
 			Assert.assertEquals("Wrong number of rows", 2, rows2);
 
 			statement.close();
@@ -550,7 +554,7 @@ public class JDBCTests {
 		try {
 			final Statement statement = connection.createStatement();
 			statement
-					.execute("CREATE TABLE table_name13(column_name1 varchar, column_name2 int, column_name3 varchar)");
+			.execute("CREATE TABLE table_name13(column_name1 varchar, column_name2 int, column_name3 varchar)");
 			final int count1 = statement.executeUpdate(
 					"INSERT INTO table_name13(column_NAME1, COLUMN_name3, column_name2) VALUES ('value1', 'value3', 4)");
 			Assert.assertEquals("Insert returned a number != 1", 1, count1);
@@ -571,12 +575,14 @@ public class JDBCTests {
 			Assert.assertTrue("Wrong return for select existing records", result3);
 			final ResultSet res2 = statement.getResultSet();
 			int rows2 = 0;
-			while (res2.next())
+			while (res2.next()) {
 				rows2++;
+			}
 			Assert.assertEquals("Wrong number of rows", 1, rows2);
 
-			while (res2.previous())
+			while (res2.previous()) {
 				;
+			}
 			res2.next();
 
 			Assert.assertNull("Retrieved date is not null", res2.getDate("column_name4"));
@@ -594,7 +600,7 @@ public class JDBCTests {
 		try {
 			final Statement statement = connection.createStatement();
 			statement
-					.execute("CREATE TABLE table_name13(column_name1 varchar, column_name2 int, column_name3 varchar)");
+			.execute("CREATE TABLE table_name13(column_name1 varchar, column_name2 int, column_name3 varchar)");
 			final int count1 = statement.executeUpdate(
 					"INSERT INTO table_name13(column_NAME1, COLUMN_name3, column_name2) VALUES ('value1', 'value3', 4)");
 			Assert.assertEquals("Insert returned a number != 1", 1, count1);
@@ -613,12 +619,14 @@ public class JDBCTests {
 			Assert.assertTrue("Wrong return for select UNION existing records", result3);
 			final ResultSet res2 = statement.getResultSet();
 			int rows2 = 0;
-			while (res2.next())
+			while (res2.next()) {
 				rows2++;
+			}
 			Assert.assertEquals("Wrong number of rows", 4, rows2);
 
-			while (res2.previous())
+			while (res2.previous()) {
 				;
+			}
 
 			res2.next();
 			Assert.assertEquals("Wrong order of rows", 4, res2.getInt("column_name2"));

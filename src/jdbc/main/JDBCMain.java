@@ -18,8 +18,6 @@ import jdbms.sql.parsing.parser.ParserMain;
 import jdbms.sql.util.HelperClass;
 
 public class JDBCMain {
-	private static final String DATA_DIRECTORY
-	= "Data";
 	private static final String AS_NULL = "";
 	private static final String SYNTAX_ERROR
 	= "Syntax Error";
@@ -40,8 +38,7 @@ public class JDBCMain {
 					getProtectionDomain().getCodeSource();
 			final File jarFile = new File(
 					codeSource.getLocation().toURI().getPath());
-			path = jarFile.getParentFile().getPath()
-					+ File.separator + DATA_DIRECTORY;
+			path = jarFile.getParentFile().getPath();
 		} catch (final URISyntaxException e) {
 
 		}
@@ -51,12 +48,11 @@ public class JDBCMain {
 		final Scanner in = new Scanner(System.in);
 		while (!driverInitialized) {
 			System.out.printf("Enter Your Prefered Back-End Parser:\n"
-					+ "xmldb for XML and altdb for JSON\n");
+					+ "xmldb for XML, altdb for JSON and pbdb for Protocol Buffers\n");
 			final String backendParser = in.nextLine();
 			url = "jdbc:" + backendParser
 					+ "://localhost";
 			try {
-
 				driver = DriverManager.getDriver(url);
 				driverInitialized = true;
 			} catch (final SQLException e) {
