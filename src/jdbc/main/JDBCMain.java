@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.util.Properties;
 import java.util.Scanner;
 
+import jdbms.sql.data.query.PrettyPrinter;
 import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.parsing.expressions.util.StringModifier;
 import jdbms.sql.parsing.parser.ParserMain;
@@ -20,6 +21,7 @@ import jdbms.sql.util.HelperClass;
 public class JDBCMain {
 	private static final String DATA_DIRECTORY
 	= "Data";
+	private static final String AS_NULL = "";
 	static {
 		try {
 			Class.forName("jdbc.drivers.DBDriver");
@@ -57,7 +59,7 @@ public class JDBCMain {
 				driver = DriverManager.getDriver(url);
 				driverInitialized = true;
 			} catch (final SQLException e) {
-				System.err.println("The name of the backendParser was wrong");
+				System.out.println("The name of the backendParser was wrong");
 			}
 		}
 		final Properties info = new Properties();
@@ -75,7 +77,7 @@ public class JDBCMain {
 			//print internal error
 		}
 		while (true) {
-			System.out.println("sql> ");
+			System.out.printf("sql> ");
 			final StringBuilder stringBuilder = new StringBuilder();
 			String sql = null;
 			boolean invalid = false;
@@ -97,6 +99,14 @@ public class JDBCMain {
 					break;
 				}
 			}
+			if (sql.equalsIgnoreCase(QUIT)) {
+				try {
+					connection.close();
+					break;
+				} catch (final SQLException e) {
+					break;
+				}
+			}
 			if (invalid) {
 				ErrorHandler.printSyntaxError();
 				continue;
@@ -105,14 +115,68 @@ public class JDBCMain {
 				if (statement.execute(sql)) {
 					System.out.println("Query Completed Successfully");
 					final ResultSet resultSet = statement.getResultSet();
+					printResultSet(resultSet);
+					resultSet.close();
 				} else {
-					System.out.printf("Updated %d Rows Successfully",
-							statement.getUpdateCount());
+					if (statement.getUpdateCount() != -1) {
+						System.out.printf("Updated %d Rows Successfully\n",
+								statement.getUpdateCount());
+					} else {
+						System.out.println("Query Completed Successfully");
+					}
 				}
 			} catch (final SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				printError(e.getMessage());
 			}
 		}
+		in.close();
+	}
+	private static void printError(final String error) {
+		System.out.println("Error: " + error);
+	}
+	private static void printResultSet(final ResultSet resultSet) {
+		try {
+			final PrettyPrinter printer = new PrettyPrinter(System.out, AS_NULL);
+			final int columnCount = resultSet.getMetaData().getColumnCount();
+			final int rowCount = getRowCount(resultSet);
+			final String[][] output = new String[rowCount + 1][columnCount];
+			final String[] columns = new String[columnCount];
+			for (int i = 1 ; i <= columnCount ; i++) {
+				columns[i - 1] = resultSet.getMetaData().getColumnName(i);
+			}
+			output[0] = columns;
+			for (int i = 1 ; i <= rowCount ; i++) {
+				resultSet.next();
+				final String[] row = new String[columnCount];
+				for (int j = 1 ; j <= columnCount ; j++) {
+					final Object cell = resultSet.
+							getObject(resultSet.findColumn(columns[j - 1]));
+					if (cell == null) {
+						row[j - 1] = null;
+					} else {
+						row[j - 1] = cell.toString();
+					}
+				}
+				output[i] = row;
+			}
+			printer.print(output);
+		} catch (final SQLException e) {
+			printError("Encountered an Unexpected Error While Printing");
+		}
+	}
+	private static int getRowCount(final ResultSet resultSet) {
+		try {
+			if (resultSet.last()) {
+				final int result = resultSet.getRow();
+				resultSet.beforeFirst();
+				return result;
+			} else {
+				return 0;
+			}
+
+		} catch (final SQLException e) {
+			printError("Error Getting the Number of Rows");
+		}
+		return 0;
 	}
 }

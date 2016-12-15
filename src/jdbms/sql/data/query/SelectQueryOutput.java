@@ -1,6 +1,8 @@
 package jdbms.sql.data.query;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import jdbms.sql.data.ColumnIdentifier;
 import jdbms.sql.parsing.util.Constants;
@@ -9,6 +11,7 @@ public class SelectQueryOutput {
 	private ArrayList<ColumnIdentifier> columns;
 	private ArrayList<ArrayList<String>> outputRows;
 	private String tableName;
+	private boolean isDistinct = false;
 	private static final String NULL_PLACEHOLDER = "";
 	private static final String NULL_VALUE = "";
 	public SelectQueryOutput() {
@@ -17,6 +20,9 @@ public class SelectQueryOutput {
 	}
 	public void setColumns(final ArrayList<ColumnIdentifier> columns) {
 		this.columns = columns;
+	}
+	public void setDistinct(final boolean distinct) {
+		isDistinct = distinct;
 	}
 	public void setRows(final ArrayList<ArrayList<String>> rows) {
 		outputRows = rows;
@@ -32,9 +38,15 @@ public class SelectQueryOutput {
 				}
 			}
 		}
+		if (isDistinct) {
+			final Set<ArrayList<String>> uniqueRows
+			= new LinkedHashSet<>(outputRows);
+			outputRows = new ArrayList<>(uniqueRows);
+		}
 	}
 	public void printOutput() {
-		final PrettyPrinter printer = new PrettyPrinter(System.out, NULL_PLACEHOLDER);
+		final PrettyPrinter printer
+		= new PrettyPrinter(System.out, NULL_PLACEHOLDER);
 		printer.print(makeArrays());
 	}
 	private String[][] makeArrays() {

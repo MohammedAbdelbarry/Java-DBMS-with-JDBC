@@ -376,7 +376,7 @@ public class Table {
 			addComparators(order, comparatorChain, indices);
 			tableRows.sort(comparatorChain);
 		}
-		ArrayList<ArrayList<String>> rows = new ArrayList<>();
+		final ArrayList<ArrayList<String>> rows = new ArrayList<>();
 		for (int i = 0 ; i < tableRows.size() ; i++) {
 			final ArrayList<String> row = new ArrayList<>();
 			for (int j = 0 ; j < columnNames.size() ; j++) {
@@ -387,11 +387,7 @@ public class Table {
 			}
 			rows.add(row);
 		}
-		if (selectParameters.isDistinct()) {
-			final Set<ArrayList<String>> uniqueRows
-			= new LinkedHashSet<>(rows);
-			rows = new ArrayList<>(uniqueRows);
-		}
+		output.setDistinct(selectParameters.isDistinct());
 		output.setColumns(columnIdentifiers);
 		output.setRows(rows);
 		output.setTableName(tableName);

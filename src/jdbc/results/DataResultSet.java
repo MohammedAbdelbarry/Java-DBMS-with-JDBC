@@ -82,6 +82,17 @@ public class DataResultSet implements ResultSet {
 	}
 
 	@Override
+	public int getRow() throws SQLException {
+		if (isClosed) {
+			throw new SQLException();
+		}
+		if (!checkCursor()) {
+			return 0;
+		}
+		return cursor + 1;
+	}
+
+	@Override
 	public boolean absolute(int row) throws SQLException {
 		if (isClosed) {
 			throw new SQLException();
@@ -1000,11 +1011,6 @@ public class DataResultSet implements ResultSet {
 
 	@Override
 	public Ref getRef(final String arg0) throws SQLException {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public int getRow() throws SQLException {
 		throw new UnsupportedOperationException();
 	}
 
