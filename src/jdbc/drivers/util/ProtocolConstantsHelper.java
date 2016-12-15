@@ -5,7 +5,7 @@ import java.util.ResourceBundle;
 
 public class ProtocolConstantsHelper {
 	private final String bundleName
-	= "jdbc/drivers/util/protocol-constants";
+	= "jdbc.drivers.util.protocol-constants";
 	private final ResourceBundle resourceBundle;
 	protected ProtocolConstantsHelper() {
 		resourceBundle

@@ -53,8 +53,7 @@ public class DBStatement implements Statement {
 	public void addBatch(final String sql) throws SQLException {
 		logger.debug("Requested Adding Batch");
 		if (isClosed) {
-			logger.info(String.format(CLOSED_MESSAGE, "Add Batch"));
-			throw new SQLException(String.format(CLOSED_MESSAGE, "Add Batch"));
+			throwClosedStatementException("Add Batch");
 		}
 		logger.debug("Batch Added: " + sql);
 		commands.add(sql);
@@ -64,7 +63,7 @@ public class DBStatement implements Statement {
 	public void clearBatch() throws SQLException {
 		logger.debug("Requested Clearing Batch");
 		if (isClosed) {
-			throw new SQLException(String.format(CLOSED_MESSAGE, "Clear Batch"));
+			throwClosedStatementException("Clear Batch");
 		}
 		logger.debug("Batch Was Cleared");
 		commands.clear();
@@ -86,16 +85,20 @@ public class DBStatement implements Statement {
 	public boolean execute(final String sql) throws SQLException {
 		logger.debug("Requested Executing SQL Command");
 		if (isClosed) {
-			logger.info(String.format(CLOSED_MESSAGE, "Execute SQL"));
-			throw new SQLException(String.format(CLOSED_MESSAGE,
-					"Execute SQL"));
+			throwClosedStatementException("Execute SQL Command");
 		}
 		if (dbmsConnector.interpretQuery(sql)) {
 			resultSet = new DataResultSet(this);
 			final SelectOutputConverter converter = new SelectOutputConverter();
-			final SelectQueryOutput output = dbmsConnector.executeQuery(sql);
-			logger.debug(String.format(EXECUTED_SUCCESSFULLY, "Query", sql)
-					+ String.format(QUERY_RESULT, output.getData().size()));
+			final SelectQueryOutput output;
+			try {
+				output = dbmsConnector.executeQuery(sql);
+			} catch (final SQLException e) {
+				logger.error("Failed to Execute Query \"" + sql
+						+ "\". Cause: " + e.getMessage(), e);
+				throw e;
+			}
+			logSuccessfulQuery(sql, output.getData().size());
 			converter.convert(resultSet, output);
 			currentResult = -1;
 			if (output.getData().isEmpty()) {
@@ -103,9 +106,14 @@ public class DBStatement implements Statement {
 			}
 			return true;
 		} else if (dbmsConnector.interpretUpdate(sql)) {
-			currentResult = dbmsConnector.executeUpdate(sql);
-			logger.debug(String.format(EXECUTED_SUCCESSFULLY, "Update", sql)
-					+ String.format(UPDATE_RESULT, currentResult));
+			try {
+				currentResult = dbmsConnector.executeUpdate(sql);
+			} catch (final SQLException e) {
+				logger.error("Failed to Execute Update \"" + sql
+						+ "\". Cause: " + e.getMessage(), e);
+				throw e;
+			}
+			logSuccessfulUpdate(sql, currentResult);
 			return false;
 		} else {
 			logger.error(String.format(SYNTAX_ERROR_MESSAGE, sql, "Command"));
@@ -117,27 +125,37 @@ public class DBStatement implements Statement {
 	public int[] executeBatch() throws SQLException {
 		logger.debug("Requested Executing SQL Batch");
 		if (isClosed) {
-			throw new SQLException();
+			throwClosedStatementException("Execute Batch");
 		}
-
 		final int size = commands.size();
 		final int[] updateCounts = new int[size];
 		for (int i = 0; i < size; i++) {
 			final String sql = commands.peek();
 			if (dbmsConnector.interpretUpdate(sql)) {
 				commands.poll();
-				updateCounts[i] = dbmsConnector.executeUpdate(sql);
+				try {
+					updateCounts[i] = dbmsConnector.executeUpdate(sql);
+				} catch (final SQLException e) {
+					logger.error("Failed to Execute Update \"" + sql
+							+ "\". Cause: " + e.getMessage(), e);
+					throw e;
+				}
 				currentResult = updateCounts[i];
-				logger.debug(String.format(EXECUTED_SUCCESSFULLY, "Update", sql)
-						+ String.format(UPDATE_RESULT, currentResult));
+				logSuccessfulUpdate(sql, currentResult);
 			} else if (dbmsConnector.interpretUpdate(commands.peek())) {
 				resultSet = new DataResultSet(this);
 				final SelectOutputConverter converter = new SelectOutputConverter();
 				commands.poll();
-				final SelectQueryOutput output = dbmsConnector.executeQuery(sql);
-				logger.debug(String.format(EXECUTED_SUCCESSFULLY, "Query", sql)
-						+ String.format(QUERY_RESULT, output.getData().size()));
+				final SelectQueryOutput output;
+				try {
+					output = dbmsConnector.executeQuery(sql);
+				} catch (final SQLException e) {
+					logger.error("Failed to Execute Query \"" + sql
+							+ "\". Cause: " + e.getMessage(), e);
+					throw e;
+				}
 				converter.convert(resultSet, output);
+				logSuccessfulQuery(sql, output.getData().size());
 				updateCounts[i] = SUCCESS_NO_INFO;
 				currentResult = -1;
 			} else {
@@ -146,6 +164,7 @@ public class DBStatement implements Statement {
 				throw new BatchUpdateException("Syntax Error", updateCounts);
 			}
 		}
+		logger.debug("Batch Executed Successfully", updateCounts);
 		return updateCounts;
 	}
 
@@ -153,49 +172,57 @@ public class DBStatement implements Statement {
 	public ResultSet executeQuery(final String sql) throws SQLException {
 		logger.debug("Requested Executing SQL Query");
 		if (isClosed) {
-			logger.info(String.format(CLOSED_MESSAGE, "Execute SQL"));
-			throw new SQLException(String.format(CLOSED_MESSAGE,
-					"Execute SQL"));
+			throwClosedStatementException("Execute Query");
 		}
-
 		if (!dbmsConnector.interpretQuery(sql)) {
-			logger.error(String.format(SYNTAX_ERROR_MESSAGE, sql, "Query"));
-			throw new SQLException("Syntax Error");
+			throwSyntaxErrorException("Query", sql);
 		} else {
 			currentResult = -1;
 			resultSet = new DataResultSet(this);
 			final SelectOutputConverter converter = new SelectOutputConverter();
-			final SelectQueryOutput output = dbmsConnector.executeQuery(sql);
+			final SelectQueryOutput output;
+			try {
+				output = dbmsConnector.executeQuery(sql);
+			} catch (final SQLException e) {
+				logger.error("Failed to Execute Query \"" + sql
+						+ "\". Cause: " + e.getMessage(), e);
+				throw e;
+			}
 			converter.convert(resultSet, output);
-			logger.debug(String.format(EXECUTED_SUCCESSFULLY, "Query", sql)
-					+ String.format(QUERY_RESULT, output.getData().size()));
+			logSuccessfulQuery(sql, output.getData().size());
 			return resultSet;
 		}
+		return null;
 	}
 
 	@Override
 	public int executeUpdate(final String sql) throws SQLException {
 		logger.debug("Requested Executing SQL Update");
 		if (isClosed) {
-			throwException("Execute Update");
+			throwClosedStatementException("Execute Update");
 		}
 
 		if (!dbmsConnector.interpretUpdate(sql)) {
-			logger.error(String.format(SYNTAX_ERROR_MESSAGE, sql, "Update"));
-			throw new SQLException("Syntax Error");
+			throwSyntaxErrorException("Update", sql);
 		} else {
-			currentResult = dbmsConnector.executeUpdate(sql);
-			logger.debug(String.format(EXECUTED_SUCCESSFULLY, "Update", sql)
-					+ String.format(UPDATE_RESULT, currentResult));
+			try {
+				currentResult = dbmsConnector.executeUpdate(sql);
+			} catch (final SQLException e) {
+				logger.error("Failed to Execute Update \"" + sql
+						+ "\". Cause: " + e.getMessage(), e);
+				throw e;
+			}
+			logSuccessfulUpdate(sql, currentResult);
 			return currentResult;
 		}
+		return 0;
 	}
 
 	@Override
 	public Connection getConnection() throws SQLException {
 
 		if (isClosed) {
-			throwException("Get Connection");
+			throwClosedStatementException("Get Connection");
 		}
 		return connection;
 	}
@@ -204,7 +231,7 @@ public class DBStatement implements Statement {
 	public ResultSet getResultSet() throws SQLException {
 
 		if (isClosed) {
-			throwException("Get ResultSet");
+			throwClosedStatementException("Get ResultSet");
 		}
 		return this.resultSet;
 	}
@@ -212,7 +239,7 @@ public class DBStatement implements Statement {
 	@Override
 	public int getUpdateCount() throws SQLException {
 		if (isClosed) {
-			throwException("Get Update Count");
+			throwClosedStatementException("Get Update Count");
 		}
 		return currentResult;
 	}
@@ -220,12 +247,24 @@ public class DBStatement implements Statement {
 	public boolean isClosed() throws SQLException {
 		return isClosed;
 	}
-	private void throwException(final String action) throws SQLException {
+	private void throwClosedStatementException(final String action) throws SQLException {
 		logger.info(String.format(CLOSED_MESSAGE, action));
 		throw new SQLException(String.format(CLOSED_MESSAGE,
 				action));
 	}
-
+	private void logSuccessfulQuery(final String sql, final int rows) {
+		logger.debug(String.format(EXECUTED_SUCCESSFULLY, "Query", sql)
+				+ String.format(QUERY_RESULT, rows));
+	}
+	private void logSuccessfulUpdate(final String sql, final int rows) {
+		logger.debug(String.format(EXECUTED_SUCCESSFULLY, "Update", sql)
+				+ String.format(UPDATE_RESULT, rows));
+	}
+	private void throwSyntaxErrorException(final String type,
+			final String sql) throws SQLException {
+		logger.error(String.format(SYNTAX_ERROR_MESSAGE, sql, type));
+		throw new SQLException("Syntax Error");
+	}
 	@Override
 	public boolean isWrapperFor(final Class<?> arg0) throws SQLException {
 		throw new UnsupportedOperationException();
