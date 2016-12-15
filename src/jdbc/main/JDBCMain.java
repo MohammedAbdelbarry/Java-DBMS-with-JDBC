@@ -59,7 +59,7 @@ public class JDBCMain {
 				driver = DriverManager.getDriver(url);
 				driverInitialized = true;
 			} catch (final SQLException e) {
-				System.err.println("The name of the backendParser was wrong");
+				System.out.println("The name of the backendParser was wrong");
 			}
 		}
 		final Properties info = new Properties();
@@ -77,7 +77,7 @@ public class JDBCMain {
 			//print internal error
 		}
 		while (true) {
-			System.out.println("sql> ");
+			System.out.printf("sql> ");
 			final StringBuilder stringBuilder = new StringBuilder();
 			String sql = null;
 			boolean invalid = false;
@@ -129,9 +129,10 @@ public class JDBCMain {
 				printError(e.getMessage());
 			}
 		}
+		in.close();
 	}
 	private static void printError(final String error) {
-		System.err.println("Error: " + error);
+		System.out.println("Error: " + error);
 	}
 	private static void printResultSet(final ResultSet resultSet) {
 		try {

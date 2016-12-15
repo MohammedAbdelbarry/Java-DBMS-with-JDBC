@@ -74,7 +74,7 @@ public class SQLData {
 			throws DatabaseNotFoundException,
 			TableAlreadyExistsException {
 		activeDatabase = fileHandler.loadDatabase(
-				useParameters.getDatabaseName().toUpperCase());
+				useParameters.getDatabaseName());
 		return 0;
 	}
 
@@ -89,7 +89,7 @@ public class SQLData {
 		final Database newDatabase
 		= new Database(createDBParameters.getDatabaseName().toUpperCase());
 		fileHandler.createDatabase(
-				createDBParameters.getDatabaseName().toUpperCase());
+				createDBParameters.getDatabaseName());
 		activeDatabase = newDatabase;
 		return 0;
 	}
@@ -106,9 +106,9 @@ public class SQLData {
 			TableNotFoundException,
 			FailedToDeleteTableException {
 		fileHandler.deleteDatabase(
-				dropDBParameters.getDatabaseName().toUpperCase());
-		if (dropDBParameters.getDatabaseName().toUpperCase().equals(
-				activeDatabase.getDatabaseName().toUpperCase())) {
+				dropDBParameters.getDatabaseName());
+		if (dropDBParameters.getDatabaseName().equalsIgnoreCase(
+				activeDatabase.getDatabaseName())) {
 			activeDatabase = null;
 			while (activeDatabase == null) {
 				try {
