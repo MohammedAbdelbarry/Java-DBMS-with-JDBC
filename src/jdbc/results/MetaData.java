@@ -23,7 +23,9 @@ public class MetaData implements ResultSetMetaData {
 		tableName = null;
 		columnCount = -1;
 	}
-
+	private boolean checkColumnIndex(final int col) {
+		return col >= 1 && col <= columnNames.size();
+	}
 	public void setColumnNames(final ArrayList<String> columnNames) {
 		this.columnNames = columnNames;
 		setColumnCount(columnNames.size());
@@ -53,6 +55,9 @@ public class MetaData implements ResultSetMetaData {
 	 */
 	@Override
 	public String getColumnLabel(int column) {
+		if (!checkColumnIndex(column)) {
+			return null;
+		}
 		return columnNames.get(--column);
 	}
 
@@ -61,6 +66,9 @@ public class MetaData implements ResultSetMetaData {
 	 */
 	@Override
 	public String getColumnName(int column) {
+		if (!checkColumnIndex(column)) {
+			return null;
+		}
 		return columnNames.get(--column);
 	}
 
@@ -74,9 +82,11 @@ public class MetaData implements ResultSetMetaData {
 
 	@Override
 	public int getColumnType(int column) throws SQLException {
+		if (!checkColumnIndex(column)) {
+			throw new SQLException();
+		}
 		final String columnName = columnNames.get(--column).toUpperCase();
 		return columnTypes.get(columnName);
-
 	}
 
 	@Override

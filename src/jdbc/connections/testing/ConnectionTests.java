@@ -2,6 +2,9 @@ package jdbc.connections.testing;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
+import java.net.URISyntaxException;
+import java.security.CodeSource;
 import java.sql.SQLException;
 
 import org.junit.Assert;
@@ -9,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import jdbc.connections.DBConnection;
+import jdbms.sql.parsing.parser.ParserMain;
 
 public class ConnectionTests {
 
@@ -16,7 +20,17 @@ public class ConnectionTests {
 
 	@Before
 	public void setUp() throws Exception {
-		connection = new DBConnection("jdbc:altdb://localhost", "");
+		try {
+			final CodeSource codeSource = ParserMain.class.
+					getProtectionDomain().getCodeSource();
+			final File jarFile = new File(
+					codeSource.getLocation().toURI().getPath());
+			final String path = jarFile.getParentFile().getPath()
+					+ File.separator + "Data";
+			connection = new DBConnection("jdbc:altdb://localhost", path);
+		} catch (final URISyntaxException e) {
+			throw new RuntimeException();
+		}
 	}
 
 	@Test

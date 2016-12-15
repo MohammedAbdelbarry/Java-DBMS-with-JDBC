@@ -195,6 +195,9 @@ public class DataResultSet implements ResultSet {
 
 		columnIndex--;
 		final String columnLabel = columnNames.get(columnIndex).toUpperCase();
+		if (columnTypes.get(columnLabel.toUpperCase()) == null) {
+			throw new SQLException();
+		}
 		if (columnTypes.get(columnLabel) != Types.DATE) {
 			throw new SQLException();
 		}
@@ -230,6 +233,9 @@ public class DataResultSet implements ResultSet {
 			throw new SQLException();
 		}
 		columnIndex--;
+		if (columnTypes.get(columnLabel.toUpperCase()) == null) {
+			throw new SQLException();
+		}
 		if (columnTypes.get(columnLabel.toUpperCase()) != Types.DATE) {
 			throw new SQLException();
 		}
@@ -263,6 +269,9 @@ public class DataResultSet implements ResultSet {
 		}
 		columnIndex--;
 		final String columnLabel = columnNames.get(columnIndex).toUpperCase();
+		if (columnTypes.get(columnLabel.toUpperCase()) == null) {
+			throw new SQLException();
+		}
 		if (columnTypes.get(columnLabel) != Types.TIMESTAMP) {
 			throw new SQLException();
 		}
@@ -299,6 +308,9 @@ public class DataResultSet implements ResultSet {
 			throw new SQLException();
 		}
 		columnIndex--;
+		if (columnTypes.get(columnLabel.toUpperCase()) == null) {
+			throw new SQLException();
+		}
 		if (columnTypes.get(columnLabel.toUpperCase()) != Types.TIMESTAMP) {
 			throw new SQLException();
 		}
@@ -333,6 +345,9 @@ public class DataResultSet implements ResultSet {
 		}
 		columnIndex--;
 		final String columnName = columnNames.get(columnIndex).toUpperCase();
+		if (columnTypes.get(columnName.toUpperCase()) == null) {
+			throw new SQLException();
+		}
 		if (columnTypes.get(columnName) != Types.FLOAT) {
 			throw new SQLException();
 		}
@@ -363,6 +378,9 @@ public class DataResultSet implements ResultSet {
 			throw new SQLException();
 		}
 		columnIndex--;
+		if (columnTypes.get(columnLabel.toUpperCase()) == null) {
+			throw new SQLException();
+		}
 		if (columnTypes.get(columnLabel.toUpperCase()) != Types.FLOAT) {
 			throw new SQLException();
 		}
@@ -389,6 +407,9 @@ public class DataResultSet implements ResultSet {
 		}
 		columnIndex--;
 		final String columnName = columnNames.get(columnIndex).toUpperCase();
+		if (columnTypes.get(columnName.toUpperCase()) == null) {
+			throw new SQLException();
+		}
 		if (columnTypes.get(columnName) != Types.INTEGER) {
 			throw new SQLException();
 		}
@@ -417,6 +438,9 @@ public class DataResultSet implements ResultSet {
 			throw new SQLException();
 		}
 		columnIndex--;
+		if (columnTypes.get(columnLabel.toUpperCase()) == null) {
+			throw new SQLException();
+		}
 		if (columnTypes.get(columnLabel.toUpperCase()) != Types.INTEGER) {
 			throw new SQLException();
 		}
@@ -443,6 +467,9 @@ public class DataResultSet implements ResultSet {
 		}
 		columnIndex--;
 		final String columnName = columnNames.get(columnIndex).toUpperCase();
+		if (columnTypes.get(columnName.toUpperCase()) == null) {
+			throw new SQLException();
+		}
 		if (columnTypes.get(columnName) != Types.VARCHAR) {
 			throw new SQLException();
 		}
@@ -466,6 +493,9 @@ public class DataResultSet implements ResultSet {
 			throw new SQLException();
 		}
 		columnIndex--;
+		if (columnTypes.get(columnLabel.toUpperCase()) == null) {
+			throw new SQLException();
+		}
 		if (columnTypes.get(columnLabel.toUpperCase()) != Types.VARCHAR) {
 			throw new SQLException();
 		}
@@ -630,6 +660,9 @@ public class DataResultSet implements ResultSet {
 		}
 		columnIndex--;
 		final String columnName = columnNames.get(columnIndex).toUpperCase();
+		if (columnTypes.get(columnName.toUpperCase()) == null) {
+			throw new SQLException();
+		}
 		if (columnTypes.get(columnName) != Types.BIGINT) {
 			throw new SQLException();
 		}
@@ -658,6 +691,9 @@ public class DataResultSet implements ResultSet {
 			throw new SQLException();
 		}
 		columnIndex--;
+		if (columnTypes.get(columnLabel.toUpperCase()) == null) {
+			throw new SQLException();
+		}
 		if (columnTypes.get(columnLabel.toUpperCase()) != Types.BIGINT) {
 			throw new SQLException();
 		}
@@ -684,6 +720,9 @@ public class DataResultSet implements ResultSet {
 		}
 		columnIndex--;
 		final String columnName = columnNames.get(columnIndex).toUpperCase();
+		if (columnTypes.get(columnName.toUpperCase()) == null) {
+			throw new SQLException();
+		}
 		if (columnTypes.get(columnName) != Types.DOUBLE) {
 			throw new SQLException();
 		}
@@ -712,6 +751,9 @@ public class DataResultSet implements ResultSet {
 			throw new SQLException();
 		}
 		columnIndex--;
+		if (columnTypes.get(columnLabel.toUpperCase()) == null) {
+			throw new SQLException();
+		}
 		if (columnTypes.get(columnLabel.toUpperCase()) != Types.DOUBLE) {
 			throw new SQLException();
 		}

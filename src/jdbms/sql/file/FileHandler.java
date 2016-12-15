@@ -152,7 +152,7 @@ public class FileHandler {
 			throw new DatabaseAlreadyExistsException(tempName);
 		}
 		if (!database.mkdirs()) {
-			throw new RuntimeException();
+			throw new RuntimeException(database.getAbsolutePath());
 		}
 		database.deleteOnExit();
 		return new Database(tempName);

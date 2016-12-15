@@ -21,7 +21,7 @@ public class ResultSetTesting {
 	@Test
 	public void testAbsolute() throws SQLException {
 
-		DataResultSet resultSet = new DataResultSet(DBStatement);
+		final DataResultSet resultSet = new DataResultSet(DBStatement);
 
 		constructThreeRowedTable(resultSet);
 
@@ -53,7 +53,7 @@ public class ResultSetTesting {
 	@Test
 	public void testNumberOfRows() throws SQLException {
 
-		DataResultSet resultSet = new DataResultSet(DBStatement);
+		final DataResultSet resultSet = new DataResultSet(DBStatement);
 
 		constructThreeRowedTable(resultSet);
 
@@ -72,7 +72,7 @@ public class ResultSetTesting {
 	@Test
 	public void testCursor() throws SQLException {
 
-		DataResultSet resultSet = new DataResultSet(DBStatement);
+		final DataResultSet resultSet = new DataResultSet(DBStatement);
 
 		constructThreeRowedTable(resultSet);
 
@@ -100,16 +100,16 @@ public class ResultSetTesting {
 	@Test
 	public void testGettingDataByIndex() throws SQLException, ParseException {
 
-		DataResultSet resultSet = new DataResultSet(DBStatement);
+		final DataResultSet resultSet = new DataResultSet(DBStatement);
 
 		constructFourRowedTable(resultSet);
 
 		resultSet.next();
 
-		int id = resultSet.getInt(1);
+		final int id = resultSet.getInt(1);
 		assertEquals(id, 1);
 
-		String customer = resultSet.getString(2);
+		final String customer = resultSet.getString(2);
 		assertEquals(customer, "Ahmed Mohamed");
 
 		// Date accountDate = resultSet.getDate(3);
@@ -117,24 +117,24 @@ public class ResultSetTesting {
 		// Date actualDate = new Date();
 		// assertEquals(accountDate, actualDate);
 
-		double balance = resultSet.getDouble(4);
-		double actualBalance = 9999.99999;
+		final double balance = resultSet.getDouble(4);
+		final double actualBalance = 9999.99999;
 		assertEquals(balance, actualBalance, 0);
 	}
 
 	@Test
 	public void testGettingDataByName() throws SQLException, ParseException {
 
-		DataResultSet resultSet = new DataResultSet(DBStatement);
+		final DataResultSet resultSet = new DataResultSet(DBStatement);
 
 		constructFourRowedTable(resultSet);
 
 		resultSet.next();
 
-		int id = resultSet.getInt("ID");
+		final int id = resultSet.getInt("ID");
 		assertEquals(id, 1);
 
-		String customer = resultSet.getString("Customer");
+		final String customer = resultSet.getString("Customer");
 		assertEquals(customer, "Ahmed Mohamed");
 
 		// Date accountDate = resultSet.getDate("AccountDate");
@@ -142,49 +142,49 @@ public class ResultSetTesting {
 		// Date actualDate = new Date();
 		// assertEquals(accountDate, actualDate);
 
-		double balance = resultSet.getDouble("Balance");
-		double actualBalance = 9999.99999;
+		final double balance = resultSet.getDouble("Balance");
+		final double actualBalance = 9999.99999;
 		assertEquals(balance, actualBalance, 0);
 	}
 
-	private void constructFourRowedTable(DataResultSet resultSet) {
+	private void constructFourRowedTable(final DataResultSet resultSet) {
 
-		String tableName = "Bank";
+		final String tableName = "Bank";
 
-		ArrayList<String> columns = new ArrayList<>();
+		final ArrayList<String> columns = new ArrayList<>();
 		columns.add("ID");
 		columns.add("Customer");
 		columns.add("AccountDate");
 		columns.add("Balance");
 
-		ArrayList<String> row1 = new ArrayList<>();
+		final ArrayList<String> row1 = new ArrayList<>();
 		row1.add("1");
 		row1.add("Ahmed Mohamed");
 		row1.add("2009-09-09");
 		row1.add("9999.99999");
-		ArrayList<String> row2 = new ArrayList<>();
+		final ArrayList<String> row2 = new ArrayList<>();
 		row1.add("2");
 		row1.add("Mohamed Ahmed");
 		row1.add("2010-10-10");
 		row1.add("12345.99999");
-		ArrayList<String> row3 = new ArrayList<>();
+		final ArrayList<String> row3 = new ArrayList<>();
 		row1.add("3");
 		row1.add("Ahmed Adam");
 		row1.add("2011-11-11");
 		row1.add("100.0");
-		ArrayList<String> row4 = new ArrayList<>();
+		final ArrayList<String> row4 = new ArrayList<>();
 		row1.add("1");
 		row1.add("Mohamed Adam");
 		row1.add("2012-12-12");
 		row1.add("0.0");
 
-		ArrayList<ArrayList<String>> columnRows = new ArrayList<>();
+		final ArrayList<ArrayList<String>> columnRows = new ArrayList<>();
 		columnRows.add(row1);
 		columnRows.add(row2);
 		columnRows.add(row3);
 		columnRows.add(row4);
 
-		Map<String, Integer> columnTypes = new HashMap<>();
+		final Map<String, Integer> columnTypes = new HashMap<>();
 		columnTypes.put(columns.get(0), Types.INTEGER);
 		columnTypes.put(columns.get(1), Types.VARCHAR);
 		columnTypes.put(columns.get(2), Types.DATE);
@@ -196,34 +196,34 @@ public class ResultSetTesting {
 		resultSet.setColumnTypes(columnTypes);
 	}
 
-	private void constructThreeRowedTable(DataResultSet resultSet) {
+	private void constructThreeRowedTable(final DataResultSet resultSet) {
 
-		String tableName = "Students";
+		final String tableName = "Students";
 
-		ArrayList<String> columns = new ArrayList<>();
+		final ArrayList<String> columns = new ArrayList<>();
 		columns.add("ID");
 		columns.add("Names");
 		columns.add("Grades");
 
-		ArrayList<String> row1 = new ArrayList<>();
+		final ArrayList<String> row1 = new ArrayList<>();
 		row1.add("1");
 		row1.add("Mohamed");
 		row1.add("A");
-		ArrayList<String> row2 = new ArrayList<>();
+		final ArrayList<String> row2 = new ArrayList<>();
 		row1.add("2");
 		row1.add("Ahmed");
 		row1.add("A+");
-		ArrayList<String> row3 = new ArrayList<>();
+		final ArrayList<String> row3 = new ArrayList<>();
 		row1.add("3");
 		row1.add("Gamal");
 		row1.add("A+");
 
-		ArrayList<ArrayList<String>> columnRows = new ArrayList<>();
+		final ArrayList<ArrayList<String>> columnRows = new ArrayList<>();
 		columnRows.add(row1);
 		columnRows.add(row2);
 		columnRows.add(row3);
 
-		Map<String, Integer> columnTypes = new HashMap<>();
+		final Map<String, Integer> columnTypes = new HashMap<>();
 		columnTypes.put(columns.get(0), Types.INTEGER);
 		columnTypes.put(columns.get(1), Types.VARCHAR);
 		columnTypes.put(columns.get(2), Types.VARCHAR);
