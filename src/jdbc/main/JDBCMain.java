@@ -124,6 +124,9 @@ public class JDBCMain {
 								statement.getUpdateCount());
 					} else {
 						System.out.println("Query Completed Successfully");
+						final ResultSet resultSet = statement.getResultSet();
+						printResultSet(resultSet);
+						resultSet.close();
 					}
 				}
 			} catch (final SQLException e) {

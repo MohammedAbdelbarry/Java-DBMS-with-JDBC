@@ -20,18 +20,24 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import jdbc.drivers.util.ProtocolConstants;
 import jdbc.statement.DBStatement;
 import jdbms.sql.DBMSConnector;
 
 public class DBConnection implements Connection {
-
+	private final Logger logger;
 	private final DBMSConnector connector;
 	private final ArrayList<DBStatement> statements;
 	private boolean isClosed;
 	private final ProtocolConstants constants;
 	public DBConnection(final String url, final String path)
 			throws SQLException {
+		logger = LogManager.getLogger(DBConnection.class);
+		logger.debug("Connection Started: URL(" +
+				url + ") File Path(" + path + ")");
 		constants = new ProtocolConstants();
 		connector = new DBMSConnector(getProtocolName(url), path);
 		statements = new ArrayList<>();
@@ -49,8 +55,11 @@ public class DBConnection implements Connection {
 
 	@Override
 	public Statement createStatement() throws SQLException {
+		logger.debug("Statement Requested");
 		if (isClosed()) {
-			throw new SQLException();
+			final SQLException ex = new SQLException("Connection is Closed");
+			logger.error("Failed to Create Statement", ex);
+			throw ex;
 		}
 		final DBStatement newStatement = new DBStatement(connector, this);
 		statements.add(newStatement);
@@ -61,9 +70,12 @@ public class DBConnection implements Connection {
 	public void close() throws SQLException {
 		isClosed = true;
 		for (final DBStatement statement : statements) {
-			statement.close();
+			if (statement != null) {
+				statement.close();
+			}
 		}
 		statements.clear();
+		logger.debug("Connection Closed");
 	}
 
 	@Override

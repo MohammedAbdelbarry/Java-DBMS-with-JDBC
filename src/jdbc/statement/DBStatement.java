@@ -9,6 +9,9 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import jdbc.connections.DBConnection;
 import jdbc.results.DataResultSet;
 import jdbc.results.util.SelectOutputConverter;
@@ -16,57 +19,83 @@ import jdbms.sql.DBMSConnector;
 import jdbms.sql.data.query.SelectQueryOutput;
 
 public class DBStatement implements Statement {
-
-	private final DBMSConnector dbmsConnector;
-	private final Queue<String> commands;
+	private static final String CLOSED_MESSAGE
+	= "Couldn't %s Because"
+			+ " The Statement is Closed";
+	private static final String  SYNTAX_ERROR_MESSAGE
+	= "Command: \"%s\" is Not a Valid SQL %s";
+	private static final String EXECUTED_SUCCESSFULLY
+	= "SQL %s: \"%s\" Was Executed Successfully";
+	private static final String QUERY_RESULT
+	= " %d Rows Were Returned";
+	private static final String UPDATE_RESULT
+	= " %d Rows Were Updated";
+	private DBMSConnector dbmsConnector;
+	private Queue<String> commands;
 	private boolean isClosed;
 	private int currentResult;
 	private final DBConnection connection;
 	private DataResultSet resultSet;
-
-	public DBStatement(final DBMSConnector connector, final DBConnection connection) {
+	private final Logger logger;
+	public DBStatement(final DBMSConnector connector,
+			final DBConnection connection) {
+		logger = LogManager.getLogger(DBStatement.class);
 		this.dbmsConnector = connector;
 		this.connection = connection;
 		commands = new LinkedList<>();
 		isClosed = false;
 		currentResult = -1;
 		resultSet = new DataResultSet(this);
+		logger.debug("Statement Created Successfully");
 	}
 
 	@Override
 	public void addBatch(final String sql) throws SQLException {
-
+		logger.debug("Requested Adding Batch");
 		if (isClosed) {
-			throw new SQLException();
+			logger.info(String.format(CLOSED_MESSAGE, "Add Batch"));
+			throw new SQLException(String.format(CLOSED_MESSAGE, "Add Batch"));
 		}
+		logger.debug("Batch Added: " + sql);
 		commands.add(sql);
 	}
 
 	@Override
 	public void clearBatch() throws SQLException {
-
+		logger.debug("Requested Clearing Batch");
 		if (isClosed) {
-			throw new SQLException();
+			throw new SQLException(String.format(CLOSED_MESSAGE, "Clear Batch"));
 		}
+		logger.debug("Batch Was Cleared");
 		commands.clear();
 	}
 
 	@Override
 	public void close() throws SQLException {
+		logger.debug("Statement Was Closed");
 		isClosed = true;
+		commands = null;
+		dbmsConnector = null;
+		if (resultSet != null) {
+			resultSet.close();
+		}
+		resultSet = null;
 	}
 
 	@Override
 	public boolean execute(final String sql) throws SQLException {
-
+		logger.debug("Requested Executing SQL Command");
 		if (isClosed) {
-			throw new SQLException();
+			logger.info(String.format(CLOSED_MESSAGE, "Execute SQL"));
+			throw new SQLException(String.format(CLOSED_MESSAGE,
+					"Execute SQL"));
 		}
-
 		if (dbmsConnector.interpretQuery(sql)) {
 			resultSet = new DataResultSet(this);
 			final SelectOutputConverter converter = new SelectOutputConverter();
 			final SelectQueryOutput output = dbmsConnector.executeQuery(sql);
+			logger.debug(String.format(EXECUTED_SUCCESSFULLY, "Query", sql)
+					+ String.format(QUERY_RESULT, output.getData().size()));
 			converter.convert(resultSet, output);
 			currentResult = -1;
 			if (output.getData().isEmpty()) {
@@ -75,15 +104,18 @@ public class DBStatement implements Statement {
 			return true;
 		} else if (dbmsConnector.interpretUpdate(sql)) {
 			currentResult = dbmsConnector.executeUpdate(sql);
+			logger.debug(String.format(EXECUTED_SUCCESSFULLY, "Update", sql)
+					+ String.format(UPDATE_RESULT, currentResult));
 			return false;
 		} else {
+			logger.error(String.format(SYNTAX_ERROR_MESSAGE, sql, "Command"));
 			throw new SQLException("Syntax Error");
 		}
 	}
 
 	@Override
 	public int[] executeBatch() throws SQLException {
-
+		logger.debug("Requested Executing SQL Batch");
 		if (isClosed) {
 			throw new SQLException();
 		}
@@ -91,17 +123,27 @@ public class DBStatement implements Statement {
 		final int size = commands.size();
 		final int[] updateCounts = new int[size];
 		for (int i = 0; i < size; i++) {
-			if (dbmsConnector.interpretUpdate(commands.peek())) {
-				updateCounts[i] = dbmsConnector.executeUpdate(commands.poll());
+			final String sql = commands.peek();
+			if (dbmsConnector.interpretUpdate(sql)) {
+				commands.poll();
+				updateCounts[i] = dbmsConnector.executeUpdate(sql);
 				currentResult = updateCounts[i];
+				logger.debug(String.format(EXECUTED_SUCCESSFULLY, "Update", sql)
+						+ String.format(UPDATE_RESULT, currentResult));
 			} else if (dbmsConnector.interpretUpdate(commands.peek())) {
 				resultSet = new DataResultSet(this);
 				final SelectOutputConverter converter = new SelectOutputConverter();
-				converter.convert(resultSet, dbmsConnector.executeQuery(commands.peek()));
+				commands.poll();
+				final SelectQueryOutput output = dbmsConnector.executeQuery(sql);
+				logger.debug(String.format(EXECUTED_SUCCESSFULLY, "Query", sql)
+						+ String.format(QUERY_RESULT, output.getData().size()));
+				converter.convert(resultSet, output);
 				updateCounts[i] = SUCCESS_NO_INFO;
 				currentResult = -1;
 			} else {
-				throw new BatchUpdateException();
+				logger.error(String.format(SYNTAX_ERROR_MESSAGE, sql,
+						"Command"));
+				throw new BatchUpdateException("Syntax Error", updateCounts);
 			}
 		}
 		return updateCounts;
@@ -109,33 +151,42 @@ public class DBStatement implements Statement {
 
 	@Override
 	public ResultSet executeQuery(final String sql) throws SQLException {
-
+		logger.debug("Requested Executing SQL Query");
 		if (isClosed) {
-			throw new SQLException();
+			logger.info(String.format(CLOSED_MESSAGE, "Execute SQL"));
+			throw new SQLException(String.format(CLOSED_MESSAGE,
+					"Execute SQL"));
 		}
 
 		if (!dbmsConnector.interpretQuery(sql)) {
-			throw new SQLException();
+			logger.error(String.format(SYNTAX_ERROR_MESSAGE, sql, "Query"));
+			throw new SQLException("Syntax Error");
 		} else {
 			currentResult = -1;
 			resultSet = new DataResultSet(this);
 			final SelectOutputConverter converter = new SelectOutputConverter();
-			converter.convert(resultSet, dbmsConnector.executeQuery(sql));
+			final SelectQueryOutput output = dbmsConnector.executeQuery(sql);
+			converter.convert(resultSet, output);
+			logger.debug(String.format(EXECUTED_SUCCESSFULLY, "Query", sql)
+					+ String.format(QUERY_RESULT, output.getData().size()));
 			return resultSet;
 		}
 	}
 
 	@Override
 	public int executeUpdate(final String sql) throws SQLException {
-
+		logger.debug("Requested Executing SQL Update");
 		if (isClosed) {
-			throw new SQLException();
+			throwException("Execute Update");
 		}
 
 		if (!dbmsConnector.interpretUpdate(sql)) {
-			throw new SQLException();
+			logger.error(String.format(SYNTAX_ERROR_MESSAGE, sql, "Update"));
+			throw new SQLException("Syntax Error");
 		} else {
 			currentResult = dbmsConnector.executeUpdate(sql);
+			logger.debug(String.format(EXECUTED_SUCCESSFULLY, "Update", sql)
+					+ String.format(UPDATE_RESULT, currentResult));
 			return currentResult;
 		}
 	}
@@ -144,7 +195,7 @@ public class DBStatement implements Statement {
 	public Connection getConnection() throws SQLException {
 
 		if (isClosed) {
-			throw new SQLException();
+			throwException("Get Connection");
 		}
 		return connection;
 	}
@@ -153,23 +204,26 @@ public class DBStatement implements Statement {
 	public ResultSet getResultSet() throws SQLException {
 
 		if (isClosed) {
-			throw new SQLException();
+			throwException("Get ResultSet");
 		}
 		return this.resultSet;
 	}
 
 	@Override
 	public int getUpdateCount() throws SQLException {
-
 		if (isClosed) {
-			throw new SQLException();
+			throwException("Get Update Count");
 		}
 		return currentResult;
 	}
-
 	@Override
 	public boolean isClosed() throws SQLException {
 		return isClosed;
+	}
+	private void throwException(final String action) throws SQLException {
+		logger.info(String.format(CLOSED_MESSAGE, action));
+		throw new SQLException(String.format(CLOSED_MESSAGE,
+				action));
 	}
 
 	@Override

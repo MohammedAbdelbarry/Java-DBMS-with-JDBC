@@ -5,4 +5,10 @@
 	<lib name="gson-2.3.1.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/gson-2.3.1.jar!/"/>
 	</lib>
+	<lib name="log4j-api-2.6.2.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/log4j-api-2.6.2.jar!/"/>
+	</lib>
+	<lib name="log4j-core-2.6.2.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/log4j-core-2.6.2.jar!/"/>
+	</lib>
 </component>

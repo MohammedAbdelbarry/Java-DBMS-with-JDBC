@@ -9,13 +9,15 @@ import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 import java.util.ArrayList;
 import java.util.Properties;
-import java.util.logging.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import jdbc.connections.DBConnection;
 import jdbc.drivers.util.ProtocolConstants;
 
 public class DBDriver implements Driver {
-
+	private final Logger logger;
 	private final ArrayList<DBConnection> connections;
 	static {
 		try {
@@ -26,6 +28,8 @@ public class DBDriver implements Driver {
 	}
 	public DBDriver() {
 		connections = new ArrayList<>();
+		logger = LogManager.getLogger(DBDriver.class);
+		logger.debug("Driver Started");
 	}
 	@Override
 	public boolean acceptsURL(final String url) throws SQLException {
@@ -39,8 +43,14 @@ public class DBDriver implements Driver {
 		}
 		final File directory = (File) info.get("path");
 		if (directory == null) {
-			throw new SQLException();
+			final SQLException ex
+			= new SQLException("Null Directory");
+			logger.error("Failed to Connect to URL("
+					+ url + ")", ex);
+			throw ex;
 		}
+		logger.debug("Connection Requested: URL(" +
+				url + ") File Path(" + directory.getAbsolutePath() + ")");
 		final String directoryPath = directory.getAbsolutePath();
 		final DBConnection connection = new DBConnection(url,
 				directoryPath);
@@ -92,7 +102,7 @@ public class DBDriver implements Driver {
 	}
 
 	@Override
-	public Logger getParentLogger() throws SQLFeatureNotSupportedException {
+	public java.util.logging.Logger getParentLogger() throws SQLFeatureNotSupportedException {
 		throw new UnsupportedOperationException();
 
 	}
