@@ -13,7 +13,6 @@ import java.util.Properties;
 import java.util.Scanner;
 
 import jdbms.sql.data.query.PrettyPrinter;
-import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.parsing.expressions.util.StringModifier;
 import jdbms.sql.parsing.parser.ParserMain;
 import jdbms.sql.util.HelperClass;
@@ -22,6 +21,8 @@ public class JDBCMain {
 	private static final String DATA_DIRECTORY
 	= "Data";
 	private static final String AS_NULL = "";
+	private static final String SYNTAX_ERROR
+	= "Syntax Error";
 	static {
 		try {
 			Class.forName("jdbc.drivers.DBDriver");
@@ -59,7 +60,7 @@ public class JDBCMain {
 				driver = DriverManager.getDriver(url);
 				driverInitialized = true;
 			} catch (final SQLException e) {
-				System.err.println("The name of the backendParser was wrong");
+				System.out.println("The name of the backendParser was wrong");
 			}
 		}
 		final Properties info = new Properties();
@@ -68,16 +69,16 @@ public class JDBCMain {
 		try {
 			connection = driver.connect(url, info);
 		} catch (final SQLException e) {
-			//print failed to connect
+			printError("Failed to Connect to Database");
 		}
 		Statement statement = null;
 		try {
 			statement = connection.createStatement();
 		} catch (final SQLException e1) {
-			//print internal error
+			printError("Failed to Create Statement");
 		}
 		while (true) {
-			System.out.println("sql> ");
+			System.out.printf("sql> ");
 			final StringBuilder stringBuilder = new StringBuilder();
 			String sql = null;
 			boolean invalid = false;
@@ -108,7 +109,7 @@ public class JDBCMain {
 				}
 			}
 			if (invalid) {
-				ErrorHandler.printSyntaxError();
+				printError(SYNTAX_ERROR);
 				continue;
 			}
 			try {
@@ -129,9 +130,10 @@ public class JDBCMain {
 				printError(e.getMessage());
 			}
 		}
+		in.close();
 	}
 	private static void printError(final String error) {
-		System.err.println("Error: " + error);
+		System.out.println("Error: " + error);
 	}
 	private static void printResultSet(final ResultSet resultSet) {
 		try {

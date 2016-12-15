@@ -77,7 +77,7 @@ public class DBStatement implements Statement {
 			currentResult = dbmsConnector.executeUpdate(sql);
 			return false;
 		} else {
-			throw new SQLException();
+			throw new SQLException("Syntax Error");
 		}
 	}
 
