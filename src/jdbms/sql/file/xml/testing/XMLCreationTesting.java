@@ -20,7 +20,6 @@ import jdbms.sql.parsing.properties.InsertionParameters;
 import jdbms.sql.parsing.properties.TableCreationParameters;
 import jdbms.sql.parsing.statements.InitialStatement;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
-import jdbms.sql.util.HelperClass;
 
 public class XMLCreationTesting {
 
@@ -29,7 +28,27 @@ public class XMLCreationTesting {
 	private SQLData data;
 	@Before
 	public void setUp() throws Exception {
-		HelperClass.registerInitialStatements();
+		try {
+			Class.forName("jdbms.sql.parsing.statements.CreateDatabaseStatement");
+			Class.forName("jdbms.sql.parsing.statements.CreateTableStatement");
+			Class.forName("jdbms.sql.parsing.statements.DropDatabaseStatement");
+			Class.forName("jdbms.sql.parsing.statements.DropTableStatement");
+			Class.forName("jdbms.sql.parsing.statements.InsertIntoStatement");
+			Class.forName("jdbms.sql.parsing.statements.DeleteStatement");
+			Class.forName("jdbms.sql.parsing.statements.SelectStatement");
+			Class.forName("jdbms.sql.parsing.statements.UpdateStatement");
+			Class.forName("jdbms.sql.parsing.statements.UseStatement");
+			Class.forName("jdbms.sql.parsing.expressions.math.EqualsExpression");
+			Class.forName("jdbms.sql.parsing.expressions.math.LargerThanEqualsExpression");
+			Class.forName("jdbms.sql.parsing.expressions.math.LessThanEqualsExpression");
+			Class.forName("jdbms.sql.parsing.expressions.math.LargerThanExpression");
+			Class.forName("jdbms.sql.parsing.expressions.math.LessThanExpression");
+			Class.forName("jdbms.sql.parsing.expressions.math.NotEqualsExpression");
+			Class.forName("jdbms.sql.datatypes.IntSQLType");
+			Class.forName("jdbms.sql.datatypes.VarcharSQLType");
+		} catch (final ClassNotFoundException e) {
+			System.err.println("Internal Error");
+		}
 		creator = new XMLCreator();
 		final TableCreationParameters createTableParameters = new TableCreationParameters();
 		final ArrayList<ColumnIdentifier> cols = new ArrayList<>();
@@ -46,7 +65,7 @@ public class XMLCreationTesting {
 		final ArrayList<ArrayList<String>> values = new ArrayList<>();
 		final ArrayList<String> coList = new ArrayList<>();
 		coList.add("21");
-		//final ArrayList<String> coList2 = new ArrayList<>();
+		//		final ArrayList<String> coList2 = new ArrayList<>();
 		coList.add("'5 Abo Qeer St.'");
 		values.add(coList);
 		insertionParameters.setColumns(columns);
@@ -57,8 +76,11 @@ public class XMLCreationTesting {
 		String sql = new String("create Database DB;");
 		String normalizedOutput = parser.normalizeCommand(sql);
 		//System.out.println(normalizedOutput);
-		for (final String key : InitialStatementFactory.getInstance().getRegisteredStatements()) {
-			final InitialStatement statement = InitialStatementFactory.getInstance().createStatement(key);
+		for (final String key : InitialStatementFactory
+				.getInstance().getRegisteredStatements()) {
+			final InitialStatement statement
+			= InitialStatementFactory.
+			getInstance().createStatement(key);
 			if (statement.interpret(normalizedOutput)) {
 				//System.out.println(key);
 				statement.act(data);
@@ -102,16 +124,15 @@ public class XMLCreationTesting {
 	public void test() {
 		String pathname = "Data"+ File.separator + "MyData" + File.separatorChar + "Person.xml";
 		File file = new File(pathname);
-		BufferedReader reader = null;
 		try {
-			reader = new BufferedReader(new FileReader(file));
+			BufferedReader reader = new BufferedReader(new FileReader(file));
 			String line = "";
 			String xml = "";
 			while ((line = reader.readLine()) != null) {
 				xml += line;
 			}
 			final String first = new String(xml);
-			pathname = "Data"+ File.separator  + "DB" + File.separator+"Person.xml";
+			pathname = "Data"+ File.separator  +"DB" + File.separator+"Person.xml";
 			file = new File(pathname);
 			reader.close();
 			reader = new BufferedReader(new FileReader(file));
@@ -124,6 +145,7 @@ public class XMLCreationTesting {
 			assertEquals(first, xml);
 			reader.close();
 		} catch (final IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
