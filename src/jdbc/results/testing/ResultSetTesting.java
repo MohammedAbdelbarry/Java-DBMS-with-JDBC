@@ -185,10 +185,10 @@ public class ResultSetTesting {
 		columnRows.add(row4);
 
 		final Map<String, Integer> columnTypes = new HashMap<>();
-		columnTypes.put(columns.get(0), Types.INTEGER);
-		columnTypes.put(columns.get(1), Types.VARCHAR);
-		columnTypes.put(columns.get(2), Types.DATE);
-		columnTypes.put(columns.get(3), Types.DOUBLE);
+		columnTypes.put(columns.get(0).toUpperCase(), Types.INTEGER);
+		columnTypes.put(columns.get(1).toUpperCase(), Types.VARCHAR);
+		columnTypes.put(columns.get(2).toUpperCase(), Types.DATE);
+		columnTypes.put(columns.get(3).toUpperCase(), Types.DOUBLE);
 
 		resultSet.setTableName(tableName);
 		resultSet.setColumns(columns);
@@ -224,9 +224,9 @@ public class ResultSetTesting {
 		columnRows.add(row3);
 
 		final Map<String, Integer> columnTypes = new HashMap<>();
-		columnTypes.put(columns.get(0), Types.INTEGER);
-		columnTypes.put(columns.get(1), Types.VARCHAR);
-		columnTypes.put(columns.get(2), Types.VARCHAR);
+		columnTypes.put(columns.get(0).toUpperCase(), Types.INTEGER);
+		columnTypes.put(columns.get(1).toUpperCase(), Types.VARCHAR);
+		columnTypes.put(columns.get(2).toUpperCase(), Types.VARCHAR);
 
 		resultSet.setTableName(tableName);
 		resultSet.setColumns(columns);
