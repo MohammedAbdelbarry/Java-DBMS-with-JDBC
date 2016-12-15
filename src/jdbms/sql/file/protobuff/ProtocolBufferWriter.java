@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Map;
 
 import jdbms.sql.data.ColumnIdentifier;
 import jdbms.sql.data.Table;
@@ -54,11 +53,10 @@ public class ProtocolBufferWriter implements FileWriter {
 		final DBTable.Builder protoTableBuilder = DBTable.newBuilder();
 		protoTableBuilder.setNumberOfRows(table.getNumberOfRows());
 		protoTableBuilder.setTableName(table.getName());
-		final Map<String, TableColumn> tableColumns = table.getColumns();
-		for (final String columnName : tableColumns.keySet()) {
+		for (final String columnName : table.getColumnNames()) {
 			final DBTable.TableColumn.
 			Builder protoColumn = DBTable.TableColumn.newBuilder();
-			final TableColumn currColumn = tableColumns.get(columnName);
+			final TableColumn currColumn = table.getColumns().get(columnName.toUpperCase());
 			protoColumn.setColumnName(currColumn.getColumnName());
 			protoColumn.setColumnType(currColumn.getColumnDataType());
 			for (String currValue : currColumn.getValues()) {
