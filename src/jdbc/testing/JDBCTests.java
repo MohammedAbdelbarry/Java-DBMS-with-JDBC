@@ -1,5 +1,7 @@
 package jdbc.testing;
 
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.sql.Connection;
 import java.sql.Driver;
@@ -17,7 +19,7 @@ import jdbc.drivers.DBDriver;
 import jdbc.results.DataResultSet;
 
 public class JDBCTests {
-	private final String protocol = "xmldb";
+	private final String protocol = "altdb";
 	private final String tmp = System.getProperty("java.io.tmpdir");
 
 	public static Class<?> getSpecifications() {
@@ -217,6 +219,7 @@ public class JDBCTests {
 		} catch (final SQLException e) {
 		} catch (final Throwable e) {
 			TestRunner.fail("Invalid Exception thrown", e);
+			fail("kkg");
 		}
 		connection.close();
 	}
