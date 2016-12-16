@@ -11,7 +11,7 @@ import jdbms.sql.parsing.expressions.util.ColumnOrder;
 import jdbms.sql.parsing.parser.StringNormalizer;
 import jdbms.sql.parsing.statements.InitialStatement;
 import jdbms.sql.parsing.statements.SelectStatement;
-import jdbms.sql.util.HelperClass;
+import jdbms.sql.util.ClassRegisteringHelper;
 
 public class SelectStatementTesting {
 
@@ -22,7 +22,7 @@ public class SelectStatementTesting {
 	public void executedBeforeEach() {
 		normalizer = new StringNormalizer();
 		select = new SelectStatement();
-		HelperClass.registerInitialStatements();
+		ClassRegisteringHelper.registerInitialStatements();
 	}
 
 	@Test

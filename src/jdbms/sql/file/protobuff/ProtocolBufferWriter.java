@@ -21,7 +21,7 @@ import jdbms.sql.file.protobuff.util.TableProtos.DBTable;
 import jdbms.sql.parsing.properties.InsertionParameters;
 import jdbms.sql.parsing.properties.TableCreationParameters;
 import jdbms.sql.parsing.util.Constants;
-import jdbms.sql.util.HelperClass;
+import jdbms.sql.util.ClassRegisteringHelper;
 
 public class ProtocolBufferWriter implements TableWriter {
 	private static final String PROTOCOL_BUFFER_EXTENSION
@@ -73,7 +73,7 @@ public class ProtocolBufferWriter implements TableWriter {
 
 	public static void main(final String[] args) throws IOException, ColumnAlreadyExistsException, InvalidDateFormatException, RepeatedColumnException, ColumnListTooLargeException, ColumnNotFoundException, ValueListTooLargeException, ValueListTooSmallException, TypeMismatchException {
 		final TableCreationParameters createTableParameters = new TableCreationParameters();
-		HelperClass.registerInitialStatements();
+		ClassRegisteringHelper.registerInitialStatements();
 		createTableParameters.setTableName("horbIES");
 		final ArrayList<ColumnIdentifier> identifiers = new ArrayList<>();
 		identifiers.add(new ColumnIdentifier("f", "VARCHAR"));

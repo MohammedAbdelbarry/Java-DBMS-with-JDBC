@@ -11,7 +11,7 @@ import jdbms.sql.data.ColumnIdentifier;
 import jdbms.sql.parsing.parser.StringNormalizer;
 import jdbms.sql.parsing.statements.AlterTableAddStatement;
 import jdbms.sql.parsing.statements.InitialStatement;
-import jdbms.sql.util.HelperClass;
+import jdbms.sql.util.ClassRegisteringHelper;
 
 public class AlterTableAddStatementTesting {
 
@@ -22,7 +22,7 @@ public class AlterTableAddStatementTesting {
 	public void executedBeforeEach() {
 		normalizer = new StringNormalizer();
 		alter = new AlterTableAddStatement();
-		HelperClass.registerInitialStatements();
+		ClassRegisteringHelper.registerInitialStatements();
 	}
 
 	@Test

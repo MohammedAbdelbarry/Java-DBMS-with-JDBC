@@ -6,7 +6,7 @@ import java.util.Scanner;
 import jdbms.sql.data.SQLData;
 import jdbms.sql.errors.ErrorHandler;
 import jdbms.sql.parsing.expressions.util.StringModifier;
-import jdbms.sql.util.HelperClass;
+import jdbms.sql.util.ClassRegisteringHelper;
 
 public class ParserMain {
 	private static final String QUIT = "QUIT;";
@@ -15,7 +15,7 @@ public class ParserMain {
 	}
 
 	public static void main(final String[] args) throws IOException {
-		HelperClass.registerInitialStatements();
+		ClassRegisteringHelper.registerInitialStatements();
 		final SQLData data = new SQLData();
 		final StringNormalizer normalizer = new StringNormalizer();
 		final Scanner in = new Scanner(System.in);

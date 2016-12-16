@@ -11,7 +11,7 @@ import jdbms.sql.data.ColumnIdentifier;
 import jdbms.sql.parsing.parser.StringNormalizer;
 import jdbms.sql.parsing.statements.CreateTableStatement;
 import jdbms.sql.parsing.statements.InitialStatement;
-import jdbms.sql.util.HelperClass;
+import jdbms.sql.util.ClassRegisteringHelper;
 
 public class CreateTableStatementTesting {
 
@@ -22,7 +22,7 @@ public class CreateTableStatementTesting {
 	public void executedBeforeEach() {
 		normalizer = new StringNormalizer();
 		createTable = new CreateTableStatement();
-		HelperClass.registerInitialStatements();
+		ClassRegisteringHelper.registerInitialStatements();
 	}
 
 	@Test

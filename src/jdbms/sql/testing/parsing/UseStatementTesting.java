@@ -8,7 +8,7 @@ import org.junit.Test;
 import jdbms.sql.parsing.parser.StringNormalizer;
 import jdbms.sql.parsing.statements.InitialStatement;
 import jdbms.sql.parsing.statements.UseStatement;
-import jdbms.sql.util.HelperClass;
+import jdbms.sql.util.ClassRegisteringHelper;
 
 public class UseStatementTesting {
 
@@ -19,7 +19,7 @@ public class UseStatementTesting {
 	public void executedBeforeEach() {
 		normalizer = new StringNormalizer();
 		use = new UseStatement();
-		HelperClass.registerInitialStatements();
+		ClassRegisteringHelper.registerInitialStatements();
 	}
 
 	@Test

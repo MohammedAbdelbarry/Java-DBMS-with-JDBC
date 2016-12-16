@@ -27,7 +27,7 @@ import jdbms.sql.file.TableWriter;
 import jdbms.sql.parsing.properties.InsertionParameters;
 import jdbms.sql.parsing.properties.TableCreationParameters;
 import jdbms.sql.parsing.util.Constants;
-import jdbms.sql.util.HelperClass;
+import jdbms.sql.util.ClassRegisteringHelper;
 
 public class JSONWriter implements TableWriter {
 	private static final String JSON_EXTENSION
@@ -81,7 +81,7 @@ public class JSONWriter implements TableWriter {
 	ValueListTooLargeException, ValueListTooSmallException,
 	TypeMismatchException, IOException {
 		final TableCreationParameters createTableParameters = new TableCreationParameters();
-		HelperClass.registerInitialStatements();
+		ClassRegisteringHelper.registerInitialStatements();
 		createTableParameters.setTableName("horbIES");
 		final ArrayList<ColumnIdentifier> identifiers = new ArrayList<>();
 		identifiers.add(new ColumnIdentifier("f", "VARCHAR"));

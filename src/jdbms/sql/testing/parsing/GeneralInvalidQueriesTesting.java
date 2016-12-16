@@ -11,7 +11,7 @@ import org.junit.Test;
 import jdbms.sql.parsing.parser.StringNormalizer;
 import jdbms.sql.parsing.statements.InitialStatement;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
-import jdbms.sql.util.HelperClass;
+import jdbms.sql.util.ClassRegisteringHelper;
 
 public class GeneralInvalidQueriesTesting {
 
@@ -22,7 +22,7 @@ public class GeneralInvalidQueriesTesting {
 	public void executedBeforeEach() {
 		normalizer = new StringNormalizer();
 		statements = new ArrayList<>();
-		HelperClass.registerInitialStatements();
+		ClassRegisteringHelper.registerInitialStatements();
 		for (final String key : InitialStatementFactory.
 				getInstance().getRegisteredStatements()) {
 			statements.add(InitialStatementFactory.
