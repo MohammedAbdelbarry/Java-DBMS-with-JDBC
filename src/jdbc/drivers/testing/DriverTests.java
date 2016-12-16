@@ -21,7 +21,8 @@ public class DriverTests {
 	public void testValidURL() {
 		try {
 			Assert.assertTrue("Valid URL rejected",
-					driver.acceptsURL("jdbc:xmldb://localhost"));
+					driver.acceptsURL(
+							"jdbc:xmldb://localhost"));
 		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
@@ -31,7 +32,8 @@ public class DriverTests {
 	public void testInvalidURL() {
 		try {
 			Assert.assertFalse("Invalid URL accpeted",
-					driver.acceptsURL("jdbc:pbdb://localhos"));
+					driver.acceptsURL(
+							"jdbc:pbdb://localhos"));
 		} catch (final SQLException e) {
 			e.printStackTrace();
 		}

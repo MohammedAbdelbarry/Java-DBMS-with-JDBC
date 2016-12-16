@@ -25,38 +25,45 @@ public class MetaDataTesting {
 	@Test
 	public void testColumnLabels() {
 		final MetaData metaData = new MetaData();
-
 		constructTable(metaData);
-
-		assertEquals(metaData.getColumnLabel(1), "ID");
-		assertEquals(metaData.getColumnLabel(2), "Names");
-		assertEquals(metaData.getColumnLabel(3), "Grades");
-		assertEquals(metaData.getColumnLabel(4), "ExamDate");
+		assertEquals(metaData.
+				getColumnLabel(1), "ID");
+		assertEquals(metaData.
+				getColumnLabel(2), "Names");
+		assertEquals(metaData.
+				getColumnLabel(3), "Grades");
+		assertEquals(metaData.
+				getColumnLabel(4), "ExamDate");
 	}
 
 	@Test
 	public void testColumnNames() {
 		final MetaData metaData = new MetaData();
-
 		constructTable(metaData);
-
-		assertEquals(metaData.getColumnName(1), "ID");
-		assertEquals(metaData.getColumnName(2), "Names");
-		assertEquals(metaData.getColumnName(3), "Grades");
-		assertEquals(metaData.getColumnName(4), "ExamDate");
+		assertEquals(metaData.
+				getColumnName(1), "ID");
+		assertEquals(metaData.
+				getColumnName(2), "Names");
+		assertEquals(metaData.
+				getColumnName(3), "Grades");
+		assertEquals(metaData.
+				getColumnName(4), "ExamDate");
 	}
 
 	@Test
 	public void testTableName() {
 		final MetaData metaData = new MetaData();
-
 		constructTable(metaData);
-
-		assertEquals(metaData.getTableName(1), "Students");
-		assertEquals(metaData.getTableName(2), "Students");
-		assertEquals(metaData.getTableName(3), "Students");
-		assertEquals(metaData.getTableName(4), "Students");
-		assertEquals(metaData.getTableName(5), "Students");
+		assertEquals(metaData.
+				getTableName(1), "Students");
+		assertEquals(metaData.
+				getTableName(2), "Students");
+		assertEquals(metaData.
+				getTableName(3), "Students");
+		assertEquals(metaData.
+				getTableName(4), "Students");
+		assertEquals(metaData.
+				getTableName(5), "Students");
 
 	}
 

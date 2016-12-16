@@ -24,10 +24,16 @@ public class ConnectionTests {
 			final CodeSource codeSource = ParserMain.class.
 					getProtectionDomain().getCodeSource();
 			final File jarFile = new File(
-					codeSource.getLocation().toURI().getPath());
-			final String path = jarFile.getParentFile().getPath()
-					+ File.separator + "Data";
-			connection = new DBConnection("jdbc:altdb://localhost", path);
+					codeSource.
+					getLocation().
+					toURI().getPath());
+			final String path
+			= jarFile.getParentFile().
+			getPath()
+			+ File.separator
+			+ "Data";
+			connection = new DBConnection(
+					"jdbc:altdb://localhost", path);
 		} catch (final URISyntaxException e) {
 			throw new RuntimeException();
 		}
@@ -36,8 +42,10 @@ public class ConnectionTests {
 	@Test
 	public void testCreateStatement() {
 		try {
-			Assert.assertNotNull("Null Statement Object Returned",
-					connection.createStatement());
+			Assert.assertNotNull(
+					"Null Statement"
+							+ " Object Returned",
+							connection.createStatement());
 		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
@@ -47,7 +55,9 @@ public class ConnectionTests {
 	public void testClose() {
 		try {
 			connection.close();
-			assertTrue("Connection NOT closed yet!", connection.isClosed());
+			assertTrue("Connection"
+					+ " NOT closed yet!"
+					, connection.isClosed());
 		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
