@@ -1,6 +1,10 @@
 package jdbms.sql.datatypes;
 import jdbms.sql.datatypes.util.SQLTypeFactory;
-
+/**
+ * A java object representing the
+ * SQL Varchar type.
+ * @author Mohammed Abdelbarry
+ */
 public class VarcharSQLType extends SQLType<String>{
 	static {
 		SQLTypeFactory.getInstance().registerType("VARCHAR", VarcharSQLType.class);

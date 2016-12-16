@@ -7,7 +7,11 @@ import java.util.Date;
 import jdbms.sql.datatypes.util.SQLTypeFactory;
 import jdbms.sql.exceptions.InvalidDateFormatException;
 import jdbms.sql.parsing.util.Constants;
-
+/**
+ * A java object representing the
+ * SQL Date type.
+ * @author Mohammed Abdelbarry
+ */
 public class DateSQLType extends SQLType<Date> {
 	private static final String DATE_FORMAT
 	= "yyyy-MM-dd";
@@ -39,7 +43,7 @@ public class DateSQLType extends SQLType<Date> {
 		return "DATE";
 	}
 	@Override
-	public String getStringValue() {
+	public String toString() {
 		if (value == null) {
 			return "";
 		}

@@ -7,8 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Meta Data that describes the
- *
+ * A JDBC Result Set Meta Data
+ * Implementation.
+ * @author Ahmed Moustafa El-Naggar
  */
 public class MetaData implements ResultSetMetaData {
 

@@ -54,7 +54,7 @@ public class JSONWriter implements TableWriter {
 			final JsonElement element
 			= jsonSerializationContext.serialize(
 					sqlValue, sqlValue.getClass());
-			String value = sqlValue.getStringValue();
+			String value = sqlValue.toString();
 			if (value.equals("")) {
 				value = Constants.NULL_INDICATOR;
 			}

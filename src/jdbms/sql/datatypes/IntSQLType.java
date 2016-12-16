@@ -1,7 +1,11 @@
 package jdbms.sql.datatypes;
 
 import jdbms.sql.datatypes.util.SQLTypeFactory;
-
+/**
+ * A java object representing the
+ * SQL Integer type.
+ * @author Mohammed Abdelbarry
+ */
 public class IntSQLType extends SQLType<Integer> {
 	static {
 		SQLTypeFactory.getInstance().

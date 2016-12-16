@@ -46,7 +46,7 @@ public class ProtocolBufferTesting {
 	   		writer.write(table, ".","");
 	   		final Table loadedTable = reader.read(table.getName(), ".", "");
 	   		Assert.assertEquals("horbIES", loadedTable.getName());
-	   		Assert.assertEquals("", loadedTable.getColumns().get("F").get(0).getStringValue());
+	   		Assert.assertEquals("", loadedTable.getColumns().get("F").get(0).toString());
 	   		Assert.assertEquals(1, loadedTable.getNumberOfRows());
         } catch(final Exception e) {
             e.printStackTrace();
@@ -90,7 +90,7 @@ public class ProtocolBufferTesting {
 	   		final Table loadedTable = reader.read(table.getName(), ".", "");
 	   		Assert.assertEquals(2, loadedTable.getNumberOfRows());
 	   		Assert.assertTrue(loadedTable.getColumns().get("COL_1").
-	   				get(0).getStringValue().equals("10000000000"));
+	   				get(0).toString().equals("10000000000"));
 	   		insertParameters = new InsertionParameters();
 	   		rowValues = new ArrayList<>();
 	   		values = new ArrayList<>();
@@ -103,7 +103,7 @@ public class ProtocolBufferTesting {
 	   		loadedTable.insertRows(insertParameters);
 	   		Assert.assertEquals(3, loadedTable.getNumberOfRows());
 	   		Assert.assertTrue(loadedTable.getColumns().get("COL_1").
-	   				get(2).getStringValue().equals("1000000000000000000"));
+	   				get(2).toString().equals("1000000000000000000"));
         } catch(final Exception e) {
             e.printStackTrace();
             fail("Failed.");
@@ -149,10 +149,10 @@ public class ProtocolBufferTesting {
 	   		final Table loadedTable = reader.read(table.getName(), ".", "");
 	   		Assert.assertEquals(2, loadedTable.getNumberOfRows());
 	   		Assert.assertTrue(loadedTable.getColumns().get("A_1").
-	   				get(0).getStringValue().equals("'1996-03-03 03:04:05'"));
+	   				get(0).toString().equals("'1996-03-03 03:04:05'"));
 	   		Assert.assertTrue(loadedTable.getColumns().
 	   				get("A_3").get(1).
-	   				getStringValue().equals("2.80409547630452E9"));
+	   				toString().equals("2.80409547630452E9"));
         } catch(final Exception e) {
             e.printStackTrace();
             fail("Failed.");
@@ -213,27 +213,27 @@ public class ProtocolBufferTesting {
 	   				getNumberOfRows());
 	   		Assert.assertTrue(loadedTable.
 	   				getColumns().get("HARBY").
-	   				get(0).getStringValue().
+	   				get(0).toString().
 	   				equals("\"harby's herbies\""));
 	   		Assert.assertTrue(loadedTable.
 	   				getColumns().
 	   				get("ETSH").get(1).
-	   				getStringValue().
+	   				toString().
 	   				equals("-0.22455"));
 	   		Assert.assertTrue(loadedTable.
 	   				getColumns().get("BARRY").
-	   				get(1).getStringValue().
+	   				get(1).toString().
 	   				equals("'barsy'"));
 	   		Assert.assertTrue(loadedTable.
 	   				getColumns().
 	   				get("OMAR").get(1).
-	   				getStringValue().
+	   				toString().
 	   				equals("'1391-03-03"
 	   						+ " 03:04:05'"));
 	   		Assert.assertTrue(loadedTable.
 	   				getColumns().
 	   				get("WALLS").get(0).
-	   				getStringValue().
+	   				toString().
 	   				equals("'1396-03-06'"));
 
         } catch(final Exception e) {

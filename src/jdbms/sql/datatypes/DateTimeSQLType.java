@@ -6,7 +6,11 @@ import java.util.Date;
 
 import jdbms.sql.datatypes.util.SQLTypeFactory;
 import jdbms.sql.exceptions.InvalidDateFormatException;
-
+/**
+ * A java object representing the
+ * SQL DateTime type.
+ * @author Mohammed Abdelbarry
+ */
 public class DateTimeSQLType extends SQLType<Date> {
 	private static final String DATE_TIME_FORMAT
 	= "yyyy-MM-ddHH:mm:ss";
@@ -40,7 +44,7 @@ public class DateTimeSQLType extends SQLType<Date> {
 		return "DATETIME";
 	}
 	@Override
-	public String getStringValue() {
+	public String toString() {
 		if (value == null) {
 			return "";
 		}

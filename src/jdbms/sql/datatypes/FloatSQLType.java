@@ -1,7 +1,11 @@
 package jdbms.sql.datatypes;
 
 import jdbms.sql.datatypes.util.SQLTypeFactory;
-
+/**
+ * A java object representing the
+ * SQL Float type.
+ * @author Mohammed Abdelbarry
+ */
 public class FloatSQLType extends SQLType<Float> {
 	static {
 		SQLTypeFactory.getInstance().

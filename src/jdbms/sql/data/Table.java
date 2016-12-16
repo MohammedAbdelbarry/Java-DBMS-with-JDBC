@@ -40,8 +40,8 @@ import jdbms.sql.parsing.properties.TableCreationParameters;
 import jdbms.sql.parsing.properties.UpdatingParameters;
 import jdbms.sql.parsing.util.Constants;
 /**
- * The class representing a sql column.
- * @author Moham
+ * The class representing an SQL Table.
+ * @author Mohammed Abdelbarry
  */
 public class Table {
 	/**
@@ -68,8 +68,10 @@ public class Table {
 	 * {@link TableCreationParameters}
 	 * @param createTableParameters the table
 	 * creation parameters
-	 * @throws ColumnAlreadyExistsException
-	 * @throws InvalidDateFormatException
+	 * @throws ColumnAlreadyExistsException When a column is
+	 * inserted more than once
+	 * @throws InvalidDateFormatException When a
+	 * date value is wrong
 	 */
 	public Table(final TableCreationParameters
 			createTableParameters)
@@ -90,8 +92,10 @@ public class Table {
 	 * {@link TableIdentifier}
 	 * @param tableIdentifier the table
 	 * identifier
-	 * @throws ColumnAlreadyExistsException
-	 * @throws InvalidDateFormatException
+	 * @throws ColumnAlreadyExistsException When a column is
+	 * inserted more than once
+	 * @throws InvalidDateFormatException When a
+	 * date value is wrong
 	 */
 	public Table(final TableIdentifier tableIdentifier)
 			throws ColumnAlreadyExistsException, InvalidDateFormatException {
@@ -112,8 +116,10 @@ public class Table {
 	 * of the column
 	 * @param columnDataType the data
 	 * type of the column
-	 * @throws ColumnAlreadyExistsException
-	 * @throws InvalidDateFormatException
+	 * @throws ColumnAlreadyExistsException When a column is
+	 * inserted more than once
+	 * @throws InvalidDateFormatException When a
+	 * date value is wrong
 	 */
 	public int addTableColumn(final String columnName, final String columnDataType)
 			throws ColumnAlreadyExistsException, InvalidDateFormatException {
@@ -133,10 +139,14 @@ public class Table {
 	 * @param parameters the {@link
 	 * DropColumnParameters} specifying the
 	 * columns to be dropped
-	 * @throws ColumnNotFoundException
-	 * @throws AllColumnsDroppingException
-	 * @throws RepeatedColumnException
-	 * @throws ColumnListTooLargeException
+	 * @throws ColumnNotFoundException When a column does not
+	 * exist in the table
+	 * @throws AllColumnsDroppingException When a user
+	 * tries to drop all the columns in a table
+	 * @throws RepeatedColumnException When a user
+	 * tries to drop the same column twice
+	 * @throws ColumnListTooLargeException When the column
+	 * list is larger than the number of columns in the table
 	 */
 	public int dropTableColumn(final DropColumnParameters
 			parameters) throws ColumnNotFoundException,
@@ -174,13 +184,20 @@ public class Table {
 	 * Inserts rows into the table.
 	 * @param insertParameters the
 	 * {@link InsertionParameters}
-	 * @throws RepeatedColumnException
-	 * @throws ColumnListTooLargeException
-	 * @throws ColumnNotFoundException
-	 * @throws ValueListTooLargeException
-	 * @throws ValueListTooSmallException
-	 * @throws TypeMismatchException
-	 * @throws InvalidDateFormatException
+	 * @throws RepeatedColumnException When the column
+	 * list contains duplicate columns
+	 * @throws ColumnListTooLargeException When the column
+	 * list is larger than the number of columns in the table
+	 * @throws ColumnNotFoundException When a column does not
+	 * exist in the table
+	 * @throws ValueListTooLargeException When the value
+	 * list is larger than the number of columns in the table
+	 * @throws ValueListTooSmallException When the value
+	 * list is smaller than the column list
+	 * @throws TypeMismatchException When the user tries
+	 * to insert a value into a column of the wrong type
+	 * @throws InvalidDateFormatException When the user
+	 * tries to insert an invalid date value
 	 */
 	public int insertRows(final InsertionParameters insertParameters)
 			throws RepeatedColumnException,
@@ -242,10 +259,14 @@ public class Table {
 	/**
 	 * Inserts a row.
 	 * @param values the values in the row
-	 * @throws ValueListTooLargeException
-	 * @throws ValueListTooSmallException
-	 * @throws TypeMismatchException
-	 * @throws InvalidDateFormatException
+	 * @throws ValueListTooLargeException When the value
+	 * list is larger than the number of columns in the table
+	 * @throws ValueListTooSmallException When the value
+	 * list is smaller than the column list
+	 * @throws TypeMismatchException When the user tries
+	 * to insert a value into a column of the wrong type
+	 * @throws InvalidDateFormatException When the user
+	 * tries to insert an invalid date value
 	 */
 	private void insertRow(final ArrayList<String> values)
 			throws ValueListTooLargeException, ValueListTooSmallException,
@@ -278,12 +299,18 @@ public class Table {
 	 * @param values the values
 	 * @param nullCells the columns
 	 * to be filled with null
-	 * @throws RepeatedColumnException
-	 * @throws ColumnListTooLargeException
-	 * @throws ColumnNotFoundException
-	 * @throws ValueListTooLargeException
-	 * @throws TypeMismatchException
-	 * @throws InvalidDateFormatException
+	 * @throws RepeatedColumnException When the column
+	 * list contains duplicate columns
+	 * @throws ColumnListTooLargeException When the column
+	 * list is larger than the number of columns in the table
+	 * @throws ColumnNotFoundException When a column does not
+	 * exist in the table
+	 * @throws ValueListTooLargeException When the value
+	 * list is larger than the number of columns in the table
+	 * @throws TypeMismatchException When the user tries
+	 * to insert a value into a column of the wrong type
+	 * @throws InvalidDateFormatException When the user
+	 * tries to insert an invalid date value
 	 */
 	private void insertRow(final ArrayList<String> columnNames,
 			final ArrayList<String> values, final Set<String> nullCells)
@@ -339,9 +366,12 @@ public class Table {
 	 * @param selectParameters the parameters
 	 * of the select statement
 	 * @return the select output
-	 * @throws ColumnNotFoundException
-	 * @throws TypeMismatchException
-	 * @throws InvalidDateFormatException
+	 * @throws ColumnNotFoundException When a column does not
+	 * exist in the table
+	 * @throws TypeMismatchException When the user tries
+	 * to compare a value to a value of the wrong type
+	 * @throws InvalidDateFormatException When the user
+	 * tries to compare using an invalid date value
 	 */
 	public SelectQueryOutput selectFromTable(final SelectionParameters
 			selectParameters) throws ColumnNotFoundException,
@@ -398,7 +428,7 @@ public class Table {
 				row.add(tableRows.get(i).get(
 						indices.get(columnNames.
 								get(j).toUpperCase())).
-						getStringValue());
+						toString());
 			}
 			rows.add(row);
 		}
@@ -412,9 +442,12 @@ public class Table {
 	 * Performs the sql update statement.
 	 * @param updateParameters the
 	 * update statement parameters
-	 * @throws ColumnNotFoundException
-	 * @throws TypeMismatchException
-	 * @throws InvalidDateFormatException
+	 * @throws ColumnNotFoundException When a column does not
+	 * exist in the table
+	 * @throws TypeMismatchException When the user tries
+	 * to compare a value to a value of the wrong type
+	 * @throws InvalidDateFormatException When the user
+	 * tries to compare using an invalid date value
 	 */
 	public int updateTable(final UpdatingParameters updateParameters)
 			throws ColumnNotFoundException, TypeMismatchException,
@@ -437,9 +470,12 @@ public class Table {
 	 * a boolean expression.
 	 * @param condition the boolean expression
 	 * @return a list of the matching rows
-	 * @throws ColumnNotFoundException
-	 * @throws TypeMismatchException
-	 * @throws InvalidDateFormatException
+	 * @throws ColumnNotFoundException When a column does not
+	 * exist in the table
+	 * @throws TypeMismatchException When the user tries
+	 * to compare a value to a value of the wrong type
+	 * @throws InvalidDateFormatException When the user
+	 * tries to compare using an invalid date value
 	 */
 	private ArrayList<Integer> getAllMatches(
 			final BooleanExpression condition)
@@ -503,9 +539,12 @@ public class Table {
 	 * @param matches the rows
 	 * matching the condition of the
 	 * assignment
-	 * @throws ColumnNotFoundException
-	 * @throws TypeMismatchException
-	 * @throws InvalidDateFormatException
+	 * @throws ColumnNotFoundException When a column does not
+	 * exist in the table
+	 * @throws TypeMismatchException When the user tries
+	 * to compare a value to a value of the wrong type
+	 * @throws InvalidDateFormatException When the user
+	 * tries to compare using an invalid date value
 	 */
 	private void AssignColumn(final AssignmentExpression assignment,
 			final ArrayList<Integer> matches) throws ColumnNotFoundException,
@@ -549,9 +588,12 @@ public class Table {
 	/**
 	 * Deletes all rows matching a boolean condition.
 	 * @param condition the boolean condition.
-	 * @throws ColumnNotFoundException
-	 * @throws TypeMismatchException
-	 * @throws InvalidDateFormatException
+	 * @throws ColumnNotFoundException When a column does not
+	 * exist in the table
+	 * @throws TypeMismatchException When the user tries
+	 * to compare a value to a value of the wrong type
+	 * @throws InvalidDateFormatException When the user
+	 * tries to compare using an invalid date value
 	 */
 	public int deleteRows(final BooleanExpression condition)
 			throws ColumnNotFoundException, TypeMismatchException,
@@ -582,7 +624,8 @@ public class Table {
 	 * if the left hand side of the expression
 	 * is a column or a value
 	 * @return
-	 * @throws InvalidDateFormatException
+	 * @throws InvalidDateFormatException When the user
+	 * tries to compare using an invalid date value
 	 */
 	private ArrayList<Integer> getAllMatches(final BooleanExpression condition,
 			final TableColumn conditionColumn, final String other,
@@ -590,7 +633,7 @@ public class Table {
 		final ArrayList<Integer> matches = new ArrayList<>();
 		for (int i = 0; i < numberOfRows; i++) {
 			final String leftCellValue
-			= conditionColumn.get(i).getStringValue();
+			= conditionColumn.get(i).toString();
 			if (evaluateExpression(condition,
 					leftCellValue, other)) {
 				matches.add(i);
@@ -607,7 +650,8 @@ public class Table {
 	 * of the condition
 	 * @param other the other column
 	 * @return a list of all matches
-	 * @throws InvalidDateFormatException
+	 * @throws InvalidDateFormatException When the user
+	 * tries to compare using an invalid date value
 	 */
 	private ArrayList<Integer> getAllMatches(
 			final BooleanExpression condition,
@@ -626,9 +670,9 @@ public class Table {
 		= new ArrayList<>();
 		for (int i = 0; i < numberOfRows; i++) {
 			final String leftCellValue
-			= conditionColumn.get(i).getStringValue();
+			= conditionColumn.get(i).toString();
 			final String rightCellValue
-			= other.get(i).getStringValue();
+			= other.get(i).toString();
 			if (evaluateExpression(condition,
 					leftCellValue, rightCellValue)) {
 				matches.add(i);
@@ -669,6 +713,18 @@ public class Table {
 		}
 		return rows;
 	}
+	/**
+	 *
+	 * @param condition the boolean
+	 * condition
+	 * @param leftValue The value of the left-hand
+	 * side of the comparison
+	 * @param rightValue The value of the right-hand
+	 * side of the comparison
+	 * @return The comparison boolean output
+	 * @throws InvalidDateFormatException When the user
+	 * tries to compare using an invalid date value
+	 */
 	private boolean evaluateExpression(final BooleanExpression condition,
 			final String leftValue, final String rightValue)
 					throws InvalidDateFormatException {
@@ -726,6 +782,14 @@ public class Table {
 		}
 		return false;
 	}
+	/**
+	 * Adds comparators to the
+	 * comparator chain
+	 * @param order the user comparator order
+	 * @param comparatorChain the comparator chain
+	 * @param columnIndices the indices of the
+	 * columns
+	 */
 	private void addComparators(final ArrayList<ColumnOrder>
 	order,
 	final ComparatorChain<ArrayList<SQLType<?>>>
@@ -736,6 +800,14 @@ public class Table {
 					!columnOrder.isAscending());
 		}
 	}
+	/**
+	 * Creates and returns a comparator
+	 * @param order The comparison column
+	 * and the order of the comparison
+	 * @param columnIndices the indices of the
+	 * columns
+	 * @return the new comparator
+	 */
 	private Comparator<ArrayList<SQLType<?>>>
 	getComparator(final ColumnOrder order,
 			final HashMap<String, Integer> columnIndices) {
@@ -761,6 +833,12 @@ public class Table {
 		}
 		return null;
 	}
+	/**
+	 * Transforms the values in a table
+	 * to a 2d array list and returns it
+	 * @param matches the rows to be added
+	 * @return the rows in the table
+	 */
 	private ArrayList<ArrayList<SQLType<?>>> getTableRows(final ArrayList<Integer> matches) {
 		final ArrayList<ArrayList<SQLType<?>>> rows
 		= new ArrayList<>();
@@ -774,6 +852,10 @@ public class Table {
 		}
 		return rows;
 	}
+	/**
+	 * gets the indices of the columns in the table
+	 * @return the indices of the columns
+	 */
 	private HashMap<String, Integer> getColumnIndices() {
 		final HashMap<String, Integer> columnIndices
 		= new HashMap<>();

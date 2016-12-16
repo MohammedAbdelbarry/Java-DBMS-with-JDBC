@@ -1,7 +1,11 @@
 package jdbms.sql.datatypes;
 
 import jdbms.sql.datatypes.util.SQLTypeFactory;
-
+/**
+ * A java object representing the
+ * SQL BigInt type.
+ * @author Mohammed Abdelbarry
+ */
 public class BigIntSQLType extends SQLType<Long> {
 	static {
 		SQLTypeFactory.getInstance().

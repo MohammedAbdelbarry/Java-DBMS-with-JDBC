@@ -35,14 +35,18 @@ import jdbms.sql.parsing.properties.UseParameters;
 
 /** A class representing the current sql
  * data.
- * @author Moham
+ * @author Mohammed Abdelbarry
  */
 public class SQLData {
 
 	/**Currently Active Database.*/
 	private Database activeDatabase;
+	/** The File Handler **/
 	private final FileHandler fileHandler;
 	private static final String DEFAULT_DATABASE = "default";
+	/**
+	 * Constructs a new SQLData.
+	 */
 	public SQLData() {
 		fileHandler = new FileHandler();
 		while (activeDatabase == null) {
@@ -53,6 +57,14 @@ public class SQLData {
 			}
 		}
 	}
+	/**
+	 * Constructs a new SQLData.
+	 * @param fileType The Back-End parser
+	 * type
+	 * @param filePath The path of the user's data
+	 * @throws FileFormatNotSupportedException If
+	 * the type of the back-end parser was not supported
+	 */
 	public SQLData(final String fileType, final String filePath)
 			throws FileFormatNotSupportedException {
 		fileHandler = new FileHandler(fileType, filePath);
@@ -68,8 +80,11 @@ public class SQLData {
 	 * Sets the given {@link Database} as active.
 	 * @param useParameters The parameters of the sql use
 	 * statement
-	 * @throws TableAlreadyExistsException
-	 * @throws DatabaseNotFoundException
+	 * @return The number of updates
+	 * @throws TableAlreadyExistsException If a table
+	 * with the same name already exists in the database
+	 * @throws DatabaseNotFoundException If the database
+	 * to be deleted was not found
 	 */
 	public int setActiveDatabase(final UseParameters useParameters)
 			throws DatabaseNotFoundException,
@@ -83,7 +98,9 @@ public class SQLData {
 	 * Creates a new blank database with the name provided and returns it.
 	 * @param createDBParameters The parameters of the sql
 	 * create statement
-	 * @throws DatabaseAlreadyExistsException
+	 * @return The Number of updates
+	 * @throws DatabaseAlreadyExistsException If a database
+	 * with the same name already exists
 	 */
 	public int createDatabase(final DatabaseCreationParameters
 			createDBParameters) throws DatabaseAlreadyExistsException {
@@ -96,10 +113,18 @@ public class SQLData {
 	}
 	/**
 	 * Drops the database with the provided name.
-	 * @throws DatabaseNotFoundException
-	 * @throws FailedToDeleteDatabaseException
-	 * @throws FailedToDeleteTableException
-	 * @throws TableNotFoundException
+	 * @param DatabaseDroppingParameters The
+	 * {@link DatabaseDroppingParameters}
+	 * @return The number of updates
+	 * @throws DatabaseNotFoundException If the database
+	 * to be deleted was not found
+	 * @throws FailedToDeleteDatabaseException If the
+	 * {@link FileHandler} failed to delete the database
+	 * @throws FailedToDeleteTableException If the
+	 * {@link FileHandler} failed to delete a table
+	 * in the database
+	 * @throws TableNotFoundException If a table
+	 * was not found in the database
 	 */
 	public int dropDatabase(final DatabaseDroppingParameters dropDBParameters)
 			throws DatabaseNotFoundException,
@@ -121,22 +146,35 @@ public class SQLData {
 		}
 		return 0;
 	}
-
 	/**
 	 * Returns the values selected.
 	 * @param selectParameters the {@link SelectionParameters} object
 	 * specifying the parameters of the select query
 	 * @return the output of the select query
-	 * @throws ValueListTooSmallException
-	 * @throws ValueListTooLargeException
-	 * @throws ColumnListTooLargeException
-	 * @throws RepeatedColumnException
-	 * @throws ColumnAlreadyExistsException
-	 * @throws TableNotFoundException
-	 * @throws TypeMismatchException
-	 * @throws ColumnNotFoundException
-	 * @throws InvalidDateFormatException
-	 * @throws IOException
+	 * @throws ColumnNotFoundException When a column does not
+	 * exist in the table
+	 * @throws TypeMismatchException When the user tries
+	 * to compare a value to a value of the wrong type
+	 * @throws TableNotFoundException If a
+	 * table with the same name does not exist
+	 * in the database
+	 * @throws ColumnAlreadyExistsException If a
+	 * column with the same name
+	 * already exists in the created table
+	 * @throws InvalidDateFormatException If a date
+	 * value in the table is wrong
+	 * @throws IOException If the file handler failed to
+	 * write the table to the disk
+	 * @throws RepeatedColumnException If a column
+	 * was repeated when loading the table
+	 * @throws ColumnListTooLargeException If the column
+	 * list was too large when loading the table
+	 * @throws ValueListTooLargeException If the value list
+	 * was too large when loading the table
+	 * @throws ValueListTooSmallException If the value list
+	 * was too small when loading the table
+	 * @see Database#selectFrom(SelectionParameters, FileHandler)
+	 * @see Table#selectFromTable(SelectionParameters)
 	 */
 	public SelectQueryOutput selectFrom(final SelectionParameters
 			selectParameters) throws ColumnNotFoundException,
@@ -151,10 +189,17 @@ public class SQLData {
 	 * Creates a table given the table
 	 * creation parameters.
 	 * @param tableParamters the table creation parameters
-	 * @throws TableAlreadyExistsException
-	 * @throws ColumnAlreadyExistsException
-	 * @throws InvalidDateFormatException
-	 * @throws IOException
+	 * @return The number of updated rows
+	 * @throws TableAlreadyExistsException If a table
+	 * already exists in the database with the same
+	 * name
+	 * @throws ColumnAlreadyExistsException If a
+	 * column with the same name
+	 * @throws InvalidDateFormatException If a date
+	 * value in the table is wrong
+	 * @throws IOException If the file handler failed to
+	 * write the table to the disk
+	 * @see Database#addTable(TableCreationParameters, FileHandler)
 	 */
 	public int createTable(final TableCreationParameters tableParamters)
 			throws ColumnAlreadyExistsException, TableAlreadyExistsException,
@@ -166,8 +211,12 @@ public class SQLData {
 	 * table dropping parameters.
 	 * @param tableParameters the table
 	 * dropping parameters
-	 * @throws TableNotFoundException
-	 * @throws FailedToDeleteTableException
+	 * @return The number of updated rows
+	 * @throws TableNotFoundException If the table to be dropped
+	 * was not found
+	 * @throws FailedToDeleteTableException If the
+	 * {@link FileHandler} failed to delete the table
+	 * @see Database#dropTable(String, FileHandler)
 	 */
 	public int dropTable(final TableDroppingParameters tableParameters)
 			throws TableNotFoundException, FailedToDeleteTableException {
@@ -175,7 +224,36 @@ public class SQLData {
 				tableParameters.getTableName(), fileHandler);
 
 	}
-
+	/**
+	 * Inserts rows of values into a table.
+	 * @param parameters The {@link InsertionParameters}
+	 * specifying the inserted rows
+	 * @return The number of inserted rows
+	 * @throws ColumnNotFoundException When a column does not
+	 * exist in the table
+	 * @throws TypeMismatchException When the user tries
+	 * to compare a value to a value of the wrong type
+	 * @throws TableNotFoundException If a
+	 * table with the same name does not exist
+	 * in the database
+	 * @throws ColumnAlreadyExistsException If a
+	 * column with the same name
+	 * already exists in the created table
+	 * @throws InvalidDateFormatException If a date
+	 * value in the table is wrong
+	 * @throws IOException If the file handler failed to
+	 * write the table to the disk
+	 * @throws RepeatedColumnException If a column
+	 * was repeated when loading the table
+	 * @throws ColumnListTooLargeException If the column
+	 * list was too large when loading the table
+	 * @throws ValueListTooLargeException If the value list
+	 * was too large when loading the table
+	 * @throws ValueListTooSmallException If the value list
+	 * was too small when loading the table
+	 * @see Database#insertInto(InsertionParameters, FileHandler)
+	 * @see Table#insertRows(InsertionParameters)
+	 */
 	public int insertInto(final InsertionParameters parameters)
 			throws ColumnAlreadyExistsException, RepeatedColumnException,
 			ColumnListTooLargeException, ColumnNotFoundException,
@@ -188,16 +266,31 @@ public class SQLData {
 	 * Deletes rows from a table
 	 * given its table deletion parameters.
 	 * @param deleteParameters the table deletion parameters.
-	 * @throws ValueListTooSmallException
-	 * @throws ValueListTooLargeException
-	 * @throws ColumnListTooLargeException
-	 * @throws RepeatedColumnException
-	 * @throws ColumnAlreadyExistsException
-	 * @throws TableNotFoundException
-	 * @throws TypeMismatchException
-	 * @throws ColumnNotFoundException
-	 * @throws InvalidDateFormatException
-	 * @throws IOException
+	 * @return The number of deleted rows
+	 * @throws ColumnNotFoundException When a column does not
+	 * exist in the table
+	 * @throws TypeMismatchException When the user tries
+	 * to compare a value to a value of the wrong type
+	 * @throws TableNotFoundException If a
+	 * table with the same name does not exist
+	 * in the database
+	 * @throws ColumnAlreadyExistsException If a
+	 * column with the same name
+	 * already exists in the created table
+	 * @throws InvalidDateFormatException If a date
+	 * value in the table is wrong
+	 * @throws IOException If the file handler failed to
+	 * write the table to the disk
+	 * @throws RepeatedColumnException If a column
+	 * was repeated when loading the table
+	 * @throws ColumnListTooLargeException If the column
+	 * list was too large when loading the table
+	 * @throws ValueListTooLargeException If the value list
+	 * was too large when loading the table
+	 * @throws ValueListTooSmallException If the value list
+	 * was too small when loading the table
+	 * @see Database#deleteFromTable(DeletionParameters, FileHandler)
+	 * @see Table#deleteRows(jdbms.sql.parsing.expressions.math.BooleanExpression)
 	 */
 	public int deleteFrom(final DeletionParameters deleteParameters)
 			throws ColumnNotFoundException, TypeMismatchException,
@@ -210,16 +303,31 @@ public class SQLData {
 	/**
 	 * Updates a table given its update parameters
 	 * @param updateParameters the update parameters
-	 * @throws ValueListTooSmallException
-	 * @throws ValueListTooLargeException
-	 * @throws ColumnListTooLargeException
-	 * @throws RepeatedColumnException
-	 * @throws ColumnAlreadyExistsException
-	 * @throws TableNotFoundException
-	 * @throws TypeMismatchException
-	 * @throws ColumnNotFoundException
-	 * @throws InvalidDateFormatException
-	 * @throws IOException
+	 * @return The number of updated rows
+	 * @throws ColumnNotFoundException When a column does not
+	 * exist in the table
+	 * @throws TypeMismatchException When the user tries
+	 * to compare a value to a value of the wrong type
+	 * @throws TableNotFoundException If a
+	 * table with the same name does not exist
+	 * in the database
+	 * @throws ColumnAlreadyExistsException If a
+	 * column with the same name
+	 * already exists in the created table
+	 * @throws InvalidDateFormatException If a date
+	 * value in the table is wrong
+	 * @throws IOException If the file handler failed to
+	 * write the table to the disk
+	 * @throws RepeatedColumnException If a column
+	 * was repeated when loading the table
+	 * @throws ColumnListTooLargeException If the column
+	 * list was too large when loading the table
+	 * @throws ValueListTooLargeException If the value list
+	 * was too large when loading the table
+	 * @throws ValueListTooSmallException If the value list
+	 * was too small when loading the table
+	 * @see Database#updateTable(UpdatingParameters, FileHandler)
+	 * @see Table#updateTable(UpdatingParameters)
 	 */
 	public int updateTable(final UpdatingParameters
 			updateParameters)
@@ -239,16 +347,31 @@ public class SQLData {
 	 * Adds a new table column.
 	 * @param parameters the column addition
 	 * parameters
-	 * @throws TypeMismatchException
-	 * @throws ValueListTooSmallException
-	 * @throws ValueListTooLargeException
-	 * @throws ColumnNotFoundException
-	 * @throws ColumnListTooLargeException
-	 * @throws RepeatedColumnException
-	 * @throws TableNotFoundException
-	 * @throws ColumnAlreadyExistsException
-	 * @throws InvalidDateFormatException
-	 * @throws IOException
+	 * @return The number of updated rows
+	 * @throws ColumnNotFoundException When a column does not
+	 * exist in the table
+	 * @throws TypeMismatchException When the user tries
+	 * to compare a value to a value of the wrong type
+	 * @throws TableNotFoundException If a
+	 * table with the same name does not exist
+	 * in the database
+	 * @throws ColumnAlreadyExistsException If a
+	 * column with the same name
+	 * already exists in the created table
+	 * @throws InvalidDateFormatException If a date
+	 * value in the table is wrong
+	 * @throws IOException If the file handler failed to
+	 * write the table to the disk
+	 * @throws RepeatedColumnException If a column
+	 * was repeated when loading the table
+	 * @throws ColumnListTooLargeException If the column
+	 * list was too large when loading the table
+	 * @throws ValueListTooLargeException If the value list
+	 * was too large when loading the table
+	 * @throws ValueListTooSmallException If the value list
+	 * was too small when loading the table
+	 * @see Database#addTableColumn(AddColumnParameters, FileHandler)
+	 * @see Table#addTableColumn(String, String)
 	 */
 	public int addTableColumn(final
 			AddColumnParameters parameters)
@@ -267,17 +390,33 @@ public class SQLData {
 	/**
 	 * Drops a table column.
 	 * @param parameters the {@link DropColumnParameters}
-	 * @throws TableNotFoundException
-	 * @throws InvalidDateFormatException
-	 * @throws TypeMismatchException
-	 * @throws ValueListTooSmallException
-	 * @throws ValueListTooLargeException
-	 * @throws ColumnNotFoundException
-	 * @throws ColumnListTooLargeException
-	 * @throws RepeatedColumnException
-	 * @throws ColumnAlreadyExistsException
-	 * @throws IOException
-	 * @throws AllColumnsDroppingException
+	 * @return The number of updated rows
+	 * @throws ColumnNotFoundException When a column does not
+	 * exist in the table
+	 * @throws TypeMismatchException When the user tries
+	 * to compare a value to a value of the wrong type
+	 * @throws TableNotFoundException If a
+	 * table with the same name does not exist
+	 * in the database
+	 * @throws ColumnAlreadyExistsException If a
+	 * column with the same name
+	 * already exists in the created table
+	 * @throws InvalidDateFormatException If a date
+	 * value in the table is wrong
+	 * @throws IOException If the file handler failed to
+	 * write the table to the disk
+	 * @throws RepeatedColumnException If a column
+	 * was repeated when loading the table
+	 * @throws ColumnListTooLargeException If the column
+	 * list was too large when loading the table
+	 * @throws ValueListTooLargeException If the value list
+	 * was too large when loading the table
+	 * @throws ValueListTooSmallException If the value list
+	 * was too small when loading the table
+	 * @throws AllColumnsDroppingException If The user tries
+	 * to drop all the columns in a table
+	 * @see Database#dropTableColumn(DropColumnParameters, FileHandler)
+	 * @see Table#dropTableColumn(DropColumnParameters)
 	 */
 	public int dropTableColumn(final
 			DropColumnParameters parameters)

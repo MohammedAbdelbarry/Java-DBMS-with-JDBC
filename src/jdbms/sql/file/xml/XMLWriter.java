@@ -109,7 +109,7 @@ public class XMLWriter implements TableWriter {
 			root.appendChild(row);
 			for (final String key : columnNames) {
 				final TableColumn current = tableData.get(key.toUpperCase());
-				final String value = current.get(i).getStringValue();
+				final String value = current.get(i).toString();
 				final Element col = doc.createElement(key);
 				if (value.equals("")) {
 					col.appendChild(doc.createTextNode(Constants.NULL_INDICATOR));

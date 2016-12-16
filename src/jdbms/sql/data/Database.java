@@ -25,7 +25,11 @@ import jdbms.sql.parsing.properties.InsertionParameters;
 import jdbms.sql.parsing.properties.SelectionParameters;
 import jdbms.sql.parsing.properties.TableCreationParameters;
 import jdbms.sql.parsing.properties.UpdatingParameters;
-
+/**
+ * A java class representing an SQL
+ * database.
+ * @author Mohammed Abdelbarry
+ */
 public class Database {
 
 	/**Array of database tables.*/
@@ -38,7 +42,24 @@ public class Database {
 		this.databaseName = databaseName;
 		tables = new HashSet<>();
 	}
-
+	/**
+	 * Adds a table to the database.
+	 * @param newTableIdentifier the table
+	 * identifier object
+	 * @param fileHandler the filehandler
+	 * that will write the table
+	 * @return the number of updated rows
+	 * @throws TableAlreadyExistsException If a
+	 * table with the same name already exists
+	 * in the database
+	 * @throws ColumnAlreadyExistsException If a
+	 * column with the same name
+	 * already exists in the created table
+	 * @throws InvalidDateFormatException If a date
+	 * value in the table is wrong
+	 * @throws IOException If the file handler failed to
+	 * write the table to the disk
+	 */
 	public int addTable(final TableIdentifier newTableIdentifier,
 			final FileHandler fileHandler)
 					throws TableAlreadyExistsException,
@@ -49,11 +70,28 @@ public class Database {
 					newTableIdentifier.getTableName());
 		}
 		tables.add(newTableIdentifier.getTableName().toUpperCase());
-		fileHandler.createTable(new Table(newTableIdentifier),
+		fileHandler.writeTable(new Table(newTableIdentifier),
 				databaseName.toUpperCase());
 		return 0;
 	}
-
+	/**
+	 * Adds a table to the database.
+	 * @param tableParameters The
+	 * {@link TableCreationParameters} object
+	 * @param fileHandler the filehandler
+	 * that will write the table
+	 * @return the number of updated rows
+	 * @throws TableAlreadyExistsException If a
+	 * table with the same name already exists
+	 * in the database
+	 * @throws ColumnAlreadyExistsException If a
+	 * column with the same name
+	 * already exists in the created table
+	 * @throws InvalidDateFormatException If a date
+	 * value in the table is wrong
+	 * @throws IOException If the file handler failed to
+	 * write the table to the disk
+	 */
 	public int addTable(final TableCreationParameters tableParameters,
 			final FileHandler fileHandler)
 					throws ColumnAlreadyExistsException,
@@ -66,9 +104,17 @@ public class Database {
 		}
 		tables.add(tableParameters.getTableName().toUpperCase());
 		final Table newTable = new Table(tableParameters);
-		fileHandler.createTable(newTable, databaseName.toUpperCase());
+		fileHandler.writeTable(newTable, databaseName.toUpperCase());
 		return 0;
 	}
+	/**
+	 * Adds a table name to the database.
+	 * @param tableName The name of the table
+	 * @return The number of updated rows
+	 * @throws TableAlreadyExistsException If a
+	 * table with the same name already exists
+	 * in the database
+	 */
 	public int addTableName(final String tableName)
 			throws TableAlreadyExistsException {
 		if (tables.contains(tableName.toUpperCase())) {
@@ -78,6 +124,21 @@ public class Database {
 		tables.add(tableName.toUpperCase());
 		return 0;
 	}
+	/**
+	 * Drops a table from the database.
+	 * @param tableName The name of the
+	 * table to be dropped
+	 * @param fileHandler The {@link FileHandler}
+	 * object that will delete the table from
+	 * the disk
+	 * @return The number of updated rows
+	 * @throws TableNotFoundException If a
+	 * table with the same name does not exist
+	 * in the database
+	 * @throws FailedToDeleteTableException If
+	 * the file handler failed to delete the table
+	 * from the disk
+	 */
 	public int dropTable(final String tableName,
 			final FileHandler fileHandler)
 					throws TableNotFoundException,
@@ -89,7 +150,38 @@ public class Database {
 		fileHandler.deleteTable(tableName, databaseName.toUpperCase());
 		return 0;
 	}
-
+	/**
+	 * Deletes a set of rows from a table.
+	 * @param deleteParameters The {@link DeletionParameters}
+	 * specifying which rows will be deleted
+	 * @param fileHandler The {@link FileHandler}
+	 * object that will read the table from the disk
+	 * and write it back after it has been edited
+	 * @return The number of deleted row
+	 * @throws ColumnNotFoundException When a column does not
+	 * exist in the table
+	 * @throws TypeMismatchException When the user tries
+	 * to compare a value to a value of the wrong type
+	 * @throws TableNotFoundException If a
+	 * table with the same name does not exist
+	 * in the database
+	 * @throws ColumnAlreadyExistsException If a
+	 * column with the same name
+	 * already exists in the created table
+	 * @throws InvalidDateFormatException If a date
+	 * value in the table is wrong
+	 * @throws IOException If the file handler failed to
+	 * write the table to the disk
+	 * @throws RepeatedColumnException If a column
+	 * was repeated when loading the table
+	 * @throws ColumnListTooLargeException If the column
+	 * list was too large when loading the table
+	 * @throws ValueListTooLargeException If the value list
+	 * was too large when loading the table
+	 * @throws ValueListTooSmallException If the value list
+	 * was too small when loading the table
+	 * @see Table#deleteRows(jdbms.sql.parsing.expressions.math.BooleanExpression)
+	 */
 	public int deleteFromTable(final DeletionParameters deleteParameters,
 			final FileHandler fileHandler)
 					throws ColumnNotFoundException,
@@ -102,13 +194,45 @@ public class Database {
 			throw new TableNotFoundException(
 					deleteParameters.getTableName());
 		}
-		final Table activeTable = fileHandler.loadTable(databaseName.toUpperCase(),
+		final Table activeTable = fileHandler.readTable(databaseName.toUpperCase(),
 				deleteParameters.getTableName().toUpperCase());
 		final int numberOfDeletions
 		= activeTable.deleteRows(deleteParameters.getCondition());
-		fileHandler.createTable(activeTable, databaseName.toUpperCase());
+		fileHandler.writeTable(activeTable, databaseName.toUpperCase());
 		return numberOfDeletions;
 	}
+	/**
+	 * Inserts values into the table.
+	 * @param insertParameters The {@link InsertionParameters}
+	 * Specifying the values to be inserted into the table
+	 * @param fileHandler The {@link FileHandler}
+	 * object that will read the table from the disk
+	 * and write it back after it has been edited
+	 * @return The number of inserted rows
+	 * @throws ColumnNotFoundException When a column does not
+	 * exist in the table
+	 * @throws TypeMismatchException When the user tries
+	 * to compare a value to a value of the wrong type
+	 * @throws TableNotFoundException If a
+	 * table with the same name does not exist
+	 * in the database
+	 * @throws ColumnAlreadyExistsException If a
+	 * column with the same name
+	 * already exists in the created table
+	 * @throws InvalidDateFormatException If a date
+	 * value in the table is wrong
+	 * @throws IOException If the file handler failed to
+	 * write the table to the disk
+	 * @throws RepeatedColumnException If a column
+	 * was repeated when loading the table
+	 * @throws ColumnListTooLargeException If the column
+	 * list was too large when loading the table
+	 * @throws ValueListTooLargeException If the value list
+	 * was too large when loading the table
+	 * @throws ValueListTooSmallException If the value list
+	 * was too small when loading the table
+	 * @see Table#insertRows(InsertionParameters)
+	 */
 	public int insertInto (final InsertionParameters insertParameters,
 			final FileHandler fileHandler)
 					throws RepeatedColumnException,
@@ -122,13 +246,46 @@ public class Database {
 			throw new TableNotFoundException(
 					insertParameters.getTableName());
 		}
-		final Table activeTable = fileHandler.loadTable(databaseName.toUpperCase(),
+		final Table activeTable = fileHandler.readTable(databaseName.toUpperCase(),
 				insertParameters.getTableName().toUpperCase());
 		final int numberOfInsertions
 		= activeTable.insertRows(insertParameters);
-		fileHandler.createTable(activeTable, databaseName.toUpperCase());
+		fileHandler.writeTable(activeTable, databaseName.toUpperCase());
 		return numberOfInsertions;
 	}
+	/**
+	 * Selects a set of rows and columns from
+	 * a table.
+	 * @param selectParameters The {@link SelectionParameters}
+	 * specifying which rows and columns will be selected
+	 * @param fileHandler The {@link FileHandler}
+	 * object that will read the table from the disk
+	 * and write it back after it has been edited
+	 * @return The {@link SelectQueryOutput}
+	 * @throws ColumnNotFoundException When a column does not
+	 * exist in the table
+	 * @throws TypeMismatchException When the user tries
+	 * to compare a value to a value of the wrong type
+	 * @throws TableNotFoundException If a
+	 * table with the same name does not exist
+	 * in the database
+	 * @throws ColumnAlreadyExistsException If a
+	 * column with the same name
+	 * already exists in the created table
+	 * @throws InvalidDateFormatException If a date
+	 * value in the table is wrong
+	 * @throws IOException If the file handler failed to
+	 * write the table to the disk
+	 * @throws RepeatedColumnException If a column
+	 * was repeated when loading the table
+	 * @throws ColumnListTooLargeException If the column
+	 * list was too large when loading the table
+	 * @throws ValueListTooLargeException If the value list
+	 * was too large when loading the table
+	 * @throws ValueListTooSmallException If the value list
+	 * was too small when loading the table
+	 * @see Table#selectFromTable(SelectionParameters)
+	 */
 	public SelectQueryOutput selectFrom(
 			final SelectionParameters selectParameters,
 			final FileHandler fileHandler)
@@ -142,10 +299,43 @@ public class Database {
 			throw new TableNotFoundException(
 					selectParameters.getTableName());
 		}
-		final Table activeTable = fileHandler.loadTable(databaseName.toUpperCase(),
+		final Table activeTable = fileHandler.readTable(databaseName.toUpperCase(),
 				selectParameters.getTableName().toUpperCase());
 		return activeTable.selectFromTable(selectParameters);
 	}
+	/**
+	 * Updates some values in the table.
+	 * @param updateParameters The {@link UpdatingParameters}
+	 * specifying the rows to be updated and the value to be
+	 * assigned
+	 * @param fileHandler The {@link FileHandler}
+	 * object that will read the table from the disk
+	 * and write it back after it has been edited
+	 * @return The number of updated rows
+	 * @throws ColumnNotFoundException When a column does not
+	 * exist in the table
+	 * @throws TypeMismatchException When the user tries
+	 * to compare a value to a value of the wrong type
+	 * @throws TableNotFoundException If a
+	 * table with the same name does not exist
+	 * in the database
+	 * @throws ColumnAlreadyExistsException If a
+	 * column with the same name
+	 * already exists in the created table
+	 * @throws InvalidDateFormatException If a date
+	 * value in the table is wrong
+	 * @throws IOException If the file handler failed to
+	 * write the table to the disk
+	 * @throws RepeatedColumnException If a column
+	 * was repeated when loading the table
+	 * @throws ColumnListTooLargeException If the column
+	 * list was too large when loading the table
+	 * @throws ValueListTooLargeException If the value list
+	 * was too large when loading the table
+	 * @throws ValueListTooSmallException If the value list
+	 * was too small when loading the table
+	 * @see Table#updateTable(UpdatingParameters)
+	 */
 	public int updateTable(final UpdatingParameters updateParameters,
 			final FileHandler fileHandler)
 					throws ColumnNotFoundException, TypeMismatchException,
@@ -157,13 +347,45 @@ public class Database {
 			throw new TableNotFoundException(
 					updateParameters.getTableName());
 		}
-		final Table activeTable = fileHandler.loadTable(databaseName.toUpperCase(),
+		final Table activeTable = fileHandler.readTable(databaseName.toUpperCase(),
 				updateParameters.getTableName().toUpperCase());
 		final int numberOfUpdates
 		= activeTable.updateTable(updateParameters);
-		fileHandler.createTable(activeTable, databaseName.toUpperCase());
+		fileHandler.writeTable(activeTable, databaseName.toUpperCase());
 		return numberOfUpdates;
 	}
+	/**
+	 * Adds a column to the table.
+	 * @param parameters The {@link AddColumnParameters}
+	 * specifying the added columns
+	 * @param fileHandler The {@link FileHandler}
+	 * object that will read the table from the disk
+	 * and write it back after it has been edited
+	 * @return The number of updated rows
+	 * @throws ColumnNotFoundException When a column does not
+	 * exist in the table
+	 * @throws TypeMismatchException When the user tries
+	 * to compare a value to a value of the wrong type
+	 * @throws TableNotFoundException If a
+	 * table with the same name does not exist
+	 * in the database
+	 * @throws ColumnAlreadyExistsException If a
+	 * column with the same name
+	 * already exists in the created table
+	 * @throws InvalidDateFormatException If a date
+	 * value in the table is wrong
+	 * @throws IOException If the file handler failed to
+	 * write the table to the disk
+	 * @throws RepeatedColumnException If a column
+	 * was repeated when loading the table
+	 * @throws ColumnListTooLargeException If the column
+	 * list was too large when loading the table
+	 * @throws ValueListTooLargeException If the value list
+	 * was too large when loading the table
+	 * @throws ValueListTooSmallException If the value list
+	 * was too small when loading the table
+	 * @see Table#addTableColumn(String, String)
+	 */
 	public int addTableColumn(final AddColumnParameters parameters,
 			final FileHandler fileHandler)
 					throws ColumnAlreadyExistsException,
@@ -176,15 +398,49 @@ public class Database {
 				getTableName().toUpperCase())) {
 			throw new TableNotFoundException(parameters.getTableName());
 		}
-		final Table activeTable = fileHandler.loadTable(databaseName.toUpperCase(),
+		final Table activeTable = fileHandler.readTable(databaseName.toUpperCase(),
 				parameters.getTableName().toUpperCase());
 		final int returnValue
 		= activeTable.addTableColumn(
 				parameters.getColumnIdentifier().getName(),
 				parameters.getColumnIdentifier().getType());
-		fileHandler.createTable(activeTable, databaseName.toUpperCase());
+		fileHandler.writeTable(activeTable, databaseName.toUpperCase());
 		return returnValue;
 	}
+	/**
+	 * Drops one or more columns from the table.
+	 * @param parameters The {@link DropColumnParameters}
+	 * specifying which columns will be dropped
+	 * @param fileHandler The {@link FileHandler}
+	 * object that will read the table from the disk
+	 * and write it back after it has been edited
+	 * @return The number of updated rows
+	 * @throws ColumnNotFoundException When a column does not
+	 * exist in the table
+	 * @throws TypeMismatchException When the user tries
+	 * to compare a value to a value of the wrong type
+	 * @throws TableNotFoundException If a
+	 * table with the same name does not exist
+	 * in the database
+	 * @throws ColumnAlreadyExistsException If a
+	 * column with the same name
+	 * already exists in the created table
+	 * @throws InvalidDateFormatException If a date
+	 * value in the table is wrong
+	 * @throws IOException If the file handler failed to
+	 * write the table to the disk
+	 * @throws RepeatedColumnException If a column
+	 * was repeated when loading the table
+	 * @throws ColumnListTooLargeException If the column
+	 * list was too large when loading the table
+	 * @throws ValueListTooLargeException If the value list
+	 * was too large when loading the table
+	 * @throws ValueListTooSmallException If the value list
+	 * was too small when loading the table
+	 * @throws AllColumnsDroppingException If The user tries
+	 * to drop all the columns in a table
+	 * @see Table#dropTableColumn(DropColumnParameters)
+	 */
 	public int dropTableColumn(final DropColumnParameters parameters,
 			final FileHandler fileHandler)
 					throws ColumnAlreadyExistsException,
@@ -202,13 +458,17 @@ public class Database {
 				getTableName().toUpperCase())) {
 			throw new TableNotFoundException(parameters.getTableName() );
 		}
-		final Table activeTable = fileHandler.loadTable(databaseName.toUpperCase(),
+		final Table activeTable = fileHandler.readTable(databaseName.toUpperCase(),
 				parameters.getTableName().toUpperCase());
 		final int returnValue
 		= activeTable.dropTableColumn(parameters);
-		fileHandler.createTable(activeTable, databaseName.toUpperCase());
+		fileHandler.writeTable(activeTable, databaseName.toUpperCase());
 		return returnValue;
 	}
+	/**
+	 * Returns the name of the database.
+	 * @return the name of the database
+	 */
 	public String getDatabaseName() {
 		return databaseName;
 	}
