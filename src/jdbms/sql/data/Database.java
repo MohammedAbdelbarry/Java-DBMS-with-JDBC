@@ -433,6 +433,8 @@ public class Database {
 	 * was too large when loading the table
 	 * @throws ValueListTooSmallException If the value list
 	 * was too small when loading the table
+	 * @throws AllColumnsDroppingException If The user tries
+	 * to drop all the columns in a table
 	 * @see Table#dropTableColumn(DropColumnParameters)
 	 */
 	public int dropTableColumn(final DropColumnParameters parameters,
