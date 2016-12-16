@@ -8,12 +8,12 @@ import jdbms.sql.parsing.statements.SetStatement;
  */
 public class TableUpdateTableNameExpression extends TableNameExpression {
 
-	/**
-	 * Instantiates a new table update table name expression.
-	 * @param parameters the input parameters
-	 */
-	public TableUpdateTableNameExpression(
-			InputParametersContainer parameters) {
-		super(new SetStatement(parameters), parameters);
-	}
+    /**
+     * Instantiates a new table update table name expression.
+     * @param parameters the input parameters
+     */
+    public TableUpdateTableNameExpression(
+            InputParametersContainer parameters) {
+        super(new SetStatement(parameters), parameters);
+    }
 }

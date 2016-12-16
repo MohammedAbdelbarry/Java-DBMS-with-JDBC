@@ -8,12 +8,12 @@ import jdbms.sql.parsing.statements.WhereStatement;
  */
 public class TableConditionalExpression extends TableNameExpression {
 
-	/**
-	 * Instantiates a new table conditional expression.
-	 * @param parameters the input parameters
-	 */
-	public TableConditionalExpression(
-			InputParametersContainer parameters) {
-		super(new WhereStatement(parameters), parameters);
-	}
+    /**
+     * Instantiates a new table conditional expression.
+     * @param parameters the input parameters
+     */
+    public TableConditionalExpression(
+            InputParametersContainer parameters) {
+        super(new WhereStatement(parameters), parameters);
+    }
 }

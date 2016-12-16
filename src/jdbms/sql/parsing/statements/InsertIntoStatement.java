@@ -22,64 +22,65 @@ import jdbms.sql.parsing.statements.util.InitialStatementFactory;
  */
 public class InsertIntoStatement extends InitialStatement {
 
-	private static final String STATEMENT_IDENTIFIER
-	= "INSERT INTO";
-	private static final String CLASS_ID
-	= "INSERTINTOSTATEMENTCLASS";
-	private final InsertionParameters insertParameters;
-	static {
-		InitialStatementFactory.getInstance().
-		registerStatement(CLASS_ID,
-				InsertIntoStatement.class);
-	}
+    private static final String STATEMENT_IDENTIFIER
+            = "INSERT INTO";
+    private static final String CLASS_ID
+            = "INSERTINTOSTATEMENTCLASS";
+    private final InsertionParameters insertParameters;
 
-	/**
-	 * Instantiates a new insert into statement.
-	 */
-	public InsertIntoStatement() {
-		super();
-		insertParameters = new InsertionParameters();
-	}
+    static {
+        InitialStatementFactory.getInstance().
+                registerStatement(CLASS_ID,
+                        InsertIntoStatement.class);
+    }
 
-	@Override
-	public boolean interpret(final String sqlExpression) {
-		if (sqlExpression.
-				startsWith(STATEMENT_IDENTIFIER)) {
-			final String restOfExpression
-			= sqlExpression.
-			replaceFirst(STATEMENT_IDENTIFIER, "").trim();
-			if (new TableNameColumnListExpression(parameters).
-					interpret(restOfExpression)
-					|| new TableNameValueListExpression(parameters).
-					interpret(restOfExpression)) {
-				return true;
-			}
-		}
-		return false;
-	}
+    /**
+     * Instantiates a new insert into statement.
+     */
+    public InsertIntoStatement() {
+        super();
+        insertParameters = new InsertionParameters();
+    }
 
-	@Override
-	public void act(final SQLData data)
-			throws ColumnAlreadyExistsException,
-			RepeatedColumnException,
-			ColumnListTooLargeException,
-			ColumnNotFoundException,
-			ValueListTooLargeException,
-			ValueListTooSmallException,
-			TableNotFoundException,
-			TypeMismatchException,
-			InvalidDateFormatException,
-			IOException {
-		buildParameters();
-		numberOfUpdates = data.insertInto(insertParameters);
-	}
+    @Override
+    public boolean interpret(final String sqlExpression) {
+        if (sqlExpression.
+                startsWith(STATEMENT_IDENTIFIER)) {
+            final String restOfExpression
+                    = sqlExpression.
+                    replaceFirst(STATEMENT_IDENTIFIER, "").trim();
+            if (new TableNameColumnListExpression(parameters).
+                    interpret(restOfExpression)
+                    || new TableNameValueListExpression(parameters).
+                    interpret(restOfExpression)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	/**
-	 * Builds the parameters.
-	 */
-	private void buildParameters() {
-		insertParameters.setColumns(parameters.getColumns());
-		insertParameters.setTableName(parameters.getTableName());
-		insertParameters.setValues(parameters.getValues());
-	}
+    @Override
+    public void act(final SQLData data)
+            throws ColumnAlreadyExistsException,
+            RepeatedColumnException,
+            ColumnListTooLargeException,
+            ColumnNotFoundException,
+            ValueListTooLargeException,
+            ValueListTooSmallException,
+            TableNotFoundException,
+            TypeMismatchException,
+            InvalidDateFormatException,
+            IOException {
+        buildParameters();
+        numberOfUpdates = data.insertInto(insertParameters);
+    }
+
+    /**
+     * Builds the parameters.
+     */
+    private void buildParameters() {
+        insertParameters.setColumns(parameters.getColumns());
+        insertParameters.setTableName(parameters.getTableName());
+        insertParameters.setValues(parameters.getValues());
+    }
 }

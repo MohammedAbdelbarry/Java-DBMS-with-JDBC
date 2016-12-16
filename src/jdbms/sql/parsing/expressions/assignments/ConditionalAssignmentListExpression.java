@@ -7,14 +7,14 @@ import jdbms.sql.parsing.statements.WhereStatement;
  * The Class ConditionalAssignmentListExpression.
  */
 public class ConditionalAssignmentListExpression
-extends AssignmentListExpression {
+        extends AssignmentListExpression {
 
-	/**
-	 * Instantiates a new conditional assignment list expression.
-	 * @param parameters the input parameters
-	 */
-	public ConditionalAssignmentListExpression(
-			InputParametersContainer parameters) {
-		super(new WhereStatement(parameters), parameters);
-	}
+    /**
+     * Instantiates a new conditional assignment list expression.
+     * @param parameters the input parameters
+     */
+    public ConditionalAssignmentListExpression(
+            InputParametersContainer parameters) {
+        super(new WhereStatement(parameters), parameters);
+    }
 }

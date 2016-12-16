@@ -23,63 +23,65 @@ import jdbms.sql.parsing.statements.util.InitialStatementFactory;
  */
 public class SelectStatement extends InitialStatement {
 
-	private static final String STATEMENT_IDENTIFIER
-	= "SELECT";
-	private static final String CLASS_ID
-	= "SELECTSTATEMENTCLASS";
-	private final SelectionParameters selectParameters;
-	static {
-		InitialStatementFactory.getInstance().
-		registerStatement(CLASS_ID,
-				SelectStatement.class);
-	}
+    private static final String STATEMENT_IDENTIFIER
+            = "SELECT";
+    private static final String CLASS_ID
+            = "SELECTSTATEMENTCLASS";
+    private final SelectionParameters selectParameters;
 
-	/**
-	 * Instantiates a new select statement.
-	 */
-	public SelectStatement() {
-		super();
-		selectParameters = new SelectionParameters();
-		numberOfUpdates = -1;
-	}
+    static {
+        InitialStatementFactory.getInstance().
+                registerStatement(CLASS_ID,
+                        SelectStatement.class);
+    }
 
-	@Override
-	public boolean interpret(final String sqlExpression) {
-		if (sqlExpression.startsWith(STATEMENT_IDENTIFIER)) {
-			final String restOfExpression = sqlExpression.replaceFirst(
-					STATEMENT_IDENTIFIER, "").trim();
-			if (new ColumnWildcardExpression(
-					parameters).interpret(restOfExpression) ||
-					new SelectColumnListExpression(
-							parameters).interpret(restOfExpression)
-					|| new DistinctStatement(parameters).interpret(restOfExpression)) {
-				return true;
-			}
-		}
-		return false;
-	}
+    /**
+     * Instantiates a new select statement.
+     */
+    public SelectStatement() {
+        super();
+        selectParameters = new SelectionParameters();
+        numberOfUpdates = -1;
+    }
 
-	@Override
-	public void act(final SQLData data)
-			throws ColumnNotFoundException,
-			TypeMismatchException,
-			TableNotFoundException,
-			ColumnAlreadyExistsException,
-			RepeatedColumnException,
-			ColumnListTooLargeException,
-			ValueListTooLargeException,
-			ValueListTooSmallException,
-			InvalidDateFormatException,
-			IOException {
-		buildParameters();
-		queryOutput = data.selectFrom(selectParameters);
-	}
+    @Override
+    public boolean interpret(final String sqlExpression) {
+        if (sqlExpression.startsWith(STATEMENT_IDENTIFIER)) {
+            final String restOfExpression = sqlExpression.replaceFirst(
+                    STATEMENT_IDENTIFIER, "").trim();
+            if (new ColumnWildcardExpression(
+                    parameters).interpret(restOfExpression) ||
+                    new SelectColumnListExpression(
+                            parameters).interpret(restOfExpression)
+                    || new DistinctStatement(parameters).interpret
+                    (restOfExpression)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	private void buildParameters() {
-		selectParameters.setColumns(parameters.getColumns());
-		selectParameters.setTableName(parameters.getTableName());
-		selectParameters.setCondition(parameters.getCondition());
-		selectParameters.setDistinct(parameters.isDistinct());
-		selectParameters.setColumnsOrder(parameters.getColumnsOrder());
-	}
+    @Override
+    public void act(final SQLData data)
+            throws ColumnNotFoundException,
+            TypeMismatchException,
+            TableNotFoundException,
+            ColumnAlreadyExistsException,
+            RepeatedColumnException,
+            ColumnListTooLargeException,
+            ValueListTooLargeException,
+            ValueListTooSmallException,
+            InvalidDateFormatException,
+            IOException {
+        buildParameters();
+        queryOutput = data.selectFrom(selectParameters);
+    }
+
+    private void buildParameters() {
+        selectParameters.setColumns(parameters.getColumns());
+        selectParameters.setTableName(parameters.getTableName());
+        selectParameters.setCondition(parameters.getCondition());
+        selectParameters.setDistinct(parameters.isDistinct());
+        selectParameters.setColumnsOrder(parameters.getColumnsOrder());
+    }
 }

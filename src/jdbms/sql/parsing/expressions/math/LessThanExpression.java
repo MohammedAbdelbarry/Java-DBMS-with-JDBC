@@ -13,43 +13,49 @@ import jdbms.sql.parsing.properties.InputParametersContainer;
  */
 public class LessThanExpression extends BooleanExpression {
 
-	private static final String SYMBOL = "<";
-	static {
-		BooleanExpressionFactory.getInstance().
-		registerBoolExpression(SYMBOL, LessThanExpression.class);
-	}
+    private static final String SYMBOL = "<";
 
-	/**
-	 * Instantiates a new less than expression.
-	 * @param parameters the parameters
-	 */
-	public LessThanExpression(
-			final InputParametersContainer parameters) {
-		super(SYMBOL, parameters);
-	}
-	@Override
-	public boolean evaluate(final VarcharSQLType left,
-			final VarcharSQLType right) {
-		return left.compareTo(right) < 0;
-	}
-	@Override
-	public boolean evaluate(final BigIntSQLType left,
-			final BigIntSQLType right) {
-		return left.compareTo(right) < 0;
-	}
-	@Override
-	public boolean evaluate(final DoubleSQLType left,
-			final DoubleSQLType right) {
-		return left.compareTo(right) < 0;
-	}
-	@Override
-	public boolean evaluate(final DateSQLType left,
-			final DateSQLType right) {
-		return left.compareTo(right) < 0;
-	}
-	@Override
-	public boolean evaluate(final DateTimeSQLType left,
-			final DateTimeSQLType right) {
-		return left.compareTo(right) < 0;
-	}
+    static {
+        BooleanExpressionFactory.getInstance().
+                registerBoolExpression(SYMBOL, LessThanExpression.class);
+    }
+
+    /**
+     * Instantiates a new less than expression.
+     * @param parameters the parameters
+     */
+    public LessThanExpression(
+            final InputParametersContainer parameters) {
+        super(SYMBOL, parameters);
+    }
+
+    @Override
+    public boolean evaluate(final VarcharSQLType left,
+                            final VarcharSQLType right) {
+        return left.compareTo(right) < 0;
+    }
+
+    @Override
+    public boolean evaluate(final BigIntSQLType left,
+                            final BigIntSQLType right) {
+        return left.compareTo(right) < 0;
+    }
+
+    @Override
+    public boolean evaluate(final DoubleSQLType left,
+                            final DoubleSQLType right) {
+        return left.compareTo(right) < 0;
+    }
+
+    @Override
+    public boolean evaluate(final DateSQLType left,
+                            final DateSQLType right) {
+        return left.compareTo(right) < 0;
+    }
+
+    @Override
+    public boolean evaluate(final DateTimeSQLType left,
+                            final DateTimeSQLType right) {
+        return left.compareTo(right) < 0;
+    }
 }

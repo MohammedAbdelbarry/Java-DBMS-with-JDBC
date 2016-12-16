@@ -124,7 +124,7 @@ public class XMLReader implements TableReader {
      */
     private Table createTable(final ArrayList<ColumnIdentifier> columns,
                               final ArrayList<ArrayList<String>> values,
-							  final String tableName,
+                              final String tableName,
                               final ArrayList<String> columnNames)
             throws ColumnAlreadyExistsException,
             RepeatedColumnException,
@@ -135,7 +135,7 @@ public class XMLReader implements TableReader {
             TypeMismatchException,
             InvalidDateFormatException {
         final TableCreationParameters parameters = new
-				TableCreationParameters();
+                TableCreationParameters();
         parameters.setColumnDefinitions(columns);
         parameters.setTableName(tableName);
         Table table;
@@ -155,7 +155,8 @@ public class XMLReader implements TableReader {
      * @param columnNames array of column names
      */
     private void extractRows(final ArrayList<ArrayList<String>> values,
-                             final NodeList nList, final ArrayList<String> columnNames) {
+                             final NodeList nList, final ArrayList<String>
+                                     columnNames) {
         for (int i = 0; i < nList.getLength(); i++) {
             final Node node = nList.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {

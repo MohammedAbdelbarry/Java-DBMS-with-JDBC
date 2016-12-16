@@ -11,49 +11,49 @@ import jdbms.sql.parsing.statements.util.InitialStatementFactory;
  */
 public class CreateDatabaseStatement extends InitialStatement {
 
-	private static final String STATEMENT_IDENTIFIER
-	= "CREATE DATABASE";
-	private static final String CLASS_ID
-	= "CREATEDATABASESTATEMENTCLASS";
-	private final DatabaseCreationParameters createDBParameters;
+    private static final String STATEMENT_IDENTIFIER
+            = "CREATE DATABASE";
+    private static final String CLASS_ID
+            = "CREATEDATABASESTATEMENTCLASS";
+    private final DatabaseCreationParameters createDBParameters;
 
-	static {
-		InitialStatementFactory.
-		getInstance().
-		registerStatement(CLASS_ID, CreateDatabaseStatement.class);
-	}
+    static {
+        InitialStatementFactory.
+                getInstance().
+                registerStatement(CLASS_ID, CreateDatabaseStatement.class);
+    }
 
-	/**
-	 * Instantiates a new create database statement.
-	 */
-	public CreateDatabaseStatement() {
-		super();
-		createDBParameters = new DatabaseCreationParameters();
-	}
+    /**
+     * Instantiates a new create database statement.
+     */
+    public CreateDatabaseStatement() {
+        super();
+        createDBParameters = new DatabaseCreationParameters();
+    }
 
-	@Override
-	public boolean interpret(final String sqlExpression) {
-		if (sqlExpression.startsWith(STATEMENT_IDENTIFIER)) {
-			final String restOfExpression = sqlExpression.
-					replaceFirst(STATEMENT_IDENTIFIER, "").trim();
-			return new DatabaseTerminatingExpression(parameters).
-					interpret(restOfExpression);
-		}
-		return false;
-	}
+    @Override
+    public boolean interpret(final String sqlExpression) {
+        if (sqlExpression.startsWith(STATEMENT_IDENTIFIER)) {
+            final String restOfExpression = sqlExpression.
+                    replaceFirst(STATEMENT_IDENTIFIER, "").trim();
+            return new DatabaseTerminatingExpression(parameters).
+                    interpret(restOfExpression);
+        }
+        return false;
+    }
 
-	@Override
-	public void act(final SQLData data)
-			throws DatabaseAlreadyExistsException {
-		buildParameters();
-		numberOfUpdates = data.createDatabase(createDBParameters);
-	}
+    @Override
+    public void act(final SQLData data)
+            throws DatabaseAlreadyExistsException {
+        buildParameters();
+        numberOfUpdates = data.createDatabase(createDBParameters);
+    }
 
-	/**
-	 * Builds the parameters.
-	 */
-	private void buildParameters() {
-		createDBParameters.setDatabaseName(parameters.
-				getDatabaseName());
-	}
+    /**
+     * Builds the parameters.
+     */
+    private void buildParameters() {
+        createDBParameters.setDatabaseName(parameters.
+                getDatabaseName());
+    }
 }

@@ -12,42 +12,42 @@ import jdbms.sql.parsing.statements.FromStatement;
  */
 public class SelectColumnListExpression extends ColumnListExpression {
 
-	private static final String FROMSTATEMENT = "FROM";
-	private final ArrayList<String> columnsNames;
-	private final StringModifier modifier;
+    private static final String FROMSTATEMENT = "FROM";
+    private final ArrayList<String> columnsNames;
+    private final StringModifier modifier;
 
-	/**
-	 * Instantiates a new select column list expression.
-	 * @param parameters the parameters
-	 */
-	public SelectColumnListExpression(
-			final InputParametersContainer parameters) {
-		super(new FromStatement(parameters), parameters);
-		this.columnsNames = new ArrayList<>();
-		this.modifier = new StringModifier();
-	}
+    /**
+     * Instantiates a new select column list expression.
+     * @param parameters the parameters
+     */
+    public SelectColumnListExpression(
+            final InputParametersContainer parameters) {
+        super(new FromStatement(parameters), parameters);
+        this.columnsNames = new ArrayList<>();
+        this.modifier = new StringModifier();
+    }
 
-	@Override
-	public boolean interpret(String sqlExpression) {
-		sqlExpression = sqlExpression.trim();
-		final String modifiedExpression
-		= modifier.modifyString(sqlExpression);
-		if (!modifiedExpression.contains(FROMSTATEMENT)) {
-			return false;
-		}
-		final String colList = sqlExpression.substring(0,
-				modifiedExpression.indexOf(FROMSTATEMENT)).trim();
-		final String restOfExpression = sqlExpression.
-				substring(modifiedExpression.indexOf(FROMSTATEMENT)).trim();
-		final String[] parts = colList.split(",");
-		for (String col : parts) {
-			col = col.trim();
-			if (!new ColumnExpression(col).isValidColumnName()) {
-				return false;
-			}
-			columnsNames.add(col);
-		}
-		parameters.setColumns(columnsNames);
-		return super.interpret(restOfExpression);
-	}
+    @Override
+    public boolean interpret(String sqlExpression) {
+        sqlExpression = sqlExpression.trim();
+        final String modifiedExpression
+                = modifier.modifyString(sqlExpression);
+        if (!modifiedExpression.contains(FROMSTATEMENT)) {
+            return false;
+        }
+        final String colList = sqlExpression.substring(0,
+                modifiedExpression.indexOf(FROMSTATEMENT)).trim();
+        final String restOfExpression = sqlExpression.
+                substring(modifiedExpression.indexOf(FROMSTATEMENT)).trim();
+        final String[] parts = colList.split(",");
+        for (String col : parts) {
+            col = col.trim();
+            if (!new ColumnExpression(col).isValidColumnName()) {
+                return false;
+            }
+            columnsNames.add(col);
+        }
+        parameters.setColumns(columnsNames);
+        return super.interpret(restOfExpression);
+    }
 }

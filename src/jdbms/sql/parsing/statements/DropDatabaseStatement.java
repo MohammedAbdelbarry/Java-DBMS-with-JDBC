@@ -14,50 +14,51 @@ import jdbms.sql.parsing.statements.util.InitialStatementFactory;
  */
 public class DropDatabaseStatement extends InitialStatement {
 
-	private static final String STATEMENT_IDENTIFIER = "DROP DATABASE";
-	private static final String CLASS_ID = "DROPDATABASESTATEMENTCLASS";
-	private final DatabaseDroppingParameters dropDBParameters;
-	static {
-		InitialStatementFactory.getInstance().
-		registerStatement(CLASS_ID,
-				DropDatabaseStatement.class);
-	}
+    private static final String STATEMENT_IDENTIFIER = "DROP DATABASE";
+    private static final String CLASS_ID = "DROPDATABASESTATEMENTCLASS";
+    private final DatabaseDroppingParameters dropDBParameters;
 
-	/**
-	 * Instantiates a new drop database statement.
-	 */
-	public DropDatabaseStatement() {
-		super();
-		dropDBParameters
-		= new DatabaseDroppingParameters();
-	}
+    static {
+        InitialStatementFactory.getInstance().
+                registerStatement(CLASS_ID,
+                        DropDatabaseStatement.class);
+    }
 
-	@Override
-	public boolean interpret(final String sqlExpression) {
-		if (sqlExpression.startsWith(STATEMENT_IDENTIFIER)) {
-			final String restOfExpression = sqlExpression.
-					replaceFirst(STATEMENT_IDENTIFIER,
-							"").trim();
-			return new DatabaseTerminatingExpression(parameters).
-					interpret(restOfExpression);
-		}
-		return false;
-	}
+    /**
+     * Instantiates a new drop database statement.
+     */
+    public DropDatabaseStatement() {
+        super();
+        dropDBParameters
+                = new DatabaseDroppingParameters();
+    }
 
-	@Override
-	public void act(final SQLData data)
-			throws DatabaseNotFoundException,
-			FailedToDeleteDatabaseException,
-			TableNotFoundException,
-			FailedToDeleteTableException {
-		buildParameters();
-		numberOfUpdates = data.dropDatabase(dropDBParameters);
-	}
+    @Override
+    public boolean interpret(final String sqlExpression) {
+        if (sqlExpression.startsWith(STATEMENT_IDENTIFIER)) {
+            final String restOfExpression = sqlExpression.
+                    replaceFirst(STATEMENT_IDENTIFIER,
+                            "").trim();
+            return new DatabaseTerminatingExpression(parameters).
+                    interpret(restOfExpression);
+        }
+        return false;
+    }
 
-	/**
-	 * Builds the parameters.
-	 */
-	private void buildParameters() {
-		dropDBParameters.setDatabaseName(parameters.getDatabaseName());
-	}
+    @Override
+    public void act(final SQLData data)
+            throws DatabaseNotFoundException,
+            FailedToDeleteDatabaseException,
+            TableNotFoundException,
+            FailedToDeleteTableException {
+        buildParameters();
+        numberOfUpdates = data.dropDatabase(dropDBParameters);
+    }
+
+    /**
+     * Builds the parameters.
+     */
+    private void buildParameters() {
+        dropDBParameters.setDatabaseName(parameters.getDatabaseName());
+    }
 }

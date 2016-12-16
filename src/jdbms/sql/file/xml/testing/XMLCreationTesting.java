@@ -40,18 +40,18 @@ public class XMLCreationTesting {
             Class.forName("jdbms.sql.parsing.statements.SelectStatement");
             Class.forName("jdbms.sql.parsing.statements.UpdateStatement");
             Class.forName("jdbms.sql.parsing.statements.UseStatement");
-            Class.forName("jdbms.sql.parsing.expressions.math" +
-                    ".EqualsExpression");
-            Class.forName("jdbms.sql.parsing.expressions.math" +
-                    ".LargerThanEqualsExpression");
+            Class.forName("jdbms.sql.parsing.expressions.math"
+                    + ".EqualsExpression");
+            Class.forName("jdbms.sql.parsing.expressions.math"
+                    + ".LargerThanEqualsExpression");
             Class.forName("jdbms.sql.parsing.expressions.math" +
                     ".LessThanEqualsExpression");
-            Class.forName("jdbms.sql.parsing.expressions.math" +
-                    ".LargerThanExpression");
-            Class.forName("jdbms.sql.parsing.expressions.math" +
-                    ".LessThanExpression");
-            Class.forName("jdbms.sql.parsing.expressions.math" +
-                    ".NotEqualsExpression");
+            Class.forName("jdbms.sql.parsing.expressions.math"
+                    + ".LargerThanExpression");
+            Class.forName("jdbms.sql.parsing.expressions.math"
+                    + ".LessThanExpression");
+            Class.forName("jdbms.sql.parsing.expressions.math"
+                    + ".NotEqualsExpression");
             Class.forName("jdbms.sql.datatypes.IntSQLType");
             Class.forName("jdbms.sql.datatypes.VarcharSQLType");
         } catch (final ClassNotFoundException e) {

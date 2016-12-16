@@ -21,58 +21,59 @@ import jdbms.sql.parsing.statements.util.InitialStatementFactory;
  */
 public class UpdateStatement extends InitialStatement {
 
-	private static final String STATEMENT_IDENTIFIER
-	= "UPDATE";
-	private static final String CLASS_ID
-	= "UPDATESTATEMENTCLASS";
-	private final UpdatingParameters updateParameters;
-	static {
-		InitialStatementFactory.getInstance().registerStatement(
-				CLASS_ID,
-				UpdateStatement.class);
-	}
+    private static final String STATEMENT_IDENTIFIER
+            = "UPDATE";
+    private static final String CLASS_ID
+            = "UPDATESTATEMENTCLASS";
+    private final UpdatingParameters updateParameters;
 
-	/**
-	 * Instantiates a new update statement.
-	 */
-	public UpdateStatement() {
-		super();
-		updateParameters = new UpdatingParameters();
-	}
+    static {
+        InitialStatementFactory.getInstance().registerStatement(
+                CLASS_ID,
+                UpdateStatement.class);
+    }
 
-	@Override
-	public boolean interpret(final String sqlExpression) {
-		if (sqlExpression.startsWith(STATEMENT_IDENTIFIER)) {
-			final String restOfExpression = sqlExpression.replaceFirst(
-					STATEMENT_IDENTIFIER, "").trim();
-			return new TableUpdateTableNameExpression(
-					parameters).interpret(restOfExpression);
-		}
-		return false;
-	}
+    /**
+     * Instantiates a new update statement.
+     */
+    public UpdateStatement() {
+        super();
+        updateParameters = new UpdatingParameters();
+    }
 
-	@Override
-	public void act(final SQLData data)
-			throws ColumnNotFoundException,
-			TypeMismatchException,
-			TableNotFoundException,
-			ColumnAlreadyExistsException,
-			RepeatedColumnException,
-			ColumnListTooLargeException,
-			ValueListTooLargeException,
-			ValueListTooSmallException,
-			InvalidDateFormatException,
-			IOException {
-		buildParameters();
-		numberOfUpdates = data.updateTable(updateParameters);
-	}
+    @Override
+    public boolean interpret(final String sqlExpression) {
+        if (sqlExpression.startsWith(STATEMENT_IDENTIFIER)) {
+            final String restOfExpression = sqlExpression.replaceFirst(
+                    STATEMENT_IDENTIFIER, "").trim();
+            return new TableUpdateTableNameExpression(
+                    parameters).interpret(restOfExpression);
+        }
+        return false;
+    }
 
-	/**
-	 * Builds the parameters.
-	 */
-	private void buildParameters() {
-		updateParameters.setAssignmentList(parameters.getAssignmentList());
-		updateParameters.setCondition(parameters.getCondition());
-		updateParameters.setTableName(parameters.getTableName());
-	}
+    @Override
+    public void act(final SQLData data)
+            throws ColumnNotFoundException,
+            TypeMismatchException,
+            TableNotFoundException,
+            ColumnAlreadyExistsException,
+            RepeatedColumnException,
+            ColumnListTooLargeException,
+            ValueListTooLargeException,
+            ValueListTooSmallException,
+            InvalidDateFormatException,
+            IOException {
+        buildParameters();
+        numberOfUpdates = data.updateTable(updateParameters);
+    }
+
+    /**
+     * Builds the parameters.
+     */
+    private void buildParameters() {
+        updateParameters.setAssignmentList(parameters.getAssignmentList());
+        updateParameters.setCondition(parameters.getCondition());
+        updateParameters.setTableName(parameters.getTableName());
+    }
 }

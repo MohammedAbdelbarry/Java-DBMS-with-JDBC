@@ -8,17 +8,17 @@ import jdbms.sql.parsing.properties.InputParametersContainer;
  */
 public class TerminalExpression implements Expression {
 
-	/**
-	 * Instantiates a new terminal expression.
-	 * @param parameters the input parameters
-	 */
-	public TerminalExpression(
-			final InputParametersContainer parameters) {
+    /**
+     * Instantiates a new terminal expression.
+     * @param parameters the input parameters
+     */
+    public TerminalExpression(
+            final InputParametersContainer parameters) {
 
-	}
+    }
 
-	@Override
-	public boolean interpret(final String sqlExpression) {
-		return sqlExpression.equals(";");
-	}
+    @Override
+    public boolean interpret(final String sqlExpression) {
+        return sqlExpression.equals(";");
+    }
 }

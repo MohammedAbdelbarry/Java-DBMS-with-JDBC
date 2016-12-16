@@ -20,57 +20,58 @@ import jdbms.sql.parsing.statements.util.InitialStatementFactory;
  */
 public class DeleteStatement extends InitialStatement {
 
-	private static final String STATEMENT_IDENTIFIER = "DELETE";
-	private static final String CLASS_ID = "DELETESTATEMENTCLASS";
-	private final DeletionParameters deleteParameters;
-	static {
-		InitialStatementFactory.getInstance().
-		registerStatement(CLASS_ID, DeleteStatement.class);
-	}
+    private static final String STATEMENT_IDENTIFIER = "DELETE";
+    private static final String CLASS_ID = "DELETESTATEMENTCLASS";
+    private final DeletionParameters deleteParameters;
 
-	/**
-	 * Instantiates a new delete statement.
-	 */
-	public DeleteStatement() {
-		super();
-		deleteParameters = new DeletionParameters();
-	}
+    static {
+        InitialStatementFactory.getInstance().
+                registerStatement(CLASS_ID, DeleteStatement.class);
+    }
 
-	@Override
-	public boolean interpret(final String sqlExpression) {
-		if (sqlExpression.startsWith(STATEMENT_IDENTIFIER)) {
-			final String restOfExpression = sqlExpression.
-					replaceFirst(STATEMENT_IDENTIFIER, "").
-					trim();
-			return new FromStatement(parameters).
-					interpret(restOfExpression);
-		}
-		return false;
-	}
+    /**
+     * Instantiates a new delete statement.
+     */
+    public DeleteStatement() {
+        super();
+        deleteParameters = new DeletionParameters();
+    }
 
-	@Override
-	public void act(final SQLData data)
-			throws ColumnNotFoundException,
-			TypeMismatchException,
-			TableNotFoundException,
-			ColumnAlreadyExistsException,
-			RepeatedColumnException,
-			ColumnListTooLargeException,
-			ValueListTooLargeException,
-			ValueListTooSmallException,
-			InvalidDateFormatException,
-			IOException {
-		buildParameters();
-		numberOfUpdates = data.deleteFrom(deleteParameters);
-	}
+    @Override
+    public boolean interpret(final String sqlExpression) {
+        if (sqlExpression.startsWith(STATEMENT_IDENTIFIER)) {
+            final String restOfExpression = sqlExpression.
+                    replaceFirst(STATEMENT_IDENTIFIER, "").
+                    trim();
+            return new FromStatement(parameters).
+                    interpret(restOfExpression);
+        }
+        return false;
+    }
 
-	/**
-	 * Builds the parameters.
-	 */
-	private void buildParameters() {
-		deleteParameters.
-		setTableName(parameters.getTableName());
-		deleteParameters.
-		setCondition(parameters.getCondition());
-	}
+    @Override
+    public void act(final SQLData data)
+            throws ColumnNotFoundException,
+            TypeMismatchException,
+            TableNotFoundException,
+            ColumnAlreadyExistsException,
+            RepeatedColumnException,
+            ColumnListTooLargeException,
+            ValueListTooLargeException,
+            ValueListTooSmallException,
+            InvalidDateFormatException,
+            IOException {
+        buildParameters();
+        numberOfUpdates = data.deleteFrom(deleteParameters);
+    }
+
+    /**
+     * Builds the parameters.
+     */
+    private void buildParameters() {
+        deleteParameters.
+                setTableName(parameters.getTableName());
+        deleteParameters.
+                setCondition(parameters.getCondition());
+    }
 }

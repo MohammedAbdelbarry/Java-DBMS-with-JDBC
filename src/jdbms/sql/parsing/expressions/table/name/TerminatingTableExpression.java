@@ -8,12 +8,12 @@ import jdbms.sql.parsing.properties.InputParametersContainer;
  */
 public class TerminatingTableExpression extends TableNameExpression {
 
-	/**
-	 * Instantiates a new terminating table expression.
-	 * @param parameters the input parameters
-	 */
-	public TerminatingTableExpression(
-			InputParametersContainer parameters) {
-		super(new TerminalExpression(parameters), parameters);
-	}
+    /**
+     * Instantiates a new terminating table expression.
+     * @param parameters the input parameters
+     */
+    public TerminatingTableExpression(
+            InputParametersContainer parameters) {
+        super(new TerminalExpression(parameters), parameters);
+    }
 }

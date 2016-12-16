@@ -4,1868 +4,2261 @@
 package jdbms.sql.file.protobuff.util;
 
 public final class TableProtos {
-  private TableProtos() {}
-  public static void registerAllExtensions(
-      final com.google.protobuf.ExtensionRegistry registry) {
-  }
-  public interface DBTableOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:jdbms.DBTable)
-      com.google.protobuf.MessageOrBuilder {
+    private TableProtos() {
+    }
 
-    /**
-     * <code>optional string tableName = 1;</code>
-     */
-    boolean hasTableName();
-    /**
-     * <code>optional string tableName = 1;</code>
-     */
-    java.lang.String getTableName();
-    /**
-     * <code>optional string tableName = 1;</code>
-     */
-    com.google.protobuf.ByteString
+    public static void registerAllExtensions(
+            final com.google.protobuf.ExtensionRegistry registry) {
+    }
+
+    public interface DBTableOrBuilder extends
+            // @@protoc_insertion_point(interface_extends:jdbms.DBTable)
+            com.google.protobuf.MessageOrBuilder {
+
+        /**
+         * <code>optional string tableName = 1;</code>
+         */
+        boolean hasTableName();
+
+        /**
+         * <code>optional string tableName = 1;</code>
+         */
+        java.lang.String getTableName();
+
+        /**
+         * <code>optional string tableName = 1;</code>
+         */
+        com.google.protobuf.ByteString
         getTableNameBytes();
 
-    /**
-     * <code>optional int32 numberOfRows = 2;</code>
-     */
-    boolean hasNumberOfRows();
-    /**
-     * <code>optional int32 numberOfRows = 2;</code>
-     */
-    int getNumberOfRows();
+        /**
+         * <code>optional int32 numberOfRows = 2;</code>
+         */
+        boolean hasNumberOfRows();
 
-    /**
-     * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
-     */
-    java.util.List<jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn>
+        /**
+         * <code>optional int32 numberOfRows = 2;</code>
+         */
+        int getNumberOfRows();
+
+        /**
+         * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
+         */
+        java.util.List<jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                .TableColumn>
         getTableColumnsList();
-    /**
-     * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
-     */
-    jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn getTableColumns(int index);
-    /**
-     * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
-     */
-    int getTableColumnsCount();
-    /**
-     * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
-     */
-    java.util.List<? extends jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumnOrBuilder>
+
+        /**
+         * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
+         */
+        jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn
+        getTableColumns(int index);
+
+        /**
+         * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
+         */
+        int getTableColumnsCount();
+
+        /**
+         * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
+         */
+        java.util.List<? extends jdbms.sql.file.protobuff.util.TableProtos
+                .DBTable.TableColumnOrBuilder>
         getTableColumnsOrBuilderList();
-    /**
-     * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
-     */
-    jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumnOrBuilder getTableColumnsOrBuilder(
-        int index);
-  }
-  /**
-   * Protobuf type {@code jdbms.DBTable}
-   */
-  public static final class DBTable extends
-      com.google.protobuf.GeneratedMessage implements
-      // @@protoc_insertion_point(message_implements:jdbms.DBTable)
-      DBTableOrBuilder {
-    // Use DBTable.newBuilder() to construct.
-    private DBTable(final com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private DBTable(final boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
-    private static final DBTable defaultInstance;
-    public static DBTable getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    @Override
-	public DBTable getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private DBTable(
-        final com.google.protobuf.CodedInputStream input,
-        final com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      final com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          final int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 10: {
-              final com.google.protobuf.ByteString bs = input.readBytes();
-              bitField0_ |= 0x00000001;
-              tableName_ = bs;
-              break;
-            }
-            case 16: {
-              bitField0_ |= 0x00000002;
-              numberOfRows_ = input.readInt32();
-              break;
-            }
-            case 26: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-                tableColumns_ = new java.util.ArrayList<jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn>();
-                mutable_bitField0_ |= 0x00000004;
-              }
-              tableColumns_.add(input.readMessage(jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn.PARSER, extensionRegistry));
-              break;
-            }
-          }
-        }
-      } catch (final com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (final java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-          tableColumns_ = java.util.Collections.unmodifiableList(tableColumns_);
-        }
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return jdbms.sql.file.protobuff.util.TableProtos.internal_static_jdbms_DBTable_descriptor;
-    }
-
-    @Override
-	protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return jdbms.sql.file.protobuff.util.TableProtos.internal_static_jdbms_DBTable_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              jdbms.sql.file.protobuff.util.TableProtos.DBTable.class, jdbms.sql.file.protobuff.util.TableProtos.DBTable.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<DBTable> PARSER =
-        new com.google.protobuf.AbstractParser<DBTable>() {
-      @Override
-	public DBTable parsePartialFrom(
-          final com.google.protobuf.CodedInputStream input,
-          final com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new DBTable(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<DBTable> getParserForType() {
-      return PARSER;
-    }
-
-    public interface TableColumnOrBuilder extends
-        // @@protoc_insertion_point(interface_extends:jdbms.DBTable.TableColumn)
-        com.google.protobuf.MessageOrBuilder {
-
-      /**
-       * <code>optional string columnName = 1;</code>
-       */
-      boolean hasColumnName();
-      /**
-       * <code>optional string columnName = 1;</code>
-       */
-      java.lang.String getColumnName();
-      /**
-       * <code>optional string columnName = 1;</code>
-       */
-      com.google.protobuf.ByteString
-          getColumnNameBytes();
-
-      /**
-       * <code>optional string columnType = 2;</code>
-       */
-      boolean hasColumnType();
-      /**
-       * <code>optional string columnType = 2;</code>
-       */
-      java.lang.String getColumnType();
-      /**
-       * <code>optional string columnType = 2;</code>
-       */
-      com.google.protobuf.ByteString
-          getColumnTypeBytes();
-
-      /**
-       * <code>repeated string values = 3;</code>
-       */
-      com.google.protobuf.ProtocolStringList
-          getValuesList();
-      /**
-       * <code>repeated string values = 3;</code>
-       */
-      int getValuesCount();
-      /**
-       * <code>repeated string values = 3;</code>
-       */
-      java.lang.String getValues(int index);
-      /**
-       * <code>repeated string values = 3;</code>
-       */
-      com.google.protobuf.ByteString
-          getValuesBytes(int index);
-    }
-    /**
-     * Protobuf type {@code jdbms.DBTable.TableColumn}
-     */
-    public static final class TableColumn extends
-        com.google.protobuf.GeneratedMessage implements
-        // @@protoc_insertion_point(message_implements:jdbms.DBTable.TableColumn)
-        TableColumnOrBuilder {
-      // Use TableColumn.newBuilder() to construct.
-      private TableColumn(final com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-        super(builder);
-        this.unknownFields = builder.getUnknownFields();
-      }
-      private TableColumn(final boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-      private static final TableColumn defaultInstance;
-      public static TableColumn getDefaultInstance() {
-        return defaultInstance;
-      }
-
-      @Override
-	public TableColumn getDefaultInstanceForType() {
-        return defaultInstance;
-      }
-
-      private final com.google.protobuf.UnknownFieldSet unknownFields;
-      @java.lang.Override
-      public final com.google.protobuf.UnknownFieldSet
-          getUnknownFields() {
-        return this.unknownFields;
-      }
-      private TableColumn(
-          final com.google.protobuf.CodedInputStream input,
-          final com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        initFields();
-        int mutable_bitField0_ = 0;
-        final com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-            com.google.protobuf.UnknownFieldSet.newBuilder();
-        try {
-          boolean done = false;
-          while (!done) {
-            final int tag = input.readTag();
-            switch (tag) {
-              case 0:
-                done = true;
-                break;
-              default: {
-                if (!parseUnknownField(input, unknownFields,
-                                       extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
-              case 10: {
-                final com.google.protobuf.ByteString bs = input.readBytes();
-                bitField0_ |= 0x00000001;
-                columnName_ = bs;
-                break;
-              }
-              case 18: {
-                final com.google.protobuf.ByteString bs = input.readBytes();
-                bitField0_ |= 0x00000002;
-                columnType_ = bs;
-                break;
-              }
-              case 26: {
-                final com.google.protobuf.ByteString bs = input.readBytes();
-                if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-                  values_ = new com.google.protobuf.LazyStringArrayList();
-                  mutable_bitField0_ |= 0x00000004;
-                }
-                values_.add(bs);
-                break;
-              }
-            }
-          }
-        } catch (final com.google.protobuf.InvalidProtocolBufferException e) {
-          throw e.setUnfinishedMessage(this);
-        } catch (final java.io.IOException e) {
-          throw new com.google.protobuf.InvalidProtocolBufferException(
-              e.getMessage()).setUnfinishedMessage(this);
-        } finally {
-          if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-            values_ = values_.getUnmodifiableView();
-          }
-          this.unknownFields = unknownFields.build();
-          makeExtensionsImmutable();
-        }
-      }
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return jdbms.sql.file.protobuff.util.TableProtos.internal_static_jdbms_DBTable_TableColumn_descriptor;
-      }
-
-      @Override
-	protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return jdbms.sql.file.protobuff.util.TableProtos.internal_static_jdbms_DBTable_TableColumn_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn.class, jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn.Builder.class);
-      }
-
-      public static com.google.protobuf.Parser<TableColumn> PARSER =
-          new com.google.protobuf.AbstractParser<TableColumn>() {
-        @Override
-		public TableColumn parsePartialFrom(
-            final com.google.protobuf.CodedInputStream input,
-            final com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TableColumn(input, extensionRegistry);
-        }
-      };
-
-      @java.lang.Override
-      public com.google.protobuf.Parser<TableColumn> getParserForType() {
-        return PARSER;
-      }
-
-      private int bitField0_;
-      public static final int COLUMNNAME_FIELD_NUMBER = 1;
-      private java.lang.Object columnName_;
-      /**
-       * <code>optional string columnName = 1;</code>
-       */
-      @Override
-	public boolean hasColumnName() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>optional string columnName = 1;</code>
-       */
-      @Override
-	public java.lang.String getColumnName() {
-        final java.lang.Object ref = columnName_;
-        if (ref instanceof java.lang.String) {
-          return (java.lang.String) ref;
-        } else {
-          final com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          final java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            columnName_ = s;
-          }
-          return s;
-        }
-      }
-      /**
-       * <code>optional string columnName = 1;</code>
-       */
-      @Override
-	public com.google.protobuf.ByteString
-          getColumnNameBytes() {
-        final java.lang.Object ref = columnName_;
-        if (ref instanceof java.lang.String) {
-          final com.google.protobuf.ByteString b =
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          columnName_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      public static final int COLUMNTYPE_FIELD_NUMBER = 2;
-      private java.lang.Object columnType_;
-      /**
-       * <code>optional string columnType = 2;</code>
-       */
-      @Override
-	public boolean hasColumnType() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>optional string columnType = 2;</code>
-       */
-      @Override
-	public java.lang.String getColumnType() {
-        final java.lang.Object ref = columnType_;
-        if (ref instanceof java.lang.String) {
-          return (java.lang.String) ref;
-        } else {
-          final com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          final java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            columnType_ = s;
-          }
-          return s;
-        }
-      }
-      /**
-       * <code>optional string columnType = 2;</code>
-       */
-      @Override
-	public com.google.protobuf.ByteString
-          getColumnTypeBytes() {
-        final java.lang.Object ref = columnType_;
-        if (ref instanceof java.lang.String) {
-          final com.google.protobuf.ByteString b =
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          columnType_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      public static final int VALUES_FIELD_NUMBER = 3;
-      private com.google.protobuf.LazyStringList values_;
-      /**
-       * <code>repeated string values = 3;</code>
-       */
-      @Override
-	public com.google.protobuf.ProtocolStringList
-          getValuesList() {
-        return values_;
-      }
-      /**
-       * <code>repeated string values = 3;</code>
-       */
-      @Override
-	public int getValuesCount() {
-        return values_.size();
-      }
-      /**
-       * <code>repeated string values = 3;</code>
-       */
-      @Override
-	public java.lang.String getValues(final int index) {
-        return values_.get(index);
-      }
-      /**
-       * <code>repeated string values = 3;</code>
-       */
-      @Override
-	public com.google.protobuf.ByteString
-          getValuesBytes(final int index) {
-        return values_.getByteString(index);
-      }
-
-      private void initFields() {
-        columnName_ = "";
-        columnType_ = "";
-        values_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-      }
-      private byte memoizedIsInitialized = -1;
-      @Override
-	public final boolean isInitialized() {
-        final byte isInitialized = memoizedIsInitialized;
-        if (isInitialized == 1) return true;
-        if (isInitialized == 0) return false;
-
-        memoizedIsInitialized = 1;
-        return true;
-      }
-
-      @Override
-	public void writeTo(final com.google.protobuf.CodedOutputStream output)
-                          throws java.io.IOException {
-        getSerializedSize();
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          output.writeBytes(1, getColumnNameBytes());
-        }
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          output.writeBytes(2, getColumnTypeBytes());
-        }
-        for (int i = 0; i < values_.size(); i++) {
-          output.writeBytes(3, values_.getByteString(i));
-        }
-        getUnknownFields().writeTo(output);
-      }
-
-      private int memoizedSerializedSize = -1;
-      @Override
-	public int getSerializedSize() {
-        int size = memoizedSerializedSize;
-        if (size != -1) return size;
-
-        size = 0;
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          size += com.google.protobuf.CodedOutputStream
-            .computeBytesSize(1, getColumnNameBytes());
-        }
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          size += com.google.protobuf.CodedOutputStream
-            .computeBytesSize(2, getColumnTypeBytes());
-        }
-        {
-          int dataSize = 0;
-          for (int i = 0; i < values_.size(); i++) {
-            dataSize += com.google.protobuf.CodedOutputStream
-              .computeBytesSizeNoTag(values_.getByteString(i));
-          }
-          size += dataSize;
-          size += 1 * getValuesList().size();
-        }
-        size += getUnknownFields().getSerializedSize();
-        memoizedSerializedSize = size;
-        return size;
-      }
-
-      private static final long serialVersionUID = 0L;
-      @java.lang.Override
-      protected java.lang.Object writeReplace()
-          throws java.io.ObjectStreamException {
-        return super.writeReplace();
-      }
-
-      public static jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn parseFrom(
-          final com.google.protobuf.ByteString data)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data);
-      }
-      public static jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn parseFrom(
-          final com.google.protobuf.ByteString data,
-          final com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data, extensionRegistry);
-      }
-      public static jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn parseFrom(final byte[] data)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data);
-      }
-      public static jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn parseFrom(
-          final byte[] data,
-          final com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data, extensionRegistry);
-      }
-      public static jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn parseFrom(final java.io.InputStream input)
-          throws java.io.IOException {
-        return PARSER.parseFrom(input);
-      }
-      public static jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn parseFrom(
-          final java.io.InputStream input,
-          final com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        return PARSER.parseFrom(input, extensionRegistry);
-      }
-      public static jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn parseDelimitedFrom(final java.io.InputStream input)
-          throws java.io.IOException {
-        return PARSER.parseDelimitedFrom(input);
-      }
-      public static jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn parseDelimitedFrom(
-          final java.io.InputStream input,
-          final com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        return PARSER.parseDelimitedFrom(input, extensionRegistry);
-      }
-      public static jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn parseFrom(
-          final com.google.protobuf.CodedInputStream input)
-          throws java.io.IOException {
-        return PARSER.parseFrom(input);
-      }
-      public static jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn parseFrom(
-          final com.google.protobuf.CodedInputStream input,
-          final com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        return PARSER.parseFrom(input, extensionRegistry);
-      }
-
-      public static Builder newBuilder() { return Builder.create(); }
-      @Override
-	public Builder newBuilderForType() { return newBuilder(); }
-      public static Builder newBuilder(final jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn prototype) {
-        return newBuilder().mergeFrom(prototype);
-      }
-      @Override
-	public Builder toBuilder() { return newBuilder(this); }
-
-      @java.lang.Override
-      protected Builder newBuilderForType(
-          final com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        final Builder builder = new Builder(parent);
-        return builder;
-      }
-      /**
-       * Protobuf type {@code jdbms.DBTable.TableColumn}
-       */
-      public static final class Builder extends
-          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-          // @@protoc_insertion_point(builder_implements:jdbms.DBTable.TableColumn)
-          jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumnOrBuilder {
-        public static final com.google.protobuf.Descriptors.Descriptor
-            getDescriptor() {
-          return jdbms.sql.file.protobuff.util.TableProtos.internal_static_jdbms_DBTable_TableColumn_descriptor;
-        }
-
-        @Override
-		protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-            internalGetFieldAccessorTable() {
-          return jdbms.sql.file.protobuff.util.TableProtos.internal_static_jdbms_DBTable_TableColumn_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                  jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn.class, jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn.Builder.class);
-        }
-
-        // Construct using jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn.newBuilder()
-        private Builder() {
-          maybeForceBuilderInitialization();
-        }
-
-        private Builder(
-            final com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-          super(parent);
-          maybeForceBuilderInitialization();
-        }
-        private void maybeForceBuilderInitialization() {
-          if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          }
-        }
-        private static Builder create() {
-          return new Builder();
-        }
-
-        @Override
-		public Builder clear() {
-          super.clear();
-          columnName_ = "";
-          bitField0_ = (bitField0_ & ~0x00000001);
-          columnType_ = "";
-          bitField0_ = (bitField0_ & ~0x00000002);
-          values_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-          bitField0_ = (bitField0_ & ~0x00000004);
-          return this;
-        }
-
-        @Override
-		public Builder clone() {
-          return create().mergeFrom(buildPartial());
-        }
-
-        @Override
-		public com.google.protobuf.Descriptors.Descriptor
-            getDescriptorForType() {
-          return jdbms.sql.file.protobuff.util.TableProtos.internal_static_jdbms_DBTable_TableColumn_descriptor;
-        }
-
-        @Override
-		public jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn getDefaultInstanceForType() {
-          return jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn.getDefaultInstance();
-        }
-
-        @Override
-		public jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn build() {
-          final jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn result = buildPartial();
-          if (!result.isInitialized()) {
-            throw newUninitializedMessageException(result);
-          }
-          return result;
-        }
-
-        @Override
-		public jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn buildPartial() {
-          final jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn result = new jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn(this);
-          final int from_bitField0_ = bitField0_;
-          int to_bitField0_ = 0;
-          if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-            to_bitField0_ |= 0x00000001;
-          }
-          result.columnName_ = columnName_;
-          if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-            to_bitField0_ |= 0x00000002;
-          }
-          result.columnType_ = columnType_;
-          if (((bitField0_ & 0x00000004) == 0x00000004)) {
-            values_ = values_.getUnmodifiableView();
-            bitField0_ = (bitField0_ & ~0x00000004);
-          }
-          result.values_ = values_;
-          result.bitField0_ = to_bitField0_;
-          onBuilt();
-          return result;
-        }
-
-        @Override
-		public Builder mergeFrom(final com.google.protobuf.Message other) {
-          if (other instanceof jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn) {
-            return mergeFrom((jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn)other);
-          } else {
-            super.mergeFrom(other);
-            return this;
-          }
-        }
-
-        public Builder mergeFrom(final jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn other) {
-          if (other == jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn.getDefaultInstance()) return this;
-          if (other.hasColumnName()) {
-            bitField0_ |= 0x00000001;
-            columnName_ = other.columnName_;
-            onChanged();
-          }
-          if (other.hasColumnType()) {
-            bitField0_ |= 0x00000002;
-            columnType_ = other.columnType_;
-            onChanged();
-          }
-          if (!other.values_.isEmpty()) {
-            if (values_.isEmpty()) {
-              values_ = other.values_;
-              bitField0_ = (bitField0_ & ~0x00000004);
-            } else {
-              ensureValuesIsMutable();
-              values_.addAll(other.values_);
-            }
-            onChanged();
-          }
-          this.mergeUnknownFields(other.getUnknownFields());
-          return this;
-        }
-
-        @Override
-		public final boolean isInitialized() {
-          return true;
-        }
-
-        @Override
-		public Builder mergeFrom(
-            final com.google.protobuf.CodedInputStream input,
-            final com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
-          jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn parsedMessage = null;
-          try {
-            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-          } catch (final com.google.protobuf.InvalidProtocolBufferException e) {
-            parsedMessage = (jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn) e.getUnfinishedMessage();
-            throw e;
-          } finally {
-            if (parsedMessage != null) {
-              mergeFrom(parsedMessage);
-            }
-          }
-          return this;
-        }
-        private int bitField0_;
-
-        private java.lang.Object columnName_ = "";
         /**
-         * <code>optional string columnName = 1;</code>
+         * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
          */
-        @Override
-		public boolean hasColumnName() {
-          return ((bitField0_ & 0x00000001) == 0x00000001);
-        }
-        /**
-         * <code>optional string columnName = 1;</code>
-         */
-        @Override
-		public java.lang.String getColumnName() {
-          final java.lang.Object ref = columnName_;
-          if (!(ref instanceof java.lang.String)) {
-            final com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-            final java.lang.String s = bs.toStringUtf8();
-            if (bs.isValidUtf8()) {
-              columnName_ = s;
-            }
-            return s;
-          } else {
-            return (java.lang.String) ref;
-          }
-        }
-        /**
-         * <code>optional string columnName = 1;</code>
-         */
-        @Override
-		public com.google.protobuf.ByteString
-            getColumnNameBytes() {
-          final java.lang.Object ref = columnName_;
-          if (ref instanceof String) {
-            final com.google.protobuf.ByteString b =
-                com.google.protobuf.ByteString.copyFromUtf8(
-                    (java.lang.String) ref);
-            columnName_ = b;
-            return b;
-          } else {
-            return (com.google.protobuf.ByteString) ref;
-          }
-        }
-        /**
-         * <code>optional string columnName = 1;</code>
-         */
-        public Builder setColumnName(
-            final java.lang.String value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-          columnName_ = value;
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>optional string columnName = 1;</code>
-         */
-        public Builder clearColumnName() {
-          bitField0_ = (bitField0_ & ~0x00000001);
-          columnName_ = getDefaultInstance().getColumnName();
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>optional string columnName = 1;</code>
-         */
-        public Builder setColumnNameBytes(
-            final com.google.protobuf.ByteString value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-          columnName_ = value;
-          onChanged();
-          return this;
-        }
-
-        private java.lang.Object columnType_ = "";
-        /**
-         * <code>optional string columnType = 2;</code>
-         */
-        @Override
-		public boolean hasColumnType() {
-          return ((bitField0_ & 0x00000002) == 0x00000002);
-        }
-        /**
-         * <code>optional string columnType = 2;</code>
-         */
-        @Override
-		public java.lang.String getColumnType() {
-          final java.lang.Object ref = columnType_;
-          if (!(ref instanceof java.lang.String)) {
-            final com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-            final java.lang.String s = bs.toStringUtf8();
-            if (bs.isValidUtf8()) {
-              columnType_ = s;
-            }
-            return s;
-          } else {
-            return (java.lang.String) ref;
-          }
-        }
-        /**
-         * <code>optional string columnType = 2;</code>
-         */
-        @Override
-		public com.google.protobuf.ByteString
-            getColumnTypeBytes() {
-          final java.lang.Object ref = columnType_;
-          if (ref instanceof String) {
-            final com.google.protobuf.ByteString b =
-                com.google.protobuf.ByteString.copyFromUtf8(
-                    (java.lang.String) ref);
-            columnType_ = b;
-            return b;
-          } else {
-            return (com.google.protobuf.ByteString) ref;
-          }
-        }
-        /**
-         * <code>optional string columnType = 2;</code>
-         */
-        public Builder setColumnType(
-            final java.lang.String value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-          columnType_ = value;
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>optional string columnType = 2;</code>
-         */
-        public Builder clearColumnType() {
-          bitField0_ = (bitField0_ & ~0x00000002);
-          columnType_ = getDefaultInstance().getColumnType();
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>optional string columnType = 2;</code>
-         */
-        public Builder setColumnTypeBytes(
-            final com.google.protobuf.ByteString value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-          columnType_ = value;
-          onChanged();
-          return this;
-        }
-
-        private com.google.protobuf.LazyStringList values_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        private void ensureValuesIsMutable() {
-          if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-            values_ = new com.google.protobuf.LazyStringArrayList(values_);
-            bitField0_ |= 0x00000004;
-           }
-        }
-        /**
-         * <code>repeated string values = 3;</code>
-         */
-        @Override
-		public com.google.protobuf.ProtocolStringList
-            getValuesList() {
-          return values_.getUnmodifiableView();
-        }
-        /**
-         * <code>repeated string values = 3;</code>
-         */
-        @Override
-		public int getValuesCount() {
-          return values_.size();
-        }
-        /**
-         * <code>repeated string values = 3;</code>
-         */
-        @Override
-		public java.lang.String getValues(final int index) {
-          return values_.get(index);
-        }
-        /**
-         * <code>repeated string values = 3;</code>
-         */
-        @Override
-		public com.google.protobuf.ByteString
-            getValuesBytes(final int index) {
-          return values_.getByteString(index);
-        }
-        /**
-         * <code>repeated string values = 3;</code>
-         */
-        public Builder setValues(
-            final int index, final java.lang.String value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureValuesIsMutable();
-          values_.set(index, value);
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>repeated string values = 3;</code>
-         */
-        public Builder addValues(
-            final java.lang.String value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureValuesIsMutable();
-          values_.add(value);
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>repeated string values = 3;</code>
-         */
-        public Builder addAllValues(
-            final java.lang.Iterable<java.lang.String> values) {
-          ensureValuesIsMutable();
-          com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, values_);
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>repeated string values = 3;</code>
-         */
-        public Builder clearValues() {
-          values_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-          bitField0_ = (bitField0_ & ~0x00000004);
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>repeated string values = 3;</code>
-         */
-        public Builder addValuesBytes(
-            final com.google.protobuf.ByteString value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureValuesIsMutable();
-          values_.add(value);
-          onChanged();
-          return this;
-        }
-
-        // @@protoc_insertion_point(builder_scope:jdbms.DBTable.TableColumn)
-      }
-
-      static {
-        defaultInstance = new TableColumn(true);
-        defaultInstance.initFields();
-      }
-
-      // @@protoc_insertion_point(class_scope:jdbms.DBTable.TableColumn)
+        jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                .TableColumnOrBuilder getTableColumnsOrBuilder(
+                int index);
     }
 
-    private int bitField0_;
-    public static final int TABLENAME_FIELD_NUMBER = 1;
-    private java.lang.Object tableName_;
-    /**
-     * <code>optional string tableName = 1;</code>
-     */
-    @Override
-	public boolean hasTableName() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>optional string tableName = 1;</code>
-     */
-    @Override
-	public java.lang.String getTableName() {
-      final java.lang.Object ref = tableName_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        final com.google.protobuf.ByteString bs =
-            (com.google.protobuf.ByteString) ref;
-        final java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          tableName_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>optional string tableName = 1;</code>
-     */
-    @Override
-	public com.google.protobuf.ByteString
-        getTableNameBytes() {
-      final java.lang.Object ref = tableName_;
-      if (ref instanceof java.lang.String) {
-        final com.google.protobuf.ByteString b =
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        tableName_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int NUMBEROFROWS_FIELD_NUMBER = 2;
-    private int numberOfRows_;
-    /**
-     * <code>optional int32 numberOfRows = 2;</code>
-     */
-    @Override
-	public boolean hasNumberOfRows() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>optional int32 numberOfRows = 2;</code>
-     */
-    @Override
-	public int getNumberOfRows() {
-      return numberOfRows_;
-    }
-
-    public static final int TABLECOLUMNS_FIELD_NUMBER = 3;
-    private java.util.List<jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn> tableColumns_;
-    /**
-     * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
-     */
-    @Override
-	public java.util.List<jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn> getTableColumnsList() {
-      return tableColumns_;
-    }
-    /**
-     * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
-     */
-    @Override
-	public java.util.List<? extends jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumnOrBuilder>
-        getTableColumnsOrBuilderList() {
-      return tableColumns_;
-    }
-    /**
-     * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
-     */
-    @Override
-	public int getTableColumnsCount() {
-      return tableColumns_.size();
-    }
-    /**
-     * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
-     */
-    @Override
-	public jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn getTableColumns(final int index) {
-      return tableColumns_.get(index);
-    }
-    /**
-     * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
-     */
-    @Override
-	public jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumnOrBuilder getTableColumnsOrBuilder(
-        final int index) {
-      return tableColumns_.get(index);
-    }
-
-    private void initFields() {
-      tableName_ = "";
-      numberOfRows_ = 0;
-      tableColumns_ = java.util.Collections.emptyList();
-    }
-    private byte memoizedIsInitialized = -1;
-    @Override
-	public final boolean isInitialized() {
-      final byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    @Override
-	public void writeTo(final com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBytes(1, getTableNameBytes());
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, numberOfRows_);
-      }
-      for (int i = 0; i < tableColumns_.size(); i++) {
-        output.writeMessage(3, tableColumns_.get(i));
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    @Override
-	public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(1, getTableNameBytes());
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, numberOfRows_);
-      }
-      for (int i = 0; i < tableColumns_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, tableColumns_.get(i));
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static jdbms.sql.file.protobuff.util.TableProtos.DBTable parseFrom(
-        final com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static jdbms.sql.file.protobuff.util.TableProtos.DBTable parseFrom(
-        final com.google.protobuf.ByteString data,
-        final com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static jdbms.sql.file.protobuff.util.TableProtos.DBTable parseFrom(final byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static jdbms.sql.file.protobuff.util.TableProtos.DBTable parseFrom(
-        final byte[] data,
-        final com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static jdbms.sql.file.protobuff.util.TableProtos.DBTable parseFrom(final java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static jdbms.sql.file.protobuff.util.TableProtos.DBTable parseFrom(
-        final java.io.InputStream input,
-        final com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static jdbms.sql.file.protobuff.util.TableProtos.DBTable parseDelimitedFrom(final java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static jdbms.sql.file.protobuff.util.TableProtos.DBTable parseDelimitedFrom(
-        final java.io.InputStream input,
-        final com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static jdbms.sql.file.protobuff.util.TableProtos.DBTable parseFrom(
-        final com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static jdbms.sql.file.protobuff.util.TableProtos.DBTable parseFrom(
-        final com.google.protobuf.CodedInputStream input,
-        final com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    @Override
-	public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(final jdbms.sql.file.protobuff.util.TableProtos.DBTable prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    @Override
-	public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        final com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      final Builder builder = new Builder(parent);
-      return builder;
-    }
     /**
      * Protobuf type {@code jdbms.DBTable}
      */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:jdbms.DBTable)
-        jdbms.sql.file.protobuff.util.TableProtos.DBTableOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return jdbms.sql.file.protobuff.util.TableProtos.internal_static_jdbms_DBTable_descriptor;
-      }
-
-      @Override
-	protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return jdbms.sql.file.protobuff.util.TableProtos.internal_static_jdbms_DBTable_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                jdbms.sql.file.protobuff.util.TableProtos.DBTable.class, jdbms.sql.file.protobuff.util.TableProtos.DBTable.Builder.class);
-      }
-
-      // Construct using jdbms.sql.file.protobuff.util.TableProtos.DBTable.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          final com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getTableColumnsFieldBuilder();
+    public static final class DBTable extends
+            com.google.protobuf.GeneratedMessage implements
+            // @@protoc_insertion_point(message_implements:jdbms.DBTable)
+            DBTableOrBuilder {
+        // Use DBTable.newBuilder() to construct.
+        private DBTable(final com.google.protobuf.GeneratedMessage.Builder<?>
+                                builder) {
+            super(builder);
+            this.unknownFields = builder.getUnknownFields();
         }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
 
-      @Override
-	public Builder clear() {
-        super.clear();
-        tableName_ = "";
-        bitField0_ = (bitField0_ & ~0x00000001);
-        numberOfRows_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        if (tableColumnsBuilder_ == null) {
-          tableColumns_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
-        } else {
-          tableColumnsBuilder_.clear();
+        private DBTable(final boolean noInit) {
+            this.unknownFields = com.google.protobuf.UnknownFieldSet
+                    .getDefaultInstance();
         }
-        return this;
-      }
 
-      @Override
-	public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
+        private static final DBTable defaultInstance;
 
-      @Override
-	public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return jdbms.sql.file.protobuff.util.TableProtos.internal_static_jdbms_DBTable_descriptor;
-      }
+        public static DBTable getDefaultInstance() {
+            return defaultInstance;
+        }
 
-      @Override
-	public jdbms.sql.file.protobuff.util.TableProtos.DBTable getDefaultInstanceForType() {
-        return jdbms.sql.file.protobuff.util.TableProtos.DBTable.getDefaultInstance();
-      }
+        @Override
+        public DBTable getDefaultInstanceForType() {
+            return defaultInstance;
+        }
 
-      @Override
-	public jdbms.sql.file.protobuff.util.TableProtos.DBTable build() {
-        final jdbms.sql.file.protobuff.util.TableProtos.DBTable result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
+        private final com.google.protobuf.UnknownFieldSet unknownFields;
 
-      @Override
-	public jdbms.sql.file.protobuff.util.TableProtos.DBTable buildPartial() {
-        final jdbms.sql.file.protobuff.util.TableProtos.DBTable result = new jdbms.sql.file.protobuff.util.TableProtos.DBTable(this);
-        final int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
+        @java.lang.Override
+        public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+            return this.unknownFields;
         }
-        result.tableName_ = tableName_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.numberOfRows_ = numberOfRows_;
-        if (tableColumnsBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004)) {
-            tableColumns_ = java.util.Collections.unmodifiableList(tableColumns_);
-            bitField0_ = (bitField0_ & ~0x00000004);
-          }
-          result.tableColumns_ = tableColumns_;
-        } else {
-          result.tableColumns_ = tableColumnsBuilder_.build();
-        }
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
 
-      @Override
-	public Builder mergeFrom(final com.google.protobuf.Message other) {
-        if (other instanceof jdbms.sql.file.protobuff.util.TableProtos.DBTable) {
-          return mergeFrom((jdbms.sql.file.protobuff.util.TableProtos.DBTable)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(final jdbms.sql.file.protobuff.util.TableProtos.DBTable other) {
-        if (other == jdbms.sql.file.protobuff.util.TableProtos.DBTable.getDefaultInstance()) return this;
-        if (other.hasTableName()) {
-          bitField0_ |= 0x00000001;
-          tableName_ = other.tableName_;
-          onChanged();
-        }
-        if (other.hasNumberOfRows()) {
-          setNumberOfRows(other.getNumberOfRows());
-        }
-        if (tableColumnsBuilder_ == null) {
-          if (!other.tableColumns_.isEmpty()) {
-            if (tableColumns_.isEmpty()) {
-              tableColumns_ = other.tableColumns_;
-              bitField0_ = (bitField0_ & ~0x00000004);
-            } else {
-              ensureTableColumnsIsMutable();
-              tableColumns_.addAll(other.tableColumns_);
+        private DBTable(
+                final com.google.protobuf.CodedInputStream input,
+                final com.google.protobuf.ExtensionRegistryLite
+                        extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            initFields();
+            int mutable_bitField0_ = 0;
+            final com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+                    com.google.protobuf.UnknownFieldSet.newBuilder();
+            try {
+                boolean done = false;
+                while (!done) {
+                    final int tag = input.readTag();
+                    switch (tag) {
+                        case 0:
+                            done = true;
+                            break;
+                        default: {
+                            if (!parseUnknownField(input, unknownFields,
+                                    extensionRegistry, tag)) {
+                                done = true;
+                            }
+                            break;
+                        }
+                        case 10: {
+                            final com.google.protobuf.ByteString bs = input
+                                    .readBytes();
+                            bitField0_ |= 0x00000001;
+                            tableName_ = bs;
+                            break;
+                        }
+                        case 16: {
+                            bitField0_ |= 0x00000002;
+                            numberOfRows_ = input.readInt32();
+                            break;
+                        }
+                        case 26: {
+                            if (!((mutable_bitField0_ & 0x00000004) ==
+                                    0x00000004)) {
+                                tableColumns_ = new java.util.ArrayList<jdbms
+                                        .sql.file.protobuff.util.TableProtos
+                                        .DBTable.TableColumn>();
+                                mutable_bitField0_ |= 0x00000004;
+                            }
+                            tableColumns_.add(input.readMessage(jdbms.sql
+                                    .file.protobuff.util.TableProtos.DBTable
+                                    .TableColumn.PARSER, extensionRegistry));
+                            break;
+                        }
+                    }
+                }
+            } catch (final com.google.protobuf.InvalidProtocolBufferException
+                    e) {
+                throw e.setUnfinishedMessage(this);
+            } catch (final java.io.IOException e) {
+                throw new com.google.protobuf.InvalidProtocolBufferException(
+                        e.getMessage()).setUnfinishedMessage(this);
+            } finally {
+                if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                    tableColumns_ = java.util.Collections.unmodifiableList
+                            (tableColumns_);
+                }
+                this.unknownFields = unknownFields.build();
+                makeExtensionsImmutable();
             }
-            onChanged();
-          }
-        } else {
-          if (!other.tableColumns_.isEmpty()) {
-            if (tableColumnsBuilder_.isEmpty()) {
-              tableColumnsBuilder_.dispose();
-              tableColumnsBuilder_ = null;
-              tableColumns_ = other.tableColumns_;
-              bitField0_ = (bitField0_ & ~0x00000004);
-              tableColumnsBuilder_ =
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getTableColumnsFieldBuilder() : null;
-            } else {
-              tableColumnsBuilder_.addAllMessages(other.tableColumns_);
+        }
+
+        public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+            return jdbms.sql.file.protobuff.util.TableProtos
+                    .internal_static_jdbms_DBTable_descriptor;
+        }
+
+        @Override
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+            return jdbms.sql.file.protobuff.util.TableProtos
+                    .internal_static_jdbms_DBTable_fieldAccessorTable
+                    .ensureFieldAccessorsInitialized(
+                            jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                                    .class, jdbms.sql.file.protobuff.util
+                                    .TableProtos.DBTable.Builder.class);
+        }
+
+        public static com.google.protobuf.Parser<DBTable> PARSER =
+                new com.google.protobuf.AbstractParser<DBTable>() {
+                    @Override
+                    public DBTable parsePartialFrom(
+                            final com.google.protobuf.CodedInputStream input,
+                            final com.google.protobuf.ExtensionRegistryLite
+                                    extensionRegistry)
+                            throws com.google.protobuf
+                            .InvalidProtocolBufferException {
+                        return new DBTable(input, extensionRegistry);
+                    }
+                };
+
+        @java.lang.Override
+        public com.google.protobuf.Parser<DBTable> getParserForType() {
+            return PARSER;
+        }
+
+        public interface TableColumnOrBuilder extends
+                // @@protoc_insertion_point(interface_extends:jdbms.DBTable
+                // .TableColumn)
+                com.google.protobuf.MessageOrBuilder {
+
+            /**
+             * <code>optional string columnName = 1;</code>
+             */
+            boolean hasColumnName();
+
+            /**
+             * <code>optional string columnName = 1;</code>
+             */
+            java.lang.String getColumnName();
+
+            /**
+             * <code>optional string columnName = 1;</code>
+             */
+            com.google.protobuf.ByteString
+            getColumnNameBytes();
+
+            /**
+             * <code>optional string columnType = 2;</code>
+             */
+            boolean hasColumnType();
+
+            /**
+             * <code>optional string columnType = 2;</code>
+             */
+            java.lang.String getColumnType();
+
+            /**
+             * <code>optional string columnType = 2;</code>
+             */
+            com.google.protobuf.ByteString
+            getColumnTypeBytes();
+
+            /**
+             * <code>repeated string values = 3;</code>
+             */
+            com.google.protobuf.ProtocolStringList
+            getValuesList();
+
+            /**
+             * <code>repeated string values = 3;</code>
+             */
+            int getValuesCount();
+
+            /**
+             * <code>repeated string values = 3;</code>
+             */
+            java.lang.String getValues(int index);
+
+            /**
+             * <code>repeated string values = 3;</code>
+             */
+            com.google.protobuf.ByteString
+            getValuesBytes(int index);
+        }
+
+        /**
+         * Protobuf type {@code jdbms.DBTable.TableColumn}
+         */
+        public static final class TableColumn extends
+                com.google.protobuf.GeneratedMessage implements
+                // @@protoc_insertion_point(message_implements:jdbms.DBTable
+                // .TableColumn)
+                TableColumnOrBuilder {
+            // Use TableColumn.newBuilder() to construct.
+            private TableColumn(final com.google.protobuf.GeneratedMessage
+                    .Builder<?> builder) {
+                super(builder);
+                this.unknownFields = builder.getUnknownFields();
             }
-          }
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
 
-      @Override
-	public final boolean isInitialized() {
-        return true;
-      }
+            private TableColumn(final boolean noInit) {
+                this.unknownFields = com.google.protobuf.UnknownFieldSet
+                        .getDefaultInstance();
+            }
 
-      @Override
-	public Builder mergeFrom(
-          final com.google.protobuf.CodedInputStream input,
-          final com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        jdbms.sql.file.protobuff.util.TableProtos.DBTable parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (final com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (jdbms.sql.file.protobuff.util.TableProtos.DBTable) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
+            private static final TableColumn defaultInstance;
 
-      private java.lang.Object tableName_ = "";
-      /**
-       * <code>optional string tableName = 1;</code>
-       */
-      @Override
-	public boolean hasTableName() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>optional string tableName = 1;</code>
-       */
-      @Override
-	public java.lang.String getTableName() {
-        final java.lang.Object ref = tableName_;
-        if (!(ref instanceof java.lang.String)) {
-          final com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          final java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            tableName_ = s;
-          }
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>optional string tableName = 1;</code>
-       */
-      @Override
-	public com.google.protobuf.ByteString
-          getTableNameBytes() {
-        final java.lang.Object ref = tableName_;
-        if (ref instanceof String) {
-          final com.google.protobuf.ByteString b =
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          tableName_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string tableName = 1;</code>
-       */
-      public Builder setTableName(
-          final java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-        tableName_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string tableName = 1;</code>
-       */
-      public Builder clearTableName() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        tableName_ = getDefaultInstance().getTableName();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string tableName = 1;</code>
-       */
-      public Builder setTableNameBytes(
-          final com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-        tableName_ = value;
-        onChanged();
-        return this;
-      }
+            public static TableColumn getDefaultInstance() {
+                return defaultInstance;
+            }
 
-      private int numberOfRows_ ;
-      /**
-       * <code>optional int32 numberOfRows = 2;</code>
-       */
-      @Override
-	public boolean hasNumberOfRows() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>optional int32 numberOfRows = 2;</code>
-       */
-      @Override
-	public int getNumberOfRows() {
-        return numberOfRows_;
-      }
-      /**
-       * <code>optional int32 numberOfRows = 2;</code>
-       */
-      public Builder setNumberOfRows(final int value) {
-        bitField0_ |= 0x00000002;
-        numberOfRows_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int32 numberOfRows = 2;</code>
-       */
-      public Builder clearNumberOfRows() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        numberOfRows_ = 0;
-        onChanged();
-        return this;
-      }
+            @Override
+            public TableColumn getDefaultInstanceForType() {
+                return defaultInstance;
+            }
 
-      private java.util.List<jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn> tableColumns_ =
-        java.util.Collections.emptyList();
-      private void ensureTableColumnsIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-          tableColumns_ = new java.util.ArrayList<jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn>(tableColumns_);
-          bitField0_ |= 0x00000004;
-         }
-      }
+            private final com.google.protobuf.UnknownFieldSet unknownFields;
 
-      private com.google.protobuf.RepeatedFieldBuilder<
-          jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn, jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn.Builder, jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumnOrBuilder> tableColumnsBuilder_;
+            @java.lang.Override
+            public final com.google.protobuf.UnknownFieldSet
+            getUnknownFields() {
+                return this.unknownFields;
+            }
 
-      /**
-       * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
-       */
-      @Override
-	public java.util.List<jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn> getTableColumnsList() {
-        if (tableColumnsBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(tableColumns_);
-        } else {
-          return tableColumnsBuilder_.getMessageList();
-        }
-      }
-      /**
-       * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
-       */
-      @Override
-	public int getTableColumnsCount() {
-        if (tableColumnsBuilder_ == null) {
-          return tableColumns_.size();
-        } else {
-          return tableColumnsBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
-       */
-      @Override
-	public jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn getTableColumns(final int index) {
-        if (tableColumnsBuilder_ == null) {
-          return tableColumns_.get(index);
-        } else {
-          return tableColumnsBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
-       */
-      public Builder setTableColumns(
-          final int index, final jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn value) {
-        if (tableColumnsBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureTableColumnsIsMutable();
-          tableColumns_.set(index, value);
-          onChanged();
-        } else {
-          tableColumnsBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
-       */
-      public Builder setTableColumns(
-          final int index, final jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn.Builder builderForValue) {
-        if (tableColumnsBuilder_ == null) {
-          ensureTableColumnsIsMutable();
-          tableColumns_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          tableColumnsBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
-       */
-      public Builder addTableColumns(final jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn value) {
-        if (tableColumnsBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureTableColumnsIsMutable();
-          tableColumns_.add(value);
-          onChanged();
-        } else {
-          tableColumnsBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
-       */
-      public Builder addTableColumns(
-          final int index, final jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn value) {
-        if (tableColumnsBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureTableColumnsIsMutable();
-          tableColumns_.add(index, value);
-          onChanged();
-        } else {
-          tableColumnsBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
-       */
-      public Builder addTableColumns(
-          final jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn.Builder builderForValue) {
-        if (tableColumnsBuilder_ == null) {
-          ensureTableColumnsIsMutable();
-          tableColumns_.add(builderForValue.build());
-          onChanged();
-        } else {
-          tableColumnsBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
-       */
-      public Builder addTableColumns(
-          final int index, final jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn.Builder builderForValue) {
-        if (tableColumnsBuilder_ == null) {
-          ensureTableColumnsIsMutable();
-          tableColumns_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          tableColumnsBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
-       */
-      public Builder addAllTableColumns(
-          final java.lang.Iterable<? extends jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn> values) {
-        if (tableColumnsBuilder_ == null) {
-          ensureTableColumnsIsMutable();
-          com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, tableColumns_);
-          onChanged();
-        } else {
-          tableColumnsBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
-       */
-      public Builder clearTableColumns() {
-        if (tableColumnsBuilder_ == null) {
-          tableColumns_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
-          onChanged();
-        } else {
-          tableColumnsBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
-       */
-      public Builder removeTableColumns(final int index) {
-        if (tableColumnsBuilder_ == null) {
-          ensureTableColumnsIsMutable();
-          tableColumns_.remove(index);
-          onChanged();
-        } else {
-          tableColumnsBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
-       */
-      public jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn.Builder getTableColumnsBuilder(
-          final int index) {
-        return getTableColumnsFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
-       */
-      @Override
-	public jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumnOrBuilder getTableColumnsOrBuilder(
-          final int index) {
-        if (tableColumnsBuilder_ == null) {
-          return tableColumns_.get(index);  } else {
-          return tableColumnsBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
-       */
-      @Override
-	public java.util.List<? extends jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumnOrBuilder>
-           getTableColumnsOrBuilderList() {
-        if (tableColumnsBuilder_ != null) {
-          return tableColumnsBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(tableColumns_);
-        }
-      }
-      /**
-       * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
-       */
-      public jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn.Builder addTableColumnsBuilder() {
-        return getTableColumnsFieldBuilder().addBuilder(
-            jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
-       */
-      public jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn.Builder addTableColumnsBuilder(
-          final int index) {
-        return getTableColumnsFieldBuilder().addBuilder(
-            index, jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
-       */
-      public java.util.List<jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn.Builder>
-           getTableColumnsBuilderList() {
-        return getTableColumnsFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn, jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn.Builder, jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumnOrBuilder>
-          getTableColumnsFieldBuilder() {
-        if (tableColumnsBuilder_ == null) {
-          tableColumnsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn, jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn.Builder, jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumnOrBuilder>(
-                  tableColumns_,
-                  ((bitField0_ & 0x00000004) == 0x00000004),
-                  getParentForChildren(),
-                  isClean());
-          tableColumns_ = null;
-        }
-        return tableColumnsBuilder_;
-      }
+            private TableColumn(
+                    final com.google.protobuf.CodedInputStream input,
+                    final com.google.protobuf.ExtensionRegistryLite
+                            extensionRegistry)
+                    throws com.google.protobuf.InvalidProtocolBufferException {
+                initFields();
+                int mutable_bitField0_ = 0;
+                final com.google.protobuf.UnknownFieldSet.Builder
+                        unknownFields =
+                        com.google.protobuf.UnknownFieldSet.newBuilder();
+                try {
+                    boolean done = false;
+                    while (!done) {
+                        final int tag = input.readTag();
+                        switch (tag) {
+                            case 0:
+                                done = true;
+                                break;
+                            default: {
+                                if (!parseUnknownField(input, unknownFields,
+                                        extensionRegistry, tag)) {
+                                    done = true;
+                                }
+                                break;
+                            }
+                            case 10: {
+                                final com.google.protobuf.ByteString bs =
+                                        input.readBytes();
+                                bitField0_ |= 0x00000001;
+                                columnName_ = bs;
+                                break;
+                            }
+                            case 18: {
+                                final com.google.protobuf.ByteString bs =
+                                        input.readBytes();
+                                bitField0_ |= 0x00000002;
+                                columnType_ = bs;
+                                break;
+                            }
+                            case 26: {
+                                final com.google.protobuf.ByteString bs =
+                                        input.readBytes();
+                                if (!((mutable_bitField0_ & 0x00000004) ==
+                                        0x00000004)) {
+                                    values_ = new com.google.protobuf
+                                            .LazyStringArrayList();
+                                    mutable_bitField0_ |= 0x00000004;
+                                }
+                                values_.add(bs);
+                                break;
+                            }
+                        }
+                    }
+                } catch (final com.google.protobuf
+                        .InvalidProtocolBufferException e) {
+                    throw e.setUnfinishedMessage(this);
+                } catch (final java.io.IOException e) {
+                    throw new com.google.protobuf
+                            .InvalidProtocolBufferException(
+                            e.getMessage()).setUnfinishedMessage(this);
+                } finally {
+                    if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                        values_ = values_.getUnmodifiableView();
+                    }
+                    this.unknownFields = unknownFields.build();
+                    makeExtensionsImmutable();
+                }
+            }
 
-      // @@protoc_insertion_point(builder_scope:jdbms.DBTable)
+            public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+                return jdbms.sql.file.protobuff.util.TableProtos
+                        .internal_static_jdbms_DBTable_TableColumn_descriptor;
+            }
+
+            @Override
+            protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+                return jdbms.sql.file.protobuff.util.TableProtos
+                        .internal_static_jdbms_DBTable_TableColumn_fieldAccessorTable
+                        .ensureFieldAccessorsInitialized(
+                                jdbms.sql.file.protobuff.util.TableProtos
+                                        .DBTable.TableColumn.class, jdbms.sql
+                                        .file.protobuff.util.TableProtos
+                                        .DBTable.TableColumn.Builder.class);
+            }
+
+            public static com.google.protobuf.Parser<TableColumn> PARSER =
+                    new com.google.protobuf.AbstractParser<TableColumn>() {
+                        @Override
+                        public TableColumn parsePartialFrom(
+                                final com.google.protobuf.CodedInputStream
+                                        input,
+                                final com.google.protobuf
+                                        .ExtensionRegistryLite
+                                        extensionRegistry)
+                                throws com.google.protobuf
+                                .InvalidProtocolBufferException {
+                            return new TableColumn(input, extensionRegistry);
+                        }
+                    };
+
+            @java.lang.Override
+            public com.google.protobuf.Parser<TableColumn> getParserForType() {
+                return PARSER;
+            }
+
+            private int bitField0_;
+            public static final int COLUMNNAME_FIELD_NUMBER = 1;
+            private java.lang.Object columnName_;
+
+            /**
+             * <code>optional string columnName = 1;</code>
+             */
+            @Override
+            public boolean hasColumnName() {
+                return ((bitField0_ & 0x00000001) == 0x00000001);
+            }
+
+            /**
+             * <code>optional string columnName = 1;</code>
+             */
+            @Override
+            public java.lang.String getColumnName() {
+                final java.lang.Object ref = columnName_;
+                if (ref instanceof java.lang.String) {
+                    return (java.lang.String) ref;
+                } else {
+                    final com.google.protobuf.ByteString bs =
+                            (com.google.protobuf.ByteString) ref;
+                    final java.lang.String s = bs.toStringUtf8();
+                    if (bs.isValidUtf8()) {
+                        columnName_ = s;
+                    }
+                    return s;
+                }
+            }
+
+            /**
+             * <code>optional string columnName = 1;</code>
+             */
+            @Override
+            public com.google.protobuf.ByteString
+            getColumnNameBytes() {
+                final java.lang.Object ref = columnName_;
+                if (ref instanceof java.lang.String) {
+                    final com.google.protobuf.ByteString b =
+                            com.google.protobuf.ByteString.copyFromUtf8(
+                                    (java.lang.String) ref);
+                    columnName_ = b;
+                    return b;
+                } else {
+                    return (com.google.protobuf.ByteString) ref;
+                }
+            }
+
+            public static final int COLUMNTYPE_FIELD_NUMBER = 2;
+            private java.lang.Object columnType_;
+
+            /**
+             * <code>optional string columnType = 2;</code>
+             */
+            @Override
+            public boolean hasColumnType() {
+                return ((bitField0_ & 0x00000002) == 0x00000002);
+            }
+
+            /**
+             * <code>optional string columnType = 2;</code>
+             */
+            @Override
+            public java.lang.String getColumnType() {
+                final java.lang.Object ref = columnType_;
+                if (ref instanceof java.lang.String) {
+                    return (java.lang.String) ref;
+                } else {
+                    final com.google.protobuf.ByteString bs =
+                            (com.google.protobuf.ByteString) ref;
+                    final java.lang.String s = bs.toStringUtf8();
+                    if (bs.isValidUtf8()) {
+                        columnType_ = s;
+                    }
+                    return s;
+                }
+            }
+
+            /**
+             * <code>optional string columnType = 2;</code>
+             */
+            @Override
+            public com.google.protobuf.ByteString
+            getColumnTypeBytes() {
+                final java.lang.Object ref = columnType_;
+                if (ref instanceof java.lang.String) {
+                    final com.google.protobuf.ByteString b =
+                            com.google.protobuf.ByteString.copyFromUtf8(
+                                    (java.lang.String) ref);
+                    columnType_ = b;
+                    return b;
+                } else {
+                    return (com.google.protobuf.ByteString) ref;
+                }
+            }
+
+            public static final int VALUES_FIELD_NUMBER = 3;
+            private com.google.protobuf.LazyStringList values_;
+
+            /**
+             * <code>repeated string values = 3;</code>
+             */
+            @Override
+            public com.google.protobuf.ProtocolStringList
+            getValuesList() {
+                return values_;
+            }
+
+            /**
+             * <code>repeated string values = 3;</code>
+             */
+            @Override
+            public int getValuesCount() {
+                return values_.size();
+            }
+
+            /**
+             * <code>repeated string values = 3;</code>
+             */
+            @Override
+            public java.lang.String getValues(final int index) {
+                return values_.get(index);
+            }
+
+            /**
+             * <code>repeated string values = 3;</code>
+             */
+            @Override
+            public com.google.protobuf.ByteString
+            getValuesBytes(final int index) {
+                return values_.getByteString(index);
+            }
+
+            private void initFields() {
+                columnName_ = "";
+                columnType_ = "";
+                values_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+            }
+
+            private byte memoizedIsInitialized = -1;
+
+            @Override
+            public final boolean isInitialized() {
+                final byte isInitialized = memoizedIsInitialized;
+                if (isInitialized == 1) {
+                    return true;
+                }
+                if (isInitialized == 0) {
+                    return false;
+                }
+
+                memoizedIsInitialized = 1;
+                return true;
+            }
+
+            @Override
+            public void writeTo(final com.google.protobuf.CodedOutputStream
+                                        output)
+                    throws java.io.IOException {
+                getSerializedSize();
+                if (((bitField0_ & 0x00000001) == 0x00000001)) {
+                    output.writeBytes(1, getColumnNameBytes());
+                }
+                if (((bitField0_ & 0x00000002) == 0x00000002)) {
+                    output.writeBytes(2, getColumnTypeBytes());
+                }
+                for (int i = 0; i < values_.size(); i++) {
+                    output.writeBytes(3, values_.getByteString(i));
+                }
+                getUnknownFields().writeTo(output);
+            }
+
+            private int memoizedSerializedSize = -1;
+
+            @Override
+            public int getSerializedSize() {
+                int size = memoizedSerializedSize;
+                if (size != -1) {
+                    return size;
+                }
+
+                size = 0;
+                if (((bitField0_ & 0x00000001) == 0x00000001)) {
+                    size += com.google.protobuf.CodedOutputStream
+                            .computeBytesSize(1, getColumnNameBytes());
+                }
+                if (((bitField0_ & 0x00000002) == 0x00000002)) {
+                    size += com.google.protobuf.CodedOutputStream
+                            .computeBytesSize(2, getColumnTypeBytes());
+                }
+                {
+                    int dataSize = 0;
+                    for (int i = 0; i < values_.size(); i++) {
+                        dataSize += com.google.protobuf.CodedOutputStream
+                                .computeBytesSizeNoTag(values_.getByteString
+                                        (i));
+                    }
+                    size += dataSize;
+                    size += 1 * getValuesList().size();
+                }
+                size += getUnknownFields().getSerializedSize();
+                memoizedSerializedSize = size;
+                return size;
+            }
+
+            private static final long serialVersionUID = 0L;
+
+            @java.lang.Override
+            protected java.lang.Object writeReplace()
+                    throws java.io.ObjectStreamException {
+                return super.writeReplace();
+            }
+
+            public static jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                    .TableColumn parseFrom(
+                    final com.google.protobuf.ByteString data)
+                    throws com.google.protobuf.InvalidProtocolBufferException {
+                return PARSER.parseFrom(data);
+            }
+
+            public static jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                    .TableColumn parseFrom(
+                    final com.google.protobuf.ByteString data,
+                    final com.google.protobuf.ExtensionRegistryLite
+                            extensionRegistry)
+                    throws com.google.protobuf.InvalidProtocolBufferException {
+                return PARSER.parseFrom(data, extensionRegistry);
+            }
+
+            public static jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                    .TableColumn parseFrom(final byte[] data)
+                    throws com.google.protobuf.InvalidProtocolBufferException {
+                return PARSER.parseFrom(data);
+            }
+
+            public static jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                    .TableColumn parseFrom(
+                    final byte[] data,
+                    final com.google.protobuf.ExtensionRegistryLite
+                            extensionRegistry)
+                    throws com.google.protobuf.InvalidProtocolBufferException {
+                return PARSER.parseFrom(data, extensionRegistry);
+            }
+
+            public static jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                    .TableColumn parseFrom(final java.io.InputStream input)
+                    throws java.io.IOException {
+                return PARSER.parseFrom(input);
+            }
+
+            public static jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                    .TableColumn parseFrom(
+                    final java.io.InputStream input,
+                    final com.google.protobuf.ExtensionRegistryLite
+                            extensionRegistry)
+                    throws java.io.IOException {
+                return PARSER.parseFrom(input, extensionRegistry);
+            }
+
+            public static jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                    .TableColumn parseDelimitedFrom(final java.io.InputStream input)
+                    throws java.io.IOException {
+                return PARSER.parseDelimitedFrom(input);
+            }
+
+            public static jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                    .TableColumn parseDelimitedFrom(
+                    final java.io.InputStream input,
+                    final com.google.protobuf.ExtensionRegistryLite
+                            extensionRegistry)
+                    throws java.io.IOException {
+                return PARSER.parseDelimitedFrom(input, extensionRegistry);
+            }
+
+            public static jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                    .TableColumn parseFrom(
+                    final com.google.protobuf.CodedInputStream input)
+                    throws java.io.IOException {
+                return PARSER.parseFrom(input);
+            }
+
+            public static jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                    .TableColumn parseFrom(
+                    final com.google.protobuf.CodedInputStream input,
+                    final com.google.protobuf.ExtensionRegistryLite
+                            extensionRegistry)
+                    throws java.io.IOException {
+                return PARSER.parseFrom(input, extensionRegistry);
+            }
+
+            public static Builder newBuilder() {
+                return Builder.create();
+            }
+
+            @Override
+            public Builder newBuilderForType() {
+                return newBuilder();
+            }
+
+            public static Builder newBuilder(final jdbms.sql.file.protobuff
+                    .util.TableProtos.DBTable.TableColumn prototype) {
+                return newBuilder().mergeFrom(prototype);
+            }
+
+            @Override
+            public Builder toBuilder() {
+                return newBuilder(this);
+            }
+
+            @java.lang.Override
+            protected Builder newBuilderForType(
+                    final com.google.protobuf.GeneratedMessage.BuilderParent
+                            parent) {
+                final Builder builder = new Builder(parent);
+                return builder;
+            }
+
+            /**
+             * Protobuf type {@code jdbms.DBTable.TableColumn}
+             */
+            public static final class Builder extends
+                    com.google.protobuf.GeneratedMessage.Builder<Builder>
+                    implements
+                    // @@protoc_insertion_point(builder_implements:jdbms
+                    // .DBTable.TableColumn)
+                    jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                            .TableColumnOrBuilder {
+                public static final com.google.protobuf.Descriptors.Descriptor
+                getDescriptor() {
+                    return jdbms.sql.file.protobuff.util.TableProtos
+                            .internal_static_jdbms_DBTable_TableColumn_descriptor;
+                }
+
+                @Override
+                protected com.google.protobuf.GeneratedMessage
+                        .FieldAccessorTable
+                internalGetFieldAccessorTable() {
+                    return jdbms.sql.file.protobuff.util.TableProtos
+                            .internal_static_jdbms_DBTable_TableColumn_fieldAccessorTable
+                            .ensureFieldAccessorsInitialized(
+                                    jdbms.sql.file.protobuff.util.TableProtos
+                                            .DBTable.TableColumn.class, jdbms
+                                            .sql.file.protobuff.util
+                                            .TableProtos.DBTable.TableColumn
+                                            .Builder.class);
+                }
+
+                // Construct using jdbms.sql.file.protobuff.util.TableProtos
+                // .DBTable.TableColumn.newBuilder()
+                private Builder() {
+                    maybeForceBuilderInitialization();
+                }
+
+                private Builder(
+                        final com.google.protobuf.GeneratedMessage
+                                .BuilderParent parent) {
+                    super(parent);
+                    maybeForceBuilderInitialization();
+                }
+
+                private void maybeForceBuilderInitialization() {
+                    if (com.google.protobuf.GeneratedMessage
+                            .alwaysUseFieldBuilders) {
+                    }
+                }
+
+                private static Builder create() {
+                    return new Builder();
+                }
+
+                @Override
+                public Builder clear() {
+                    super.clear();
+                    columnName_ = "";
+                    bitField0_ = (bitField0_ & ~0x00000001);
+                    columnType_ = "";
+                    bitField0_ = (bitField0_ & ~0x00000002);
+                    values_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+                    bitField0_ = (bitField0_ & ~0x00000004);
+                    return this;
+                }
+
+                @Override
+                public Builder clone() {
+                    return create().mergeFrom(buildPartial());
+                }
+
+                @Override
+                public com.google.protobuf.Descriptors.Descriptor
+                getDescriptorForType() {
+                    return jdbms.sql.file.protobuff.util.TableProtos
+                            .internal_static_jdbms_DBTable_TableColumn_descriptor;
+                }
+
+                @Override
+                public jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                        .TableColumn getDefaultInstanceForType() {
+                    return jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                            .TableColumn.getDefaultInstance();
+                }
+
+                @Override
+                public jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                        .TableColumn build() {
+                    final jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                            .TableColumn result = buildPartial();
+                    if (!result.isInitialized()) {
+                        throw newUninitializedMessageException(result);
+                    }
+                    return result;
+                }
+
+                @Override
+                public jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                        .TableColumn buildPartial() {
+                    final jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                            .TableColumn result = new jdbms.sql.file
+                            .protobuff.util.TableProtos.DBTable.TableColumn
+                            (this);
+                    final int from_bitField0_ = bitField0_;
+                    int to_bitField0_ = 0;
+                    if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+                        to_bitField0_ |= 0x00000001;
+                    }
+                    result.columnName_ = columnName_;
+                    if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+                        to_bitField0_ |= 0x00000002;
+                    }
+                    result.columnType_ = columnType_;
+                    if (((bitField0_ & 0x00000004) == 0x00000004)) {
+                        values_ = values_.getUnmodifiableView();
+                        bitField0_ = (bitField0_ & ~0x00000004);
+                    }
+                    result.values_ = values_;
+                    result.bitField0_ = to_bitField0_;
+                    onBuilt();
+                    return result;
+                }
+
+                @Override
+                public Builder mergeFrom(final com.google.protobuf.Message
+                                                 other) {
+                    if (other instanceof jdbms.sql.file.protobuff.util
+                            .TableProtos.DBTable.TableColumn) {
+                        return mergeFrom((jdbms.sql.file.protobuff.util
+                                .TableProtos.DBTable.TableColumn) other);
+                    } else {
+                        super.mergeFrom(other);
+                        return this;
+                    }
+                }
+
+                public Builder mergeFrom(final jdbms.sql.file.protobuff.util
+                        .TableProtos.DBTable.TableColumn other) {
+                    if (other == jdbms.sql.file.protobuff.util.TableProtos
+                            .DBTable.TableColumn.getDefaultInstance()) {
+                        return this;
+                    }
+                    if (other.hasColumnName()) {
+                        bitField0_ |= 0x00000001;
+                        columnName_ = other.columnName_;
+                        onChanged();
+                    }
+                    if (other.hasColumnType()) {
+                        bitField0_ |= 0x00000002;
+                        columnType_ = other.columnType_;
+                        onChanged();
+                    }
+                    if (!other.values_.isEmpty()) {
+                        if (values_.isEmpty()) {
+                            values_ = other.values_;
+                            bitField0_ = (bitField0_ & ~0x00000004);
+                        } else {
+                            ensureValuesIsMutable();
+                            values_.addAll(other.values_);
+                        }
+                        onChanged();
+                    }
+                    this.mergeUnknownFields(other.getUnknownFields());
+                    return this;
+                }
+
+                @Override
+                public final boolean isInitialized() {
+                    return true;
+                }
+
+                @Override
+                public Builder mergeFrom(
+                        final com.google.protobuf.CodedInputStream input,
+                        final com.google.protobuf.ExtensionRegistryLite
+                                extensionRegistry)
+                        throws java.io.IOException {
+                    jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                            .TableColumn parsedMessage = null;
+                    try {
+                        parsedMessage = PARSER.parsePartialFrom(input,
+                                extensionRegistry);
+                    } catch (final com.google.protobuf
+                            .InvalidProtocolBufferException e) {
+                        parsedMessage = (jdbms.sql.file.protobuff.util
+                                .TableProtos.DBTable.TableColumn) e
+                                .getUnfinishedMessage();
+                        throw e;
+                    } finally {
+                        if (parsedMessage != null) {
+                            mergeFrom(parsedMessage);
+                        }
+                    }
+                    return this;
+                }
+
+                private int bitField0_;
+
+                private java.lang.Object columnName_ = "";
+
+                /**
+                 * <code>optional string columnName = 1;</code>
+                 */
+                @Override
+                public boolean hasColumnName() {
+                    return ((bitField0_ & 0x00000001) == 0x00000001);
+                }
+
+                /**
+                 * <code>optional string columnName = 1;</code>
+                 */
+                @Override
+                public java.lang.String getColumnName() {
+                    final java.lang.Object ref = columnName_;
+                    if (!(ref instanceof java.lang.String)) {
+                        final com.google.protobuf.ByteString bs =
+                                (com.google.protobuf.ByteString) ref;
+                        final java.lang.String s = bs.toStringUtf8();
+                        if (bs.isValidUtf8()) {
+                            columnName_ = s;
+                        }
+                        return s;
+                    } else {
+                        return (java.lang.String) ref;
+                    }
+                }
+
+                /**
+                 * <code>optional string columnName = 1;</code>
+                 */
+                @Override
+                public com.google.protobuf.ByteString
+                getColumnNameBytes() {
+                    final java.lang.Object ref = columnName_;
+                    if (ref instanceof String) {
+                        final com.google.protobuf.ByteString b =
+                                com.google.protobuf.ByteString.copyFromUtf8(
+                                        (java.lang.String) ref);
+                        columnName_ = b;
+                        return b;
+                    } else {
+                        return (com.google.protobuf.ByteString) ref;
+                    }
+                }
+
+                /**
+                 * <code>optional string columnName = 1;</code>
+                 */
+                public Builder setColumnName(
+                        final java.lang.String value) {
+                    if (value == null) {
+                        throw new NullPointerException();
+                    }
+                    bitField0_ |= 0x00000001;
+                    columnName_ = value;
+                    onChanged();
+                    return this;
+                }
+
+                /**
+                 * <code>optional string columnName = 1;</code>
+                 */
+                public Builder clearColumnName() {
+                    bitField0_ = (bitField0_ & ~0x00000001);
+                    columnName_ = getDefaultInstance().getColumnName();
+                    onChanged();
+                    return this;
+                }
+
+                /**
+                 * <code>optional string columnName = 1;</code>
+                 */
+                public Builder setColumnNameBytes(
+                        final com.google.protobuf.ByteString value) {
+                    if (value == null) {
+                        throw new NullPointerException();
+                    }
+                    bitField0_ |= 0x00000001;
+                    columnName_ = value;
+                    onChanged();
+                    return this;
+                }
+
+                private java.lang.Object columnType_ = "";
+
+                /**
+                 * <code>optional string columnType = 2;</code>
+                 */
+                @Override
+                public boolean hasColumnType() {
+                    return ((bitField0_ & 0x00000002) == 0x00000002);
+                }
+
+                /**
+                 * <code>optional string columnType = 2;</code>
+                 */
+                @Override
+                public java.lang.String getColumnType() {
+                    final java.lang.Object ref = columnType_;
+                    if (!(ref instanceof java.lang.String)) {
+                        final com.google.protobuf.ByteString bs =
+                                (com.google.protobuf.ByteString) ref;
+                        final java.lang.String s = bs.toStringUtf8();
+                        if (bs.isValidUtf8()) {
+                            columnType_ = s;
+                        }
+                        return s;
+                    } else {
+                        return (java.lang.String) ref;
+                    }
+                }
+
+                /**
+                 * <code>optional string columnType = 2;</code>
+                 */
+                @Override
+                public com.google.protobuf.ByteString
+                getColumnTypeBytes() {
+                    final java.lang.Object ref = columnType_;
+                    if (ref instanceof String) {
+                        final com.google.protobuf.ByteString b =
+                                com.google.protobuf.ByteString.copyFromUtf8(
+                                        (java.lang.String) ref);
+                        columnType_ = b;
+                        return b;
+                    } else {
+                        return (com.google.protobuf.ByteString) ref;
+                    }
+                }
+
+                /**
+                 * <code>optional string columnType = 2;</code>
+                 */
+                public Builder setColumnType(
+                        final java.lang.String value) {
+                    if (value == null) {
+                        throw new NullPointerException();
+                    }
+                    bitField0_ |= 0x00000002;
+                    columnType_ = value;
+                    onChanged();
+                    return this;
+                }
+
+                /**
+                 * <code>optional string columnType = 2;</code>
+                 */
+                public Builder clearColumnType() {
+                    bitField0_ = (bitField0_ & ~0x00000002);
+                    columnType_ = getDefaultInstance().getColumnType();
+                    onChanged();
+                    return this;
+                }
+
+                /**
+                 * <code>optional string columnType = 2;</code>
+                 */
+                public Builder setColumnTypeBytes(
+                        final com.google.protobuf.ByteString value) {
+                    if (value == null) {
+                        throw new NullPointerException();
+                    }
+                    bitField0_ |= 0x00000002;
+                    columnType_ = value;
+                    onChanged();
+                    return this;
+                }
+
+                private com.google.protobuf.LazyStringList values_ = com
+                        .google.protobuf.LazyStringArrayList.EMPTY;
+
+                private void ensureValuesIsMutable() {
+                    if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+                        values_ = new com.google.protobuf.LazyStringArrayList
+                                (values_);
+                        bitField0_ |= 0x00000004;
+                    }
+                }
+
+                /**
+                 * <code>repeated string values = 3;</code>
+                 */
+                @Override
+                public com.google.protobuf.ProtocolStringList
+                getValuesList() {
+                    return values_.getUnmodifiableView();
+                }
+
+                /**
+                 * <code>repeated string values = 3;</code>
+                 */
+                @Override
+                public int getValuesCount() {
+                    return values_.size();
+                }
+
+                /**
+                 * <code>repeated string values = 3;</code>
+                 */
+                @Override
+                public java.lang.String getValues(final int index) {
+                    return values_.get(index);
+                }
+
+                /**
+                 * <code>repeated string values = 3;</code>
+                 */
+                @Override
+                public com.google.protobuf.ByteString
+                getValuesBytes(final int index) {
+                    return values_.getByteString(index);
+                }
+
+                /**
+                 * <code>repeated string values = 3;</code>
+                 */
+                public Builder setValues(
+                        final int index, final java.lang.String value) {
+                    if (value == null) {
+                        throw new NullPointerException();
+                    }
+                    ensureValuesIsMutable();
+                    values_.set(index, value);
+                    onChanged();
+                    return this;
+                }
+
+                /**
+                 * <code>repeated string values = 3;</code>
+                 */
+                public Builder addValues(
+                        final java.lang.String value) {
+                    if (value == null) {
+                        throw new NullPointerException();
+                    }
+                    ensureValuesIsMutable();
+                    values_.add(value);
+                    onChanged();
+                    return this;
+                }
+
+                /**
+                 * <code>repeated string values = 3;</code>
+                 */
+                public Builder addAllValues(
+                        final java.lang.Iterable<java.lang.String> values) {
+                    ensureValuesIsMutable();
+                    com.google.protobuf.AbstractMessageLite.Builder.addAll(
+                            values, values_);
+                    onChanged();
+                    return this;
+                }
+
+                /**
+                 * <code>repeated string values = 3;</code>
+                 */
+                public Builder clearValues() {
+                    values_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+                    bitField0_ = (bitField0_ & ~0x00000004);
+                    onChanged();
+                    return this;
+                }
+
+                /**
+                 * <code>repeated string values = 3;</code>
+                 */
+                public Builder addValuesBytes(
+                        final com.google.protobuf.ByteString value) {
+                    if (value == null) {
+                        throw new NullPointerException();
+                    }
+                    ensureValuesIsMutable();
+                    values_.add(value);
+                    onChanged();
+                    return this;
+                }
+
+                // @@protoc_insertion_point(builder_scope:jdbms.DBTable
+                // .TableColumn)
+            }
+
+            static {
+                defaultInstance = new TableColumn(true);
+                defaultInstance.initFields();
+            }
+
+            // @@protoc_insertion_point(class_scope:jdbms.DBTable.TableColumn)
+        }
+
+        private int bitField0_;
+        public static final int TABLENAME_FIELD_NUMBER = 1;
+        private java.lang.Object tableName_;
+
+        /**
+         * <code>optional string tableName = 1;</code>
+         */
+        @Override
+        public boolean hasTableName() {
+            return ((bitField0_ & 0x00000001) == 0x00000001);
+        }
+
+        /**
+         * <code>optional string tableName = 1;</code>
+         */
+        @Override
+        public java.lang.String getTableName() {
+            final java.lang.Object ref = tableName_;
+            if (ref instanceof java.lang.String) {
+                return (java.lang.String) ref;
+            } else {
+                final com.google.protobuf.ByteString bs =
+                        (com.google.protobuf.ByteString) ref;
+                final java.lang.String s = bs.toStringUtf8();
+                if (bs.isValidUtf8()) {
+                    tableName_ = s;
+                }
+                return s;
+            }
+        }
+
+        /**
+         * <code>optional string tableName = 1;</code>
+         */
+        @Override
+        public com.google.protobuf.ByteString
+        getTableNameBytes() {
+            final java.lang.Object ref = tableName_;
+            if (ref instanceof java.lang.String) {
+                final com.google.protobuf.ByteString b =
+                        com.google.protobuf.ByteString.copyFromUtf8(
+                                (java.lang.String) ref);
+                tableName_ = b;
+                return b;
+            } else {
+                return (com.google.protobuf.ByteString) ref;
+            }
+        }
+
+        public static final int NUMBEROFROWS_FIELD_NUMBER = 2;
+        private int numberOfRows_;
+
+        /**
+         * <code>optional int32 numberOfRows = 2;</code>
+         */
+        @Override
+        public boolean hasNumberOfRows() {
+            return ((bitField0_ & 0x00000002) == 0x00000002);
+        }
+
+        /**
+         * <code>optional int32 numberOfRows = 2;</code>
+         */
+        @Override
+        public int getNumberOfRows() {
+            return numberOfRows_;
+        }
+
+        public static final int TABLECOLUMNS_FIELD_NUMBER = 3;
+        private java.util.List<jdbms.sql.file.protobuff.util.TableProtos
+                .DBTable.TableColumn> tableColumns_;
+
+        /**
+         * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
+         */
+        @Override
+        public java.util.List<jdbms.sql.file.protobuff.util.TableProtos
+                .DBTable.TableColumn> getTableColumnsList() {
+            return tableColumns_;
+        }
+
+        /**
+         * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
+         */
+        @Override
+        public java.util.List<? extends jdbms.sql.file.protobuff.util
+                .TableProtos
+                .DBTable.TableColumnOrBuilder>
+        getTableColumnsOrBuilderList() {
+            return tableColumns_;
+        }
+
+        /**
+         * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
+         */
+        @Override
+        public int getTableColumnsCount() {
+            return tableColumns_.size();
+        }
+
+        /**
+         * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
+         */
+        @Override
+        public jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn
+        getTableColumns(final int index) {
+            return tableColumns_.get(index);
+        }
+
+        /**
+         * <code>repeated .jdbms.DBTable.TableColumn tableColumns = 3;</code>
+         */
+        @Override
+        public jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                .TableColumnOrBuilder getTableColumnsOrBuilder(
+                final int index) {
+            return tableColumns_.get(index);
+        }
+
+        private void initFields() {
+            tableName_ = "";
+            numberOfRows_ = 0;
+            tableColumns_ = java.util.Collections.emptyList();
+        }
+
+        private byte memoizedIsInitialized = -1;
+
+        @Override
+        public final boolean isInitialized() {
+            final byte isInitialized = memoizedIsInitialized;
+            if (isInitialized == 1) {
+                return true;
+            }
+            if (isInitialized == 0) {
+                return false;
+            }
+
+            memoizedIsInitialized = 1;
+            return true;
+        }
+
+        @Override
+        public void writeTo(final com.google.protobuf.CodedOutputStream output)
+                throws java.io.IOException {
+            getSerializedSize();
+            if (((bitField0_ & 0x00000001) == 0x00000001)) {
+                output.writeBytes(1, getTableNameBytes());
+            }
+            if (((bitField0_ & 0x00000002) == 0x00000002)) {
+                output.writeInt32(2, numberOfRows_);
+            }
+            for (int i = 0; i < tableColumns_.size(); i++) {
+                output.writeMessage(3, tableColumns_.get(i));
+            }
+            getUnknownFields().writeTo(output);
+        }
+
+        private int memoizedSerializedSize = -1;
+
+        @Override
+        public int getSerializedSize() {
+            int size = memoizedSerializedSize;
+            if (size != -1) {
+                return size;
+            }
+
+            size = 0;
+            if (((bitField0_ & 0x00000001) == 0x00000001)) {
+                size += com.google.protobuf.CodedOutputStream
+                        .computeBytesSize(1, getTableNameBytes());
+            }
+            if (((bitField0_ & 0x00000002) == 0x00000002)) {
+                size += com.google.protobuf.CodedOutputStream
+                        .computeInt32Size(2, numberOfRows_);
+            }
+            for (int i = 0; i < tableColumns_.size(); i++) {
+                size += com.google.protobuf.CodedOutputStream
+                        .computeMessageSize(3, tableColumns_.get(i));
+            }
+            size += getUnknownFields().getSerializedSize();
+            memoizedSerializedSize = size;
+            return size;
+        }
+
+        private static final long serialVersionUID = 0L;
+
+        @java.lang.Override
+        protected java.lang.Object writeReplace()
+                throws java.io.ObjectStreamException {
+            return super.writeReplace();
+        }
+
+        public static jdbms.sql.file.protobuff.util.TableProtos.DBTable
+        parseFrom(
+                final com.google.protobuf.ByteString data)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data);
+        }
+
+        public static jdbms.sql.file.protobuff.util.TableProtos.DBTable
+        parseFrom(
+                final com.google.protobuf.ByteString data,
+                final com.google.protobuf.ExtensionRegistryLite
+                        extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data, extensionRegistry);
+        }
+
+        public static jdbms.sql.file.protobuff.util.TableProtos.DBTable
+        parseFrom(final byte[] data)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data);
+        }
+
+        public static jdbms.sql.file.protobuff.util.TableProtos.DBTable
+        parseFrom(
+                final byte[] data,
+                final com.google.protobuf.ExtensionRegistryLite
+                        extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data, extensionRegistry);
+        }
+
+        public static jdbms.sql.file.protobuff.util.TableProtos.DBTable
+        parseFrom(final java.io.InputStream input)
+                throws java.io.IOException {
+            return PARSER.parseFrom(input);
+        }
+
+        public static jdbms.sql.file.protobuff.util.TableProtos.DBTable
+        parseFrom(
+                final java.io.InputStream input,
+                final com.google.protobuf.ExtensionRegistryLite
+                        extensionRegistry)
+                throws java.io.IOException {
+            return PARSER.parseFrom(input, extensionRegistry);
+        }
+
+        public static jdbms.sql.file.protobuff.util.TableProtos.DBTable
+        parseDelimitedFrom(final java.io.InputStream input)
+                throws java.io.IOException {
+            return PARSER.parseDelimitedFrom(input);
+        }
+
+        public static jdbms.sql.file.protobuff.util.TableProtos.DBTable
+        parseDelimitedFrom(
+                final java.io.InputStream input,
+                final com.google.protobuf.ExtensionRegistryLite
+                        extensionRegistry)
+                throws java.io.IOException {
+            return PARSER.parseDelimitedFrom(input, extensionRegistry);
+        }
+
+        public static jdbms.sql.file.protobuff.util.TableProtos.DBTable
+        parseFrom(
+                final com.google.protobuf.CodedInputStream input)
+                throws java.io.IOException {
+            return PARSER.parseFrom(input);
+        }
+
+        public static jdbms.sql.file.protobuff.util.TableProtos.DBTable
+        parseFrom(
+                final com.google.protobuf.CodedInputStream input,
+                final com.google.protobuf.ExtensionRegistryLite
+                        extensionRegistry)
+                throws java.io.IOException {
+            return PARSER.parseFrom(input, extensionRegistry);
+        }
+
+        public static Builder newBuilder() {
+            return Builder.create();
+        }
+
+        @Override
+        public Builder newBuilderForType() {
+            return newBuilder();
+        }
+
+        public static Builder newBuilder(final jdbms.sql.file.protobuff.util
+                .TableProtos.DBTable prototype) {
+            return newBuilder().mergeFrom(prototype);
+        }
+
+        @Override
+        public Builder toBuilder() {
+            return newBuilder(this);
+        }
+
+        @java.lang.Override
+        protected Builder newBuilderForType(
+                final com.google.protobuf.GeneratedMessage.BuilderParent
+                        parent) {
+            final Builder builder = new Builder(parent);
+            return builder;
+        }
+
+        /**
+         * Protobuf type {@code jdbms.DBTable}
+         */
+        public static final class Builder extends
+                com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+                // @@protoc_insertion_point(builder_implements:jdbms.DBTable)
+                jdbms.sql.file.protobuff.util.TableProtos.DBTableOrBuilder {
+            public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+                return jdbms.sql.file.protobuff.util.TableProtos
+                        .internal_static_jdbms_DBTable_descriptor;
+            }
+
+            @Override
+            protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+                return jdbms.sql.file.protobuff.util.TableProtos
+                        .internal_static_jdbms_DBTable_fieldAccessorTable
+                        .ensureFieldAccessorsInitialized(
+                                jdbms.sql.file.protobuff.util.TableProtos
+                                        .DBTable.class, jdbms.sql.file
+                                        .protobuff.util.TableProtos.DBTable
+                                        .Builder.class);
+            }
+
+            // Construct using jdbms.sql.file.protobuff.util.TableProtos
+            // .DBTable.newBuilder()
+            private Builder() {
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(
+                    final com.google.protobuf.GeneratedMessage.BuilderParent
+                            parent) {
+                super(parent);
+                maybeForceBuilderInitialization();
+            }
+
+            private void maybeForceBuilderInitialization() {
+                if (com.google.protobuf.GeneratedMessage
+                        .alwaysUseFieldBuilders) {
+                    getTableColumnsFieldBuilder();
+                }
+            }
+
+            private static Builder create() {
+                return new Builder();
+            }
+
+            @Override
+            public Builder clear() {
+                super.clear();
+                tableName_ = "";
+                bitField0_ = (bitField0_ & ~0x00000001);
+                numberOfRows_ = 0;
+                bitField0_ = (bitField0_ & ~0x00000002);
+                if (tableColumnsBuilder_ == null) {
+                    tableColumns_ = java.util.Collections.emptyList();
+                    bitField0_ = (bitField0_ & ~0x00000004);
+                } else {
+                    tableColumnsBuilder_.clear();
+                }
+                return this;
+            }
+
+            @Override
+            public Builder clone() {
+                return create().mergeFrom(buildPartial());
+            }
+
+            @Override
+            public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+                return jdbms.sql.file.protobuff.util.TableProtos
+                        .internal_static_jdbms_DBTable_descriptor;
+            }
+
+            @Override
+            public jdbms.sql.file.protobuff.util.TableProtos.DBTable
+            getDefaultInstanceForType() {
+                return jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                        .getDefaultInstance();
+            }
+
+            @Override
+            public jdbms.sql.file.protobuff.util.TableProtos.DBTable build() {
+                final jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                        result = buildPartial();
+                if (!result.isInitialized()) {
+                    throw newUninitializedMessageException(result);
+                }
+                return result;
+            }
+
+            @Override
+            public jdbms.sql.file.protobuff.util.TableProtos.DBTable
+            buildPartial() {
+                final jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                        result = new jdbms.sql.file.protobuff.util
+                        .TableProtos.DBTable(this);
+                final int from_bitField0_ = bitField0_;
+                int to_bitField0_ = 0;
+                if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+                    to_bitField0_ |= 0x00000001;
+                }
+                result.tableName_ = tableName_;
+                if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+                    to_bitField0_ |= 0x00000002;
+                }
+                result.numberOfRows_ = numberOfRows_;
+                if (tableColumnsBuilder_ == null) {
+                    if (((bitField0_ & 0x00000004) == 0x00000004)) {
+                        tableColumns_ = java.util.Collections
+                                .unmodifiableList(tableColumns_);
+                        bitField0_ = (bitField0_ & ~0x00000004);
+                    }
+                    result.tableColumns_ = tableColumns_;
+                } else {
+                    result.tableColumns_ = tableColumnsBuilder_.build();
+                }
+                result.bitField0_ = to_bitField0_;
+                onBuilt();
+                return result;
+            }
+
+            @Override
+            public Builder mergeFrom(final com.google.protobuf.Message other) {
+                if (other instanceof jdbms.sql.file.protobuff.util
+                        .TableProtos.DBTable) {
+                    return mergeFrom((jdbms.sql.file.protobuff.util
+                            .TableProtos.DBTable) other);
+                } else {
+                    super.mergeFrom(other);
+                    return this;
+                }
+            }
+
+            public Builder mergeFrom(final jdbms.sql.file.protobuff.util
+                    .TableProtos.DBTable other) {
+                if (other == jdbms.sql.file.protobuff.util.TableProtos
+                        .DBTable.getDefaultInstance()) {
+                    return this;
+                }
+                if (other.hasTableName()) {
+                    bitField0_ |= 0x00000001;
+                    tableName_ = other.tableName_;
+                    onChanged();
+                }
+                if (other.hasNumberOfRows()) {
+                    setNumberOfRows(other.getNumberOfRows());
+                }
+                if (tableColumnsBuilder_ == null) {
+                    if (!other.tableColumns_.isEmpty()) {
+                        if (tableColumns_.isEmpty()) {
+                            tableColumns_ = other.tableColumns_;
+                            bitField0_ = (bitField0_ & ~0x00000004);
+                        } else {
+                            ensureTableColumnsIsMutable();
+                            tableColumns_.addAll(other.tableColumns_);
+                        }
+                        onChanged();
+                    }
+                } else {
+                    if (!other.tableColumns_.isEmpty()) {
+                        if (tableColumnsBuilder_.isEmpty()) {
+                            tableColumnsBuilder_.dispose();
+                            tableColumnsBuilder_ = null;
+                            tableColumns_ = other.tableColumns_;
+                            bitField0_ = (bitField0_ & ~0x00000004);
+                            tableColumnsBuilder_ =
+                                    com.google.protobuf.GeneratedMessage
+                                            .alwaysUseFieldBuilders ?
+                                            getTableColumnsFieldBuilder() :
+                                            null;
+                        } else {
+                            tableColumnsBuilder_.addAllMessages(other
+                                    .tableColumns_);
+                        }
+                    }
+                }
+                this.mergeUnknownFields(other.getUnknownFields());
+                return this;
+            }
+
+            @Override
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            @Override
+            public Builder mergeFrom(
+                    final com.google.protobuf.CodedInputStream input,
+                    final com.google.protobuf.ExtensionRegistryLite
+                            extensionRegistry)
+                    throws java.io.IOException {
+                jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                        parsedMessage = null;
+                try {
+                    parsedMessage = PARSER.parsePartialFrom(input,
+                            extensionRegistry);
+                } catch (final com.google.protobuf
+                        .InvalidProtocolBufferException e) {
+                    parsedMessage = (jdbms.sql.file.protobuff.util
+                            .TableProtos.DBTable) e.getUnfinishedMessage();
+                    throw e;
+                } finally {
+                    if (parsedMessage != null) {
+                        mergeFrom(parsedMessage);
+                    }
+                }
+                return this;
+            }
+
+            private int bitField0_;
+
+            private java.lang.Object tableName_ = "";
+
+            /**
+             * <code>optional string tableName = 1;</code>
+             */
+            @Override
+            public boolean hasTableName() {
+                return ((bitField0_ & 0x00000001) == 0x00000001);
+            }
+
+            /**
+             * <code>optional string tableName = 1;</code>
+             */
+            @Override
+            public java.lang.String getTableName() {
+                final java.lang.Object ref = tableName_;
+                if (!(ref instanceof java.lang.String)) {
+                    final com.google.protobuf.ByteString bs =
+                            (com.google.protobuf.ByteString) ref;
+                    final java.lang.String s = bs.toStringUtf8();
+                    if (bs.isValidUtf8()) {
+                        tableName_ = s;
+                    }
+                    return s;
+                } else {
+                    return (java.lang.String) ref;
+                }
+            }
+
+            /**
+             * <code>optional string tableName = 1;</code>
+             */
+            @Override
+            public com.google.protobuf.ByteString
+            getTableNameBytes() {
+                final java.lang.Object ref = tableName_;
+                if (ref instanceof String) {
+                    final com.google.protobuf.ByteString b =
+                            com.google.protobuf.ByteString.copyFromUtf8(
+                                    (java.lang.String) ref);
+                    tableName_ = b;
+                    return b;
+                } else {
+                    return (com.google.protobuf.ByteString) ref;
+                }
+            }
+
+            /**
+             * <code>optional string tableName = 1;</code>
+             */
+            public Builder setTableName(
+                    final java.lang.String value) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
+                bitField0_ |= 0x00000001;
+                tableName_ = value;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional string tableName = 1;</code>
+             */
+            public Builder clearTableName() {
+                bitField0_ = (bitField0_ & ~0x00000001);
+                tableName_ = getDefaultInstance().getTableName();
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional string tableName = 1;</code>
+             */
+            public Builder setTableNameBytes(
+                    final com.google.protobuf.ByteString value) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
+                bitField0_ |= 0x00000001;
+                tableName_ = value;
+                onChanged();
+                return this;
+            }
+
+            private int numberOfRows_;
+
+            /**
+             * <code>optional int32 numberOfRows = 2;</code>
+             */
+            @Override
+            public boolean hasNumberOfRows() {
+                return ((bitField0_ & 0x00000002) == 0x00000002);
+            }
+
+            /**
+             * <code>optional int32 numberOfRows = 2;</code>
+             */
+            @Override
+            public int getNumberOfRows() {
+                return numberOfRows_;
+            }
+
+            /**
+             * <code>optional int32 numberOfRows = 2;</code>
+             */
+            public Builder setNumberOfRows(final int value) {
+                bitField0_ |= 0x00000002;
+                numberOfRows_ = value;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional int32 numberOfRows = 2;</code>
+             */
+            public Builder clearNumberOfRows() {
+                bitField0_ = (bitField0_ & ~0x00000002);
+                numberOfRows_ = 0;
+                onChanged();
+                return this;
+            }
+
+            private java.util.List<jdbms.sql.file.protobuff.util.TableProtos
+                    .DBTable.TableColumn> tableColumns_ =
+                    java.util.Collections.emptyList();
+
+            private void ensureTableColumnsIsMutable() {
+                if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+                    tableColumns_ = new java.util.ArrayList<jdbms.sql.file
+                            .protobuff
+                            .util.TableProtos.DBTable.TableColumn>
+                            (tableColumns_);
+                    bitField0_ |= 0x00000004;
+                }
+            }
+
+            private com.google.protobuf.RepeatedFieldBuilder<
+                    jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                            .TableColumn,
+                    jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                            .TableColumn.Builder, jdbms.sql.file.protobuff
+                    .util.TableProtos.DBTable.TableColumnOrBuilder>
+                    tableColumnsBuilder_;
+
+            /**
+             * <code>repeated .jdbms.DBTable.TableColumn tableColumns =
+             * 3;</code>
+             */
+            @Override
+            public java.util.List<jdbms.sql.file.protobuff.util.TableProtos
+                    .DBTable.TableColumn> getTableColumnsList() {
+                if (tableColumnsBuilder_ == null) {
+                    return java.util.Collections.unmodifiableList
+                            (tableColumns_);
+                } else {
+                    return tableColumnsBuilder_.getMessageList();
+                }
+            }
+
+            /**
+             * <code>repeated .jdbms.DBTable.TableColumn tableColumns =
+             * 3;</code>
+             */
+            @Override
+            public int getTableColumnsCount() {
+                if (tableColumnsBuilder_ == null) {
+                    return tableColumns_.size();
+                } else {
+                    return tableColumnsBuilder_.getCount();
+                }
+            }
+
+            /**
+             * <code>repeated .jdbms.DBTable.TableColumn tableColumns =
+             * 3;</code>
+             */
+            @Override
+            public jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                    .TableColumn getTableColumns(final int index) {
+                if (tableColumnsBuilder_ == null) {
+                    return tableColumns_.get(index);
+                } else {
+                    return tableColumnsBuilder_.getMessage(index);
+                }
+            }
+
+            /**
+             * <code>repeated .jdbms.DBTable.TableColumn tableColumns =
+             * 3;</code>
+             */
+            public Builder setTableColumns(
+                    final int index, final jdbms.sql.file.protobuff.util
+                    .TableProtos.DBTable.TableColumn value) {
+                if (tableColumnsBuilder_ == null) {
+                    if (value == null) {
+                        throw new NullPointerException();
+                    }
+                    ensureTableColumnsIsMutable();
+                    tableColumns_.set(index, value);
+                    onChanged();
+                } else {
+                    tableColumnsBuilder_.setMessage(index, value);
+                }
+                return this;
+            }
+
+            /**
+             * <code>repeated .jdbms.DBTable.TableColumn tableColumns =
+             * 3;</code>
+             */
+            public Builder setTableColumns(
+                    final int index, final jdbms.sql.file.protobuff.util
+                    .TableProtos.DBTable.TableColumn.Builder builderForValue) {
+                if (tableColumnsBuilder_ == null) {
+                    ensureTableColumnsIsMutable();
+                    tableColumns_.set(index, builderForValue.build());
+                    onChanged();
+                } else {
+                    tableColumnsBuilder_.setMessage(index, builderForValue
+                            .build());
+                }
+                return this;
+            }
+
+            /**
+             * <code>repeated .jdbms.DBTable.TableColumn tableColumns =
+             * 3;</code>
+             */
+            public Builder addTableColumns(final jdbms.sql.file.protobuff
+                    .util.TableProtos.DBTable.TableColumn value) {
+                if (tableColumnsBuilder_ == null) {
+                    if (value == null) {
+                        throw new NullPointerException();
+                    }
+                    ensureTableColumnsIsMutable();
+                    tableColumns_.add(value);
+                    onChanged();
+                } else {
+                    tableColumnsBuilder_.addMessage(value);
+                }
+                return this;
+            }
+
+            /**
+             * <code>repeated .jdbms.DBTable.TableColumn tableColumns =
+             * 3;</code>
+             */
+            public Builder addTableColumns(
+                    final int index, final jdbms.sql.file.protobuff.util
+                    .TableProtos.DBTable.TableColumn value) {
+                if (tableColumnsBuilder_ == null) {
+                    if (value == null) {
+                        throw new NullPointerException();
+                    }
+                    ensureTableColumnsIsMutable();
+                    tableColumns_.add(index, value);
+                    onChanged();
+                } else {
+                    tableColumnsBuilder_.addMessage(index, value);
+                }
+                return this;
+            }
+
+            /**
+             * <code>repeated .jdbms.DBTable.TableColumn tableColumns =
+             * 3;</code>
+             */
+            public Builder addTableColumns(
+                    final jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                            .TableColumn.Builder builderForValue) {
+                if (tableColumnsBuilder_ == null) {
+                    ensureTableColumnsIsMutable();
+                    tableColumns_.add(builderForValue.build());
+                    onChanged();
+                } else {
+                    tableColumnsBuilder_.addMessage(builderForValue.build());
+                }
+                return this;
+            }
+
+            /**
+             * <code>repeated .jdbms.DBTable.TableColumn tableColumns =
+             * 3;</code>
+             */
+            public Builder addTableColumns(
+                    final int index, final jdbms.sql.file.protobuff.util
+                    .TableProtos.DBTable.TableColumn.Builder builderForValue) {
+                if (tableColumnsBuilder_ == null) {
+                    ensureTableColumnsIsMutable();
+                    tableColumns_.add(index, builderForValue.build());
+                    onChanged();
+                } else {
+                    tableColumnsBuilder_.addMessage(index, builderForValue
+                            .build());
+                }
+                return this;
+            }
+
+            /**
+             * <code>repeated .jdbms.DBTable.TableColumn tableColumns =
+             * 3;</code>
+             */
+            public Builder addAllTableColumns(
+                    final java.lang.Iterable<? extends jdbms.sql.file
+                            .protobuff.util.TableProtos.DBTable.TableColumn>
+                            values) {
+                if (tableColumnsBuilder_ == null) {
+                    ensureTableColumnsIsMutable();
+                    com.google.protobuf.AbstractMessageLite.Builder.addAll(
+                            values, tableColumns_);
+                    onChanged();
+                } else {
+                    tableColumnsBuilder_.addAllMessages(values);
+                }
+                return this;
+            }
+
+            /**
+             * <code>repeated .jdbms.DBTable.TableColumn tableColumns =
+             * 3;</code>
+             */
+            public Builder clearTableColumns() {
+                if (tableColumnsBuilder_ == null) {
+                    tableColumns_ = java.util.Collections.emptyList();
+                    bitField0_ = (bitField0_ & ~0x00000004);
+                    onChanged();
+                } else {
+                    tableColumnsBuilder_.clear();
+                }
+                return this;
+            }
+
+            /**
+             * <code>repeated .jdbms.DBTable.TableColumn tableColumns =
+             * 3;</code>
+             */
+            public Builder removeTableColumns(final int index) {
+                if (tableColumnsBuilder_ == null) {
+                    ensureTableColumnsIsMutable();
+                    tableColumns_.remove(index);
+                    onChanged();
+                } else {
+                    tableColumnsBuilder_.remove(index);
+                }
+                return this;
+            }
+
+            /**
+             * <code>repeated .jdbms.DBTable.TableColumn tableColumns =
+             * 3;</code>
+             */
+            public jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn
+                    .Builder getTableColumnsBuilder(
+                    final int index) {
+                return getTableColumnsFieldBuilder().getBuilder(index);
+            }
+
+            /**
+             * <code>repeated .jdbms.DBTable.TableColumn tableColumns =
+             * 3;</code>
+             */
+            @Override
+            public jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                    .TableColumnOrBuilder getTableColumnsOrBuilder(
+                    final int index) {
+                if (tableColumnsBuilder_ == null) {
+                    return tableColumns_.get(index);
+                } else {
+                    return tableColumnsBuilder_.getMessageOrBuilder(index);
+                }
+            }
+
+            /**
+             * <code>repeated .jdbms.DBTable.TableColumn tableColumns =
+             * 3;</code>
+             */
+            @Override
+            public java.util.List<? extends jdbms.sql.file.protobuff.util
+                    .TableProtos.DBTable.TableColumnOrBuilder>
+            getTableColumnsOrBuilderList() {
+                if (tableColumnsBuilder_ != null) {
+                    return tableColumnsBuilder_.getMessageOrBuilderList();
+                } else {
+                    return java.util.Collections.unmodifiableList
+                            (tableColumns_);
+                }
+            }
+
+            /**
+             * <code>repeated .jdbms.DBTable.TableColumn tableColumns =
+             * 3;</code>
+             */
+            public jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn
+                    .Builder addTableColumnsBuilder() {
+                return getTableColumnsFieldBuilder().addBuilder(
+                        jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                                .TableColumn.getDefaultInstance());
+            }
+
+            /**
+             * <code>repeated .jdbms.DBTable.TableColumn tableColumns =
+             * 3;</code>
+             */
+            public jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn
+                    .Builder addTableColumnsBuilder(
+                    final int index) {
+                return getTableColumnsFieldBuilder().addBuilder(
+                        index, jdbms.sql.file.protobuff.util.TableProtos
+                                .DBTable.TableColumn.getDefaultInstance());
+            }
+
+            /**
+             * <code>repeated .jdbms.DBTable.TableColumn tableColumns =
+             * 3;</code>
+             */
+            public java.util.List<jdbms.sql.file.protobuff.util.TableProtos
+                    .DBTable.TableColumn.Builder>
+            getTableColumnsBuilderList() {
+                return getTableColumnsFieldBuilder().getBuilderList();
+            }
+
+            private com.google.protobuf.RepeatedFieldBuilder<
+                    jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                            .TableColumn, jdbms.sql.file.protobuff.util
+                    .TableProtos.DBTable.TableColumn.Builder, jdbms.sql.file
+                    .protobuff.util.TableProtos.DBTable.TableColumnOrBuilder>
+            getTableColumnsFieldBuilder() {
+                if (tableColumnsBuilder_ == null) {
+                    tableColumnsBuilder_ = new com.google.protobuf
+                            .RepeatedFieldBuilder<
+                            jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                                    .TableColumn, jdbms.sql.file.protobuff
+                            .util.TableProtos.DBTable.TableColumn.Builder,
+                            jdbms.sql.file.protobuff.util.TableProtos.DBTable
+                                    .TableColumnOrBuilder>(
+                            tableColumns_,
+                            ((bitField0_ & 0x00000004) == 0x00000004),
+                            getParentForChildren(),
+                            isClean());
+                    tableColumns_ = null;
+                }
+                return tableColumnsBuilder_;
+            }
+
+            // @@protoc_insertion_point(builder_scope:jdbms.DBTable)
+        }
+
+        static {
+            defaultInstance = new DBTable(true);
+            defaultInstance.initFields();
+        }
+
+        // @@protoc_insertion_point(class_scope:jdbms.DBTable)
     }
+
+    private static final com.google.protobuf.Descriptors.Descriptor
+            internal_static_jdbms_DBTable_descriptor;
+    private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internal_static_jdbms_DBTable_fieldAccessorTable;
+    private static final com.google.protobuf.Descriptors.Descriptor
+            internal_static_jdbms_DBTable_TableColumn_descriptor;
+    private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internal_static_jdbms_DBTable_TableColumn_fieldAccessorTable;
+
+    public static com.google.protobuf.Descriptors.FileDescriptor
+    getDescriptor() {
+        return descriptor;
+    }
+
+    private static com.google.protobuf.Descriptors.FileDescriptor
+            descriptor;
 
     static {
-      defaultInstance = new DBTable(true);
-      defaultInstance.initFields();
+        final java.lang.String[] descriptorData = {
+                "\n\013Table.proto\022\005jdbms\"\253\001\n\007DBTable\022"
+                        + "\021\n\ttabl" +
+                        "eName\030\001 \001"
+                        + "(\t\022\024\n\014numberOfRows\030\002 \001"
+                        + "(\005\0220\n\014tab" +
+                        "leColumns\030\003 \003(\0132\032.jdbms.DBTable"
+                        + ".TableCol" +
+                        "umn\032E\n\013TableColumn\022\022\n\ncolumnName\030"
+                        + "\001 \001(\t\022\022" +
+                        "\n\ncolumnType\030\002 \001"
+                        + "(\t\022\016\n\006values\030\003 \003(\tB,\n\035jd" +
+                        "bms.sql.file.protobuff.utilB\013TableProtos"
+        };
+        final com.google.protobuf.Descriptors.FileDescriptor
+                .InternalDescriptorAssigner assigner =
+                new com.google.protobuf.Descriptors.FileDescriptor
+                        .InternalDescriptorAssigner() {
+                    @Override
+                    public com.google.protobuf.ExtensionRegistry
+                    assignDescriptors(
+                            final com.google.protobuf.Descriptors
+                                    .FileDescriptor root) {
+                        descriptor = root;
+                        return null;
+                    }
+                };
+        com.google.protobuf.Descriptors.FileDescriptor
+                .internalBuildGeneratedFileFrom(descriptorData,
+                        new com.google.protobuf.Descriptors.FileDescriptor[]{
+                        }, assigner);
+        internal_static_jdbms_DBTable_descriptor =
+                getDescriptor().getMessageTypes().get(0);
+        internal_static_jdbms_DBTable_fieldAccessorTable = new
+                com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+                internal_static_jdbms_DBTable_descriptor,
+                new java.lang.String[]{"TableName", "NumberOfRows",
+                        "TableColumns",});
+        internal_static_jdbms_DBTable_TableColumn_descriptor =
+                internal_static_jdbms_DBTable_descriptor.getNestedTypes().get
+                        (0);
+        internal_static_jdbms_DBTable_TableColumn_fieldAccessorTable = new
+                com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+                internal_static_jdbms_DBTable_TableColumn_descriptor,
+                new java.lang.String[]{"ColumnName", "ColumnType", "Values",});
     }
 
-    // @@protoc_insertion_point(class_scope:jdbms.DBTable)
-  }
-
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_jdbms_DBTable_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_jdbms_DBTable_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_jdbms_DBTable_TableColumn_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_jdbms_DBTable_TableColumn_fieldAccessorTable;
-
-  public static com.google.protobuf.Descriptors.FileDescriptor
-      getDescriptor() {
-    return descriptor;
-  }
-  private static com.google.protobuf.Descriptors.FileDescriptor
-      descriptor;
-  static {
-    final java.lang.String[] descriptorData = {
-      "\n\013Table.proto\022\005jdbms\"\253\001\n\007DBTable\022\021\n\ttabl" +
-      "eName\030\001 \001(\t\022\024\n\014numberOfRows\030\002 \001(\005\0220\n\014tab" +
-      "leColumns\030\003 \003(\0132\032.jdbms.DBTable.TableCol" +
-      "umn\032E\n\013TableColumn\022\022\n\ncolumnName\030\001 \001(\t\022\022" +
-      "\n\ncolumnType\030\002 \001(\t\022\016\n\006values\030\003 \003(\tB,\n\035jd" +
-      "bms.sql.file.protobuff.utilB\013TableProtos"
-    };
-    final com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          @Override
-		public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              final com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
-      .internalBuildGeneratedFileFrom(descriptorData,
-        new com.google.protobuf.Descriptors.FileDescriptor[] {
-        }, assigner);
-    internal_static_jdbms_DBTable_descriptor =
-      getDescriptor().getMessageTypes().get(0);
-    internal_static_jdbms_DBTable_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_jdbms_DBTable_descriptor,
-        new java.lang.String[] { "TableName", "NumberOfRows", "TableColumns", });
-    internal_static_jdbms_DBTable_TableColumn_descriptor =
-      internal_static_jdbms_DBTable_descriptor.getNestedTypes().get(0);
-    internal_static_jdbms_DBTable_TableColumn_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_jdbms_DBTable_TableColumn_descriptor,
-        new java.lang.String[] { "ColumnName", "ColumnType", "Values", });
-  }
-
-  // @@protoc_insertion_point(outer_class_scope)
+    // @@protoc_insertion_point(outer_class_scope)
 }

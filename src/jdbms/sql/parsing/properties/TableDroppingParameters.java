@@ -1,15 +1,18 @@
 package jdbms.sql.parsing.properties;
 
 public class TableDroppingParameters {
-	private String tableName;
-	public TableDroppingParameters() {
+    private String tableName;
 
-	}
-	public String getTableName() {
-		return tableName;
-	}
-	public void setTableName(String table) {
-		this.tableName = table;
-	}
+    public TableDroppingParameters() {
+
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String table) {
+        this.tableName = table;
+    }
 
 }

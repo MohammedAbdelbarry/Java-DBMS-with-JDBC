@@ -4,38 +4,38 @@ import java.util.ArrayList;
 
 public class DropColumnParameters {
 
-	private ArrayList<String> columns;
-	private String tableName;
+    private ArrayList<String> columns;
+    private String tableName;
 
-	public DropColumnParameters() {
+    public DropColumnParameters() {
 
-	}
+    }
 
-	/**
-	 * @return the tableName
-	 */
-	public String getTableName() {
-		return this.tableName;
-	}
+    /**
+     * @return the tableName
+     */
+    public String getTableName() {
+        return this.tableName;
+    }
 
-	/**
-	 * @param tableName the tableName to set
-	 */
-	public void setTableName(String tableName) {
-		this.tableName = tableName;
-	}
+    /**
+     * @param tableName the tableName to set
+     */
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
 
-	/**
-	 * @return the column list to be dropped
-	 */
-	public ArrayList<String> getColumnList() {
-		return this.columns;
-	}
+    /**
+     * @return the column list to be dropped
+     */
+    public ArrayList<String> getColumnList() {
+        return this.columns;
+    }
 
-	/**
-	 * @param columns the list of columns to be dropped
-	 */
-	public void setColumnList(ArrayList<String> columns) {
-		this.columns = columns;
-	}
+    /**
+     * @param columns the list of columns to be dropped
+     */
+    public void setColumnList(ArrayList<String> columns) {
+        this.columns = columns;
+    }
 }

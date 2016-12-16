@@ -8,12 +8,12 @@ import jdbms.sql.parsing.properties.InputParametersContainer;
  */
 public class TerminalAssignmentExpression extends AssignmentListExpression {
 
-	/**
-	 * Instantiates a new terminal assignment expression.
-	 * @param parameters the input parameters
-	 */
-	public TerminalAssignmentExpression(
-			InputParametersContainer parameters) {
-		super(new TerminalExpression(parameters), parameters);
-	}
+    /**
+     * Instantiates a new terminal assignment expression.
+     * @param parameters the input parameters
+     */
+    public TerminalAssignmentExpression(
+            InputParametersContainer parameters) {
+        super(new TerminalExpression(parameters), parameters);
+    }
 }

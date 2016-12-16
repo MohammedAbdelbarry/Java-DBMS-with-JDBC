@@ -8,12 +8,12 @@ import jdbms.sql.parsing.statements.DropColumnStatement;
  */
 public class DropColumnTableNameExpression extends TableNameExpression {
 
-	/**
-	 * Instantiates a new table name expression for droping columns.
-	 * @param parameters the input parameters
-	 */
-	public DropColumnTableNameExpression(InputParametersContainer
-			parameters) {
-		super(new DropColumnStatement(parameters), parameters);
-	}
+    /**
+     * Instantiates a new table name expression for droping columns.
+     * @param parameters the input parameters
+     */
+    public DropColumnTableNameExpression(InputParametersContainer
+                                                 parameters) {
+        super(new DropColumnStatement(parameters), parameters);
+    }
 }

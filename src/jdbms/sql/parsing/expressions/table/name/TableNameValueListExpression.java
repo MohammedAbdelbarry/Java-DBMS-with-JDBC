@@ -8,12 +8,12 @@ import jdbms.sql.parsing.statements.ValueStatement;
  */
 public class TableNameValueListExpression extends TableNameExpression {
 
-	/**
-	 * Instantiates a new table name value list expression.
-	 * @param parameters the input parameters
-	 */
-	public TableNameValueListExpression(
-			InputParametersContainer parameters) {
-		super(new ValueStatement(parameters), parameters);
-	}
+    /**
+     * Instantiates a new table name value list expression.
+     * @param parameters the input parameters
+     */
+    public TableNameValueListExpression(
+            InputParametersContainer parameters) {
+        super(new ValueStatement(parameters), parameters);
+    }
 }

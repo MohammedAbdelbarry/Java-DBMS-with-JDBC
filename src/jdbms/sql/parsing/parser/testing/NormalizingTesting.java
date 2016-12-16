@@ -25,8 +25,10 @@ public class NormalizingTesting {
     @Test
     public void testMultipleColumns() {
         StringNormalizer x = new StringNormalizer();
-        String check = x.normalizeCommand("insert into    ( id , name , grade ) from students where x % 2 == 0 > 5;");
-        assertEquals(check, "INSERT INTO ( id , name , grade ) FROM students WHERE x % 2 == 0 > 5 ; ");
+        String check = x.normalizeCommand("insert into    ( id , name , grade"
+                + " ) from students where x % 2 == 0 > 5;");
+        assertEquals(check, "INSERT INTO ( id , name , grade ) FROM students "
+                + "WHERE x % 2 == 0 > 5 ; ");
     }
 
     @Test

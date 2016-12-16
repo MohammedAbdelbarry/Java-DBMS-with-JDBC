@@ -1,15 +1,18 @@
 package jdbms.sql.parsing.properties;
 
 public class DatabaseDroppingParameters {
-	private String databaseName;
-	public DatabaseDroppingParameters() {
+    private String databaseName;
 
-	}
-	public String getDatabaseName() {
-		return databaseName;
-	}
-	public void setDatabaseName(String database) {
-		this.databaseName = database;
-	}
+    public DatabaseDroppingParameters() {
+
+    }
+
+    public String getDatabaseName() {
+        return databaseName;
+    }
+
+    public void setDatabaseName(String database) {
+        this.databaseName = database;
+    }
 
 }
