@@ -22,14 +22,19 @@ public class DTDReader {
 	 */
 	public ArrayList<String> parse(final File file) {
 		try {
-			final BufferedReader reader = new BufferedReader(new FileReader(file));
+			final BufferedReader reader
+			= new BufferedReader(new FileReader(file));
 			String line;
 			line = reader.readLine();
 			line = reader.readLine();
-			final String columnNames = line.substring(line.indexOf('(') + 1, line.indexOf(')'));
+			final String columnNames = line.
+					substring(line.
+							indexOf('(') + 1, line.indexOf(')'));
 			final String[] cols = columnNames.split(",");
-			final ArrayList<String> columns = new  ArrayList<>();
-			Collections.addAll(columns, cols);
+			final ArrayList<String> columns
+			= new  ArrayList<>();
+			Collections.addAll(columns,
+					cols);
 			reader.close();
 			return columns;
 		} catch (final IOException e) {

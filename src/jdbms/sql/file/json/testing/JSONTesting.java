@@ -163,7 +163,8 @@ public class JSONTesting {
 	public void test() {
 		try {
 			ClassRegisteringHelper.registerInitialStatements();
-			final TableCreationParameters createTableParameters = new TableCreationParameters();
+			final TableCreationParameters createTableParameters
+			= new TableCreationParameters();
 			final JSONReader reader = new JSONReader();
     	    final JSONWriter writer = new JSONWriter();
 	   		createTableParameters.setTableName("tb");
@@ -179,10 +180,12 @@ public class JSONTesting {
 	   		identifiers.add(new ColumnIdentifier("omar", "DATETIME"));
 	   		createTableParameters.setColumnDefinitions(identifiers);
 	   		final Table table = new Table(createTableParameters);
-	   		final InsertionParameters insertParameters = new InsertionParameters();
+	   		final InsertionParameters insertParameters
+	   		= new InsertionParameters();
 	   		insertParameters.setTableName("tb");
 	   		ArrayList<String> rowValues = new ArrayList<>();
-	   		final ArrayList<ArrayList<String>> values = new ArrayList<>();
+	   		final ArrayList<ArrayList<String>> values
+	   		= new ArrayList<>();
 	   		rowValues.add("\"harby's herbies\"");
 	   		rowValues.add("'barsy ballsy'");
 	   		rowValues.add("2805476");
@@ -246,21 +249,25 @@ public class JSONTesting {
 	public void testMultipleNulls() {
 		try {
 			ClassRegisteringHelper.registerInitialStatements();
-			final TableCreationParameters createTableParameters = new TableCreationParameters();
+			final TableCreationParameters createTableParameters
+			= new TableCreationParameters();
     	    final JSONReader reader = new JSONReader();
     	    final JSONWriter writer = new JSONWriter();
     	    createTableParameters.setTableName("null");
-	   		final ArrayList<ColumnIdentifier> identifiers = new ArrayList<>();
+	   		final ArrayList<ColumnIdentifier> identifiers
+	   		= new ArrayList<>();
 	   		identifiers.add(new ColumnIdentifier("col_1", "BIGINT"));
 	   		identifiers.add(new ColumnIdentifier("col_2", "TEXT"));
 	   		identifiers.add(new ColumnIdentifier("col_3", "DOUBLE"));
 	   		identifiers.add(new ColumnIdentifier("col_4", "DATE"));
 	   		createTableParameters.setColumnDefinitions(identifiers);
 	   		final Table table = new Table(createTableParameters);
-	   		InsertionParameters insertParameters = new InsertionParameters();
+	   		InsertionParameters insertParameters
+	   		= new InsertionParameters();
 	   		insertParameters.setTableName("null");
 	   		ArrayList<String> rowValues = new ArrayList<>();
-	   		ArrayList<ArrayList<String>> values = new ArrayList<>();
+	   		ArrayList<ArrayList<String>> values
+	   		= new ArrayList<>();
 	   		rowValues.add("null");
 	   		rowValues.add("'hi'");
 	   		rowValues.add("3.5");
@@ -275,17 +282,24 @@ public class JSONTesting {
 	   		insertParameters.setValues(values);
 	   		table.insertRows(insertParameters);
 	   		writer.write(table, ".","");
-	   		final Table loadedTable = reader.read(table.getName(), ".", "");
-	   		Assert.assertEquals(2, loadedTable.getNumberOfRows());
-	   		Assert.assertTrue(loadedTable.getColumns().get("COL_1").
+	   		final Table loadedTable = reader.
+	   				read(table.getName(), ".", "");
+	   		Assert.assertEquals(2, loadedTable.
+	   				getNumberOfRows());
+	   		Assert.assertTrue(loadedTable.
+	   				getColumns().get("COL_1").
 	   				get(0).toString().equals(""));
-	   		Assert.assertTrue(loadedTable.getColumns().get("COL_4").
+	   		Assert.assertTrue(loadedTable.
+	   				getColumns().get("COL_4").
 	   				get(0).toString().equals(""));
-	   		Assert.assertFalse(loadedTable.getColumns().get("COL_2").
+	   		Assert.assertFalse(loadedTable.
+	   				getColumns().get("COL_2").
 	   				get(0).toString().equals(""));
-	   		Assert.assertTrue(loadedTable.getColumns().get("COL_3").
+	   		Assert.assertTrue(loadedTable.
+	   				getColumns().get("COL_3").
 	   				get(0).toString().equals("3.5"));
-	   		Assert.assertTrue(loadedTable.getColumns().get("COL_3").
+	   		Assert.assertTrue(loadedTable.
+	   				getColumns().get("COL_3").
 	   				get(1).toString().equals(""));
 	   		insertParameters = new InsertionParameters();
 	   		rowValues = new ArrayList<>();
@@ -298,12 +312,16 @@ public class JSONTesting {
 	   		insertParameters.setValues(values);
 	   		loadedTable.insertRows(insertParameters);
 	   		Assert.assertEquals(3, loadedTable.getNumberOfRows());
-	   		Assert.assertTrue(loadedTable.getColumns().get("COL_1").
+	   		Assert.assertTrue(loadedTable.getColumns().
+	   				get("COL_1").
 	   				get(2).toString().equals(""));
-	   		Assert.assertFalse(loadedTable.getColumns().get("COL_4").
+	   		Assert.assertFalse(loadedTable.getColumns().
+	   				get("COL_4").
 	   				get(2).toString().equals(""));
-	   		Assert.assertTrue(loadedTable.getColumns().get("COL_2").
-	   				get(2).toString().equals("\"Hi, hello, hola, 'adios.\""));
+	   		Assert.assertTrue(loadedTable.getColumns().
+	   				get("COL_2").
+	   				get(2).toString().equals("\"Hi, "
+	   						+ "hello, hola, 'adios.\""));
         } catch(final Exception e) {
             e.printStackTrace();
             fail("Failed.");

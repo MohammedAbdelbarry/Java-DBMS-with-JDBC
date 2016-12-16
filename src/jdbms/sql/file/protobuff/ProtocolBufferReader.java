@@ -22,8 +22,9 @@ import jdbms.sql.parsing.properties.InsertionParameters;
 import jdbms.sql.parsing.properties.TableCreationParameters;
 
 /**
- * The class that reads a table object
- * from a file and returns this object.
+ * The Protocol buffer reader class that
+ * reads a table object from a file
+ * and returns this object.
  * @author Ahmed Walid
  */
 public class ProtocolBufferReader implements TableReader {

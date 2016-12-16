@@ -12,8 +12,8 @@ import jdbms.sql.parsing.util.Constants;
 
 /**
  * The Protocol Buffer Writer class that
- *  writes a table object in a file.
- *  @author Ahmed Walid
+ * writes a table object in a file.
+ * @author Ahmed Walid
  */
 public class ProtocolBufferWriter implements TableWriter {
 

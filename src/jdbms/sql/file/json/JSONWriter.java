@@ -16,9 +16,20 @@ import jdbms.sql.datatypes.SQLType;
 import jdbms.sql.file.TableWriter;
 import jdbms.sql.parsing.util.Constants;
 
+/**
+ * The JSON Writer class that
+ * writes a table object in a file.
+ * @author Mohammed Abdelbary
+ */
 public class JSONWriter implements TableWriter {
+
+	/** The JSON extenstion. */
 	private static final String JSON_EXTENSION
 	= ".json";
+
+	/**
+	 * Instantiates a new JSON writer.
+	 */
 	public JSONWriter() {
 
 	}
@@ -44,9 +55,13 @@ public class JSONWriter implements TableWriter {
 		outputStream.write(json.getBytes());
 		outputStream.close();
 	}
+
+	/**
+	 * The SQL serializer respolsible for
+	 * serializing sql values.
+	 */
 	private class SQLTypeSerializer
 	implements JsonSerializer<SQLType<?>> {
-
 		@Override
 		public JsonElement serialize(final SQLType<?> sqlValue,
 				final Type type,
