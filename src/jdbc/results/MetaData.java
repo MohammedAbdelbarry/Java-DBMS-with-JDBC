@@ -11,7 +11,7 @@ import java.util.Map;
  * Implementation.
  * @author Ahmed Moustafa El-Naggar
  */
-public class MetaData
+public final class MetaData
 implements ResultSetMetaData {
 
 	private ArrayList<String> columnNames;

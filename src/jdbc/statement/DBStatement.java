@@ -22,7 +22,7 @@ import jdbms.sql.data.query.SelectQueryOutput;
  * A JDBC Statement Implementation.
  * @author Hisham Osama
  */
-public class DBStatement implements Statement {
+public final class DBStatement implements Statement {
 	private static final String CLOSED_MESSAGE
 	= "Couldn't %s Because"
 			+ " The Statement is Closed";

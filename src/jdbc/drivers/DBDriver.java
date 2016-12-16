@@ -18,7 +18,7 @@ import jdbc.drivers.util.ProtocolConstants;
  * A JDBC Driver Implementation.
  * @author Ahmed Moustafa El-Naggar
  */
-public class DBDriver implements Driver {
+public final class DBDriver implements Driver {
 	private final Logger logger;
 	private final static int CONNECTIONS_MAX = 10000;
 	private static int noOfConnections = 0;

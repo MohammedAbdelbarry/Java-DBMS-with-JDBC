@@ -22,50 +22,54 @@ import jdbms.sql.parsing.statements.util.InitialStatementFactory;
  */
 public class AlterTableDropStatement extends AlterTableStatement {
 
-	/** The drop column parameters. */
-	private final DropColumnParameters dropColumnParameters;
+    /**
+     * The drop column parameters.
+     */
+    private final DropColumnParameters dropColumnParameters;
 
-	/** The ID class. */
-	private static final String CLASS_ID
-	= "ALTERTABLEDROPSTATEMENTCLASS";
+    /**
+     * The ID class.
+     */
+    private static final String CLASS_ID
+            = "ALTERTABLEDROPSTATEMENTCLASS";
 
-	static {
-		InitialStatementFactory.getInstance().
-		registerStatement(CLASS_ID, AlterTableDropStatement.class);
-	}
+    static {
+        InitialStatementFactory.getInstance().
+                registerStatement(CLASS_ID, AlterTableDropStatement.class);
+    }
 
-	/**
-	 * Instantiates a new alter table drop statement.
-	 */
-	public AlterTableDropStatement() {
-		super();
-		super.setNextExpression(new DropColumnTableNameExpression(parameters));
-		dropColumnParameters = new DropColumnParameters();
-	}
+    /**
+     * Instantiates a new alter table drop statement.
+     */
+    public AlterTableDropStatement() {
+        super();
+        super.setNextExpression(new DropColumnTableNameExpression(parameters));
+        dropColumnParameters = new DropColumnParameters();
+    }
 
-	@Override
-	public void act(final SQLData data)
-			throws ColumnAlreadyExistsException,
-			TableNotFoundException,
-			RepeatedColumnException,
-			ColumnListTooLargeException,
-			ColumnNotFoundException,
-			ValueListTooLargeException,
-			ValueListTooSmallException,
-			TypeMismatchException,
-			InvalidDateFormatException,
-			IOException,
-			AllColumnsDroppingException {
-		buildParameters();
-		numberOfUpdates = data.dropTableColumn(dropColumnParameters);
-	}
+    @Override
+    public void act(final SQLData data)
+            throws ColumnAlreadyExistsException,
+            TableNotFoundException,
+            RepeatedColumnException,
+            ColumnListTooLargeException,
+            ColumnNotFoundException,
+            ValueListTooLargeException,
+            ValueListTooSmallException,
+            TypeMismatchException,
+            InvalidDateFormatException,
+            IOException,
+            AllColumnsDroppingException {
+        buildParameters();
+        numberOfUpdates = data.dropTableColumn(dropColumnParameters);
+    }
 
-	/**
-	 * Builds the parameters.
-	 */
-	private void buildParameters() {
-		dropColumnParameters.
-		setTableName(parameters.getTableName());
-		dropColumnParameters.setColumnList(parameters.getColumns());
-	}
+    /**
+     * Builds the parameters.
+     */
+    private void buildParameters() {
+        dropColumnParameters.
+                setTableName(parameters.getTableName());
+        dropColumnParameters.setColumnList(parameters.getColumns());
+    }
 }

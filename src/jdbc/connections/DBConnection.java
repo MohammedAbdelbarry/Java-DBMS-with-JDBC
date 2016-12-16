@@ -30,7 +30,7 @@ import jdbms.sql.DBMSConnector;
  * A JDBC Connection Implementation.
  * @author Ahmed Moustafa El-Naggar
  */
-public class DBConnection
+public final class DBConnection
 implements Connection {
 	private final Logger logger;
 	private final DBMSConnector connector;
