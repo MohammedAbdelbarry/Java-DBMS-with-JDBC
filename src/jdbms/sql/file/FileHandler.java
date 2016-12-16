@@ -184,6 +184,9 @@ public class FileHandler {
 		final File database = new File(path + File.separator + databaseName);
 		final File[] files = database.listFiles();
 		final ArrayList<String> tables = new ArrayList<>();
+		if (files == null) {
+			return tables;
+		}
 		for (int i = 0 ; i < files.length ; i++) {
 			final String fileName = files[i].getName();
 			if (fileName.endsWith(fileExtension)) {

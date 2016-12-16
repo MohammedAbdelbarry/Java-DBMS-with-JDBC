@@ -73,7 +73,7 @@ public class XMLCreationTesting {
 		table.insertRows(insertionParameters);
 		parser = new StringNormalizer();
 		data = new SQLData();
-		String sql = new String("create Database DB;");
+		String sql = "create Database DB;";
 		String normalizedOutput = parser.normalizeCommand(sql);
 		//System.out.println(normalizedOutput);
 		for (final String key : InitialStatementFactory
@@ -87,7 +87,7 @@ public class XMLCreationTesting {
 			}
 		}
 		creator.write(table, "DB", "Data");
-		sql = new String("create Database MyData;");
+		sql = "create Database MyData;";
 		normalizedOutput = parser.normalizeCommand(sql);
 		//System.out.println(normalizedOutput);
 		for (final String key : InitialStatementFactory.getInstance().getRegisteredStatements()) {
@@ -97,7 +97,7 @@ public class XMLCreationTesting {
 				statement.act(data);
 			}
 		}
-		sql = new String("create table Person(ID int, Address varchar);");
+		sql = "create table Person(ID int, Address varchar);";
 		normalizedOutput = parser.normalizeCommand(sql);
 		//System.out.println(normalizedOutput);
 		for (final String key : InitialStatementFactory.getInstance().getRegisteredStatements()) {
@@ -107,7 +107,7 @@ public class XMLCreationTesting {
 				statement.act(data);
 			}
 		}
-		sql = new String("insert into Person (ID, Address) values (21, '5 Abo Qeer St.');");
+		sql = "insert into Person (ID, Address) values (21, '5 Abo Qeer St.');";
 		normalizedOutput = parser.normalizeCommand(sql);
 		//System.out.println(normalizedOutput);
 		for (final String key : InitialStatementFactory.getInstance().getRegisteredStatements()) {
@@ -131,7 +131,7 @@ public class XMLCreationTesting {
 			while ((line = reader.readLine()) != null) {
 				xml += line;
 			}
-			final String first = new String(xml);
+			final String first = xml;
 			pathname = "Data"+ File.separator  +"DB" + File.separator+"Person.xml";
 			file = new File(pathname);
 			reader.close();
@@ -145,7 +145,6 @@ public class XMLCreationTesting {
 			assertEquals(first, xml);
 			reader.close();
 		} catch (final IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

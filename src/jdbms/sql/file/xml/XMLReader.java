@@ -129,7 +129,7 @@ public class XMLReader implements TableReader {
 		final TableCreationParameters parameters = new TableCreationParameters();
 		parameters.setColumnDefinitions(columns);
 		parameters.setTableName(tableName);
-		Table table = null;
+		Table table;
 		table = new Table(parameters);
 		final InsertionParameters insert = new InsertionParameters();
 		insert.setColumns(columnNames);

@@ -31,7 +31,7 @@ public class InsertIntoValueListExpression extends ValueListExpression {
 		sqlExpression = sqlExpression.trim();
 		String modifiedExpression = modifier.
 				modifyString(sqlExpression).trim();
-		while (modifiedExpression.indexOf(")") != -1) {
+		while (modifiedExpression.contains(")")) {
 			if (!sqlExpression.startsWith("(")) {
 				return false;
 			} else {
@@ -45,7 +45,7 @@ public class InsertIntoValueListExpression extends ValueListExpression {
 			String modifiedValues = modifiedExpression.substring(0,
 					modifiedExpression.indexOf(")")).trim();
 			ArrayList<String> currValuesList = new ArrayList<>();
-			while (modifiedValues.indexOf(",") != -1) {
+			while (modifiedValues.contains(",")) {
 				if (!new ValueExpression(currValues.substring(0,
 						modifiedValues.indexOf(",")).
 						trim()).

@@ -13,5 +13,5 @@ public interface Expression {
 	 * @return true if the expression was
 	 * parsed successfully, false otherwise
 	 */
-	public boolean interpret(String sqlExpression);
+    boolean interpret(String sqlExpression);
 }

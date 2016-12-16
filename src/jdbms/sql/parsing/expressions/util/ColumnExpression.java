@@ -22,11 +22,8 @@ public class ColumnExpression {
 	 * @return true, if is valid column name
 	 */
 	public boolean isValidColumnName() {
-		if (Constants.RESERVED_KEYWORDS.contains(expression.toUpperCase())) {
-			return false;
-		}
-		return this.expression.matches(Constants.COLUMN_REGEX);
-	}
+        return !Constants.RESERVED_KEYWORDS.contains(expression.toUpperCase()) && this.expression.matches(Constants.COLUMN_REGEX);
+    }
 	
 	/**
 	 * Gets the column expression.

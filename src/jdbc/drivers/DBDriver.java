@@ -7,7 +7,6 @@ import java.sql.DriverManager;
 import java.sql.DriverPropertyInfo;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
-import java.util.ArrayList;
 import java.util.Properties;
 
 import org.apache.logging.log4j.LogManager;
@@ -18,7 +17,6 @@ import jdbc.drivers.util.ProtocolConstants;
 
 public class DBDriver implements Driver {
 	private final Logger logger;
-	private final ArrayList<DBConnection> connections;
 	private final static int CONNECTIONS_MAX = 10000;
 	private static int noOfConnections = 0;
 	static {
@@ -29,7 +27,6 @@ public class DBDriver implements Driver {
 		}
 	}
 	public DBDriver() {
-		connections = new ArrayList<>();
 		logger = LogManager.getLogger(DBDriver.class);
 		logger.debug("Driver Started");
 	}
@@ -39,7 +36,8 @@ public class DBDriver implements Driver {
 	}
 
 	@Override
-	public Connection connect(final String url, final Properties info) throws SQLException {
+	public Connection connect(final String url,
+			final Properties info) throws SQLException {
 		if (!isValidURL(url)) {
 			return null;
 		}
@@ -47,10 +45,10 @@ public class DBDriver implements Driver {
 			final SQLException ex
 			= new SQLException("Connections Overloaded");
 			logger.error("Current number of connections exceeded "
-			+ CONNECTIONS_MAX, ex);
+					+ CONNECTIONS_MAX, ex);
 		}
 		noOfConnections++;
- 		final File directory = (File) info.get("path");
+		final File directory = (File) info.get("path");
 		if (directory == null) {
 			final SQLException ex
 			= new SQLException("Null Directory");
@@ -63,7 +61,6 @@ public class DBDriver implements Driver {
 		final String directoryPath = directory.getAbsolutePath();
 		final DBConnection connection = new DBConnection(url,
 				directoryPath);
-		connections.add(connection);
 		return connection;
 	}
 

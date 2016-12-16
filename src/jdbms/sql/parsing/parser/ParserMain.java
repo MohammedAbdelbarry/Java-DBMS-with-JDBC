@@ -31,7 +31,7 @@ public class ParserMain {
 				try {
 					modifiedExpression = modifier.
 							modifyString(stringBuilder.toString()).trim();
-					if (modifiedExpression.indexOf(";") != -1) {
+					if (modifiedExpression.contains(";")) {
 						sql = stringBuilder.substring(0,
 								modifiedExpression.indexOf(";") + 1);
 						break;

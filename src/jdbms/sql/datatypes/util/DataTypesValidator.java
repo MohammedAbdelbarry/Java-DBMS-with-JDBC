@@ -51,12 +51,9 @@ public class DataTypesValidator {
 				&& Constants.BIG_INTEGER_TYPES.contains(second)) {
 			return true;
 		}
-		if (Constants.DOUBLE_TYPES.contains(first)
-				&& Constants.DOUBLE_TYPES.contains(second)) {
-			return true;
-		}
-		return false;
-	}
+        return Constants.DOUBLE_TYPES.contains(first)
+                && Constants.DOUBLE_TYPES.contains(second);
+    }
 	public String getDataType(final String value) {
 		if (value.matches(Constants.DATE_TIME_REGEX))  {
 			return "DATETIME";

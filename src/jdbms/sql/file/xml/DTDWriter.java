@@ -19,7 +19,8 @@ public class DTDWriter {
 	/**
 	 * Creates the DTD file according to the given table identifiers.
 	 * @param database name of the database
-	 * @param identifier table identifier
+	 * @param columnNames the names of the columns
+	 * @param tableName the name of the table
 	 * @param path  path to the file to be created
 	 * @return the DTD file as a string
 	 * */
@@ -27,11 +28,10 @@ public class DTDWriter {
 			final String tableName, final String path) {
 		final StringBuilder dtdString = new StringBuilder("");
 		dtdString.append("<!ELEMENT ");
-		dtdString.append(tableName + " (row)*>");
-		dtdString.append("<!ATTLIST " + tableName +
-				" " +"xmlns CDATA #FIXED '' ");
+		dtdString.append(tableName).append(" (row)*>");
+		dtdString.append("<!ATTLIST ").append(tableName).append(" ").append("xmlns CDATA #FIXED '' ");
 		for (final String column : columnNames) {
-			dtdString.append(column +  " NMTOKEN " + "#REQUIRED ");
+			dtdString.append(column).append(" NMTOKEN ").append("#REQUIRED ");
 		}
 		dtdString.append('>');
 		dtdString.append('\n');
@@ -49,10 +49,8 @@ public class DTDWriter {
 		dtdString.append("<!ATTLIST row xmlns CDATA #FIXED ''>");
 		dtdString.append('\n');
 		for (final String column : columnNames) {
-			dtdString.append("<!ELEMENT " + column +
-					" (#PCDATA)>");
-			dtdString.append("<!ATTLIST " + column +
-					" xmlns CDATA #FIXED ''>");
+			dtdString.append("<!ELEMENT ").append(column).append(" (#PCDATA)>");
+			dtdString.append("<!ATTLIST ").append(column).append(" xmlns CDATA #FIXED ''>");
 			dtdString.append('\n');
 		}
 		dtdString.append('\n');
@@ -64,7 +62,7 @@ public class DTDWriter {
 	/**
 	 * Creates the file using the previously generated DTD string.
 	 * @param database name of the database
-	 * @param identifier table identifiers
+	 * @param tableName the name of the table
 	 * @param dtd the generated DTD string to be stored
 	 * @param path the path where the file would be saved
 	 */

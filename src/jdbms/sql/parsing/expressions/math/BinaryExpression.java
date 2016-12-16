@@ -65,7 +65,7 @@ public abstract class BinaryExpression implements Expression {
 				substring(0, seperatorIndex).trim();
 		String restOfExpression = sqlExpRightPart.
 				substring(seperatorIndex).trim();
-		if (restOfExpression.indexOf(" ") != -1
+		if (restOfExpression.contains(" ")
 				&& validator.match("DATE", rightOperand)
 				&& restOfExpression.substring(0,
 						restOfExpression.indexOf(" ")).

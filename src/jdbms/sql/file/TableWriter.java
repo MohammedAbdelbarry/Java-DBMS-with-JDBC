@@ -14,7 +14,7 @@ public interface TableWriter {
 	 * directory
 	 * @throws IOException
 	 */
-	public void write(final Table table,
-			final String databaseName,
-			final String path) throws IOException;
+    void write(final Table table,
+               final String databaseName,
+               final String path) throws IOException;
 }

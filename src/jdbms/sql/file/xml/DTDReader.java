@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import jdbms.sql.errors.ErrorHandler;
 
@@ -28,9 +29,7 @@ public class DTDReader {
 			final String columnNames = line.substring(line.indexOf('(') + 1, line.indexOf(')'));
 			final String[] cols = columnNames.split(",");
 			final ArrayList<String> columns = new  ArrayList<>();
-			for (final String component : cols) {
-				columns.add((component));
-			}
+			Collections.addAll(columns, cols);
 			reader.close();
 			return columns;
 		} catch (final IOException e) {

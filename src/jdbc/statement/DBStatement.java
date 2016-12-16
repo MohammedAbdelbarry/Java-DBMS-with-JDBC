@@ -102,11 +102,8 @@ public class DBStatement implements Statement {
 			logSuccessfulQuery(sql, output.getData().size());
 			converter.convert(resultSet, output);
 			currentResult = -1;
-			if (output.getData().isEmpty()) {
-				return false;
-			}
-			return true;
-		} else if (dbmsConnector.interpretUpdate(sql)) {
+            return !output.getData().isEmpty();
+        } else if (dbmsConnector.interpretUpdate(sql)) {
 			try {
 				currentResult = dbmsConnector.executeUpdate(sql);
 			} catch (final SQLException e) {

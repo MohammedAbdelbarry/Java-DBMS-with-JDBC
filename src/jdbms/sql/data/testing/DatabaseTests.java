@@ -233,7 +233,6 @@ public class DatabaseTests {
 		//		} catch (ColumnNotFoundException | TypeMismatchException | TableNotFoundException | ColumnAlreadyExistsException
 		//				| RepeatedColumnException | ColumnListTooLargeException | ValueListTooLargeException
 		//				| ValueListTooSmallException | InvalidDateFormatException | IOException e) {
-		//			// TODO Auto-generated catch block
 		//			e.printStackTrace();
 		//		}
 	}

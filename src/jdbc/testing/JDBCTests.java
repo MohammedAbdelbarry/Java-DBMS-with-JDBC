@@ -800,8 +800,7 @@ public class JDBCTests {
 			Assert.assertEquals("Wrong number of rows", 1, rows2);
 
 			while (res2.previous()) {
-				;
-			}
+            }
 			res2.next();
 
 			Assert.assertNull("Retrieved date is not null", res2.getDate("column_name4"));
@@ -845,8 +844,7 @@ public class JDBCTests {
 			Assert.assertEquals("Wrong number of rows", 4, rows2);
 
 			while (res2.previous()) {
-				;
-			}
+            }
 
 			res2.next();
 			Assert.assertEquals("Wrong order of rows", 4, res2.getInt("column_name2"));
@@ -908,11 +906,9 @@ public class JDBCTests {
 					+ " existing records", result3);
 			final ResultSet res2 = statement.getResultSet();
 			while (res2.next()) {
-				;
-			}
+            }
 			while (res2.previous()) {
-				;
-			}
+            }
 			Assert.assertTrue(res2.isBeforeFirst());
 			res2.next();
 			Assert.assertTrue(res2.isFirst());
@@ -935,8 +931,7 @@ public class JDBCTests {
 			res2.next();
 			Assert.assertTrue(res2.isAfterLast());
 			while (res2.previous()) {
-				;
-			}
+            }
 			Assert.assertTrue(res2.isBeforeFirst());
 			res2.next();
 			Assert.assertTrue(res2.isFirst());
@@ -959,14 +954,11 @@ public class JDBCTests {
 			res2.next();
 			Assert.assertTrue(res2.isAfterLast());
 			while (res2.previous()) {
-				;
-			}
+            }
 			while (res2.next()) {
-				;
-			}
+            }
 			while (res2.previous()) {
-				;
-			}
+            }
 			Assert.assertTrue(res2.isBeforeFirst());
 			res2.next();
 			Assert.assertTrue(res2.isFirst());

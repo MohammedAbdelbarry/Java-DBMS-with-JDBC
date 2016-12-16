@@ -22,7 +22,7 @@ public class OrderByColumnListExpression extends ColumnListExpression {
 		for (int i = 0 ; i < parts.length - 1; i++) {
 			parts[i] = parts[i].trim();
 			final ColumnOrder currColOrder = new ColumnOrder();
-			if (parts[i].indexOf(" ") == -1) {
+			if (!parts[i].contains(" ")) {
 				currColOrder.setColumn(parts[i]);
 				currColOrder.setOrder("ASC");
 			} else {
@@ -39,7 +39,7 @@ public class OrderByColumnListExpression extends ColumnListExpression {
 		parts[parts.length - 1] = parts[parts.length - 1].trim();
 		final String lastColOrder = parts[parts.length - 1].substring(0,
 				parts[parts.length - 1].indexOf(";")).trim();
-		if (lastColOrder.indexOf(" ") == -1) {
+		if (!lastColOrder.contains(" ")) {
 			final ColumnOrder last = new ColumnOrder(lastColOrder, "ASC");
 			if (!last.isValidColumnOrder()) {
 				return false;
