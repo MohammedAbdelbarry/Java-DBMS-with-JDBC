@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import jdbms.sql.data.SQLData;
 import jdbms.sql.data.query.SelectQueryOutput;
+import jdbms.sql.exceptions.AllColumnsDroppingException;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
 import jdbms.sql.exceptions.ColumnNotFoundException;
@@ -57,6 +58,7 @@ implements Statement {
 	 * @throws FailedToDeleteTableException
 	 * @throws InvalidDateFormatException
 	 * @throws IOException
+	 * @throws AllColumnsDroppingException
 	 */
 	public abstract void act(SQLData data)
 			throws ColumnNotFoundException,
@@ -73,7 +75,8 @@ implements Statement {
 			FailedToDeleteDatabaseException,
 			FailedToDeleteTableException,
 			InvalidDateFormatException,
-			IOException;
+			IOException,
+			AllColumnsDroppingException;
 	/**
 	 * Gets the parameters.
 	 * @return the parameters

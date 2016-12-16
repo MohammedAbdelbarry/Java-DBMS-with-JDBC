@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Random;
 
 import jdbms.sql.data.query.SelectQueryOutput;
+import jdbms.sql.exceptions.AllColumnsDroppingException;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
 import jdbms.sql.exceptions.ColumnNotFoundException;
@@ -276,6 +277,7 @@ public class SQLData {
 	 * @throws RepeatedColumnException
 	 * @throws ColumnAlreadyExistsException
 	 * @throws IOException
+	 * @throws AllColumnsDroppingException
 	 */
 	public int dropTableColumn(final
 			DropColumnParameters parameters)
@@ -288,7 +290,8 @@ public class SQLData {
 					TypeMismatchException,
 					InvalidDateFormatException,
 					TableNotFoundException,
-					IOException {
+					IOException,
+					AllColumnsDroppingException {
 		return activeDatabase.dropTableColumn(parameters, fileHandler);
 	}
 	/**

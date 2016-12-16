@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import jdbms.sql.data.SQLData;
 import jdbms.sql.data.query.SelectQueryOutput;
 import jdbms.sql.errors.util.ErrorMessages;
+import jdbms.sql.exceptions.AllColumnsDroppingException;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
 import jdbms.sql.exceptions.ColumnNotFoundException;
@@ -175,7 +176,9 @@ public class DBMSConnector {
 			throw new SQLException(String.format(errorMessages.
 					getInvalidDate(),
 					e.getMessage()), e);
-		}  catch (final Exception e) {
+		} catch (final AllColumnsDroppingException e) {
+			throw new SQLException(errorMessages.getDroppingAllColumnsError());
+		} catch (final Exception e) {
 			throw new SQLException(errorMessages.getInternalError());
 		}
 	}

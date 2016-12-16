@@ -21,6 +21,7 @@ import jdbms.sql.datatypes.IntSQLType;
 import jdbms.sql.datatypes.SQLType;
 import jdbms.sql.datatypes.VarcharSQLType;
 import jdbms.sql.datatypes.util.DataTypesValidator;
+import jdbms.sql.exceptions.AllColumnsDroppingException;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
 import jdbms.sql.exceptions.ColumnNotFoundException;
@@ -133,13 +134,30 @@ public class Table {
 	 * DropColumnParameters} specifying the
 	 * columns to be dropped
 	 * @throws ColumnNotFoundException
+	 * @throws AllColumnsDroppingException
+	 * @throws RepeatedColumnException
+	 * @throws ColumnListTooLargeException
 	 */
 	public int dropTableColumn(final DropColumnParameters
-			parameters) throws ColumnNotFoundException {
+			parameters) throws ColumnNotFoundException,
+	AllColumnsDroppingException,
+	RepeatedColumnException,
+	ColumnListTooLargeException {
+		if (parameters.getColumnList().size() > tableColumns.size()) {
+			throw new ColumnListTooLargeException();
+		}
+		final Set<String> uniqueColumns
+		= new HashSet<>(parameters.getColumnList());
+		if (uniqueColumns.size() != parameters.getColumnList().size()) {
+			throw new RepeatedColumnException();
+		}
 		for (final String col : parameters.getColumnList()) {
 			if (!tableColumns.containsKey(col.toUpperCase())) {
 				throw new ColumnNotFoundException(col);
 			}
+		}
+		if (uniqueColumns.size() >= tableColumns.size()) {
+			throw new AllColumnsDroppingException();
 		}
 		for (final String col : parameters.getColumnList()) {
 			tableColumns.remove(col.toUpperCase());

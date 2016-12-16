@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import jdbms.sql.data.query.SelectQueryOutput;
+import jdbms.sql.exceptions.AllColumnsDroppingException;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
 import jdbms.sql.exceptions.ColumnNotFoundException;
@@ -195,7 +196,8 @@ public class Database {
 					TypeMismatchException,
 					InvalidDateFormatException,
 					TableNotFoundException,
-					IOException {
+					IOException,
+					AllColumnsDroppingException {
 		if (!tables.contains(parameters.
 				getTableName().toUpperCase())) {
 			throw new TableNotFoundException(parameters.getTableName() );

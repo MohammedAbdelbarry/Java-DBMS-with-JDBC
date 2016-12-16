@@ -3,6 +3,7 @@ package jdbms.sql.parsing.statements;
 import java.io.IOException;
 
 import jdbms.sql.data.SQLData;
+import jdbms.sql.exceptions.AllColumnsDroppingException;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
 import jdbms.sql.exceptions.ColumnNotFoundException;
@@ -45,7 +46,8 @@ public class AlterTableDropStatement extends AlterTableStatement {
 			ValueListTooSmallException,
 			TypeMismatchException,
 			InvalidDateFormatException,
-			IOException {
+			IOException,
+			AllColumnsDroppingException {
 		buildParameters();
 		numberOfUpdates = data.dropTableColumn(dropColumnParameters);
 	}

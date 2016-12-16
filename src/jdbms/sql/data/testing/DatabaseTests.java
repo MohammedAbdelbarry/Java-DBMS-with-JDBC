@@ -13,6 +13,7 @@ import org.junit.runners.MethodSorters;
 import jdbms.sql.data.ColumnIdentifier;
 import jdbms.sql.data.SQLData;
 import jdbms.sql.data.query.SelectQueryOutput;
+import jdbms.sql.exceptions.AllColumnsDroppingException;
 import jdbms.sql.exceptions.ColumnAlreadyExistsException;
 import jdbms.sql.exceptions.ColumnListTooLargeException;
 import jdbms.sql.exceptions.ColumnNotFoundException;
@@ -193,7 +194,8 @@ public class DatabaseTests {
 			data.dropTableColumn(parameters);
 		} catch (ColumnAlreadyExistsException | RepeatedColumnException | ColumnListTooLargeException
 				| ColumnNotFoundException | ValueListTooLargeException | ValueListTooSmallException
-				| TypeMismatchException | InvalidDateFormatException | TableNotFoundException | IOException e) {
+				| TypeMismatchException | InvalidDateFormatException | TableNotFoundException
+				| IOException | AllColumnsDroppingException e) {
 			Assert.fail("Failed to drop column");
 		}
 	}
