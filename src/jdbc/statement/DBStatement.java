@@ -128,7 +128,8 @@ public class DBStatement implements Statement {
 				logger.error("Failed to Execute"
 						+ " Update \"" + sql
 						+ "\". Cause: " +
-						e.getMessage(), e);
+						e.getMessage(), e,
+						e.getCause());
 				throw e;
 			}
 			logSuccessfulUpdate(sql,
@@ -166,7 +167,8 @@ public class DBStatement implements Statement {
 							+ " Execute Update \""
 							+ sql
 							+ "\". Cause: "
-							+ e.getMessage(), e);
+							+ e.getMessage(), e
+							, e.getCause());
 					throw e;
 				}
 				currentResult = updateCounts[i];
@@ -188,7 +190,8 @@ public class DBStatement implements Statement {
 							+ " Execute Query \""
 							+ sql
 							+ "\". Cause: "
-							+ e.getMessage(), e);
+							+ e.getMessage(), e,
+							e.getCause());
 					throw e;
 				}
 				converter.convert(resultSet,
@@ -244,7 +247,8 @@ public class DBStatement implements Statement {
 						+ " Execute Query \""
 						+ sql
 						+ "\". Cause: "
-						+ e.getMessage(), e);
+						+ e.getMessage(), e,
+						e.getCause());
 				throw e;
 			}
 			converter.convert(resultSet,
@@ -279,7 +283,8 @@ public class DBStatement implements Statement {
 						+ sql
 						+ "\". Cause: "
 						+ e.getMessage(),
-						e);
+						e,
+						e.getCause());
 				throw e;
 			}
 			logSuccessfulUpdate(sql,
