@@ -17,10 +17,15 @@ import jdbms.sql.parsing.expressions.table.name.DropColumnTableNameExpression;
 import jdbms.sql.parsing.properties.DropColumnParameters;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
 
+/**
+ * The alter drop column statement.
+ */
 public class AlterTableDropStatement extends AlterTableStatement {
 
+	/** The drop column parameters. */
 	private final DropColumnParameters dropColumnParameters;
 
+	/** The ID class. */
 	private static final String CLASS_ID
 	= "ALTERTABLEDROPSTATEMENTCLASS";
 
@@ -29,6 +34,9 @@ public class AlterTableDropStatement extends AlterTableStatement {
 		registerStatement(CLASS_ID, AlterTableDropStatement.class);
 	}
 
+	/**
+	 * Instantiates a new alter table drop statement.
+	 */
 	public AlterTableDropStatement() {
 		super();
 		super.setNextExpression(new DropColumnTableNameExpression(parameters));
