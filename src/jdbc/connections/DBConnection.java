@@ -26,7 +26,10 @@ import org.apache.logging.log4j.Logger;
 import jdbc.drivers.util.ProtocolConstants;
 import jdbc.statement.DBStatement;
 import jdbms.sql.DBMSConnector;
-
+/**
+ * A JDBC Connection Implementation.
+ * @author Ahmed Moustafa El-Naggar
+ */
 public class DBConnection implements Connection {
 	private final Logger logger;
 	private final DBMSConnector connector;

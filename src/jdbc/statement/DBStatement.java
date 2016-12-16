@@ -18,7 +18,10 @@ import jdbc.results.DataResultSet;
 import jdbc.results.util.SelectOutputConverter;
 import jdbms.sql.DBMSConnector;
 import jdbms.sql.data.query.SelectQueryOutput;
-
+/**
+ * A JDBC Statement Implementation.
+ * @author Hisham Osama
+ */
 public class DBStatement implements Statement {
 	private static final String CLOSED_MESSAGE
 	= "Couldn't %s Because"
@@ -102,8 +105,8 @@ public class DBStatement implements Statement {
 			logSuccessfulQuery(sql, output.getData().size());
 			converter.convert(resultSet, output);
 			currentResult = -1;
-            return !output.getData().isEmpty();
-        } else if (dbmsConnector.interpretUpdate(sql)) {
+			return !output.getData().isEmpty();
+		} else if (dbmsConnector.interpretUpdate(sql)) {
 			try {
 				currentResult = dbmsConnector.executeUpdate(sql);
 			} catch (final SQLException e) {

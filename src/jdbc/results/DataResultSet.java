@@ -28,7 +28,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import jdbc.statement.DBStatement;
-
+/**
+ * A JDBC Result Set
+ * Implementation.
+ * @author Hisham Osama
+ */
 public class DataResultSet implements ResultSet {
 	private static final String DATE_FORMAT
 	= "yyyy-MM-dd";
