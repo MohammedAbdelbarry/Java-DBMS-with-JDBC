@@ -16,10 +16,15 @@ import jdbms.sql.parsing.expressions.table.name.AddColumnTableNameExpression;
 import jdbms.sql.parsing.properties.AddColumnParameters;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
 
+/**
+ * The alter table add statement class.
+ */
 public class AlterTableAddStatement extends AlterTableStatement {
 
+	/** The parameters for adding a column. */
 	private final AddColumnParameters addColumnParameters;
 
+	/** The ID of the class. */
 	private static final String CLASS_ID
 	= "ALTERTABLEADDSTATEMENTCLASS";
 
@@ -28,6 +33,9 @@ public class AlterTableAddStatement extends AlterTableStatement {
 		registerStatement(CLASS_ID, AlterTableAddStatement.class);
 	}
 
+	/**
+	 * Instantiates a new alter table add statement.
+	 */
 	public AlterTableAddStatement() {
 		super();
 		super.setNextExpression(new AddColumnTableNameExpression(parameters));
@@ -47,16 +55,18 @@ public class AlterTableAddStatement extends AlterTableStatement {
 			InvalidDateFormatException,
 			IOException {
 		buildParameters();
-		numberOfUpdates = data.addTableColumn(addColumnParameters);
+		numberOfUpdates = data.
+				addTableColumn(addColumnParameters);
 	}
 
 	/**
-	 * Builds the parameters.
+	 * Builds the parameters of adding a column.
 	 */
 	private void buildParameters() {
 		addColumnParameters.
 		setTableName(parameters.getTableName());
 		addColumnParameters.setColumnIdentifier(
-				parameters.getColumnDefinitions().get(0));
+				parameters.
+				getColumnDefinitions().get(0));
 	}
 }

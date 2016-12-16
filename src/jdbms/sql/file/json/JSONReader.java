@@ -27,15 +27,28 @@ import jdbms.sql.exceptions.ValueListTooSmallException;
 import jdbms.sql.file.TableReader;
 import jdbms.sql.parsing.util.Constants;
 
+/**
+ * The JSON reader class that
+ * reads a table object from a file
+ * and returns this object.
+ * @author Mohammed Abdelbary
+ */
 public class JSONReader implements TableReader {
+
+	/** The JSON extension. */
 	private static final String JSON_EXTENSION
 	= ".json";
+
+	/**
+	 * Instantiates a new JSON reader.
+	 */
 	public JSONReader() {
 
 	}
 
 	@Override
-	public Table read(final String tableName, final String databaseName, final String path)
+	public Table read(final String tableName,
+			final String databaseName, final String path)
 			throws ColumnAlreadyExistsException,
 			RepeatedColumnException,
 			ColumnListTooLargeException,
@@ -43,12 +56,14 @@ public class JSONReader implements TableReader {
 			ValueListTooLargeException,
 			ValueListTooSmallException,
 			TypeMismatchException, IOException {
-		final Gson gson = new GsonBuilder().registerTypeAdapter(TableColumn.class,
+		final Gson gson = new GsonBuilder().
+				registerTypeAdapter(TableColumn.class,
 				new TableColumnDeserializier()).create();
 		final File jsonFile = new File(path
 				+ databaseName.toLowerCase() + File.separator
 				+ tableName.toLowerCase() + JSON_EXTENSION);
-		final BufferedReader reader = new BufferedReader(new java.io.FileReader(jsonFile));
+		final BufferedReader reader
+		= new BufferedReader(new java.io.FileReader(jsonFile));
 		final StringBuilder json = new StringBuilder();
 		String line = "";
 		while ((line = reader.readLine()) != null) {
@@ -57,16 +72,30 @@ public class JSONReader implements TableReader {
 		reader.close();
 		return gson.fromJson(json.toString(), Table.class);
 	}
+
+	/**
+	 * The deserializer class that converts json
+	 * elements to sql values.
+	 */
 	private class TableColumnDeserializier
 	implements JsonDeserializer<TableColumn> {
+
+		/** The Constant NAME_FIELD. */
 		private static final String NAME_FIELD
 		= "columnName";
+
+		/** The Constant TYPE_FIELD. */
 		private static final String TYPE_FIELD
 		= "columnType";
+
+		/** The Constant VALUES_FIELD. */
 		private static final String VALUES_FIELD
 		= "values";
+
+		/** The Constant VALUE_FIELD. */
 		private static final String VALUE_FIELD
 		= "value";
+
 		@Override
 		public TableColumn deserialize(final JsonElement json,
 				final Type type,

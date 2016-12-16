@@ -21,10 +21,21 @@ import jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn;
 import jdbms.sql.parsing.properties.InsertionParameters;
 import jdbms.sql.parsing.properties.TableCreationParameters;
 
-public class ProtocolBufferReader implements TableReader{
+/**
+ * The Protocol buffer reader class that
+ * reads a table object from a file
+ * and returns this object.
+ * @author Ahmed Walid
+ */
+public class ProtocolBufferReader implements TableReader {
+
+	/** The protocol buffer extension. */
 	private static final String PROTOCOL_BUFFER_EXTENSION
 	= ".protobuff";
 
+	/**
+	 * Instantiates a new protocol buffer reader.
+	 */
 	public ProtocolBufferReader() {
 
 	}
@@ -45,6 +56,29 @@ public class ProtocolBufferReader implements TableReader{
 		return createTableObject(protoTable);
 	}
 
+	/**
+	 * Creates a table object using the
+	 * data retrieved from reading the file.
+	 * @param protoTable the proto table object
+	 * @return the table object
+	 * @throws ColumnAlreadyExistsException if a
+	 * column already exists in the table
+	 * @throws InvalidDateFormatException the date
+	 * format was invalid
+	 * @throws RepeatedColumnException the column
+	 * was repeated
+	 * @throws ColumnListTooLargeException the column list
+	 * was larger than the value list
+	 * @throws ColumnNotFoundException the column
+	 * wasn't found in the table
+	 * @throws ValueListTooLargeException the value list
+	 * was larger than the column list
+	 * @throws ValueListTooSmallException the value list
+	 * was smaller than the column list
+	 * @throws TypeMismatchException the type of the
+	 * value being inserted doesn't match the
+	 * type of the column
+	 */
 	private Table createTableObject(final DBTable protoTable)
 			throws ColumnAlreadyExistsException, InvalidDateFormatException,
 			RepeatedColumnException, ColumnListTooLargeException,

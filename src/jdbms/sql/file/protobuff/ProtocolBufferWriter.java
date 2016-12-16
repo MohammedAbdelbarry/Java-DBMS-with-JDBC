@@ -10,10 +10,20 @@ import jdbms.sql.file.TableWriter;
 import jdbms.sql.file.protobuff.util.TableProtos.DBTable;
 import jdbms.sql.parsing.util.Constants;
 
+/**
+ * The Protocol Buffer Writer class that
+ * writes a table object in a file.
+ * @author Ahmed Walid
+ */
 public class ProtocolBufferWriter implements TableWriter {
+
+	/** The Protocol Buffer Extenstion. */
 	private static final String PROTOCOL_BUFFER_EXTENSION
 	= ".protobuff";
 
+	/**
+	 * Instantiates a new protocol buffer writer.
+	 */
 	public ProtocolBufferWriter() {
 
 	}
@@ -36,6 +46,13 @@ public class ProtocolBufferWriter implements TableWriter {
 		outputStream.close();
 	}
 
+	/**
+	 * Uses the data from the table
+	 * object to create a proto table
+	 * object and return it.
+	 * @param table the table object
+	 * @return the proto table object
+	 */
 	private DBTable createProtoTable(final Table table) {
 		final DBTable.Builder protoTableBuilder = DBTable.newBuilder();
 		protoTableBuilder.setNumberOfRows(table.getNumberOfRows());
