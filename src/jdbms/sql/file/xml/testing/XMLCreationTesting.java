@@ -14,7 +14,7 @@ import org.junit.Test;
 import jdbms.sql.data.ColumnIdentifier;
 import jdbms.sql.data.SQLData;
 import jdbms.sql.data.Table;
-import jdbms.sql.file.xml.XMLCreator;
+import jdbms.sql.file.xml.XMLWriter;
 import jdbms.sql.parsing.parser.StringNormalizer;
 import jdbms.sql.parsing.properties.InsertionParameters;
 import jdbms.sql.parsing.properties.TableCreationParameters;
@@ -23,7 +23,7 @@ import jdbms.sql.parsing.statements.util.InitialStatementFactory;
 
 public class XMLCreationTesting {
 
-	private XMLCreator creator;
+	private XMLWriter creator;
 	private StringNormalizer parser;
 	private SQLData data;
 	@Before
@@ -49,7 +49,7 @@ public class XMLCreationTesting {
 		} catch (final ClassNotFoundException e) {
 			System.err.println("Internal Error");
 		}
-		creator = new XMLCreator();
+		creator = new XMLWriter();
 		final TableCreationParameters createTableParameters = new TableCreationParameters();
 		final ArrayList<ColumnIdentifier> cols = new ArrayList<>();
 		cols.add(new ColumnIdentifier("ID","INT"));

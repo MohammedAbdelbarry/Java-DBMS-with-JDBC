@@ -29,7 +29,7 @@ import jdbms.sql.file.FileReader;
 import jdbms.sql.parsing.properties.InsertionParameters;
 import jdbms.sql.parsing.properties.TableCreationParameters;
 
-public class XMLParser implements FileReader {
+public class XMLReader implements FileReader {
 	/**DTD Identifier to be inserted in the DTD file Name.*/
 	private static final String DTD_IDENTIFIER = "DTD";
 	/**DTD extension to be inserted in the DTD file.*/
@@ -37,7 +37,7 @@ public class XMLParser implements FileReader {
 	/**XML extension to be inserted in the XML file.*/
 	private static final String XML_EXTENSION = ".xml";
 
-	public XMLParser() {
+	public XMLReader() {
 
 	}
 
@@ -50,7 +50,7 @@ public class XMLParser implements FileReader {
 	 * */
 	private ArrayList<String> getColumnNames(final String tablename,
 			final String databaseName, final String path) {
-		final DTDParser parser = new DTDParser();
+		final DTDReader parser = new DTDReader();
 		final ArrayList<String> columnNames = parser.parse(new File(path +
 				databaseName + File.separator + tablename + DTD_IDENTIFIER
 				+ DTD_EXTENSION));

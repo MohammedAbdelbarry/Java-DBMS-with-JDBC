@@ -8,9 +8,9 @@ import java.util.ArrayList;
 
 import jdbms.sql.errors.ErrorHandler;
 
-public class DTDParser {
+public class DTDReader {
 
-	public DTDParser() {
+	public DTDReader() {
 
 	}
 

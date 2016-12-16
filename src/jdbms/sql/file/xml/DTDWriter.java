@@ -7,13 +7,13 @@ import java.util.ArrayList;
 
 import jdbms.sql.errors.ErrorHandler;
 
-public class DTDCreator {
+public class DTDWriter {
 	/**DTD Identifier to be inserted in the DTD file Name.*/
 	private static final String DTD_IDENTIFIER = "DTD";
 	/**DTD extension to be inserted in the DTD file.*/
 	private static final String DTD_EXTENSION = ".dtd";
 
-	public DTDCreator() {
+	public DTDWriter() {
 	}
 
 	/**

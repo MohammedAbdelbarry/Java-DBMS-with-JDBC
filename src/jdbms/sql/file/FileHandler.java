@@ -27,8 +27,8 @@ import jdbms.sql.file.json.JSONReader;
 import jdbms.sql.file.json.JSONWriter;
 import jdbms.sql.file.protobuff.ProtocolBufferReader;
 import jdbms.sql.file.protobuff.ProtocolBufferWriter;
-import jdbms.sql.file.xml.XMLCreator;
-import jdbms.sql.file.xml.XMLParser;
+import jdbms.sql.file.xml.XMLWriter;
+import jdbms.sql.file.xml.XMLReader;
 import jdbms.sql.parsing.parser.ParserMain;
 
 public class FileHandler {
@@ -58,8 +58,8 @@ public class FileHandler {
 		} catch (final URISyntaxException e) {
 			throw new RuntimeException();
 		}
-		reader = new XMLParser();
-		writer = new XMLCreator();
+		reader = new XMLReader();
+		writer = new XMLWriter();
 		schemaExtension = DTD_IDENTIFIER + DTD_EXTENSION;
 		fileExtension = XML_EXTENSION;
 	}
@@ -67,8 +67,8 @@ public class FileHandler {
 			throws FileFormatNotSupportedException {
 		path = filePath + File.separator + DATA_DIRECTORY;
 		if (fileType.equalsIgnoreCase(XML_PROTOCOL)) {
-			reader = new XMLParser();
-			writer = new XMLCreator();
+			reader = new XMLReader();
+			writer = new XMLWriter();
 			schemaExtension = DTD_IDENTIFIER + DTD_EXTENSION;
 			fileExtension = XML_EXTENSION;
 		} else if (fileType.equalsIgnoreCase(JSON_PROTOCOL)) {

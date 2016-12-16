@@ -26,7 +26,7 @@ import jdbms.sql.data.TableIdentifier;
 import jdbms.sql.file.FileWriter;
 import jdbms.sql.parsing.util.Constants;
 
-public class XMLCreator implements FileWriter {
+public class XMLWriter implements FileWriter {
 	/**DTD Identifier to be inserted in the DTD file Name.*/
 	private static final String DTD_IDENTIFIER = "DTD";
 	/**DTD extension to be inserted in the DTD file.*/
@@ -38,7 +38,7 @@ public class XMLCreator implements FileWriter {
 	/**Number of indentation tabs in XML files as a String.*/
 	private static final String INDENT_NUMBER = "4";
 
-	public XMLCreator() {
+	public XMLWriter() {
 	}
 	/**
 	 * Creates an XMl File for the given table
@@ -88,7 +88,7 @@ public class XMLCreator implements FileWriter {
 	 */
 	private void createDTD(final ArrayList<String> columnNames,
 			final Table table, final String database, final String path) {
-		final DTDCreator dtd = new DTDCreator();
+		final DTDWriter dtd = new DTDWriter();
 		dtd.create(database, columnNames,
 				table.getName().toUpperCase(), path);
 	}
