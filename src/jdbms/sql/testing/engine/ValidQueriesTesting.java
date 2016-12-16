@@ -40,7 +40,7 @@ public class ValidQueriesTesting {
 						+ " c date, d datetime, e int); ");
 		final String insertionCommand = normalizer.
 				normalizeCommand("insert into t values (2, 2.0,"
-						+ " 0001-01-01, 0000-01-01 00:00:01, -100);");
+						+ " 0001-01-01, '0000-01-01 00:00:01', -100);");
 		final String selectionCommand = normalizer.
 				normalizeCommand("select * from t;");
 		final ArrayList<String> commands = new ArrayList<>();
@@ -62,7 +62,7 @@ public class ValidQueriesTesting {
 			}
 		}
 
-		assertEquals(interpretedCount, 3);
+		assertEquals(interpretedCount, 2);
 		assertEquals(caughtException, false);
 	}
 }
