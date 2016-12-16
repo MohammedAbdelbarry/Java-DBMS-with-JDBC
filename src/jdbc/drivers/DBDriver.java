@@ -19,6 +19,8 @@ import jdbc.drivers.util.ProtocolConstants;
 public class DBDriver implements Driver {
 	private final Logger logger;
 	private final ArrayList<DBConnection> connections;
+	private final static int CONNECTIONS_MAX = 10000;
+	private static int noOfConnections = 0;
 	static {
 		try {
 			DriverManager.registerDriver(new DBDriver());
@@ -41,7 +43,14 @@ public class DBDriver implements Driver {
 		if (!isValidURL(url)) {
 			return null;
 		}
-		final File directory = (File) info.get("path");
+		if (!isBelowMaxNoOfConnections()) {
+			final SQLException ex
+			= new SQLException("Connections Overloaded");
+			logger.error("Current number of connections exceeded "
+			+ CONNECTIONS_MAX, ex);
+		}
+		noOfConnections++;
+ 		final File directory = (File) info.get("path");
 		if (directory == null) {
 			final SQLException ex
 			= new SQLException("Null Directory");
@@ -75,6 +84,10 @@ public class DBDriver implements Driver {
 		final ProtocolConstants constants = new ProtocolConstants();
 		final boolean exists = constants.getSupportedProtocols().contains(protocol);
 		return exists;
+	}
+
+	private boolean isBelowMaxNoOfConnections() {
+		return noOfConnections < CONNECTIONS_MAX;
 	}
 
 	@Override
