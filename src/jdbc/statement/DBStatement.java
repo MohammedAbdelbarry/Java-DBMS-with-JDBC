@@ -41,7 +41,8 @@ public class DBStatement implements Statement {
 	private final DBConnection connection;
 	private DataResultSet resultSet;
 	private final Logger logger;
-	public DBStatement(final DBMSConnector connector,
+	public DBStatement(final
+			DBMSConnector connector,
 			final DBConnection connection) {
 		logger = LogManager.getLogger(DBStatement.class);
 		this.dbmsConnector = connector;
@@ -54,7 +55,8 @@ public class DBStatement implements Statement {
 	}
 
 	@Override
-	public void addBatch(final String sql) throws SQLException {
+	public void addBatch(final String sql)
+			throws SQLException {
 		logger.debug("Requested Adding Batch");
 		if (isClosed) {
 			throwClosedStatementException("Add Batch");
@@ -64,7 +66,8 @@ public class DBStatement implements Statement {
 	}
 
 	@Override
-	public void clearBatch() throws SQLException {
+	public void clearBatch()
+			throws SQLException {
 		logger.debug("Requested Clearing Batch");
 		if (isClosed) {
 			throwClosedStatementException("Clear Batch");
@@ -86,47 +89,67 @@ public class DBStatement implements Statement {
 	}
 
 	@Override
-	public boolean execute(final String sql) throws SQLException {
-		logger.debug("Requested Executing SQL Command");
+	public boolean execute(final String sql)
+			throws SQLException {
+		logger.debug("Requested"
+				+ " Executing SQL Command");
 		if (isClosed) {
-			throwClosedStatementException("Execute SQL Command");
+			throwClosedStatementException("Execute"
+					+ " SQL Command");
 		}
 		if (dbmsConnector.interpretQuery(sql)) {
 			resultSet = new DataResultSet(this);
-			final SelectOutputConverter converter = new SelectOutputConverter();
+			final SelectOutputConverter converter
+			= new SelectOutputConverter();
 			final SelectQueryOutput output;
 			try {
-				output = dbmsConnector.executeQuery(sql);
+				output = dbmsConnector.
+						executeQuery(sql);
 			} catch (final SQLException e) {
-				logger.error("Failed to Execute Query \"" + sql
-						+ "\". Cause: " + e.getMessage(), e);
+				logger.error("Failed to "
+						+ "Execute Query \"" + sql
+						+ "\". Cause: " +
+						e.getMessage(), e);
 				throw e;
 			}
-			logSuccessfulQuery(sql, output.getData().size());
-			converter.convert(resultSet, output);
+			logSuccessfulQuery(sql,
+					output.getData().size());
+			converter.convert(resultSet,
+					output);
 			currentResult = -1;
 			return !output.getData().isEmpty();
-		} else if (dbmsConnector.interpretUpdate(sql)) {
+		} else if (dbmsConnector.
+				interpretUpdate(sql)) {
 			try {
-				currentResult = dbmsConnector.executeUpdate(sql);
+				currentResult = dbmsConnector.
+						executeUpdate(sql);
 			} catch (final SQLException e) {
-				logger.error("Failed to Execute Update \"" + sql
-						+ "\". Cause: " + e.getMessage(), e);
+				logger.error("Failed to Execute"
+						+ " Update \"" + sql
+						+ "\". Cause: " +
+						e.getMessage(), e);
 				throw e;
 			}
-			logSuccessfulUpdate(sql, currentResult);
+			logSuccessfulUpdate(sql,
+					currentResult);
 			return false;
 		} else {
-			logger.error(String.format(SYNTAX_ERROR_MESSAGE, sql, "Command"));
-			throw new SQLException("Syntax Error");
+			logger.error(String.format(
+					SYNTAX_ERROR_MESSAGE,
+					sql, "Command"));
+			throw new SQLException("Syntax"
+					+ " Error");
 		}
 	}
 
 	@Override
-	public int[] executeBatch() throws SQLException {
-		logger.debug("Requested Executing SQL Batch");
+	public int[] executeBatch()
+			throws SQLException {
+		logger.debug("Requested Executing"
+				+ " SQL Batch");
 		if (isClosed) {
-			throwClosedStatementException("Execute Batch");
+			throwClosedStatementException(
+					"Execute Batch");
 		}
 		final int size = commands.size();
 		final int[] updateCounts = new int[size];
@@ -135,306 +158,428 @@ public class DBStatement implements Statement {
 			if (dbmsConnector.interpretUpdate(sql)) {
 				commands.poll();
 				try {
-					updateCounts[i] = dbmsConnector.executeUpdate(sql);
+					updateCounts[i]
+							= dbmsConnector.executeUpdate(sql);
 				} catch (final SQLException e) {
-					logger.error("Failed to Execute Update \"" + sql
-							+ "\". Cause: " + e.getMessage(), e);
+					logger.error("Failed to"
+							+ " Execute Update \""
+							+ sql
+							+ "\". Cause: "
+							+ e.getMessage(), e);
 					throw e;
 				}
 				currentResult = updateCounts[i];
 				logSuccessfulUpdate(sql, currentResult);
-			} else if (dbmsConnector.interpretUpdate(commands.peek())) {
+			} else if (dbmsConnector.
+					interpretUpdate(
+							commands.peek())) {
 				resultSet = new DataResultSet(this);
-				final SelectOutputConverter converter = new SelectOutputConverter();
+				final SelectOutputConverter
+				converter
+				= new SelectOutputConverter();
 				commands.poll();
 				final SelectQueryOutput output;
 				try {
-					output = dbmsConnector.executeQuery(sql);
+					output = dbmsConnector.
+							executeQuery(sql);
 				} catch (final SQLException e) {
-					logger.error("Failed to Execute Query \"" + sql
-							+ "\". Cause: " + e.getMessage(), e);
+					logger.error("Failed to"
+							+ " Execute Query \""
+							+ sql
+							+ "\". Cause: "
+							+ e.getMessage(), e);
 					throw e;
 				}
-				converter.convert(resultSet, output);
-				logSuccessfulQuery(sql, output.getData().size());
+				converter.convert(resultSet,
+						output);
+				logSuccessfulQuery(sql,
+						output.getData().size());
 				updateCounts[i] = SUCCESS_NO_INFO;
 				currentResult = -1;
 			} else {
-				logger.error(String.format(SYNTAX_ERROR_MESSAGE, sql,
+				logger.error(String.format(
+						SYNTAX_ERROR_MESSAGE,
+						sql,
 						"Command"));
-				throw new BatchUpdateException("Syntax Error", updateCounts);
+				throw new BatchUpdateException(
+						"Syntax Error",
+						updateCounts);
 			}
 		}
-		logger.debug("Batch Executed Successfully: " + Arrays.toString(updateCounts));
+		logger.debug("Batch"
+				+ " Executed "
+				+ "Successfully: "
+				+ Arrays.toString(updateCounts));
 		return updateCounts;
 	}
 
 	@Override
-	public ResultSet executeQuery(final String sql) throws SQLException {
-		logger.debug("Requested Executing SQL Query");
+	public ResultSet executeQuery(
+			final String sql)
+					throws SQLException {
+		logger.debug("Requested"
+				+ " Executing SQL"
+				+ " Query");
 		if (isClosed) {
-			throwClosedStatementException("Execute Query");
+			throwClosedStatementException(
+					"Execute Query");
 		}
-		if (!dbmsConnector.interpretQuery(sql)) {
-			throwSyntaxErrorException("Query", sql);
+		if (!dbmsConnector.
+				interpretQuery(sql)) {
+			throwSyntaxErrorException(
+					"Query", sql);
 		} else {
 			currentResult = -1;
-			resultSet = new DataResultSet(this);
-			final SelectOutputConverter converter = new SelectOutputConverter();
+			resultSet
+			= new DataResultSet(this);
+			final SelectOutputConverter converter
+			= new SelectOutputConverter();
 			final SelectQueryOutput output;
 			try {
-				output = dbmsConnector.executeQuery(sql);
+				output = dbmsConnector.
+						executeQuery(sql);
 			} catch (final SQLException e) {
-				logger.error("Failed to Execute Query \"" + sql
-						+ "\". Cause: " + e.getMessage(), e);
+				logger.error("Failed to"
+						+ " Execute Query \""
+						+ sql
+						+ "\". Cause: "
+						+ e.getMessage(), e);
 				throw e;
 			}
-			converter.convert(resultSet, output);
-			logSuccessfulQuery(sql, output.getData().size());
+			converter.convert(resultSet,
+					output);
+			logSuccessfulQuery(sql,
+					output.getData().size());
 			return resultSet;
 		}
 		return null;
 	}
 
 	@Override
-	public int executeUpdate(final String sql) throws SQLException {
-		logger.debug("Requested Executing SQL Update");
+	public int executeUpdate(final String
+			sql) throws SQLException {
+		logger.debug("Requested Executing"
+				+ " SQL Update");
 		if (isClosed) {
-			throwClosedStatementException("Execute Update");
+			throwClosedStatementException(
+					"Execute Update");
 		}
 
 		if (!dbmsConnector.interpretUpdate(sql)) {
-			throwSyntaxErrorException("Update", sql);
+			throwSyntaxErrorException("Update",
+					sql);
 		} else {
 			try {
-				currentResult = dbmsConnector.executeUpdate(sql);
+				currentResult = dbmsConnector.
+						executeUpdate(sql);
 			} catch (final SQLException e) {
-				logger.error("Failed to Execute Update \"" + sql
-						+ "\". Cause: " + e.getMessage(), e);
+				logger.error("Failed to"
+						+ " Execute Update \""
+						+ sql
+						+ "\". Cause: "
+						+ e.getMessage(),
+						e);
 				throw e;
 			}
-			logSuccessfulUpdate(sql, currentResult);
+			logSuccessfulUpdate(sql,
+					currentResult);
 			return currentResult;
 		}
 		return 0;
 	}
 
 	@Override
-	public Connection getConnection() throws SQLException {
+	public Connection getConnection()
+			throws SQLException {
 
 		if (isClosed) {
-			throwClosedStatementException("Get Connection");
+			throwClosedStatementException(
+					"Get Connection");
 		}
 		return connection;
 	}
 
 	@Override
-	public ResultSet getResultSet() throws SQLException {
+	public ResultSet getResultSet()
+			throws SQLException {
 
 		if (isClosed) {
-			throwClosedStatementException("Get ResultSet");
+			throwClosedStatementException(
+					"Get ResultSet");
 		}
 		return this.resultSet;
 	}
 
 	@Override
-	public int getUpdateCount() throws SQLException {
+	public int getUpdateCount()
+			throws SQLException {
 		if (isClosed) {
-			throwClosedStatementException("Get Update Count");
+			throwClosedStatementException(
+					"Get Update Count");
 		}
 		return currentResult;
 	}
 	@Override
-	public boolean isClosed() throws SQLException {
+	public boolean isClosed()
+			throws SQLException {
 		return isClosed;
 	}
-	private void throwClosedStatementException(final String action) throws SQLException {
-		logger.info(String.format(CLOSED_MESSAGE, action));
-		throw new SQLException(String.format(CLOSED_MESSAGE,
-				action));
+	private void throwClosedStatementException(
+			final String action)
+					throws SQLException {
+		logger.info(String.format(
+				CLOSED_MESSAGE, action));
+		throw new SQLException(
+				String.format(CLOSED_MESSAGE,
+						action));
 	}
-	private void logSuccessfulQuery(final String sql, final int rows) {
-		logger.debug(String.format(EXECUTED_SUCCESSFULLY, "Query", sql)
-				+ String.format(QUERY_RESULT, rows));
+	private void logSuccessfulQuery(final
+			String sql,
+			final int rows) {
+		logger.debug(String.format(
+				EXECUTED_SUCCESSFULLY,
+				"Query", sql)
+				+ String.format(QUERY_RESULT,
+						rows));
 	}
-	private void logSuccessfulUpdate(final String sql, final int rows) {
-		logger.debug(String.format(EXECUTED_SUCCESSFULLY, "Update", sql)
-				+ String.format(UPDATE_RESULT, rows));
+	private void logSuccessfulUpdate(final String
+			sql, final int rows) {
+		logger.debug(String.format(
+				EXECUTED_SUCCESSFULLY,
+				"Update", sql)
+				+ String.format(
+						UPDATE_RESULT,
+						rows));
 	}
-	private void throwSyntaxErrorException(final String type,
-			final String sql) throws SQLException {
-		logger.error(String.format(SYNTAX_ERROR_MESSAGE, sql, type));
-		throw new SQLException("Syntax Error");
+	private void throwSyntaxErrorException(final
+			String type,
+			final String sql)
+					throws SQLException {
+		logger.error(String.format(
+				SYNTAX_ERROR_MESSAGE,
+				sql, type));
+		throw new SQLException("Syntax"
+				+ " Error");
 	}
 	@Override
-	public boolean isWrapperFor(final Class<?> arg0) throws SQLException {
+	public boolean isWrapperFor(final
+			Class<?> arg0) throws SQLException {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public <T> T unwrap(final Class<T> arg0) throws SQLException {
+	public <T> T unwrap(final
+			Class<T> arg0)
+					throws SQLException {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void cancel() throws SQLException {
+	public void cancel()
+			throws SQLException {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void clearWarnings() throws SQLException {
+	public void clearWarnings()
+			throws SQLException {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void closeOnCompletion() throws SQLException {
+	public void closeOnCompletion()
+			throws SQLException {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public boolean execute(final String arg0, final int arg1) throws SQLException {
+	public boolean execute(final String
+			arg0, final int arg1)
+					throws SQLException {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public boolean execute(final String arg0, final int[] arg1) throws SQLException {
+	public boolean execute(final String
+			arg0, final int[] arg1)
+					throws SQLException {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public boolean execute(final String arg0, final String[] arg1) throws SQLException {
+	public boolean execute(final String
+			arg0, final String[] arg1)
+					throws SQLException {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public int executeUpdate(final String arg0, final int arg1) throws SQLException {
+	public int executeUpdate(final String
+			arg0, final int arg1)
+					throws SQLException {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public int executeUpdate(final String arg0, final int[] arg1) throws SQLException {
+	public int executeUpdate(final String
+			arg0, final int[] arg1)
+					throws SQLException {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public int executeUpdate(final String arg0, final String[] arg1) throws SQLException {
+	public int executeUpdate(final String
+			arg0, final
+			String[] arg1)
+					throws SQLException {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public int getFetchDirection() throws SQLException {
+	public int getFetchDirection()
+			throws SQLException {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public int getFetchSize() throws SQLException {
+	public int getFetchSize()
+			throws SQLException {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public ResultSet getGeneratedKeys() throws SQLException {
+	public ResultSet getGeneratedKeys()
+			throws SQLException {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public int getMaxFieldSize() throws SQLException {
+	public int getMaxFieldSize()
+			throws SQLException {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public int getMaxRows() throws SQLException {
+	public int getMaxRows()
+			throws SQLException {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public boolean getMoreResults() throws SQLException {
+	public boolean getMoreResults()
+			throws SQLException {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public boolean getMoreResults(final int arg0) throws SQLException {
+	public boolean getMoreResults(
+			final int arg0)
+					throws SQLException {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public int getQueryTimeout() throws SQLException {
+	public int getQueryTimeout()
+			throws SQLException {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public int getResultSetConcurrency() throws SQLException {
+	public int getResultSetConcurrency()
+			throws SQLException {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public int getResultSetHoldability() throws SQLException {
+	public int getResultSetHoldability()
+			throws SQLException {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public int getResultSetType() throws SQLException {
+	public int getResultSetType()
+			throws SQLException {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public SQLWarning getWarnings() throws SQLException {
+	public SQLWarning getWarnings()
+			throws SQLException {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public boolean isCloseOnCompletion() throws SQLException {
+	public boolean isCloseOnCompletion()
+			throws SQLException {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public boolean isPoolable() throws SQLException {
+	public boolean isPoolable()
+			throws SQLException {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void setCursorName(final String arg0) throws SQLException {
-		throw new UnsupportedOperationException();
-
-	}
-
-	@Override
-	public void setEscapeProcessing(final boolean arg0) throws SQLException {
-		throw new UnsupportedOperationException();
-
-	}
-
-	@Override
-	public void setFetchDirection(final int arg0) throws SQLException {
-		throw new UnsupportedOperationException();
-
-	}
-
-	@Override
-	public void setFetchSize(final int arg0) throws SQLException {
-		throw new UnsupportedOperationException();
-
-	}
-
-	@Override
-	public void setMaxFieldSize(final int arg0) throws SQLException {
-		throw new UnsupportedOperationException();
-
-	}
-
-	@Override
-	public void setMaxRows(final int arg0) throws SQLException {
-		throw new UnsupportedOperationException();
-
-	}
-
-	@Override
-	public void setPoolable(final boolean arg0) throws SQLException {
+	public void setCursorName(final
+			String arg0)
+					throws SQLException {
 		throw new UnsupportedOperationException();
 
 	}
 
 	@Override
-	public void setQueryTimeout(final int arg0) throws SQLException {
+	public void setEscapeProcessing(final
+			boolean arg0)
+					throws SQLException {
+		throw new UnsupportedOperationException();
+
+	}
+
+	@Override
+	public void setFetchDirection(final
+			int arg0)
+					throws SQLException {
+		throw new UnsupportedOperationException();
+
+	}
+
+	@Override
+	public void setFetchSize(final
+			int arg0)
+					throws SQLException {
+		throw new UnsupportedOperationException();
+
+	}
+
+	@Override
+	public void setMaxFieldSize(final
+			int arg0)
+					throws SQLException {
+		throw new UnsupportedOperationException();
+
+	}
+
+	@Override
+	public void setMaxRows(final
+			int arg0)
+					throws SQLException {
+		throw new UnsupportedOperationException();
+
+	}
+
+	@Override
+	public void setPoolable(final
+			boolean arg0)
+					throws SQLException {
+		throw new UnsupportedOperationException();
+
+	}
+
+	@Override
+	public void setQueryTimeout(
+			final int arg0)
+					throws SQLException {
 		throw new UnsupportedOperationException();
 	}
 }
