@@ -241,4 +241,72 @@ public class ProtocolBufferTesting {
             fail("Failed.");
         }
 	}
+
+	@Test
+	public void testMultipleNulls() {
+		try {
+			ClassRegisteringHelper.registerInitialStatements();
+			final TableCreationParameters createTableParameters = new TableCreationParameters();
+    	    final ProtocolBufferReader reader = new ProtocolBufferReader();
+    	    final ProtocolBufferWriter writer = new ProtocolBufferWriter();
+    	    createTableParameters.setTableName("null");
+	   		final ArrayList<ColumnIdentifier> identifiers = new ArrayList<>();
+	   		identifiers.add(new ColumnIdentifier("col_1", "BIGINT"));
+	   		identifiers.add(new ColumnIdentifier("col_2", "TEXT"));
+	   		identifiers.add(new ColumnIdentifier("col_3", "DOUBLE"));
+	   		identifiers.add(new ColumnIdentifier("col_4", "DATE"));
+	   		createTableParameters.setColumnDefinitions(identifiers);
+	   		final Table table = new Table(createTableParameters);
+	   		InsertionParameters insertParameters = new InsertionParameters();
+	   		insertParameters.setTableName("null");
+	   		ArrayList<String> rowValues = new ArrayList<>();
+	   		ArrayList<ArrayList<String>> values = new ArrayList<>();
+	   		rowValues.add("null");
+	   		rowValues.add("'hi'");
+	   		rowValues.add("3.5");
+	   		rowValues.add("null");
+	   		values.add(rowValues);
+	   		rowValues = new ArrayList<>();
+	   		rowValues.add("10000000000");
+	   		rowValues.add("null");
+	   		rowValues.add("null");
+	   		rowValues.add("null");
+	   		values.add(rowValues);
+	   		insertParameters.setValues(values);
+	   		table.insertRows(insertParameters);
+	   		writer.write(table, ".","");
+	   		final Table loadedTable = reader.read(table.getName(), ".", "");
+	   		Assert.assertEquals(2, loadedTable.getNumberOfRows());
+	   		Assert.assertTrue(loadedTable.getColumns().get("COL_1").
+	   				get(0).toString().equals(""));
+	   		Assert.assertTrue(loadedTable.getColumns().get("COL_4").
+	   				get(0).toString().equals(""));
+	   		Assert.assertFalse(loadedTable.getColumns().get("COL_2").
+	   				get(0).toString().equals(""));
+	   		Assert.assertTrue(loadedTable.getColumns().get("COL_3").
+	   				get(0).toString().equals("3.5"));
+	   		Assert.assertTrue(loadedTable.getColumns().get("COL_3").
+	   				get(1).toString().equals(""));
+	   		insertParameters = new InsertionParameters();
+	   		rowValues = new ArrayList<>();
+	   		values = new ArrayList<>();
+	   		rowValues.add("null");
+	   		rowValues.add("\"Hi, hello, hola, 'adios.\"");
+	   		rowValues.add("null");
+	   		rowValues.add("'1996-03-03'");
+	   		values.add(rowValues);
+	   		insertParameters.setValues(values);
+	   		loadedTable.insertRows(insertParameters);
+	   		Assert.assertEquals(3, loadedTable.getNumberOfRows());
+	   		Assert.assertTrue(loadedTable.getColumns().get("COL_1").
+	   				get(2).toString().equals(""));
+	   		Assert.assertFalse(loadedTable.getColumns().get("COL_4").
+	   				get(2).toString().equals(""));
+	   		Assert.assertTrue(loadedTable.getColumns().get("COL_2").
+	   				get(2).toString().equals("\"Hi, hello, hola, 'adios.\""));
+        } catch(final Exception e) {
+            e.printStackTrace();
+            fail("Failed.");
+        }
+	}
 }
