@@ -25,7 +25,11 @@ import jdbms.sql.parsing.properties.InsertionParameters;
 import jdbms.sql.parsing.properties.SelectionParameters;
 import jdbms.sql.parsing.properties.TableCreationParameters;
 import jdbms.sql.parsing.properties.UpdatingParameters;
-
+/**
+ * A java class representing an SQL
+ * database.
+ * @author Mohammed Abdelbarry
+ */
 public class Database {
 
 	/**Array of database tables.*/
@@ -66,7 +70,7 @@ public class Database {
 					newTableIdentifier.getTableName());
 		}
 		tables.add(newTableIdentifier.getTableName().toUpperCase());
-		fileHandler.createTable(new Table(newTableIdentifier),
+		fileHandler.writeTable(new Table(newTableIdentifier),
 				databaseName.toUpperCase());
 		return 0;
 	}
@@ -100,7 +104,7 @@ public class Database {
 		}
 		tables.add(tableParameters.getTableName().toUpperCase());
 		final Table newTable = new Table(tableParameters);
-		fileHandler.createTable(newTable, databaseName.toUpperCase());
+		fileHandler.writeTable(newTable, databaseName.toUpperCase());
 		return 0;
 	}
 	/**
@@ -190,11 +194,11 @@ public class Database {
 			throw new TableNotFoundException(
 					deleteParameters.getTableName());
 		}
-		final Table activeTable = fileHandler.loadTable(databaseName.toUpperCase(),
+		final Table activeTable = fileHandler.readTable(databaseName.toUpperCase(),
 				deleteParameters.getTableName().toUpperCase());
 		final int numberOfDeletions
 		= activeTable.deleteRows(deleteParameters.getCondition());
-		fileHandler.createTable(activeTable, databaseName.toUpperCase());
+		fileHandler.writeTable(activeTable, databaseName.toUpperCase());
 		return numberOfDeletions;
 	}
 	/**
@@ -242,11 +246,11 @@ public class Database {
 			throw new TableNotFoundException(
 					insertParameters.getTableName());
 		}
-		final Table activeTable = fileHandler.loadTable(databaseName.toUpperCase(),
+		final Table activeTable = fileHandler.readTable(databaseName.toUpperCase(),
 				insertParameters.getTableName().toUpperCase());
 		final int numberOfInsertions
 		= activeTable.insertRows(insertParameters);
-		fileHandler.createTable(activeTable, databaseName.toUpperCase());
+		fileHandler.writeTable(activeTable, databaseName.toUpperCase());
 		return numberOfInsertions;
 	}
 	/**
@@ -295,7 +299,7 @@ public class Database {
 			throw new TableNotFoundException(
 					selectParameters.getTableName());
 		}
-		final Table activeTable = fileHandler.loadTable(databaseName.toUpperCase(),
+		final Table activeTable = fileHandler.readTable(databaseName.toUpperCase(),
 				selectParameters.getTableName().toUpperCase());
 		return activeTable.selectFromTable(selectParameters);
 	}
@@ -343,11 +347,11 @@ public class Database {
 			throw new TableNotFoundException(
 					updateParameters.getTableName());
 		}
-		final Table activeTable = fileHandler.loadTable(databaseName.toUpperCase(),
+		final Table activeTable = fileHandler.readTable(databaseName.toUpperCase(),
 				updateParameters.getTableName().toUpperCase());
 		final int numberOfUpdates
 		= activeTable.updateTable(updateParameters);
-		fileHandler.createTable(activeTable, databaseName.toUpperCase());
+		fileHandler.writeTable(activeTable, databaseName.toUpperCase());
 		return numberOfUpdates;
 	}
 	/**
@@ -394,13 +398,13 @@ public class Database {
 				getTableName().toUpperCase())) {
 			throw new TableNotFoundException(parameters.getTableName());
 		}
-		final Table activeTable = fileHandler.loadTable(databaseName.toUpperCase(),
+		final Table activeTable = fileHandler.readTable(databaseName.toUpperCase(),
 				parameters.getTableName().toUpperCase());
 		final int returnValue
 		= activeTable.addTableColumn(
 				parameters.getColumnIdentifier().getName(),
 				parameters.getColumnIdentifier().getType());
-		fileHandler.createTable(activeTable, databaseName.toUpperCase());
+		fileHandler.writeTable(activeTable, databaseName.toUpperCase());
 		return returnValue;
 	}
 	/**
@@ -454,11 +458,11 @@ public class Database {
 				getTableName().toUpperCase())) {
 			throw new TableNotFoundException(parameters.getTableName() );
 		}
-		final Table activeTable = fileHandler.loadTable(databaseName.toUpperCase(),
+		final Table activeTable = fileHandler.readTable(databaseName.toUpperCase(),
 				parameters.getTableName().toUpperCase());
 		final int returnValue
 		= activeTable.dropTableColumn(parameters);
-		fileHandler.createTable(activeTable, databaseName.toUpperCase());
+		fileHandler.writeTable(activeTable, databaseName.toUpperCase());
 		return returnValue;
 	}
 	/**

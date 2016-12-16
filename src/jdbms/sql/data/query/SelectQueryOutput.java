@@ -6,7 +6,10 @@ import java.util.Set;
 
 import jdbms.sql.data.ColumnIdentifier;
 import jdbms.sql.parsing.util.Constants;
-
+/**
+ * The output of an SQL select query.
+ * @author Mohammed Abdelbarry
+ */
 public class SelectQueryOutput {
 	private ArrayList<ColumnIdentifier> columns;
 	private ArrayList<ArrayList<String>> outputRows;
