@@ -428,7 +428,7 @@ public class Table {
 				row.add(tableRows.get(i).get(
 						indices.get(columnNames.
 								get(j).toUpperCase())).
-						getStringValue());
+						toString());
 			}
 			rows.add(row);
 		}
@@ -633,7 +633,7 @@ public class Table {
 		final ArrayList<Integer> matches = new ArrayList<>();
 		for (int i = 0; i < numberOfRows; i++) {
 			final String leftCellValue
-			= conditionColumn.get(i).getStringValue();
+			= conditionColumn.get(i).toString();
 			if (evaluateExpression(condition,
 					leftCellValue, other)) {
 				matches.add(i);
@@ -670,9 +670,9 @@ public class Table {
 		= new ArrayList<>();
 		for (int i = 0; i < numberOfRows; i++) {
 			final String leftCellValue
-			= conditionColumn.get(i).getStringValue();
+			= conditionColumn.get(i).toString();
 			final String rightCellValue
-			= other.get(i).getStringValue();
+			= other.get(i).toString();
 			if (evaluateExpression(condition,
 					leftCellValue, rightCellValue)) {
 				matches.add(i);

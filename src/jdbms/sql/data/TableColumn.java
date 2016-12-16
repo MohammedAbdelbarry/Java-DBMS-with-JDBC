@@ -90,7 +90,7 @@ public class TableColumn {
 	public ArrayList<String> getValues() {
 		final ArrayList<String> requestedValues = new ArrayList<>();
 		for (final SQLType<?> cur : values) {
-			requestedValues.add(cur.getStringValue());
+			requestedValues.add(cur.toString());
 		}
 		return requestedValues;
 	}

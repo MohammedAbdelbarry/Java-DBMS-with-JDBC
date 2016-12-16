@@ -67,7 +67,7 @@ public class JSONWriter implements TableWriter {
 			final JsonElement element
 			= jsonSerializationContext.serialize(
 					sqlValue, sqlValue.getClass());
-			String value = sqlValue.getStringValue();
+			String value = sqlValue.toString();
 			if (value.equals("")) {
 				value = Constants.NULL_INDICATOR;
 			}
@@ -106,6 +106,6 @@ public class JSONWriter implements TableWriter {
 		final JSONReader reader = new JSONReader();
 		final Table newTable = reader.read(table.getName(), ".", "");
 		System.out.println(newTable.getName());
-		System.out.println(newTable.getColumns().get("F").get(0).getStringValue());
+		System.out.println(newTable.getColumns().get("F").get(0).toString());
 	}
 }

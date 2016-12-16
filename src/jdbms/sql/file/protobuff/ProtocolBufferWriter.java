@@ -98,6 +98,6 @@ public class ProtocolBufferWriter implements TableWriter {
 		final ProtocolBufferReader reader = new ProtocolBufferReader();
 		final Table newTable = reader.read(table.getName(), ".", "");
 		System.out.println(newTable.getName());
-		System.out.println(newTable.getColumns().get("F").get(0).getStringValue());
+		System.out.println(newTable.getColumns().get("F").get(0).toString());
     }
 }

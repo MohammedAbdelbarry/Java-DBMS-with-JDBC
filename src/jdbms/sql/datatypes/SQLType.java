@@ -1,21 +1,69 @@
 package jdbms.sql.datatypes;
-
+/**
+ * Generic class representing a SQL
+ * data type.
+ * @author Mohammed Abdelbarry
+ * @param <T> The java counterpart
+ * of the SQL data type.
+ */
 public abstract class SQLType<T extends Comparable<T>>
 implements Comparable<SQLType<T>> {
+	/**
+	 * The value of the SQL object.
+	 */
 	protected T value;
+	/**
+	 * Constructs a new SQL Object with
+	 * the given value.
+	 * @param value The java value of
+	 * the SQL type
+	 */
 	public SQLType(final T value) {
 		this.value = value;
 	}
+	/**
+	 * Gets the java value of the
+	 * SQL object
+	 * @return the java value of
+	 * the SQL object
+	 */
 	public T getValue() {
 		return value;
 	}
-	public String getStringValue() {
+	/**
+	 * Gets the value of the SQL object
+	 * represented as a string.
+	 * @return The string value of the SQL
+	 * object, if the value is null then an
+	 * empty string is returned.
+	 */
+	@Override
+	public String toString() {
 		if (value == null) {
 			return "";
 		}
 		return value.toString();
 	}
+	/**
+	 * Gets the SQL data type of the
+	 * object.
+	 * @return The SQL data type of the
+	 * object
+	 */
 	public abstract String getType();
+	/**
+	 * Compares a SQLType to another SQLType.
+	 * Returns a negative integer, zero,
+	 * or a positive integer as this
+	 * object is less than, equal to,
+	 * or greater than the specified
+	 * object.
+	 * @return A negative integer, zero,
+	 * or a positive integer as this
+	 * object is less than, equal to,
+	 * or greater than the specified
+	 * object.
+	 */
 	@Override
 	public int compareTo(final SQLType<T> other) {
 		if (value == null) {

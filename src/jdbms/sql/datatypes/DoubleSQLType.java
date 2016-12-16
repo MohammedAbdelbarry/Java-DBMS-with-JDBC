@@ -1,7 +1,11 @@
 package jdbms.sql.datatypes;
 
 import jdbms.sql.datatypes.util.SQLTypeFactory;
-
+/**
+ * A java object representing the
+ * SQL Double type.
+ * @author Mohammed Abdelbarry
+ */
 public class DoubleSQLType extends SQLType<Double> {
 	static {
 		SQLTypeFactory.getInstance().
