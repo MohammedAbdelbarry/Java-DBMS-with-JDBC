@@ -97,10 +97,10 @@ public class DataTypesValidator {
 			return "DATETIME";
 		} else if (value.matches(Constants.DATE_REGEX)) {
 			return "DATE";
-		} else if (isLong(value)) {
-			return "BIGINT";
 		} else if (isDouble(value)) {
 			return "DOUBLE";
+		} else if (isLong(value)) {
+			return "BIGINT";
 		} else if (isInteger(value)) {
 			return "INTEGER";
 		} else if (isFloat(value)){
