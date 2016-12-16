@@ -3,156 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="aff16e2b-6d53-48f9-838c-a0a9391893d2" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbc/connections/DBConnection.java" afterPath="$PROJECT_DIR$/src/jdbc/connections/DBConnection.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbc/connections/testing/ConnectionTests.java" afterPath="$PROJECT_DIR$/src/jdbc/connections/testing/ConnectionTests.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbc/drivers/DBDriver.java" afterPath="$PROJECT_DIR$/src/jdbc/drivers/DBDriver.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbc/drivers/testing/DriverTests.java" afterPath="$PROJECT_DIR$/src/jdbc/drivers/testing/DriverTests.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbc/drivers/util/ProtocolConstants.java" afterPath="$PROJECT_DIR$/src/jdbc/drivers/util/ProtocolConstants.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbc/drivers/util/ProtocolConstantsHelper.java" afterPath="$PROJECT_DIR$/src/jdbc/drivers/util/ProtocolConstantsHelper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbc/main/JDBCMain.java" afterPath="$PROJECT_DIR$/src/jdbc/main/JDBCMain.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbc/results/DataResultSet.java" afterPath="$PROJECT_DIR$/src/jdbc/results/DataResultSet.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbc/results/MetaData.java" afterPath="$PROJECT_DIR$/src/jdbc/results/MetaData.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbc/results/testing/MetaDataTesting.java" afterPath="$PROJECT_DIR$/src/jdbc/results/testing/MetaDataTesting.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbc/results/testing/ResultSetTesting.java" afterPath="$PROJECT_DIR$/src/jdbc/results/testing/ResultSetTesting.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbc/results/util/SelectOutputConverter.java" afterPath="$PROJECT_DIR$/src/jdbc/results/util/SelectOutputConverter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbc/statement/DBStatement.java" afterPath="$PROJECT_DIR$/src/jdbc/statement/DBStatement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbc/testing/JDBCTests.java" afterPath="$PROJECT_DIR$/src/jdbc/testing/JDBCTests.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/DBMSConnector.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/DBMSConnector.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/data/ColumnIdentifier.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/data/ColumnIdentifier.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/data/Database.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/data/Database.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/data/SQLData.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/data/SQLData.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/data/Table.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/data/Table.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/data/TableColumn.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/data/TableColumn.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/data/TableIdentifier.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/data/TableIdentifier.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/data/query/PrettyPrinter.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/data/query/PrettyPrinter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/data/query/SelectQueryOutput.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/data/query/SelectQueryOutput.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/data/testing/DatabaseTests.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/data/testing/DatabaseTests.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/data/util/ComparatorChain.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/data/util/ComparatorChain.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/data/util/SQLComparator.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/data/util/SQLComparator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/datatypes/DateSQLType.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/datatypes/DateSQLType.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/datatypes/DateTimeSQLType.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/datatypes/DateTimeSQLType.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/datatypes/DoubleSQLType.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/datatypes/DoubleSQLType.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/datatypes/FloatSQLType.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/datatypes/FloatSQLType.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/datatypes/SQLType.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/datatypes/SQLType.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/datatypes/VarcharSQLType.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/datatypes/VarcharSQLType.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/datatypes/util/DataTypesValidator.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/datatypes/util/DataTypesValidator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/datatypes/util/SQLTypeFactory.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/datatypes/util/SQLTypeFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/errors/ErrorHandler.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/errors/ErrorHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/errors/util/ErrorMessages.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/errors/util/ErrorMessages.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/exceptions/ColumnListTooLargeException.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/exceptions/ColumnListTooLargeException.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/exceptions/ColumnNotFoundException.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/exceptions/ColumnNotFoundException.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/exceptions/DataTypeNotSupportedException.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/exceptions/DataTypeNotSupportedException.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/exceptions/DatabaseAlreadyExistsException.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/exceptions/DatabaseAlreadyExistsException.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/exceptions/DatabaseNotFoundException.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/exceptions/DatabaseNotFoundException.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/exceptions/FailedToDeleteDatabaseException.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/exceptions/FailedToDeleteDatabaseException.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/exceptions/FailedToDeleteTableException.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/exceptions/FailedToDeleteTableException.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/exceptions/FileFormatNotSupportedException.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/exceptions/FileFormatNotSupportedException.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/exceptions/InvalidDateFormatException.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/exceptions/InvalidDateFormatException.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/exceptions/RepeatedColumnException.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/exceptions/RepeatedColumnException.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/exceptions/ReservedKeywordException.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/exceptions/ReservedKeywordException.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/exceptions/TableAlreadyExistsException.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/exceptions/TableAlreadyExistsException.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/exceptions/TableNotFoundException.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/exceptions/TableNotFoundException.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/exceptions/TypeMismatchException.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/exceptions/TypeMismatchException.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/exceptions/ValueListTooLargeException.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/exceptions/ValueListTooLargeException.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/exceptions/ValueListTooSmallException.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/exceptions/ValueListTooSmallException.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/file/FileHandler.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/file/FileHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/file/TableReader.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/file/TableReader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/file/TableWriter.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/file/TableWriter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/file/json/JSONReader.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/file/json/JSONReader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/file/json/JSONWriter.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/file/json/JSONWriter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/file/json/testing/JSONTesting.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/file/json/testing/JSONTesting.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/file/protobuff/ProtocolBufferReader.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/file/protobuff/ProtocolBufferReader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/file/protobuff/ProtocolBufferWriter.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/file/protobuff/ProtocolBufferWriter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/file/protobuff/testing/ProtocolBufferTesting.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/file/protobuff/testing/ProtocolBufferTesting.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/file/protobuff/util/TableProtos.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/file/protobuff/util/TableProtos.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/file/xml/DTDReader.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/file/xml/DTDReader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/file/xml/DTDWriter.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/file/xml/DTDWriter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/file/xml/testing/XMLCreationTesting.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/file/xml/testing/XMLCreationTesting.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/Expression.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/Expression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/assignments/ConditionalAssignmentListExpression.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/assignments/ConditionalAssignmentListExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/assignments/TerminalAssignmentExpression.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/assignments/TerminalAssignmentExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/columns/names/ColumnListExpression.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/columns/names/ColumnListExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/columns/names/ColumnWildcardExpression.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/columns/names/ColumnWildcardExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/columns/names/InsertColumnListExpression.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/columns/names/InsertColumnListExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/columns/names/OrderByColumnListExpression.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/columns/names/OrderByColumnListExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/columns/names/SelectColumnListExpression.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/columns/names/SelectColumnListExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/columns/names/TerminatingColumnListExpression.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/columns/names/TerminatingColumnListExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/columns/types/ColumnTypeExpression.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/columns/types/ColumnTypeExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/columns/types/ColumnsDatatypesExpression.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/columns/types/ColumnsDatatypesExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/columns/types/TableCreationColumnsTypesExpression.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/columns/types/TableCreationColumnsTypesExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/database/DatabaseExpression.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/database/DatabaseExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/database/DatabaseTerminatingExpression.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/database/DatabaseTerminatingExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/math/EqualsExpression.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/math/EqualsExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/math/LargerThanEqualsExpression.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/math/LargerThanEqualsExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/math/LargerThanExpression.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/math/LargerThanExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/math/LessThanEqualsExpression.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/math/LessThanEqualsExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/math/LessThanExpression.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/math/LessThanExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/math/NotEqualsExpression.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/math/NotEqualsExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/table/name/DropColumnTableNameExpression.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/table/name/DropColumnTableNameExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/table/name/OrderByTableNameExpression.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/table/name/OrderByTableNameExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/table/name/TableConditionalExpression.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/table/name/TableConditionalExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/table/name/TableCreationTableNameExpression.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/table/name/TableCreationTableNameExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/table/name/TableNameColumnListExpression.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/table/name/TableNameColumnListExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/table/name/TableNameExpression.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/table/name/TableNameExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/table/name/TableNameValueListExpression.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/table/name/TableNameValueListExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/table/name/TableUpdateTableNameExpression.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/table/name/TableUpdateTableNameExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/table/name/TerminatingTableExpression.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/table/name/TerminatingTableExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/terminal/TerminalExpression.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/terminal/TerminalExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/util/ColumnOrder.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/util/ColumnOrder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/util/StringModifier.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/util/StringModifier.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/util/ValueExpression.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/util/ValueExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/values/InsertIntoValueListExpression.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/values/InsertIntoValueListExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/values/ValueListExpression.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/values/ValueListExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/operators/Operator.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/operators/Operator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/operators/UnaryOperator.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/operators/UnaryOperator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/parser/Parser.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/parser/Parser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/parser/ParserMain.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/parser/ParserMain.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/parser/StringNormalizer.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/parser/StringNormalizer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/parser/testing/NormalizingTesting.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/parser/testing/NormalizingTesting.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/properties/DatabaseCreationParameters.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/properties/DatabaseCreationParameters.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/properties/DatabaseDroppingParameters.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/properties/DatabaseDroppingParameters.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/properties/DeletionParameters.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/properties/DeletionParameters.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/properties/DropColumnParameters.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/properties/DropColumnParameters.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/properties/InputParametersContainer.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/properties/InputParametersContainer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/properties/InsertionParameters.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/properties/InsertionParameters.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/properties/SelectionParameters.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/properties/SelectionParameters.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/properties/TableCreationParameters.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/properties/TableCreationParameters.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/properties/TableDroppingParameters.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/properties/TableDroppingParameters.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/properties/UpdatingParameters.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/properties/UpdatingParameters.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/properties/UseParameters.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/properties/UseParameters.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/CreateDatabaseStatement.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/CreateDatabaseStatement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/CreateTableStatement.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/CreateTableStatement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/DeleteStatement.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/DeleteStatement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/DistinctStatement.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/DistinctStatement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/DropColumnStatement.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/DropColumnStatement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/DropDatabaseStatement.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/DropDatabaseStatement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/DropTableStatement.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/DropTableStatement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/FromStatement.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/FromStatement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/InitialStatement.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/InitialStatement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/InsertIntoStatement.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/InsertIntoStatement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/OrderByStatement.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/OrderByStatement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/SelectStatement.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/SelectStatement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/SetStatement.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/SetStatement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/Statement.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/Statement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/UpdateStatement.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/UpdateStatement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/UseStatement.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/UseStatement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/ValueStatement.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/ValueStatement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/WhereStatement.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/WhereStatement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/util/InitialStatementFactory.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/util/InitialStatementFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/parsing/util/Constants.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/parsing/util/Constants.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/testing/engine/InvalidQueriesTesting.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/testing/engine/InvalidQueriesTesting.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/testing/engine/ValidQueriesTesting.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/testing/engine/ValidQueriesTesting.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/testing/parsing/CreateDatabaseStatementTesting.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/testing/parsing/CreateDatabaseStatementTesting.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/testing/parsing/CreateTableStatementTesting.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/testing/parsing/CreateTableStatementTesting.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/testing/parsing/DeleteStatementTesting.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/testing/parsing/DeleteStatementTesting.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/testing/parsing/DropDatabaseStatementTesting.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/testing/parsing/DropDatabaseStatementTesting.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/testing/parsing/DropTableStatementTesting.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/testing/parsing/DropTableStatementTesting.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/testing/parsing/GeneralInvalidQueriesTesting.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/testing/parsing/GeneralInvalidQueriesTesting.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/testing/parsing/GeneralValidQueriesTesting.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/testing/parsing/GeneralValidQueriesTesting.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/testing/parsing/InsertIntoStatementTesting.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/testing/parsing/InsertIntoStatementTesting.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/testing/parsing/SelectStatementTesting.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/testing/parsing/SelectStatementTesting.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/testing/parsing/UpdateStatementTesting.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/testing/parsing/UpdateStatementTesting.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbms/sql/testing/parsing/UseStatementTesting.java" afterPath="$PROJECT_DIR$/src/jdbms/sql/testing/parsing/UseStatementTesting.java" />
     </list>
     <ignored path="$PROJECT_DIR$/bin/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -179,46 +30,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="UseStatementTesting.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/jdbms/sql/testing/parsing/UseStatementTesting.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="15" column="9" lean-forward="false" selection-start-line="15" selection-start-column="9" selection-end-line="15" selection-end-column="9" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ValidQueriesTesting.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/jdbms/sql/testing/engine/ValidQueriesTesting.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="18" column="9" lean-forward="false" selection-start-line="18" selection-start-column="9" selection-end-line="18" selection-end-column="9" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ValueExpression.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/util/ValueExpression.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ValueListExpression.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/values/ValueListExpression.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="ValueListTooLargeException.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/jdbms/sql/exceptions/ValueListTooLargeException.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -249,7 +60,7 @@
         <entry file="file://$PROJECT_DIR$/src/jdbms/sql/parsing/statements/ValueStatement.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="136">
-              <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+              <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -269,17 +80,57 @@
         <entry file="file://$PROJECT_DIR$/src/jdbms/sql/parsing/statements/WhereStatement.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="136">
-              <caret line="13" column="0" lean-forward="true" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+              <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="XMLCreationTesting.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="XMLCreationTesting.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/jdbms/sql/file/xml/testing/XMLCreationTesting.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="322">
-              <caret line="63" column="22" lean-forward="true" selection-start-line="63" selection-start-column="22" selection-end-line="63" selection-end-column="22" />
+              <caret line="63" column="22" lean-forward="false" selection-start-line="63" selection-start-column="22" selection-end-line="63" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="XMLReader.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/jdbms/sql/file/xml/XMLReader.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="136">
+              <caret line="45" column="5" lean-forward="false" selection-start-line="45" selection-start-column="5" selection-end-line="45" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="XMLWriter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/jdbms/sql/file/xml/XMLWriter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AlterTableDropStatementTesting.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/jdbms/sql/testing/parsing/AlterTableDropStatementTesting.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="136">
+              <caret line="25" column="9" lean-forward="false" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DBStatement.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/jdbc/statement/DBStatement.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="161">
+              <caret line="132" column="34" lean-forward="false" selection-start-line="132" selection-start-column="34" selection-end-line="132" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -314,8 +165,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/jdbms/sql/data/SQLData.java" />
-        <option value="$PROJECT_DIR$/src/jdbms/sql/datatypes/SQLType.java" />
         <option value="$PROJECT_DIR$/src/jdbms/sql/datatypes/util/SQLTypeFactory.java" />
         <option value="$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/columns/names/SelectColumnListExpression.java" />
         <option value="$PROJECT_DIR$/src/jdbc/results/util/SelectOutputConverter.java" />
@@ -365,6 +214,8 @@
         <option value="$PROJECT_DIR$/src/jdbms/sql/datatypes/VarcharSQLType.java" />
         <option value="$PROJECT_DIR$/src/jdbms/sql/parsing/statements/WhereStatement.java" />
         <option value="$PROJECT_DIR$/src/jdbms/sql/file/xml/testing/XMLCreationTesting.java" />
+        <option value="$PROJECT_DIR$/src/jdbms/sql/file/xml/XMLReader.java" />
+        <option value="$PROJECT_DIR$/src/jdbc/statement/DBStatement.java" />
       </list>
     </option>
   </component>
@@ -760,7 +611,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="preferences.editor" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Java" />
   </component>
   <component name="RunManager" selected="Application.JDBCMain">
     <configuration default="false" name="All in jdbms" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
@@ -1216,38 +1067,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/jdbms/sql/data/util/SQLComparator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="127">
-          <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/jdbms/sql/datatypes/SQLType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/jdbms/sql/datatypes/util/SQLTypeFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/jdbms/sql/parsing/expressions/columns/names/SelectColumnListExpression.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="14" column="9" lean-forward="false" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/jdbc/results/util/SelectOutputConverter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1627,7 +1446,7 @@
     <entry file="file://$PROJECT_DIR$/src/jdbms/sql/parsing/statements/ValueStatement.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
-          <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1643,7 +1462,7 @@
     <entry file="file://$PROJECT_DIR$/src/jdbms/sql/parsing/statements/WhereStatement.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
-          <caret line="13" column="0" lean-forward="true" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+          <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1651,7 +1470,39 @@
     <entry file="file://$PROJECT_DIR$/src/jdbms/sql/file/xml/testing/XMLCreationTesting.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="322">
-          <caret line="63" column="22" lean-forward="true" selection-start-line="63" selection-start-column="22" selection-end-line="63" selection-end-column="22" />
+          <caret line="63" column="22" lean-forward="false" selection-start-line="63" selection-start-column="22" selection-end-line="63" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/jdbms/sql/file/xml/XMLReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="45" column="5" lean-forward="false" selection-start-line="45" selection-start-column="5" selection-end-line="45" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/jdbms/sql/file/xml/XMLWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/jdbms/sql/testing/parsing/AlterTableDropStatementTesting.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="25" column="9" lean-forward="false" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/jdbc/statement/DBStatement.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="132" column="34" lean-forward="false" selection-start-line="132" selection-start-column="34" selection-end-line="132" selection-end-column="34" />
           <folding />
         </state>
       </provider>

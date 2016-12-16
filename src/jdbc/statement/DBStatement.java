@@ -110,8 +110,8 @@ public final class DBStatement implements Statement {
             } catch (final SQLException e) {
                 logger.error("Failed to "
                                 + "Execute Query \"" + sql
-                                + "\". Cause: " +
-                                e.getMessage(), e,
+                                + "\". Cause: "
+                                + e.getMessage(), e,
                         e.getCause());
                 throw e;
             }
@@ -129,8 +129,8 @@ public final class DBStatement implements Statement {
             } catch (final SQLException e) {
                 logger.error("Failed to Execute"
                                 + " Update \"" + sql
-                                + "\". Cause: " +
-                                e.getMessage(), e,
+                                + "\". Cause: "
+                                + e.getMessage(), e,
                         e.getCause());
                 throw e;
             }
