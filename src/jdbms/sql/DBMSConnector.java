@@ -25,10 +25,31 @@ import jdbms.sql.parsing.parser.StringNormalizer;
 import jdbms.sql.parsing.statements.InitialStatement;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
 import jdbms.sql.util.HelperClass;
-
+/**
+ * The interface between the DBMS
+ * and the jdbc.
+ * @author Mohammed Abdelbarry
+ */
 public class DBMSConnector {
+	/**
+	 * An object that represents the
+	 * error messages to be printed to the
+	 * console.
+	 */
 	private final ErrorMessages errorMessages;
+	/**
+	 * The {@link SQLData}
+	 */
 	private SQLData data;
+	/**
+	 * Constructs a new
+	 * @param fileType The type of the back-end
+	 * parser.
+	 * @param filePath The path of the
+	 * user's data.
+	 * @throws SQLException If the type of the
+	 * back-end parser was not supported.
+	 */
 	public DBMSConnector(final String fileType, final String filePath)
 			throws SQLException {
 		HelperClass.registerInitialStatements();
@@ -39,6 +60,16 @@ public class DBMSConnector {
 		}
 		errorMessages = new ErrorMessages();
 	}
+	/**
+	 * Executes an SQL update.
+	 * @param sql The sql update to be
+	 * executed.
+	 * @return The update count of the
+	 * sql update.
+	 * @throws SQLException If the sql command
+	 * is not a valid SQL update or if the command
+	 * is semantically wrong.
+	 */
 	public int executeUpdate(final String sql)
 			throws SQLException {
 		final InitialStatement statement = parse(sql);
@@ -49,6 +80,17 @@ public class DBMSConnector {
 		act(statement);
 		return statement.getNumberOfUpdates();
 	}
+	/**
+	 * Executes an SQL Query.
+	 * @param sql The sql query to be
+	 * executed.
+	 * @return The {@link SelectQueryOutput}
+	 * representing the output of the
+	 * select query.
+	 * @throws SQLException If the sql command
+	 * is not a valid SQL query or if the command
+	 * is semantically wrong.
+	 */
 	public SelectQueryOutput executeQuery(final String sql)
 			throws SQLException {
 		final InitialStatement statement = parse(sql);
@@ -59,6 +101,16 @@ public class DBMSConnector {
 		act(statement);
 		return statement.getQueryOutput();
 	}
+	/**
+	 * Checks if the SQL parser can
+	 * interpret the given sql command
+	 * as a valid SQL Update.
+	 * @param sql The input SQL commmand
+	 * to be checked.
+	 * @return True if the given SQL command
+	 * is a valid SQL update and false
+	 * otherwise.
+	 */
 	public boolean interpretUpdate(final String sql) {
 		try {
 			final InitialStatement statement = parse(sql);
@@ -70,6 +122,16 @@ public class DBMSConnector {
 		}
 		return true;
 	}
+	/**
+	 * Checks if the SQL parser can
+	 * interpret the given sql command
+	 * as a valid SQL query.
+	 * @param sql The input SQL commmand
+	 * to be checked.
+	 * @return True if the given SQL command
+	 * is a valid SQL query and false
+	 * otherwise.
+	 */
 	public boolean interpretQuery(final String sql) {
 		try {
 			final InitialStatement statement = parse(sql);
@@ -81,7 +143,6 @@ public class DBMSConnector {
 		}
 		return true;
 	}
-
 	private InitialStatement parse(String sql)
 			throws SQLException {
 		if (!sql.trim().endsWith(";")) {
@@ -107,7 +168,7 @@ public class DBMSConnector {
 				return statement;
 			}
 		}
-		throw new SQLException();
+		throw new SQLException(errorMessages.getSyntaxError());
 	}
 	private String normalizeInput(final String sql)
 			throws SQLException {
