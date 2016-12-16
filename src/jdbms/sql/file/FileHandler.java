@@ -27,8 +27,8 @@ import jdbms.sql.file.json.JSONReader;
 import jdbms.sql.file.json.JSONWriter;
 import jdbms.sql.file.protobuff.ProtocolBufferReader;
 import jdbms.sql.file.protobuff.ProtocolBufferWriter;
-import jdbms.sql.file.xml.XMLWriter;
 import jdbms.sql.file.xml.XMLReader;
+import jdbms.sql.file.xml.XMLWriter;
 import jdbms.sql.parsing.parser.ParserMain;
 
 public class FileHandler {
@@ -42,7 +42,7 @@ public class FileHandler {
 	private static final String DTD_EXTENSION = ".dtd";
 	private static final String JSON_EXTENSION = ".json";
 	private static final String PROTOCOL_BUFFER_EXTENSION
-	= ".proto";
+	= ".protobuff";
 	private static final String DATA_DIRECTORY = "Data";
 	private static final String XML_PROTOCOL = "xmldb";
 	private static final String JSON_PROTOCOL = "altdb";
