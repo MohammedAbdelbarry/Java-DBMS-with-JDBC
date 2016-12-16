@@ -25,7 +25,7 @@ import jdbms.sql.util.HelperClass;
 
 public class ProtocolBufferWriter implements FileWriter {
 	private static final String PROTOCOL_BUFFER_EXTENSION
-	= ".proto";
+	= ".protobuff";
 
 	public ProtocolBufferWriter() {
 
@@ -56,7 +56,8 @@ public class ProtocolBufferWriter implements FileWriter {
 		for (final String columnName : table.getColumnNames()) {
 			final DBTable.TableColumn.
 			Builder protoColumn = DBTable.TableColumn.newBuilder();
-			final TableColumn currColumn = table.getColumns().get(columnName.toUpperCase());
+			final TableColumn currColumn = table.
+					getColumns().get(columnName.toUpperCase());
 			protoColumn.setColumnName(currColumn.getColumnName());
 			protoColumn.setColumnType(currColumn.getColumnDataType());
 			for (String currValue : currColumn.getValues()) {

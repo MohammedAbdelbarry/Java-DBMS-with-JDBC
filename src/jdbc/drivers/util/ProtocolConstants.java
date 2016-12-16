@@ -6,12 +6,12 @@ import java.util.List;
 
 public class ProtocolConstants {
 
-	private List<String> supportedProtocols;
-	private String urlPrefix;
-	private String urlSuffix;
-	private char separator = ':';
+	private final List<String> supportedProtocols;
+	private final String urlPrefix;
+	private final String urlSuffix;
+	private final char separator = ':';
 	public ProtocolConstants() {
-		ProtocolConstantsHelper helper
+		final ProtocolConstantsHelper helper
 				= new ProtocolConstantsHelper();
 		supportedProtocols =
 				Collections.unmodifiableList(Arrays.asList(
@@ -20,7 +20,10 @@ public class ProtocolConstants {
 												+ "XMLProtocol"),
 								helper.getString(
 										"ProtocolConstants."
-												+ "AlternativeProtocols")));
+												+ "AlternativeProtocols"),
+								helper.getString(
+										"ProtocolConstants."
+												+ "ProtocolBufferProtocol")));
 		urlSuffix =
 				helper.getString(
 						"ProtocolConstants.LocalHost");

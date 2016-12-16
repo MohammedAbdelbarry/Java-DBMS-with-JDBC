@@ -25,6 +25,8 @@ import jdbms.sql.exceptions.ValueListTooLargeException;
 import jdbms.sql.exceptions.ValueListTooSmallException;
 import jdbms.sql.file.json.JSONReader;
 import jdbms.sql.file.json.JSONWriter;
+import jdbms.sql.file.protobuff.ProtocolBufferReader;
+import jdbms.sql.file.protobuff.ProtocolBufferWriter;
 import jdbms.sql.file.xml.XMLCreator;
 import jdbms.sql.file.xml.XMLParser;
 import jdbms.sql.parsing.parser.ParserMain;
@@ -42,6 +44,8 @@ public class FileHandler {
 	private static final String DATA_DIRECTORY = "Data";
 	private static final String XML_PROTOCOL = "xmldb";
 	private static final String JSON_PROTOCOL = "altdb";
+	private static final String PROTO_BUFFER_PROTOCOL = "pbdb";
+	private static final String PROTO_BUFFER_EXTENSION = ".protobuff";
 	public FileHandler() {
 		try {
 			final CodeSource codeSource = ParserMain.class.
@@ -71,6 +75,11 @@ public class FileHandler {
 			writer = new JSONWriter();
 			schemaExtension = null;
 			fileExtension = JSON_EXTENSION;
+		} else if (fileType.equalsIgnoreCase(PROTO_BUFFER_PROTOCOL)) {
+			reader = new ProtocolBufferReader();
+			writer = new ProtocolBufferWriter();
+			schemaExtension = null;
+			fileExtension = PROTO_BUFFER_EXTENSION;
 		} else {
 			throw new FileFormatNotSupportedException(
 					fileType);

@@ -23,7 +23,7 @@ import jdbms.sql.parsing.properties.TableCreationParameters;
 
 public class ProtocolBufferReader implements FileReader{
 	private static final String PROTOCOL_BUFFER_EXTENSION
-	= ".proto";
+	= ".protobuff";
 
 	public ProtocolBufferReader() {
 
@@ -50,15 +50,19 @@ public class ProtocolBufferReader implements FileReader{
 			RepeatedColumnException, ColumnListTooLargeException,
 			ColumnNotFoundException, ValueListTooLargeException,
 			ValueListTooSmallException, TypeMismatchException {
-		final TableCreationParameters creationParams = new TableCreationParameters();
-		final InsertionParameters insertionParams = new InsertionParameters();
+		final TableCreationParameters creationParams
+		= new TableCreationParameters();
+		final InsertionParameters insertionParams
+		= new InsertionParameters();
 		insertionParams.setTableName(protoTable.getTableName());
 		creationParams.setTableName(protoTable.getTableName());
 		final ArrayList<ColumnIdentifier> columnsDefinitions = new ArrayList<>();
 		final ArrayList<String> columnNames = new ArrayList<>();
 		final ArrayList<ArrayList<String>> values = new ArrayList<>();
-		for (final TableColumn currentProtoColumn : protoTable.getTableColumnsList()) {
-			columnsDefinitions.add(new ColumnIdentifier(currentProtoColumn.getColumnName(),
+		for (final TableColumn currentProtoColumn : protoTable.
+				getTableColumnsList()) {
+			columnsDefinitions.add(new ColumnIdentifier(currentProtoColumn.
+					getColumnName(),
 					currentProtoColumn.getColumnType()));
 			columnNames.add(currentProtoColumn.getColumnName());
 		}
@@ -67,7 +71,8 @@ public class ProtocolBufferReader implements FileReader{
 		final Table table = new Table(creationParams);
 		for (int i = 0; i < protoTable.getNumberOfRows(); i++) {
 			final ArrayList<String> rowValues = new ArrayList<>();
-			for (final TableColumn currentProtoColumn : protoTable.getTableColumnsList()) {
+			for (final TableColumn currentProtoColumn : protoTable.
+					getTableColumnsList()) {
 				rowValues.add(currentProtoColumn.getValues(i));
 			}
 			values.add(rowValues);
