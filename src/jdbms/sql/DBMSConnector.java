@@ -25,6 +25,7 @@ import jdbms.sql.parsing.parser.StringNormalizer;
 import jdbms.sql.parsing.statements.InitialStatement;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
 import jdbms.sql.util.ClassRegisteringHelper;
+
 /**
  * The interface between the DBMS
  * and the jdbc.
