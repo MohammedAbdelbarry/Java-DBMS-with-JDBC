@@ -41,11 +41,12 @@ public class FileHandler {
 	private static final String DTD_IDENTIFIER = "DTD";
 	private static final String DTD_EXTENSION = ".dtd";
 	private static final String JSON_EXTENSION = ".json";
+	private static final String PROTOCOL_BUFFER_EXTENSION
+	= ".proto";
 	private static final String DATA_DIRECTORY = "Data";
 	private static final String XML_PROTOCOL = "xmldb";
 	private static final String JSON_PROTOCOL = "altdb";
-	private static final String PROTO_BUFFER_PROTOCOL = "pbdb";
-	private static final String PROTO_BUFFER_EXTENSION = ".protobuff";
+	private static final String PROTOBUFF_PROTOCOL = "pbdb";
 	public FileHandler() {
 		try {
 			final CodeSource codeSource = ParserMain.class.
@@ -75,11 +76,11 @@ public class FileHandler {
 			writer = new JSONWriter();
 			schemaExtension = null;
 			fileExtension = JSON_EXTENSION;
-		} else if (fileType.equalsIgnoreCase(PROTO_BUFFER_PROTOCOL)) {
+		} else if (fileType.equalsIgnoreCase(PROTOBUFF_PROTOCOL)) {
 			reader = new ProtocolBufferReader();
 			writer = new ProtocolBufferWriter();
 			schemaExtension = null;
-			fileExtension = PROTO_BUFFER_EXTENSION;
+			fileExtension = PROTOCOL_BUFFER_EXTENSION;
 		} else {
 			throw new FileFormatNotSupportedException(
 					fileType);
