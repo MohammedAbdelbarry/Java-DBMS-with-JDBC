@@ -24,14 +24,14 @@ import jdbms.sql.exceptions.ValueListTooSmallException;
 import jdbms.sql.parsing.parser.StringNormalizer;
 import jdbms.sql.parsing.statements.InitialStatement;
 import jdbms.sql.parsing.statements.util.InitialStatementFactory;
-import jdbms.sql.util.HelperClass;
+import jdbms.sql.util.ClassRegisteringHelper;
 
 public class DBMSConnector {
 	private final ErrorMessages errorMessages;
 	private SQLData data;
 	public DBMSConnector(final String fileType, final String filePath)
 			throws SQLException {
-		HelperClass.registerInitialStatements();
+		ClassRegisteringHelper.registerInitialStatements();
 		try {
 			data = new SQLData(fileType, filePath);
 		} catch (final FileFormatNotSupportedException e) {

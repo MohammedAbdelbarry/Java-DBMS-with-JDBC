@@ -10,7 +10,7 @@ import org.junit.Test;
 import jdbms.sql.parsing.parser.StringNormalizer;
 import jdbms.sql.parsing.statements.AlterTableDropStatement;
 import jdbms.sql.parsing.statements.InitialStatement;
-import jdbms.sql.util.HelperClass;
+import jdbms.sql.util.ClassRegisteringHelper;
 
 public class AlterTableDropStatementTesting {
 
@@ -21,7 +21,7 @@ public class AlterTableDropStatementTesting {
 	public void executedBeforeEach() {
 		normalizer = new StringNormalizer();
 		alterDrop = new AlterTableDropStatement();
-		HelperClass.registerInitialStatements();
+		ClassRegisteringHelper.registerInitialStatements();
 	}
 	@Test
 	public void testAlterTableDropColumn() {

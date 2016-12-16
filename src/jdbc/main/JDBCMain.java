@@ -15,7 +15,7 @@ import java.util.Scanner;
 import jdbms.sql.data.query.PrettyPrinter;
 import jdbms.sql.parsing.expressions.util.StringModifier;
 import jdbms.sql.parsing.parser.ParserMain;
-import jdbms.sql.util.HelperClass;
+import jdbms.sql.util.ClassRegisteringHelper;
 
 public class JDBCMain {
 	private static final String AS_NULL = "";
@@ -31,7 +31,7 @@ public class JDBCMain {
 	private static final String QUIT = "QUIT;";
 
 	public static void main(final String[] args) {
-		HelperClass.registerInitialStatements();
+		ClassRegisteringHelper.registerInitialStatements();
 		String path = null;
 		try {
 			final CodeSource codeSource = ParserMain.class.

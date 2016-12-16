@@ -8,7 +8,7 @@ import org.junit.Test;
 import jdbms.sql.parsing.parser.StringNormalizer;
 import jdbms.sql.parsing.statements.DropTableStatement;
 import jdbms.sql.parsing.statements.InitialStatement;
-import jdbms.sql.util.HelperClass;
+import jdbms.sql.util.ClassRegisteringHelper;
 
 public class DropTableStatementTesting {
 
@@ -19,7 +19,7 @@ public class DropTableStatementTesting {
 	public void executedBeforeEach() {
 		normalizer = new StringNormalizer();
 		dropTable = new DropTableStatement();
-		HelperClass.registerInitialStatements();
+		ClassRegisteringHelper.registerInitialStatements();
 	}
 
 	@Test

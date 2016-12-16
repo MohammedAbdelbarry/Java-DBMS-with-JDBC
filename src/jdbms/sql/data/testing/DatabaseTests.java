@@ -37,7 +37,7 @@ import jdbms.sql.parsing.properties.SelectionParameters;
 import jdbms.sql.parsing.properties.TableCreationParameters;
 import jdbms.sql.parsing.properties.TableDroppingParameters;
 import jdbms.sql.parsing.properties.UseParameters;
-import jdbms.sql.util.HelperClass;
+import jdbms.sql.util.ClassRegisteringHelper;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DatabaseTests {
@@ -48,7 +48,7 @@ public class DatabaseTests {
 	public void setUp() throws Exception {
 		//protocol = "xmldb";
 		data = new SQLData();
-		HelperClass.registerInitialStatements();
+		ClassRegisteringHelper.registerInitialStatements();
 	}
 	@After
 	public void cleanUp() {

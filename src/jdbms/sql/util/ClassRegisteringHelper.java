@@ -1,6 +1,6 @@
 package jdbms.sql.util;
 
-public class HelperClass {
+public class ClassRegisteringHelper {
 
 	public static void registerInitialStatements() {
 		try {
