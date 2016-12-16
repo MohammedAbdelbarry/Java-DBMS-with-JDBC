@@ -239,9 +239,9 @@ public class DBMSConnector {
 					getInvalidDate(),
 					e.getMessage()), e);
 		} catch (final AllColumnsDroppingException e) {
-			throw new SQLException(errorMessages.getDroppingAllColumnsError());
+			throw new SQLException(errorMessages.getDroppingAllColumnsError(), e);
 		} catch (final Exception e) {
-			throw new SQLException(errorMessages.getInternalError());
+			throw new SQLException(errorMessages.getInternalError(), e);
 		}
 	}
 }

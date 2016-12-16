@@ -21,13 +21,13 @@ public class VarcharSQLType extends SQLType<String>{
 	@Override
 	public int compareTo(final SQLType<String> other) {
 		if (value == null) {
-			if (other == null) {
+			if (other.value == null) {
 				return 0;
 			} else {
 				return -1;
 			}
 		}
-		if (other == null) {
+		if (other.value == null) {
 			return 1;
 		}
 		return removeQuotes(value).compareTo(

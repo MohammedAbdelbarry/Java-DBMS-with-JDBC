@@ -109,7 +109,8 @@ public class DBStatement implements Statement {
 				logger.error("Failed to "
 						+ "Execute Query \"" + sql
 						+ "\". Cause: " +
-						e.getMessage(), e);
+						e.getMessage(), e,
+						e.getCause());
 				throw e;
 			}
 			logSuccessfulQuery(sql,
