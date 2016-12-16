@@ -4,10 +4,12 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.Driver;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.Properties;
 
@@ -64,6 +66,7 @@ public class JDBCTests {
 			Assert.assertEquals("Failed to get Correct Float Value",
 					90.5, resultSet.getFloat("Grade"), 0.0001);
 		} catch (final SQLException e) {
+			fail("SQL Exception");
 			e.printStackTrace();
 		}
 		connection.close();
@@ -100,6 +103,7 @@ public class JDBCTests {
 			Assert.assertEquals("Invalid Result Set Size",
 					3, numberOfMatches);
 		} catch (final SQLException e) {
+			fail("SQL Exception");
 			e.printStackTrace();
 		}
 		connection.close();
@@ -144,12 +148,13 @@ public class JDBCTests {
                     		+ " ORDER BY column_name2 ASC,"
                     		+ " COLUMN_name3 DESC");
             Assert.assertTrue("Wrong return for select"
-            		+ " UNION existing records", result3);
+            		+ "  existing records", result3);
             final ResultSet res2 = statement.getResultSet();
 
             res2.next();
             statement.close();
         } catch (final Throwable e) {
+            fail("SQL Exception");
             e.printStackTrace();
         }
         connection.close();
@@ -190,6 +195,7 @@ public class JDBCTests {
 			Assert.assertEquals("Invalid Result Set "
 					+ "Size", 3, rows);
 		} catch (final SQLException e) {
+			fail("SQL Exception");
 			e.printStackTrace();
 		}
 		connection.close();
@@ -244,6 +250,7 @@ public class JDBCTests {
 			Assert.assertTrue(resultSet.getMetaData().
 					getColumnLabel(1).equalsIgnoreCase("birth"));
 		} catch (final SQLException e) {
+			fail("SQL Exception");
 			e.printStackTrace();
 		}
 		connection.close();
@@ -292,13 +299,14 @@ public class JDBCTests {
 			}
 
 		} catch (final SQLException e) {
+			fail("SQL Exception");
 			e.printStackTrace();
 		}
 		connection.close();
 	}
 
 	@Test
-	public void test1() throws SQLException {
+	public void testBigInt() throws SQLException {
 		final Connection connection = createUseDatabase("testingDb");
 		try {
 			final Statement statement = connection.createStatement();
@@ -316,7 +324,7 @@ public class JDBCTests {
 			Assert.assertEquals("Table Insertion did "
 					+ "not return 2", 2, count);
 			final ResultSet resultSet = statement.
-					executeQuery("select e, b, d from myt"
+					executeQuery("select e, b, d, a, c from myt"
 							+ " where e != -100.4 order by c, e desc");
 			int rowsNumber = 0;
 			while (resultSet.next()) {
@@ -326,27 +334,64 @@ public class JDBCTests {
 			resultSet.first();
 			Assert.assertEquals(6.33, resultSet.getDouble(1), 0.0001);
 			Assert.assertEquals("oom", resultSet.getString(2));
-			resultSet.next();
-			Assert.assertEquals(62.6, resultSet.getDouble(1), 0.0001);
-			Assert.assertEquals("hi", resultSet.getString(2));
-//			Assert.assertEquals(resultSet.getString(2), "hello");
-//			Assert.assertEquals(resultSet.getFloat(2), -0.366, 0.001);
-//			resultSet.next();
-//			Assert.assertEquals(resultSet.getString("name"),
-//					"A spaced string");
-//			Assert.assertEquals(resultSet.getFloat("grade"),
-//					101.00002, 0.001);
-//			try {
-//				Assert.assertEquals(resultSet.getFloat("name"),
-//						101.00002, 0.001);
-//			} catch (final SQLException e) {
-//			}
-
+			Assert.assertEquals(10, resultSet.
+					getLong(resultSet.findColumn("a")));
+			Assert.assertEquals(Types.BIGINT,
+					resultSet.getMetaData().
+					getColumnType(resultSet.findColumn("a")));
+			Assert.assertEquals(Timestamp.valueOf("2011-11-17 10:06:03"),
+					resultSet.getTimestamp(resultSet.findColumn("d")));
+			Assert.assertEquals(Date.valueOf("2010-10-10"),
+					resultSet.getDate(resultSet.findColumn("c")));
 		} catch (final SQLException e) {
+			e.printStackTrace();
 			fail("SQL Exception.");
 		}
 		connection.close();
 	}
+
+	@Test
+	public void test() throws SQLException {
+		final Connection connection = createUseDatabase("testingDb");
+		try {
+			final Statement statement = connection.createStatement();
+			statement.execute("create taBlE myT (a bigint,"
+					+ " b text, c date, d datetime, e double)");
+			int count = statement.executeUpdate("insert into"
+					+ " myT values (1000000000000, 'hello', '2012-12-16',"
+					+ " '2012-12-16 10:02:06', -62.60)");
+			Assert.assertEquals("Table Insertion did"
+					+ " not return 1", 1, count);
+			count  = statement.executeUpdate("insert into"
+					+ " myT values (-2, 'hi', '2011-10-16',"
+					+ " '2012-12-16 10:04:06', 62.60), (10, 'oom',"
+					+ " '2010-10-10', '2011-11-17 10:06:03', 6.33)");
+			Assert.assertEquals("Table Insertion did "
+					+ "not return 2", 2, count);
+			final ResultSet resultSet = statement.
+					executeQuery("select e, b, d, a, c from myt"
+							+ " where e != -100.4 order by c, e desc");
+			int rowsNumber = 0;
+			while (resultSet.next()) {
+				rowsNumber++;
+			}
+			Assert.assertEquals(3, rowsNumber);
+			resultSet.first();
+			Assert.assertEquals(6.33, resultSet.getDouble(1), 0.0001);
+			Assert.assertEquals("oom", resultSet.getString(2));
+			Assert.assertEquals(10, resultSet.
+					getLong(resultSet.findColumn("a")));
+			Assert.assertEquals(Timestamp.valueOf("2011-11-17 10:06:03"),
+					resultSet.getTimestamp(resultSet.findColumn("d")));
+			Assert.assertEquals(Date.valueOf("2010-10-10"),
+					resultSet.getDate(resultSet.findColumn("c")));
+		} catch (final SQLException e) {
+			e.printStackTrace();
+			fail("SQL Exception.");
+		}
+		connection.close();
+	}
+
 	@Test
 	public void testCreateTable() throws SQLException {
 		final Connection connection = createUseDatabase("TestDB_Create");
@@ -355,6 +400,7 @@ public class JDBCTests {
 			statement.execute("CREATE TABLE table_name1(column_name1 varchar, column_name2 int, column_name3 date)");
 			statement.close();
 		} catch (final Throwable e) {
+			fail("SQL Exception");
 			e.printStackTrace();
 		}
 		try {
@@ -364,6 +410,7 @@ public class JDBCTests {
 		} catch (final SQLException e) {
 
 		} catch (final Throwable e) {
+			fail("SQL Exception");
 			e.printStackTrace();
 		}
 
@@ -389,6 +436,7 @@ public class JDBCTests {
 			Assert.assertEquals("Insert returned a number != 1", 1, count);
 			statement.close();
 		} catch (final Throwable e) {
+			fail("SQL Exception");
 			e.printStackTrace();
 		}
 		connection.close();
@@ -405,6 +453,7 @@ public class JDBCTests {
 			Assert.assertEquals("Insert returned a number != 1", 1, count);
 			statement.close();
 		} catch (final Throwable e) {
+			fail("SQL Exception");
 			e.printStackTrace();
 		}
 		connection.close();
@@ -422,6 +471,7 @@ public class JDBCTests {
 			statement.close();
 		} catch (final SQLException e) {
 		} catch (final Throwable e) {
+			fail("SQL Exception");
 			e.printStackTrace();
 		}
 		connection.close();
@@ -447,6 +497,7 @@ public class JDBCTests {
 			Assert.assertEquals("Updated returned wrong number", count1 + count2 + count3, count4);
 			statement.close();
 		} catch (final Throwable e) {
+			fail("SQL Exception");
 			e.printStackTrace();
 		}
 		connection.close();
@@ -478,6 +529,7 @@ public class JDBCTests {
 
 			statement.close();
 		} catch (final Throwable e) {
+			fail("SQL Exception");
 			e.printStackTrace();
 		}
 		connection.close();
@@ -494,6 +546,7 @@ public class JDBCTests {
 			Assert.assertEquals("Updated empty table retruned non-zero count!", 0, count);
 			statement.close();
 		} catch (final Throwable e) {
+			fail("SQL Exception");
 			e.printStackTrace();
 		}
 
@@ -505,6 +558,7 @@ public class JDBCTests {
 			statement.close();
 		} catch (final SQLException e) {
 		} catch (final Throwable e) {
+			fail("SQL Exception");
 			e.printStackTrace();
 		}
 		connection.close();
@@ -529,6 +583,7 @@ public class JDBCTests {
 			Assert.assertEquals("Delete returned wrong number", 3, count4);
 			statement.close();
 		} catch (final Throwable e) {
+			fail("SQL Exception");
 			e.printStackTrace();
 		}
 		connection.close();
@@ -553,6 +608,7 @@ public class JDBCTests {
 			Assert.assertEquals("Delete returned wrong number", 2, count4);
 			statement.close();
 		} catch (final Throwable e) {
+			fail("SQL Exception");
 			e.printStackTrace();
 		}
 		connection.close();
@@ -586,6 +642,7 @@ public class JDBCTests {
 			Assert.assertEquals("Wrong number of columns", 3, result.getMetaData().getColumnCount());
 			statement.close();
 		} catch (final Throwable e) {
+			fail("SQL Exception");
 			e.printStackTrace();
 		}
 		connection.close();
@@ -619,6 +676,7 @@ public class JDBCTests {
 			Assert.assertEquals("Wrong number of columns", 1, result.getMetaData().getColumnCount());
 			statement.close();
 		} catch (final Throwable e) {
+			fail("SQL Exception");
 			e.printStackTrace();
 		}
 		connection.close();
@@ -652,6 +710,7 @@ public class JDBCTests {
 
 			statement.close();
 		} catch (final Throwable e) {
+			fail("SQL Exception");
 			e.printStackTrace();
 		}
 		connection.close();
@@ -698,6 +757,7 @@ public class JDBCTests {
 
 			statement.close();
 		} catch (final Throwable e) {
+			fail("SQL Exception");
 			e.printStackTrace();
 		}
 		connection.close();
@@ -742,6 +802,7 @@ public class JDBCTests {
 
 			statement.close();
 		} catch (final Throwable e) {
+			fail("SQL Exception");
 			e.printStackTrace();
 		}
 		connection.close();
@@ -792,32 +853,51 @@ public class JDBCTests {
 
 			statement.close();
 		} catch (final Throwable e) {
+			fail("SQL Exception");
 			e.printStackTrace();
 		}
 		connection.close();
 	}
 
+	// TODO: Generate multiple test cases out of this test.
     public void garb() throws SQLException {
         final Connection connection = createUseDatabase("TestDB_Create");
         try {
             final Statement statement = connection.createStatement();
             statement
-                    .execute("CREATE TABLE table_name13(column_name1 varchar, column_name2 int, column_name3 varchar)");
+                    .execute("CREATE TABLE tb"
+                    		+ "(column_name1 varchar,"
+                    		+ " column_name2 int,"
+                    		+ " column_name3 varchar)");
             final int count1 = statement.executeUpdate(
-                    "INSERT INTO table_name13(column_NAME1, COLUMN_name3, column_name2) VALUES ('value1', 'value3', 4)");
-            Assert.assertEquals("Insert returned a number != 1", 1, count1);
+                    "INSERT INTO tb(column_NAME1,"
+                    + " COLUMN_name3, column_name2) VALUES"
+                    + " ('value1', 'value3', 4)");
+            Assert.assertEquals("Insert returned a number"
+            		+ " != 1", 1, count1);
             final boolean result1 = statement.execute(
-                    "INSERT INTO table_name13(column_NAME1, column_name2, COLUMN_name3) VALUES ('value1', 4, 'value5')");
+                    "INSERT INTO tb(column_NAME1,"
+                    + " column_name2, COLUMN_name3) VALUES"
+                    + " ('value1', 4, 'value5')");
             Assert.assertFalse("Wrong return for insert record", result1);
             final int count3 = statement.executeUpdate(
-                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value2', 'value4', 5)");
-            Assert.assertEquals("Insert returned a number != 1", 1, count3);
+                    "INSERT INTO tb(column_name1,"
+                    + " COLUMN_NAME3, column_NAME2) VALUES"
+                    + " ('value2', 'value4', 5)");
+            Assert.assertEquals("Insert returned a number"
+            		+ " != 1", 1, count3);
             final int count4 = statement.executeUpdate(
-                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value5', 'value6', 6)");
-            Assert.assertEquals("Insert returned a number != 1", 1, count4);
+                    "INSERT INTO tb(column_name1,"
+                    + " COLUMN_NAME3, column_NAME2) VALUES"
+                    + " ('value5', 'value6', 6)");
+            Assert.assertEquals("Insert returned a number"
+            		+ " != 1", 1, count4);
             final boolean result3 = statement
-                    .execute("SELECT * FROM table_name13 ORDER BY column_name2 ASC, COLUMN_name3 DESC");
-            Assert.assertTrue("Wrong return for select UNION existing records", result3);
+                    .execute("SELECT * FROM tb"
+                    		+ " ORDER BY column_name2 ASC,"
+                    		+ " COLUMN_name3 DESC");
+            Assert.assertTrue("Wrong return for select"
+            		+ " existing records", result3);
             final ResultSet res2 = statement.getResultSet();
             while (res2.next());
             while (res2.previous());
@@ -913,6 +993,7 @@ public class JDBCTests {
             Assert.assertTrue(res2.isAfterLast());
             statement.close();
         } catch (final Throwable e) {
+            fail("SQL Exception");
             e.printStackTrace();
         }
         connection.close();
