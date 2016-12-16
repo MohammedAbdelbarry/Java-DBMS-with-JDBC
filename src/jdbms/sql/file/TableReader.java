@@ -12,7 +12,7 @@ import jdbms.sql.exceptions.TypeMismatchException;
 import jdbms.sql.exceptions.ValueListTooLargeException;
 import jdbms.sql.exceptions.ValueListTooSmallException;
 
-public interface FileReader {
+public interface TableReader {
 	/**
 	 * Reads a table from a given directory.
 	 * @param tableName the name of the
@@ -32,7 +32,7 @@ public interface FileReader {
 	 * @throws InvalidDateFormatException
 	 * @throws IOException
 	 */
-	public Table parse(String tableName, final String databaseName,
+	public Table read(String tableName, final String databaseName,
 			final String path)
 					throws ColumnAlreadyExistsException,
 					RepeatedColumnException,

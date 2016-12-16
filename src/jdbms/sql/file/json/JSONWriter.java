@@ -23,13 +23,13 @@ import jdbms.sql.exceptions.RepeatedColumnException;
 import jdbms.sql.exceptions.TypeMismatchException;
 import jdbms.sql.exceptions.ValueListTooLargeException;
 import jdbms.sql.exceptions.ValueListTooSmallException;
-import jdbms.sql.file.FileWriter;
+import jdbms.sql.file.TableWriter;
 import jdbms.sql.parsing.properties.InsertionParameters;
 import jdbms.sql.parsing.properties.TableCreationParameters;
 import jdbms.sql.parsing.util.Constants;
 import jdbms.sql.util.HelperClass;
 
-public class JSONWriter implements FileWriter {
+public class JSONWriter implements TableWriter {
 	private static final String JSON_EXTENSION
 	= ".json";
 	public JSONWriter() {
@@ -37,7 +37,7 @@ public class JSONWriter implements FileWriter {
 	}
 
 	@Override
-	public void create(final Table table,
+	public void write(final Table table,
 			final String databaseName, final String path)
 					throws IOException {
 		final Gson gson = new GsonBuilder()
@@ -102,9 +102,9 @@ public class JSONWriter implements FileWriter {
 		insertParameters.setValues(values);
 		table.insertRows(insertParameters);
 		final JSONWriter obj = new JSONWriter();
-		obj.create(table, ".","");
+		obj.write(table, ".","");
 		final JSONReader reader = new JSONReader();
-		final Table newTable = reader.parse(table.getName(), ".", "");
+		final Table newTable = reader.read(table.getName(), ".", "");
 		System.out.println(newTable.getName());
 		System.out.println(newTable.getColumns().get("F").get(0).getStringValue());
 	}

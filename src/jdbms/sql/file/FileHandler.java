@@ -35,8 +35,8 @@ public class FileHandler {
 	private String path;
 	private final String schemaExtension;
 	private final String fileExtension;
-	private final FileReader reader;
-	private final FileWriter writer;
+	private final TableReader reader;
+	private final TableWriter writer;
 	private static final String XML_EXTENSION = ".xml";
 	private static final String DTD_IDENTIFIER = "DTD";
 	private static final String DTD_EXTENSION = ".dtd";
@@ -169,7 +169,7 @@ public class FileHandler {
 	}
 	public void createTable(final Table table, final String databaseName)
 			throws IOException {
-		writer.create(table, databaseName.toLowerCase(), path + File.separator);
+		writer.write(table, databaseName.toLowerCase(), path + File.separator);
 	}
 	public Table loadTable(final String databaseName, final String tableName)
 			throws ColumnAlreadyExistsException, RepeatedColumnException,
@@ -177,7 +177,7 @@ public class FileHandler {
 			ValueListTooLargeException, ValueListTooSmallException,
 			TypeMismatchException, InvalidDateFormatException,
 			IOException {
-		return reader.parse(tableName.toLowerCase(),
+		return reader.read(tableName.toLowerCase(),
 				databaseName.toLowerCase(), path + File.separator);
 	}
 	private ArrayList<String> findTables(final String databaseName) {

@@ -86,7 +86,7 @@ public class XMLCreationTesting {
 				statement.act(data);
 			}
 		}
-		creator.create(table, "DB", "Data");
+		creator.write(table, "DB", "Data");
 		sql = new String("create Database MyData;");
 		normalizedOutput = parser.normalizeCommand(sql);
 		//System.out.println(normalizedOutput);

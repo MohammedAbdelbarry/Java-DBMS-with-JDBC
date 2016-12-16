@@ -24,10 +24,10 @@ import jdbms.sql.exceptions.RepeatedColumnException;
 import jdbms.sql.exceptions.TypeMismatchException;
 import jdbms.sql.exceptions.ValueListTooLargeException;
 import jdbms.sql.exceptions.ValueListTooSmallException;
-import jdbms.sql.file.FileReader;
+import jdbms.sql.file.TableReader;
 import jdbms.sql.parsing.util.Constants;
 
-public class JSONReader implements FileReader {
+public class JSONReader implements TableReader {
 	private static final String JSON_EXTENSION
 	= ".json";
 	public JSONReader() {
@@ -35,7 +35,7 @@ public class JSONReader implements FileReader {
 	}
 
 	@Override
-	public Table parse(final String tableName, final String databaseName, final String path)
+	public Table read(final String tableName, final String databaseName, final String path)
 			throws ColumnAlreadyExistsException,
 			RepeatedColumnException,
 			ColumnListTooLargeException,

@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import jdbms.sql.data.Table;
 
-public interface FileWriter {
+public interface TableWriter {
 	/**
 	 * Saves the given table in a file.
 	 * @param table the table to be saved
@@ -14,7 +14,7 @@ public interface FileWriter {
 	 * directory
 	 * @throws IOException
 	 */
-	public void create(final Table table,
+	public void write(final Table table,
 			final String databaseName,
 			final String path) throws IOException;
 }

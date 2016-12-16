@@ -25,11 +25,11 @@ import jdbms.sql.exceptions.RepeatedColumnException;
 import jdbms.sql.exceptions.TypeMismatchException;
 import jdbms.sql.exceptions.ValueListTooLargeException;
 import jdbms.sql.exceptions.ValueListTooSmallException;
-import jdbms.sql.file.FileReader;
+import jdbms.sql.file.TableReader;
 import jdbms.sql.parsing.properties.InsertionParameters;
 import jdbms.sql.parsing.properties.TableCreationParameters;
 
-public class XMLReader implements FileReader {
+public class XMLReader implements TableReader {
 	/**DTD Identifier to be inserted in the DTD file Name.*/
 	private static final String DTD_IDENTIFIER = "DTD";
 	/**DTD extension to be inserted in the DTD file.*/
@@ -65,7 +65,7 @@ public class XMLReader implements FileReader {
 	 * @throws InvalidDateFormatException
 	 */
 	@Override
-	public Table parse(String tableName, final String databaseName,
+	public Table read(String tableName, final String databaseName,
 			final String path)
 					throws ColumnAlreadyExistsException, RepeatedColumnException,
 					ColumnListTooLargeException, ColumnNotFoundException,

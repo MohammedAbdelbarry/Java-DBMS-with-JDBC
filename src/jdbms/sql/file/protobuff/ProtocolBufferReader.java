@@ -15,13 +15,13 @@ import jdbms.sql.exceptions.RepeatedColumnException;
 import jdbms.sql.exceptions.TypeMismatchException;
 import jdbms.sql.exceptions.ValueListTooLargeException;
 import jdbms.sql.exceptions.ValueListTooSmallException;
-import jdbms.sql.file.FileReader;
+import jdbms.sql.file.TableReader;
 import jdbms.sql.file.protobuff.util.TableProtos.DBTable;
 import jdbms.sql.file.protobuff.util.TableProtos.DBTable.TableColumn;
 import jdbms.sql.parsing.properties.InsertionParameters;
 import jdbms.sql.parsing.properties.TableCreationParameters;
 
-public class ProtocolBufferReader implements FileReader{
+public class ProtocolBufferReader implements TableReader{
 	private static final String PROTOCOL_BUFFER_EXTENSION
 	= ".protobuff";
 
@@ -30,7 +30,7 @@ public class ProtocolBufferReader implements FileReader{
 	}
 
 	@Override
-	public Table parse(final String tableName,
+	public Table read(final String tableName,
 			final String databaseName, final String path)
 					throws ColumnAlreadyExistsException,
 			RepeatedColumnException, ColumnListTooLargeException,

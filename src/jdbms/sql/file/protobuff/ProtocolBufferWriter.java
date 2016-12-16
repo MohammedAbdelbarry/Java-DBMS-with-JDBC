@@ -16,14 +16,14 @@ import jdbms.sql.exceptions.RepeatedColumnException;
 import jdbms.sql.exceptions.TypeMismatchException;
 import jdbms.sql.exceptions.ValueListTooLargeException;
 import jdbms.sql.exceptions.ValueListTooSmallException;
-import jdbms.sql.file.FileWriter;
+import jdbms.sql.file.TableWriter;
 import jdbms.sql.file.protobuff.util.TableProtos.DBTable;
 import jdbms.sql.parsing.properties.InsertionParameters;
 import jdbms.sql.parsing.properties.TableCreationParameters;
 import jdbms.sql.parsing.util.Constants;
 import jdbms.sql.util.HelperClass;
 
-public class ProtocolBufferWriter implements FileWriter {
+public class ProtocolBufferWriter implements TableWriter {
 	private static final String PROTOCOL_BUFFER_EXTENSION
 	= ".protobuff";
 
@@ -32,7 +32,7 @@ public class ProtocolBufferWriter implements FileWriter {
 	}
 
 	@Override
-	public void create(final Table table,
+	public void write(final Table table,
 			final String databaseName, final String path)
 					throws IOException {
 		final DBTable protoTable = createProtoTable(table);
@@ -94,9 +94,9 @@ public class ProtocolBufferWriter implements FileWriter {
 		insertParameters.setValues(values);
 		table.insertRows(insertParameters);
 		final ProtocolBufferWriter writer = new ProtocolBufferWriter();
-		writer.create(table, ".","");
+		writer.write(table, ".","");
 		final ProtocolBufferReader reader = new ProtocolBufferReader();
-		final Table newTable = reader.parse(table.getName(), ".", "");
+		final Table newTable = reader.read(table.getName(), ".", "");
 		System.out.println(newTable.getName());
 		System.out.println(newTable.getColumns().get("F").get(0).getStringValue());
     }
