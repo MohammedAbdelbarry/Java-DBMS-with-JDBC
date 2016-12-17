@@ -1,7 +1,15 @@
 package jdbms.sql.util;
 
+/**
+ * The class resposible for registering classes
+ * in the factory.
+ */
 public class ClassRegisteringHelper {
 
+    /**
+     * Register initial statements in the
+     * statements factory.
+     */
     public static void registerInitialStatements() {
         try {
             Class.forName("jdbms.sql.parsing.statements" +
