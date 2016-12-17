@@ -46,8 +46,8 @@ public interface TableReader {
      * when
      *                                      loading the table
      */
-    public Table read(String tableName, final String databaseName,
-                      final String path)
+    Table read(String tableName, final String databaseName,
+               final String path)
             throws ColumnAlreadyExistsException,
             RepeatedColumnException,
             ColumnListTooLargeException,

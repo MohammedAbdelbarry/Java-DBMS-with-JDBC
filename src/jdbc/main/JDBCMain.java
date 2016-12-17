@@ -12,15 +12,19 @@ import java.sql.Statement;
 import java.util.Properties;
 import java.util.Scanner;
 
+import jdbc.main.util.MainConfig;
 import jdbms.sql.data.query.PrettyPrinter;
 import jdbms.sql.parsing.expressions.util.StringModifier;
 import jdbms.sql.parsing.parser.ParserMain;
 import jdbms.sql.util.ClassRegisteringHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class JDBCMain {
     private static final String AS_NULL = "";
     private static final String SYNTAX_ERROR
             = "Syntax Error";
+    private static Logger logger;
 
     static {
         try {
@@ -33,48 +37,54 @@ public class JDBCMain {
     private static final String QUIT = "QUIT;";
 
     public static void main(final String[] args) {
+        logger = LogManager.getLogger(JDBCMain.class);
+        logger.debug("Program Started");
         ClassRegisteringHelper.registerInitialStatements();
-        String path = null;
+        String path;
         try {
-            final CodeSource codeSource = ParserMain.class.
+            final CodeSource codeSource = JDBCMain.class.
                     getProtectionDomain().getCodeSource();
             final File jarFile = new File(
                     codeSource.getLocation().toURI().getPath());
             path = jarFile.getParentFile().getPath();
         } catch (final URISyntaxException e) {
-
+            logger.fatal("Failed to get path", e);
+            return;
         }
-        Driver driver = null;
-        boolean driverInitialized = false;
-        String url = null;
+        Driver driver;
+        String url;
         final Scanner in = new Scanner(System.in);
-        while (!driverInitialized) {
-            System.out.printf("Enter Your Prefered Back-End Parser:\n"
-                    + "xmldb for XML, altdb for JSON and pbdb for Protocol "
-                    + "Buffers\n");
-            final String backendParser = in.nextLine();
-            url = "jdbc:" + backendParser
-                    + "://localhost";
-            try {
-                driver = DriverManager.getDriver(url);
-                driverInitialized = true;
-            } catch (final SQLException e) {
-                System.out.println("The name of the backendParser was wrong");
-            }
+        final MainConfig mainConfig = new MainConfig();
+        url = mainConfig.getString("url.prefix")
+                + mainConfig.getString("protocol")
+                + mainConfig.getString("url.suffix");
+        try {
+            driver = DriverManager.getDriver(url);
+        } catch (final SQLException e) {
+            logger.fatal("Failed to Load Driver,"
+                    + " url(" + url + ")", e);
+            System.out.println("Fatal Error, Failed to Load Driver");
+            in.close();
+            return;
         }
         final Properties info = new Properties();
         info.put("path", new File(path).getAbsoluteFile());
-        Connection connection = null;
+        Connection connection;
         try {
             connection = driver.connect(url, info);
         } catch (final SQLException e) {
+            logger.fatal("Failed to Connect to Database, URL(" + url + "), "
+                    + "Path(" + path + ")");
             printError("Failed to Connect to Database");
+            return;
         }
         Statement statement = null;
         try {
             statement = connection.createStatement();
         } catch (final SQLException e1) {
+            logger.fatal("Failed to create statement", e1);
             printError("Failed to Create Statement");
+            return;
         }
         while (true) {
             System.out.printf("sql> ");
@@ -82,10 +92,9 @@ public class JDBCMain {
             String sql = null;
             boolean invalid = false;
             final StringModifier modifier = new StringModifier();
-
             while (in.hasNextLine()) {
                 stringBuilder.append(in.nextLine());
-                String modifiedExpression = null;
+                String modifiedExpression;
                 try {
                     modifiedExpression = modifier.
                             modifyString(stringBuilder.toString()).trim();
@@ -99,6 +108,7 @@ public class JDBCMain {
                     break;
                 }
             }
+            long start = System.currentTimeMillis();
             if (sql.equalsIgnoreCase(QUIT)) {
                 try {
                     connection.close();
@@ -113,18 +123,30 @@ public class JDBCMain {
             }
             try {
                 if (statement.execute(sql)) {
-                    System.out.println("Query Completed Successfully");
                     final ResultSet resultSet = statement.getResultSet();
+                    long end = System.currentTimeMillis();
                     printResultSet(resultSet);
+                    System.out.printf("Query Completed Successfully %d "
+                                    + "Rows Were Returned\n",
+                            getRowCount(resultSet));
+                    System.out.printf("Execution Time: %dms\n", end - start);
                     resultSet.close();
                 } else {
                     if (statement.getUpdateCount() != -1) {
+                        long end = System.currentTimeMillis();
                         System.out.printf("Updated %d Rows Successfully\n",
                                 statement.getUpdateCount());
+                        System.out.printf("Execution Time: %dms\n", end -
+                                start);
                     } else {
-                        System.out.println("Query Completed Successfully");
                         final ResultSet resultSet = statement.getResultSet();
+                        long end = System.currentTimeMillis();
                         printResultSet(resultSet);
+                        System.out.printf("Query Completed Successfully %d "
+                                        + "Rows Were Returned\n",
+                                getRowCount(resultSet));
+                        System.out.printf("Execution Time: %dms\n", end -
+                                start);
                         resultSet.close();
                     }
                 }
