@@ -1,26 +1,53 @@
 package jdbms.sql.parsing.operators;
 
+/**
+ * The Class BinaryOperator.
+ */
 public class BinaryOperator extends Operator {
+
+    /** The left operand. */
     private String leftOperand = null;
+
+    /** The right operand. */
     private String rightOperand = null;
 
-    public BinaryOperator(String symbol) {
+    /**
+     * Instantiates a new binary operator.
+     * @param symbol the symbol
+     */
+    public BinaryOperator(final String symbol) {
         super(symbol);
     }
 
+    /**
+     * Gets the left operand.
+     * @return the left operand
+     */
     public String getLeftOperand() {
         return leftOperand;
     }
 
-    public void setLeftOperand(String operand) {
+    /**
+     * Sets the left operand.
+     * @param operand the new left operand
+     */
+    public void setLeftOperand(final String operand) {
         leftOperand = operand;
     }
 
+    /**
+     * Gets the right operand.
+     * @return the right operand
+     */
     public String getRightOperand() {
         return rightOperand;
     }
 
-    public void setRightOperand(String operand) {
+    /**
+     * Sets the right operand.
+     * @param operand the new right operand
+     */
+    public void setRightOperand(final String operand) {
         rightOperand = operand;
     }
 }
