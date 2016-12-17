@@ -48,8 +48,20 @@ public abstract class AssignmentListExpression implements Expression {
 	@Override
 	public boolean interpret(String sqlExpression) {
 		sqlExpression = sqlExpression.trim();
-		final String modifiedExpression = modifier.
+		String modifiedExpression = modifier.
 				modifyString(sqlExpression).trim();
+		int nextComma = modifiedExpression.indexOf(",");
+		while (nextComma != -1) {
+			final String currentAssignment = sqlExpression.substring(0, nextComma).trim();
+			assignmentList.add(new AssignmentExpression(parameters));
+			if (!assignmentList.get(assignmentList.size() - 1).
+					interpret(currentAssignment)) {
+				return false;
+			}
+			sqlExpression = sqlExpression.substring(nextComma + 1).trim();
+			modifiedExpression = modifiedExpression.substring(nextComma + 1).trim();
+			nextComma = modifiedExpression.indexOf(",");
+		}
 		int seperatorIndex
 		= modifiedExpression.indexOf("WHERE");
 		if (seperatorIndex == -1) {
@@ -58,17 +70,12 @@ public abstract class AssignmentListExpression implements Expression {
 		if (seperatorIndex == -1) {
 			return false;
 		}
-		final String assignList = sqlExpression.substring(0, seperatorIndex).trim();
 		final String restOfExpression = sqlExpression.substring(seperatorIndex).trim();
-		final String[] parts = assignList.split(",");
-		for (String assignment : parts) {
-			assignment = assignment.trim();
-			assignmentList.add(new AssignmentExpression(parameters));
-			if (!assignmentList.get(assignmentList.size() - 1).
-					interpret(assignment)) {
-				return false;
-			}
-
+		sqlExpression = sqlExpression.substring(0, seperatorIndex).trim();
+		assignmentList.add(new AssignmentExpression(parameters));
+		if (!assignmentList.get(assignmentList.size() - 1).
+				interpret(sqlExpression)) {
+			return false;
 		}
 		parameters.setAssignmentList(this.assignmentList);
 		if (this.nextExpression != null) {
