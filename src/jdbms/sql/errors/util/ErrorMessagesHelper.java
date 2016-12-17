@@ -7,9 +7,9 @@ public class ErrorMessagesHelper {
 	private static final String BUNDLE_NAME
 	= "jdbms.sql.errors.util.error-messages";
 
-	private ResourceBundle resourceBundle;
+	private final ResourceBundle resourceBundle;
 
-	ErrorMessagesHelper() {
+	public ErrorMessagesHelper() {
 		resourceBundle = ResourceBundle.getBundle(BUNDLE_NAME);
 	}
 

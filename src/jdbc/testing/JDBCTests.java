@@ -1506,7 +1506,6 @@ public class JDBCTests {
         connection.close();
     }
 
-    // TODO: Generate multiple test cases out of this test.
     public void garb() throws SQLException {
         final Connection connection
                 = createUseDatabase("TestDB_Create");
@@ -1808,6 +1807,23 @@ public class JDBCTests {
             statement.close();
         } catch (final Throwable e) {
             fail("SQL Exception");
+            e.printStackTrace();
+        }
+        connection.close();
+    }
+
+    @Test
+    public void harbyTest() throws SQLException {
+        final Connection connection = createUseDatabase("harbyDB");
+        final Statement statement = connection.createStatement();
+        try {
+            statement.execute("CREATE TABLE tbl (ID int, Name varchar)");
+            statement.execute("INSERT INTO tbl VALUES (1, 'a')");
+            statement.execute("INSERT INTO tbl (id) values (2)");
+            statement.execute("INSERT INTO tbl (Name) values ('b')");
+
+        } catch (Throwable e) {
+            fail("SQLException");
             e.printStackTrace();
         }
         connection.close();
