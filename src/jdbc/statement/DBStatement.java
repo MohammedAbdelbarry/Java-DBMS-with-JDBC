@@ -176,7 +176,7 @@ public final class DBStatement implements Statement {
                 currentResult = updateCounts[i];
                 logSuccessfulUpdate(sql, currentResult);
             } else if (dbmsConnector.
-                    interpretUpdate(
+                    interpretQuery(
                             commands.peek())) {
                 resultSet = new DataResultSet(this);
                 final SelectOutputConverter
